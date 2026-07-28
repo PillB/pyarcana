@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/e2en0j/failed_a_job_interview_was_my_approach_wrong",
+    "name": "Failed a job interview - Was my approach wrong? : r/datascience",
+    "snippet": "My approach was to preprocess the data, split it into chunks, deduplicate a chunk, and then systematically compare the deduplicated chunk with other chunks. Are my interview questions unreasonable? Or are my candidates ... What are the most common mistakes you see (junior) data scientists ... More results from www.reddit.com",
+    "host_name": "www.reddit.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://towardsdatascience.com/these-mistakes-could-easily-ruin-your-data-science-interviews-49ce03c36bef",
+    "name": "These Mistakes Could Easily Ruin Your Data Science Interviews",
+    "snippet": "Mistake 1: Not following / paying attention to what the interviewers are saying · Mistake 2: Giving up easily · Mistake 3: Not knowing how to ...",
+    "host_name": "towardsdatascience.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=1-dNoV-CSEI",
+    "name": "Why You Keep Failing Your Data Science Interviews - YouTube",
+    "snippet": "Behavioral Interviews Dos and Don'ts | | Behavior Interview | Data Science Interview The 3 Dos are: - Do your research - Do emphasize impact ...",
+    "host_name": "www.youtube.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/What-should-I-do-if-I-failed-a-data-science-interview-I-dont-have-prior-data-science-experience",
+    "name": "What should I do if I failed a data science interview? I don't  - Quora",
+    "snippet": "The answer is simple: they were never good. communication is a major skill that many applicants lack. The reason is 'Bias'. In what ways do the best data scientist applicants fail in the interview ... During a data scientist interview, if a candidate can explain ... - Quora More results from www.quora.com",
+    "host_name": "www.quora.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mandyliu.substack.com/p/why-youre-failing-non-technical-data",
+    "name": "Why You're Failing Non-Technical Data Science Interviews and How",
+    "snippet": "Why You're Failing Non-Technical Data Science Interviews and How to Fix It. Insider tips from a hiring manager who interviewed 100+ candidates.",
+    "host_name": "mandyliu.substack.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/kaylan-bullock-011934154_kbotek-dataengineering-machinelearning-activity-7436807383542231040-3hCB",
+    "name": "Failed Data Projects: How to Talk About Them in Interviews - LinkedIn",
+    "snippet": "One of the most common mistakes I see in technical interviews is how engineers talk about failed data projects. Most people try to hide them.  ...",
+    "host_name": "www.linkedin.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@mattcowell/do-skill-assessments-help-avoid-false-positives-in-data-science-recruitment-89adcce8712a",
+    "name": "Do Skill Assessments Help Avoid False Positives in Data Science",
+    "snippet": "3) Lack of experience and uncertainty on the part of the interviewer, which causes the interviewer to ignore or not question any red flags.",
+    "host_name": "medium.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.interviewpilot.app/interview-guides/data-scientist",
+    "name": "Data Scientist Interview Guide: Statistics, ML, SQL & Experiments",
+    "snippet": "Free · Business/Productivity Model evaluation: can you diagnose bias, leakage, overfitting, calibration, drift, and deployment risk? —. Communication: can you explain technical findings to ...",
+    "host_name": "www.interviewpilot.app",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://recodeminds.com/blog/nine-reasons-why-people-fail-in-data-science-interviews",
+    "name": "9 Reasons why people fail in data science interviews - RECODE",
+    "snippet": "The number one reason why people fail in data science interviews is they apply for the position 'related' to data science but have no clue about ...",
+    "host_name": "recodeminds.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://fagnerbrack.com/technical-interviews-reject-the-wrong-engineers-a8e78ca04b2e",
+    "name": "Technical Interviews Reject the Wrong Engineers - Fayner Brack",
+    "snippet": "A framework for measuring the interview instead of the candidate, drawn from research and 20 years of watching it fail.",
+    "host_name": "fagnerbrack.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

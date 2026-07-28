@@ -1,0 +1,188 @@
+{
+  "$schema": "industry_alignment/execution_ledger/v1",
+  "project": "pyarcana-industry-alignment",
+  "phase": 0,
+  "phase_name": "Bootstrap and Repository Reality Check",
+  "started_at": "2026-07-28T20:10:00Z",
+  "orchestrator_node": "phase0-orchestrator",
+  "current_branch_at_start": "fixer-wave-s01-s09-remediation",
+  "current_head_sha_at_start": "84aa9e4da8c905b1ac4bad7d6916ccf23a3498ae",
+  "origin_main_sha_at_start": "316fc145d7199545c1836484fa15646f4cbb7564",
+  "live_site_url": "https://pillb.github.io/pyarcana/",
+  "cycles": [
+    {
+      "cycle_id": "P0-C01",
+      "name": "Repository state extraction",
+      "started_at": "2026-07-28T20:10:00Z",
+      "completed_at": "2026-07-28T20:11:00Z",
+      "status": "completed",
+      "inputs": [".git/HEAD", ".git/refs/heads/*", ".git/refs/remotes/origin/*", ".github/workflows/*.yml"],
+      "outputs": ["source_registry.json#repository", "source_registry.json#deployment"],
+      "evidence_refs": [
+        "git rev-parse HEAD → 84aa9e4da8c905b1ac4bad7d6916ccf23a3498ae",
+        "git rev-parse --abbrev-ref HEAD → fixer-wave-s01-s09-remediation",
+        "git remote -v → origin https://github.com/PillB/pyarcana.git",
+        "git rev-parse origin/main → 316fc145d7199545c1836484fa15646f4cbb7564",
+        "git log --oneline HEAD..origin/main → '316fc14 Merge pull request #17 from PillB/fixer-wave-s01-s09-remediation'"
+      ]
+    },
+    {
+      "cycle_id": "P0-C02",
+      "name": "Canonical section inventory (52 files)",
+      "started_at": "2026-07-28T20:11:00Z",
+      "completed_at": "2026-07-28T20:14:00Z",
+      "status": "completed",
+      "inputs": ["src/lib/course/index.ts", "src/lib/course/sections/*.ts"],
+      "outputs": ["source_registry.json#canonical_section_files", "phase0_bootstrap_report.md#section-2"],
+      "evidence_refs": [
+        "src/lib/course/index.ts lines 2-56 import section01..section52",
+        "src/lib/course/index.ts line 63: totalSections: 52",
+        "src/lib/course/index.ts lines 68-81: COURSE_SECTIONS array contains exactly 52 section constants",
+        "src/lib/course/sections/ directory listing: 57 .ts files (52 canonical + 5 orphans)",
+        "course-state/s07_phase0.json + s08_phase0.json + s09_phase0.json + s10_phase0.json + s11_phase0.json explicitly track orphan files"
+      ]
+    },
+    {
+      "cycle_id": "P0-C03",
+      "name": "Progress store and persistence audit",
+      "started_at": "2026-07-28T20:14:00Z",
+      "completed_at": "2026-07-28T20:16:00Z",
+      "status": "completed",
+      "inputs": ["src/lib/progress-store.ts", "src/lib/i18n.ts", "prisma/schema.prisma", "src/app/api/progress/route.ts", "src/lib/firebase/sync.ts", "src/lib/firebase/admin.ts", ".firebaserc", "firebase.json", "firestore.rules"],
+      "outputs": ["source_registry.json#progress_persistence", "source_registry.json#assessment_authorities", "source_registry.json#project_completion_representation"],
+      "evidence_refs": [
+        "src/lib/progress-store.ts line 106: persist({ name: 'python-ds-progress' })",
+        "src/lib/i18n.ts line 30: persist({ name: 'python-ds-lang' })",
+        "prisma/schema.prisma lines 13-29: User model",
+        "prisma/schema.prisma lines 54-67: Progress model (composite PK userId+sectionId+subStep)",
+        "prisma/schema.prisma lines 70-83: QuestionBank model (@@unique [sectionId, concept, variant])",
+        "prisma/schema.prisma lines 86-102: ExamAttempt model (attemptNumber, score, variantSeed)",
+        "prisma/schema.prisma lines 105-117: ExerciseAttempt model",
+        "src/app/api/progress/route.ts lines 8-51: GET returns progress + examAttempts + exerciseAttempts",
+        "src/app/api/progress/route.ts lines 59-102: POST upserts Progress row",
+        "src/lib/firebase/sync.ts lines 5-15: dual-write to Firestore (Spark tier); Prisma remains source of truth; failures never throw",
+        "firestore.rules: deny all client reads/writes (server-only writes)",
+        "src/lib/exam-scoring.ts line 7: PASS_THRESHOLD = 70"
+      ]
+    },
+    {
+      "cycle_id": "P0-C04",
+      "name": "Static vs dynamic behavior + authentication audit",
+      "started_at": "2026-07-28T20:16:00Z",
+      "completed_at": "2026-07-28T20:18:00Z",
+      "status": "completed",
+      "inputs": ["src/lib/runtime-mode.ts", "next.config.ts", "scripts/build_static_export.mjs", "src/lib/auth.ts", "src/app/api/auth/register/route.ts", "src/components/Providers.tsx", "src/app/page.tsx", "src/components/course/Dashboard.tsx"],
+      "outputs": ["source_registry.json#static_vs_dynamic", "source_registry.json#authentication", "source_registry.json#api_routes"],
+      "evidence_refs": [
+        "src/lib/runtime-mode.ts line 8: IS_STATIC_SITE = process.env.NEXT_PUBLIC_STATIC_SITE === '1'",
+        "next.config.ts line 3: const isStaticExport = process.env.NEXT_OUTPUT === 'export'",
+        "next.config.ts line 10: output: isStaticExport ? 'export' : 'standalone'",
+        "scripts/build_static_export.mjs line 37: rmSync(join(workspace, 'src', 'app', 'api'), { recursive: true, force: true }) — on disposable copy only",
+        "src/app/page.tsx lines 55, 61, 154, 158, 159, 232, 245, 287, 299, 323, 346, 378, 380: 12 IS_STATIC_SITE guards",
+        "src/lib/auth.ts line 2: CredentialsProvider",
+        "src/lib/auth.ts line 51: session.strategy='jwt', maxAge=7 days",
+        "src/lib/auth.ts line 8: DUMMY_PASSWORD_HASH constant for timing equalization",
+        "src/components/Providers.tsx gates NextAuth SessionProvider behind !IS_STATIC_SITE",
+        "src/app/api/ directory: 18 route files"
+      ]
+    },
+    {
+      "cycle_id": "P0-C05",
+      "name": "Test suite inventory",
+      "started_at": "2026-07-28T20:18:00Z",
+      "completed_at": "2026-07-28T20:20:00Z",
+      "status": "completed",
+      "inputs": ["playwright.config.ts", "package.json", "scripts/*.spec.ts", "scripts/e2e_max/*.spec.ts", "tests/adversarial/*"],
+      "outputs": ["source_registry.json#test_suites"],
+      "evidence_refs": [
+        "playwright.config.ts: testDir=./scripts, testMatch=*.spec.ts, single worker, no webServer",
+        "scripts/regression.spec.ts: 404 lines, 12 tests, ALL_SECTION_IDS array (52 ids verified)",
+        "scripts/code_rendering.spec.ts: 219 lines, SECTION_IDS const with 52 entries",
+        "scripts/static_public.spec.ts: 68 lines, 5 tests on /pyarcana/ base path",
+        "scripts/v3_regression.spec.ts: 340 lines, 17 tests asserting course-state JSON contracts",
+        "scripts/e2e_max/: 12 spec files, 1139 total lines",
+        "tests/adversarial/: 8 Node tests (1089 lines) + 28 Python tests (3507 lines)",
+        "tests/adversarial/README.md: maps each test module to its threat surface",
+        ".github/workflows/tests.yml: jobs lint, typecheck, adversarial-unit, platform-builds (dynamic+static), regression-content, regression-browser"
+      ]
+    },
+    {
+      "cycle_id": "P0-C06",
+      "name": "Existing artifact audit (course-state, expert_audit, industry_alignment)",
+      "started_at": "2026-07-28T20:20:00Z",
+      "completed_at": "2026-07-28T20:22:00Z",
+      "status": "completed",
+      "inputs": ["course-state/", "expert_audit/"],
+      "outputs": ["source_registry.json#course_state_directory", "source_registry.json#expert_audit_directory", "source_registry.json#industry_alignment_directory_before_phase0"],
+      "evidence_refs": [
+        "course-state/checkpoint.json: course_complete=true, sections_passed_count=52, capstones_formally_passed=13, version=3.2",
+        "course-state/section_ledger.json: 52 sections (S01-S52) all state='passed', phase_detail='PHASE_6_PASSED'",
+        "course-state/capstone_ledger.json: 13 capstones (CP-N1-A..CP-N4-C + CP-FINAL) all state='formally_passed'",
+        "course-state/issue_registry.json: all issues status='fixed'",
+        "course-state/topic_evaluations/: 52 sNN_te.json files + _manifest.json",
+        "course-state/lanes/: 40 LANE-*.status.json files (parallel orchestration lane tracking)",
+        "course-state/curriculum_hardening/: GRAPH_MEMORY.json + 22 git_restore_decision_*.md + residual_ledger.json",
+        "course-state/newbie_walkthrough/: attempt_001..attempt_007b + agentic_A1..agentic_L2 (dual-newbie pedagogy logs)",
+        "expert_audit/CAMPAIGN_SUMMARY.md: Stanford STORM + Graph/Loop/Harness auditor fleet summary",
+        "expert_audit/S01_report.md..S52_report.md: 52 per-section audit reports",
+        "expert_audit/independent_worklog/: 10 SNN.md (S01-S10 only — first round)",
+        "expert_audit/worklog_entries_r2/: 52 SNN.md (full second round)",
+        "expert_audit/expert_2_audit/: 22 .docx human-expert audit reports",
+        "expert_audit/_GRAMMAR_SUBPLAN.md: Fernández-Huerta, INFLESZ, WPS/SPW, LanguageTool es, 13 pedagogical heuristics",
+        "industry_alignment/: directory did NOT exist before Phase 0 (created in this cycle)"
+      ]
+    },
+    {
+      "cycle_id": "P0-C07",
+      "name": "Divergence detection + cross-source consistency",
+      "started_at": "2026-07-28T20:22:00Z",
+      "completed_at": "2026-07-28T20:25:00Z",
+      "status": "completed",
+      "inputs": ["prisma/seed.ts", "src/lib/course/sections/s40-architecture-ddd.ts", "src/lib/course/index.ts", "scripts/regression.spec.ts", "scripts/code_rendering.spec.ts", "src/components/course/PdfReport.tsx"],
+      "outputs": ["source_registry.json#divergences_identified"],
+      "evidence_refs": [
+        "DIV-001: prisma/seed.ts line 11743 uses 'agentic-architecture' but s40-architecture-ddd.ts line 4 declares id='architecture-ddd-decisions'. Verified at runtime by rg.",
+        "DIV-002: git log --oneline HEAD..origin/main → '316fc14 Merge pull request #17 from PillB/fixer-wave-s01-s09-remediation'. Local HEAD is 1 commit behind live site SHA.",
+        "DIV-003: 5 section source files have filenames that no longer describe their content titles (V3 retheme preserved platform section ids).",
+        "DIV-004: 5 orphan section files exist in src/lib/course/sections/ but are not imported by src/lib/course/index.ts.",
+        "DIV-005: course-state phase0/phase1/phase2 files do not exist for S27-S52 (later pipeline did not produce them)."
+      ]
+    },
+    {
+      "cycle_id": "P0-C08",
+      "name": "Graph Memory directory bootstrap",
+      "started_at": "2026-07-28T20:25:00Z",
+      "completed_at": "2026-07-28T20:27:00Z",
+      "status": "completed",
+      "inputs": [],
+      "outputs": [
+        "industry_alignment/README.md",
+        "industry_alignment/worklog.md",
+        "industry_alignment/execution_ledger.json (this file)",
+        "industry_alignment/evidence_registry.jsonl",
+        "industry_alignment/source_registry.json",
+        "industry_alignment/section_audits/",
+        "industry_alignment/badge_requirements/",
+        "industry_alignment/badge_rubrics/",
+        "industry_alignment/decisions/",
+        "industry_alignment/memory/notes/",
+        "industry_alignment/memory/cycles/",
+        "industry_alignment/memory/rejected_hypotheses.jsonl",
+        "industry_alignment/memory/rejected_badge_claims.jsonl"
+      ],
+      "evidence_refs": [
+        "ls -R industry_alignment/ confirms directory tree exists"
+      ]
+    }
+  ],
+  "gate_check": {
+    "all_52_canonical_sections_located": true,
+    "persistence_and_assessment_authorities_identified": true,
+    "static_and_dynamic_behavior_distinguished": true,
+    "legacy_progress_formats_documented": true,
+    "existing_automated_and_human_validation_artifacts_identified": true,
+    "live_repository_divergences_recorded": true,
+    "no_major_repository_assumption_remains_unverified": true,
+    "overall": "PASS"
+  }
+}

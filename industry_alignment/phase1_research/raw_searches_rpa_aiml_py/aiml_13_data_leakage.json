@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://en.wikipedia.org/wiki/Machine",
+    "name": "Machine",
+    "snippet": "A machine is a thermodynamic system that uses power to apply forces and control movement to perform an action. The term is commonly applied to artificial ... Read more",
+    "host_name": "en.wikipedia.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dictionary.cambridge.org/us/dictionary/english/machine",
+    "name": "MACHINE | definition in the Cambridge English Dictionary",
+    "snippet": "a piece of equipment with several moving parts that uses power to do a particular type of work: The different sizes of eggs are sorted by a machine. Read more",
+    "host_name": "dictionary.cambridge.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.britannica.com/technology/machine",
+    "name": "Machine | Definition, Mechanisms & Efficiency",
+    "snippet": "A machine is a device that augments or replaces human or animal effort to accomplish physical tasks. It can transform chemical, thermal, electrical, or nuclear ...",
+    "host_name": "www.britannica.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.merriam-webster.com/dictionary/machine",
+    "name": "MACHINE Definition & Meaning",
+    "snippet": "5 days ago — The meaning of MACHINE is a mechanically, electrically, or electronically operated device for performing a task.",
+    "host_name": "www.merriam-webster.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.machinetools.com/en",
+    "name": "MachineTools.com, The metalworking machine & tooling",
+    "snippet": "MachineTools.com is the leading worldwide industrial marketplace of new and used metalworking machinery , fabrication equipment, machine tools, ...",
+    "host_name": "www.machinetools.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.imdb.com/title/tt9144480",
+    "name": "Machine (2019)",
+    "snippet": "A great intro/overview film about AI for anyone looking to understand how the technology works, and where the limitations are. Read more",
+    "host_name": "www.imdb.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wiktionary.org/wiki/machine",
+    "name": "machine",
+    "snippet": "/ma.ʃin/ Noun machine f (plural machines) machine Visibility Show other boxes Show translations Hide synonyms Show quotations Show derived terms",
+    "host_name": "en.wiktionary.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.geeksforgeeks.org/machine-learning/data-leakage",
+    "name": "Data Leakage - GeeksforGeeks",
+    "snippet": "Target Leakage: Happens when input features contain information that directly or indirectly reveals the target variable. For example, using future data or outcome-related features during training can lead to unrealistic predictions.",
+    "host_name": "www.geeksforgeeks.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

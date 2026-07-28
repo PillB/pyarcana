@@ -1,0 +1,406 @@
+{
+  "$schema": "industry_alignment/source_registry/v1",
+  "generated_at": "2026-07-28T20:10:00Z",
+  "generated_by": "phase0-orchestrator",
+  "repository": {
+    "root": "/home/z/my-project/pyarcana_repo",
+    "remote": "https://github.com/PillB/pyarcana.git",
+    "live_site": "https://pillb.github.io/pyarcana/",
+    "current_branch": "fixer-wave-s01-s09-remediation",
+    "current_head_sha": "84aa9e4da8c905b1ac4bad7d6916ccf23a3498ae",
+    "origin_main_sha": "316fc145d7199545c1836484fa15646f4cbb7564",
+    "local_main_sha": "84aa9e4da8c905b1ac4bad7d6916ccf23a3498ae",
+    "live_site_sha_estimate": "316fc145d7199545c1836484fa15646f4cbb7564",
+    "divergence_summary": "Local HEAD (fixer-wave-s01-s09-remediation @ 84aa9e4) is the source branch that was merged into origin/main via PR #17, producing origin/main @ 316fc14. Local main was not fast-forwarded; it is 1 commit behind origin/main. The live site is built from origin/main on every push to main."
+  },
+  "deployment": {
+    "mechanism": "GitHub Actions workflow -> GitHub Pages",
+    "workflow_file": ".github/workflows/deploy.yml",
+    "trigger": "push to main + workflow_dispatch",
+    "build_command": "bun run build:static",
+    "build_env": {
+      "NEXT_PUBLIC_BASE_PATH": "/pyarcana",
+      "NEXT_PUBLIC_STATIC_SITE": "1",
+      "NEXT_OUTPUT": "export"
+    },
+    "artifact_path": "./out",
+    "static_export_script": "scripts/build_static_export.mjs",
+    "static_export_strategy": "Disposable mkdtemp copy; src/app/api is rmSync'd from the copy only; tracked working tree is never mutated. Webpack (not Turbopack) is used because Turbopack rejects node_modules symlinks outside project root.",
+    "ci_test_workflow": ".github/workflows/tests.yml",
+    "ci_test_jobs": ["lint", "typecheck", "adversarial-unit", "platform-builds (dynamic+static)", "regression-content", "regression-browser"]
+  },
+  "canonical_section_files": {
+    "count": 52,
+    "index_file": "src/lib/course/index.ts",
+    "sections_dir": "src/lib/course/sections/",
+    "files_in_sections_dir": 57,
+    "orphan_duplicate_files_not_imported": [
+      "src/lib/course/sections/s07-pandas.ts",
+      "src/lib/course/sections/s08-visualization.ts",
+      "src/lib/course/sections/s09-sklearn.ts",
+      "src/lib/course/sections/s10-testing.ts",
+      "src/lib/course/sections/s11-advanced-topics.ts"
+    ],
+    "orphan_tracking_evidence": [
+      "course-state/s07_phase0.json",
+      "course-state/s08_phase0.json",
+      "course-state/s09_phase0.json",
+      "course-state/s09_phase3.json",
+      "course-state/s10_phase0.json",
+      "course-state/s10_phase3.json",
+      "course-state/s11_phase0.json",
+      "course-state/s11_phase3.json",
+      "course-state/v3_invariant_report.json",
+      "expert_audit/S11_report.md (line 19: 'dual file ... is inactive (not imported by src/lib/course/index.ts)')"
+    ]
+  },
+  "type_schema": {
+    "file": "src/lib/types.ts",
+    "lines": 175,
+    "interfaces": ["LearningOutcome", "CodeExample", "Callout", "TheoryBlock", "IDoStep", "WeDoStep", "YouDoProject", "QuizQuestion", "SelfCheck", "Resources", "TopicEvaluationTask", "TopicEvaluation", "CourseSection", "CourseMeta"]
+  },
+  "progress_persistence": {
+    "client_store_file": "src/lib/progress-store.ts",
+    "library": "zustand + zustand/middleware persist (default localStorage)",
+    "localStorage_keys": [
+      { "key": "python-ds-progress", "purpose": "completedSections, completedSubSteps, quizScores, lastVisited, bookmarks, startDate, isHydratedFromServer", "store": "useProgressStore" },
+      { "key": "python-ds-lang", "purpose": "UI language selection (es-PE | es-ES | en)", "store": "useI18n" }
+    ],
+    "server_store_file": "prisma/schema.prisma",
+    "server_database": "SQLite via Prisma (file:./db/custom.db)",
+    "server_sync_endpoints": {
+      "GET /api/progress": "fetch progress + examAttempts + exerciseAttempts for current user",
+      "POST /api/progress": "upsert Progress row (sectionId, subStep, completed)",
+      "PATCH /api/progress": "upsert bookmark flag (uses subStep='bookmark' placeholder)"
+    },
+    "dual_write_to_firestore": {
+      "enabled_when": "FIREBASE_SYNC_ENABLED=true with service-account env (FIREBASE_PROJECT_ID + FIREBASE_CLIENT_EMAIL + FIREBASE_PRIVATE_KEY or FIREBASE_SERVICE_ACCOUNT_JSON)",
+      "sync_module": "src/lib/firebase/sync.ts",
+      "collections": ["users", "progress", "examAttempts", "exerciseAttempts", "feedbackReports"],
+      "firestore_rules": "firestore.rules — deny all client reads/writes (server-only writes via Admin SDK)",
+      "firebase_project_default": "coderhouse-react-8063a",
+      "firebase_project_pyarcana": "pyarcana"
+    },
+    "schema_version_declared": "v3.2 (in course-state/checkpoint.json, course-state/section_ledger.json, course-state/capstone_ledger.json)",
+    "client_persisted_state_versioning": "none observed — no version field in zustand persist config"
+  },
+  "assessment_authorities": {
+    "exam_scoring_module": "src/lib/exam-scoring.ts",
+    "pass_threshold": 70,
+    "max_attempts_per_section": 3,
+    "exam_attempt_model": "ExamAttempt",
+    "exam_attempt_fields": ["id", "userId", "sectionId", "attemptNumber", "answers (JSON)", "score (0-100)", "startedAt", "completedAt", "timeSpentSec", "variantSeed (JSON audit trail)"],
+    "exam_routes": {
+      "POST /api/exam/start": "Creates an ExamAttempt, picks variant seed, returns questions",
+      "POST /api/exam/submit": "Grades answers via gradeExamAnswers(), updates ExamAttempt row, returns score+correctCount+passed",
+      "GET /api/exam/attempts": "Lists user attempts (optionally filtered by sectionId)"
+    },
+    "question_bank_model": "QuestionBank",
+    "question_bank_fields": ["id", "sectionId", "concept", "variant (1|2|3)", "question", "options (JSON)", "correctIndex", "explanation"],
+    "question_bank_uniqueness": "(@@unique [sectionId, concept, variant])",
+    "exercise_attempt_model": "ExerciseAttempt",
+    "exercise_attempt_fields": ["id", "userId", "sectionId", "exerciseId", "usedHint", "correct", "attemptedAt"],
+    "exercise_route": "POST /api/exercise/attempt"
+  },
+  "project_completion_representation": {
+    "client_threshold_certificate": "PdfReport.tsx line 250: sectionsCompleted >= 8 (a section counts as completed when it has >=5 sub-steps toggled)",
+    "client_threshold_progress_report": "always available once authenticated",
+    "course_state_capstone_ledger": "course-state/capstone_ledger.json — 13 capstones declared formally_passed (CP-N1-A through CP-N4-C plus CP-FINAL)",
+    "course_state_checkpoint": "course-state/checkpoint.json — course_complete=true, sections_passed_count=52, capstones_formally_passed=13, transversal_checkpoints_passed=5",
+    "course_state_section_ledger": "course-state/section_ledger.json — 52 entries with state='passed', phase_detail='PHASE_6_PASSED'",
+    "capstone_packages": "course-state/capstones/CP-*/ (13 directories with formal evidence packages + INDEX.json)",
+    "note": "PdfReport certificate threshold (>=8 sections) is a soft client-side gate. The course-state/ artifacts are an offline hardening ledger owned by the orchestration pipeline, not the runtime LMS."
+  },
+  "static_vs_dynamic": {
+    "runtime_mode_module": "src/lib/runtime-mode.ts",
+    "static_flag_env_var": "NEXT_PUBLIC_STATIC_SITE=1",
+    "static_output_mode_env_var": "NEXT_OUTPUT=export",
+    "next_config_file": "next.config.ts",
+    "static_guards": [
+      "src/app/page.tsx (12 guards: hides AuthModal, FeedbackFab, PdfReport, UserMenu, AdminDashboard, PricingPage, FamiliarityDashboard, signup CTA when IS_STATIC_SITE)",
+      "src/components/course/Dashboard.tsx (3 guards: static-site notice + hidden auth CTAs)",
+      "src/components/Providers.tsx (NextAuth SessionProvider gated)",
+      "src/lib/progress-store.ts (syncToServer + syncBookmark no-op when IS_STATIC_SITE)"
+    ],
+    "static_build_api_removal": "scripts/build_static_export.mjs line 37: rmSync(workspace/src/app/api) on disposable copy only",
+    "static_export_guard_test": "tests/adversarial/test_static_export_guard.py — asserts no renameSync, no ignoreBuildErrors, no z-cdn.chatglm.cn, must use mkdtempSync + rmSync of src/app/api",
+    "static_pages_contract": [
+      "data-testid='static-site-notice' must contain 'Edición pública / Public edition'",
+      "/pyarcana/logo.svg must be referenced",
+      "must NOT contain: 'Crear cuenta gratis', '>Planes<', '>Entrar<', 'Panel de Administración', 'z-cdn.chatglm.cn'"
+    ]
+  },
+  "authentication": {
+    "library": "NextAuth v4 (next-auth@4.24.11)",
+    "provider": "CredentialsProvider (email + password, bcrypt)",
+    "strategy": "JWT, maxAge 7 days",
+    "module": "src/lib/auth.ts",
+    "register_route": "POST /api/auth/register",
+    "nextauth_route": "src/app/api/auth/[...nextauth]/route.ts",
+    "rate_limit": "src/lib/registration-security.ts (15-minute window)",
+    "roles": ["STUDENT (default)", "ADMIN"],
+    "password_policy": "min 12 chars, max 128",
+    "dummy_hash_constant": "DUMMY_PASSWORD_HASH in src/lib/auth.ts (used to equalize unknown-user and wrong-password timing; one-way bcrypt hash, not a credential)",
+    "session_provider_gating": "src/components/Providers.tsx gates NextAuth SessionProvider behind !IS_STATIC_SITE",
+    "oauth_providers": "none configured"
+  },
+  "api_routes": {
+    "total_route_files": 18,
+    "routes": [
+      "GET /api (hello world)",
+      "POST /api/auth/[...nextauth] (NextAuth handlers)",
+      "POST /api/auth/register",
+      "GET /api/exam/attempts",
+      "POST /api/exam/start",
+      "POST /api/exam/submit",
+      "POST /api/exercise/attempt",
+      "GET/POST /api/feedback",
+      "GET/PUT/DELETE /api/feedback/[id]",
+      "GET /api/firebase/status",
+      "GET/POST/PATCH /api/progress",
+      "GET/POST /api/subscription/checkout",
+      "GET /api/subscription/plans",
+      "GET /api/subscription/status",
+      "GET /api/admin/analytics",
+      "GET /api/admin/export",
+      "GET /api/admin/students",
+      "GET/PATCH/DELETE /api/admin/students/[id]"
+    ],
+    "zod_schemas_used": true,
+    "admin_routes_auth": "session.user.role === 'ADMIN' (gated inside AdminDashboard and route handlers)"
+  },
+  "test_suites": {
+    "playwright_config": "playwright.config.ts (testDir=./scripts, testMatch=*.spec.ts, desktop-chromium only, workers=1, retries=1 in CI, no webServer)",
+    "playwright_top_level_specs": [
+      { "file": "scripts/regression.spec.ts", "lines": 404, "tests": 12, "purpose": "regression: 52 sections, 5 sub-steps, 4 capstones, exam spec, HUD FABs" },
+      { "file": "scripts/code_rendering.spec.ts", "lines": 219, "purpose": "code rendering fidelity across all 52 sections/tabs (manifest + hashes)" },
+      { "file": "scripts/static_public.spec.ts", "lines": 68, "tests": 5, "purpose": "GitHub Pages public edition contract (branding, English toggle, sections, base-path assets, no token corruption)" },
+      { "file": "scripts/v3_regression.spec.ts", "lines": 340, "tests": 17, "purpose": "V3 invariant: state files exist, invariant vector, section ledger, capstone ledger, issue registry P0=0, checkpoint resume, COURSE_SECTIONS length=52" }
+    ],
+    "playwright_e2e_max_specs": [
+      { "file": "scripts/e2e_max/01_chrome_pages.spec.ts", "lines": 63 },
+      { "file": "scripts/e2e_max/02_sections_tabs_52.spec.ts", "lines": 41 },
+      { "file": "scripts/e2e_max/03_demos_exercises.shard.spec.ts", "lines": 73 },
+      { "file": "scripts/e2e_max/04_quiz_options.shard.spec.ts", "lines": 43 },
+      { "file": "scripts/e2e_max/05_exam_options.shard.spec.ts", "lines": 122 },
+      { "file": "scripts/e2e_max/06_student_admin_flows.spec.ts", "lines": 105 },
+      { "file": "scripts/e2e_max/07_glossary_i18n_a11y.spec.ts", "lines": 196 },
+      { "file": "scripts/e2e_max/08_glossary_52.shard.spec.ts", "lines": 72 },
+      { "file": "scripts/e2e_max/10_feedback.spec.ts", "lines": 76 },
+      { "file": "scripts/e2e_max/11_admin_analytics.spec.ts", "lines": 86 },
+      { "file": "scripts/e2e_max/12_readability_exhaustive.shard.spec.ts", "lines": 120 },
+      { "file": "scripts/e2e_max/13_mouse_keyboard_lesson_flow.spec.ts", "lines": 142 }
+    ],
+    "adversarial_node_tests": [
+      "tests/adversarial/admin-analytics.test.ts",
+      "tests/adversarial/auth-hardening.test.ts",
+      "tests/adversarial/code-highlighting.test.ts",
+      "tests/adversarial/exam-scoring.test.ts",
+      "tests/adversarial/feedback-guards.test.ts",
+      "tests/adversarial/subscription-plans.test.ts",
+      "tests/adversarial/geometry_overlap.test.mjs",
+      "tests/adversarial/s05_curriculum_integrity.test.mjs"
+    ],
+    "adversarial_python_tests_count": 28,
+    "adversarial_python_tests_examples": [
+      "tests/adversarial/test_active_v3_curriculum_contract.py",
+      "tests/adversarial/test_agentic_hardened_gates.py",
+      "tests/adversarial/test_agentic_validator_incomplete.py",
+      "tests/adversarial/test_ci_dependency_install.py",
+      "tests/adversarial/test_core_i18n_usage.py",
+      "tests/adversarial/test_forensic_pedagogy_gates.py",
+      "tests/adversarial/test_late_curriculum_transfer_contract.py",
+      "tests/adversarial/test_live_grader.py",
+      "tests/adversarial/test_master_curriculum_specificity.py",
+      "tests/adversarial/test_newbie_packet.py",
+      "tests/adversarial/test_over_localized_language.py",
+      "tests/adversarial/test_phase3_exercise_stubs.py",
+      "tests/adversarial/test_phrase_bank_sc_keys_gates.py",
+      "tests/adversarial/test_receipt_binding.py",
+      "tests/adversarial/test_runtime_audit_classify.py",
+      "tests/adversarial/test_s01_independent_recovery.py",
+      "tests/adversarial/test_s01_text_first_prose.py",
+      "tests/adversarial/test_s02_independent_contract.py",
+      "tests/adversarial/test_s02_text_first_quality.py",
+      "tests/adversarial/test_s03_independent_contract.py",
+      "tests/adversarial/test_s03_text_first_contract.py",
+      "tests/adversarial/test_s04_independent_contract.py",
+      "tests/adversarial/test_s04_text_first_prose.py",
+      "tests/adversarial/test_s05_text_first_quality.py",
+      "tests/adversarial/test_s06_collections_contract.py",
+      "tests/adversarial/test_s06_text_first_contract.py",
+      "tests/adversarial/test_s07_text_contract.py",
+      "tests/adversarial/test_s07_text_first_quality.py",
+      "tests/adversarial/test_s08_ingestion_contract.py",
+      "tests/adversarial/test_s09_observability_contract.py",
+      "tests/adversarial/test_selfcheck_position_bias.py",
+      "tests/adversarial/test_static_export_guard.py",
+      "tests/adversarial/test_weDo_starter_depth.py"
+    ],
+    "test_runner_scripts_in_package_json": [
+      "test:v3-counts",
+      "test:v3-structure",
+      "test:v3-invariant",
+      "test:v3",
+      "test:layout",
+      "test:layout:playwright",
+      "test:course-complete",
+      "test:all-gates",
+      "test:e2e-max (catalog + max config)",
+      "test:e2e-max:smoke",
+      "test:glossary-intro",
+      "test:glossary-coverage",
+      "test:i18n-parity",
+      "test:a11y-contrast",
+      "test:code-syntax-contrast",
+      "test:python-content",
+      "test:exam-pedagogy",
+      "test:readability-contrast",
+      "test:readability-contrast:full",
+      "test:ux-gates",
+      "test:s01-first-use",
+      "test:s01-glossary-coverage",
+      "test:s01-pedagogy",
+      "test:ux-campaign:static",
+      "test:ux-campaign:smoke",
+      "test:adversarial (node + python)",
+      "test:adversarial:node",
+      "test:adversarial:py",
+      "test:unit"
+    ],
+    "adversarial_readme": "tests/adversarial/README.md (covers exam-scoring, feedback-guards, admin-analytics, subscription-plans, runtime_audit_classify, newbie_packet, geometry_overlap, auth-hardening, static_export_guard)"
+  },
+  "course_state_directory": {
+    "root": "course-state/",
+    "top_level_files": 178,
+    "ledger_files": [
+      "course-state/checkpoint.json (v3.2, course_complete=true)",
+      "course-state/section_ledger.json (v3.2, 52 sections)",
+      "course-state/capstone_ledger.json (v3.2, 13 capstones)",
+      "course-state/course_requirements.json (v3.1, authority hierarchy + invariant vector)",
+      "course-state/issue_registry.json (v3.2, all issues 'fixed')",
+      "course-state/PRODUCTION_STATUS.md"
+    ],
+    "subdirectories": [
+      "audits/ (6 files: audited_s14_s39, fixer_s14_s39_review, hardened_s40_s52, landing_truthfulness_2026-07-22, restored_platform, university_github_benchmark)",
+      "capstones/ (13 CP-* dirs + INDEX.json + _generate_formal_packages.py)",
+      "curriculum_hardening/ (defect_logs, dossiers, audits, paragraph_analysis, visible_paragraphs, residual_ledger.json, GOAL_*.json, SECTION_PROGRESS_LEDGER.json, GRAPH_MEMORY.json, 22 git_restore_decision_*.md)",
+      "lanes/ (40 LANE-*.status.json + README.md — parallel orchestration lane tracking)",
+      "newbie_walkthrough/ (attempt_001..attempt_007b + agentic_A1..agentic_L2)",
+      "topic_evaluations/ (52 sNN_te.json + _manifest.json)"
+    ],
+    "per_section_phase_files": {
+      "phase0_present_for": "S01-S26 only (S27-S52 have no phase0.json — they were authored under a later pipeline that did not produce phase0)",
+      "phase1_present_for": "S01-S13 only",
+      "phase2_present_for": "S01-S08 only",
+      "phase3_present_for": "S01-S52 (52 files present)",
+      "phase4_progress_present_for": "S02-S52 (51 files; S01 uses phase4_remaining + phase4_t1a..t4b split files instead)",
+      "phase5_exam_bank_present_for": "S01-S52 (52 files present)",
+      "phase6_validation_present_for": "S01-S52 (52 files present)"
+    }
+  },
+  "expert_audit_directory": {
+    "root": "expert_audit/",
+    "campaign_summary": "expert_audit/CAMPAIGN_SUMMARY.md (Stanford STORM + Graph/Loop/Harness auditor fleet; 52 per-section reports)",
+    "path_mapping": "expert_audit/PATH_MAPPING.md (sandbox path resolution)",
+    "independent_fixer_inventory": "expert_audit/INDEPENDENT_FIXER_INVENTORY.md (per-section state: deployed | pending; tracks independent commits + batch deployments)",
+    "shared_worklog": "expert_audit/worklog.md (orchestrator plan + per-section summaries)",
+    "per_section_reports_count": 52,
+    "per_section_reports_pattern": "expert_audit/SNN_report.md",
+    "grammar_subplan": "expert_audit/_GRAMMAR_SUBPLAN.md (Fernández-Huerta, INFLESZ, WPS/SPW, LanguageTool es, 13 pedagogical heuristics)",
+    "subdirectories": [
+      "expert_audit/expert_2_audit/ (22 .docx + .docx audit reports from human experts)",
+      "expert_audit/independent_worklog/ (10 SNN.md — only S01-S10 present)",
+      "expert_audit/worklog_entries_r2/ (52 SNN.md — full second-round worklog)"
+    ]
+  },
+  "industry_alignment_directory_before_phase0": {
+    "exists": false,
+    "note": "industry_alignment/ directory does NOT exist before Phase 0; this Phase 0 run creates it."
+  },
+  "key_architectural_files": {
+    "course_index": "src/lib/course/index.ts (95 lines; imports 52 section objects, declares COURSE_META, COURSE_SECTIONS, PHASES)",
+    "type_schema": "src/lib/types.ts (175 lines; CourseSection + 12 supporting interfaces)",
+    "main_section_view": "src/components/course/SectionView.tsx (4101 lines; renders theory/ido/wedo/youdo/quiz tabs; imports ExamView + CodePlayground)",
+    "pdf_report": "src/components/course/PdfReport.tsx (644 lines; SECTION_NAMES hardcodes 52 entries; certificate threshold >=8 sections)",
+    "exam_view": "src/components/course/ExamView.tsx (457 lines; client wrapper for /api/exam/* endpoints)",
+    "progress_store": "src/lib/progress-store.ts (170 lines; zustand+persist localStorage 'python-ds-progress'; SUB_STEPS = ['theory','ido','wedo','youdo','quiz'])",
+    "runtime_mode": "src/lib/runtime-mode.ts (20 lines; IS_STATIC_SITE, SITE_BASE_PATH, siteAsset())",
+    "auth_module": "src/lib/auth.ts (103 lines; NextAuth CredentialsProvider)",
+    "exam_scoring": "src/lib/exam-scoring.ts (PASS_THRESHOLD=70; pure grading logic)",
+    "prisma_schema": "prisma/schema.prisma (191 lines; 9 models: User, FeedbackReport, Progress, QuestionBank, ExamAttempt, ExerciseAttempt, SubscriptionPlan, Subscription, Payment)",
+    "prisma_seed": "prisma/seed.ts (15706 lines; 52 section question-bank entries with 3 variants per concept)",
+    "build_static_export": "scripts/build_static_export.mjs (71 lines)",
+    "next_config": "next.config.ts (18 lines; output=standalone|export, basePath/assetPrefix only when static)"
+  },
+  "roadmap_files": {
+    "primary_v3_contract": "learning_roadmap_52_V3.md (57 KB)",
+    "master_roadmap": "el_arte_de_python_roadmap_maestro_52_secciones.md (40 KB)",
+    "learning_roadmap": "learning_roadmap.md (292 KB)",
+    "master_roadmap_v2_with_capstones": "El Arte de Python — Master Roadmap v2.0 + Elite Prompting Strategy + Capstone Specifications.md (78 KB)"
+  },
+  "divergences_identified": [
+    {
+      "id": "DIV-001",
+      "severity": "P1",
+      "category": "section-id-mismatch",
+      "description": "Section 40 ID in section source file vs Prisma seed file disagree.",
+      "section_source_file": "src/lib/course/sections/s40-architecture-ddd.ts",
+      "section_source_id": "architecture-ddd-decisions",
+      "prisma_seed_file": "prisma/seed.ts",
+      "prisma_seed_line": 11743,
+      "prisma_seed_key": "agentic-architecture",
+      "runtime_callers_using_architecture_ddd_decisions": [
+        "src/lib/course/index.ts (implicit via section40 export)",
+        "src/components/course/PdfReport.tsx line 80",
+        "scripts/regression.spec.ts line 33",
+        "scripts/code_rendering.spec.ts line 16"
+      ],
+      "impact": "When the dynamic LMS seeds the QuestionBank table, section 40's questions are stored under sectionId='agentic-architecture'. The ExamView client calls POST /api/exam/start with sectionId='architecture-ddd-decisions' (the section source id). The exam/start route looks up db.questionBank.findMany({ where: { sectionId } }) — it will return zero questions for section 40. Section 40 exams are silently broken on the dynamic LMS. The static public site does not run exams so it is unaffected.",
+      "verification_command": "rg -n \"architecture-ddd-decisions|agentic-architecture\" prisma/seed.ts src/lib/course/sections/s40-architecture-ddd.ts"
+    },
+    {
+      "id": "DIV-002",
+      "severity": "P2",
+      "category": "local-vs-remote-branch-divergence",
+      "description": "Local HEAD is on branch 'fixer-wave-s01-s09-remediation' at 84aa9e4. origin/main has advanced to 316fc14 (a merge commit of PR #17 which merged this same branch). Local main was not fast-forwarded and is 1 commit behind origin/main.",
+      "impact": "Working from local HEAD is 1 merge commit behind the live site. Any change made on this checkout must rebase or merge from origin/main to align with what users currently see."
+    },
+    {
+      "id": "DIV-003",
+      "severity": "P3",
+      "category": "filename-vs-content-title-drift",
+      "description": "Five section file names diverge from their declared title content (cosmetic, but flagged for inventory honesty):",
+      "examples": [
+        "src/lib/course/sections/s04-functions-modules.ts → title 'Iteración y resúmenes transaccionales'",
+        "src/lib/course/sections/s05-oop.ts → title 'Funciones, contratos y descomposición'",
+        "src/lib/course/sections/s06-numpy.ts → title 'Colecciones y estructuras de datos'",
+        "src/lib/course/sections/s10-sklearn.ts → title 'Módulos, packaging y CLI profesional'",
+        "src/lib/course/sections/s11-testing.ts → title 'OOP y modelo de dominio'"
+      ],
+      "impact": "Filename no longer describes content; this is a known artifact of the V3 retheme (platform section ids preserved while content was rewritten). No runtime impact because canonical id is read from the file's id field, not its filename."
+    },
+    {
+      "id": "DIV-004",
+      "severity": "P3",
+      "category": "orphan-section-files",
+      "description": "Five orphan section files exist in src/lib/course/sections/ but are not imported by src/lib/course/index.ts.",
+      "files": [
+        "src/lib/course/sections/s07-pandas.ts",
+        "src/lib/course/sections/s08-visualization.ts",
+        "src/lib/course/sections/s09-sklearn.ts",
+        "src/lib/course/sections/s10-testing.ts",
+        "src/lib/course/sections/s11-advanced-topics.ts"
+      ],
+      "impact": "No runtime impact (never imported). Documented as 'archivos huérfanos/duplicados' in course-state/s07_phase0.json, s08_phase0.json, s09_phase0.json, s10_phase0.json, s11_phase0.json. Tracked but not yet deleted."
+    },
+    {
+      "id": "DIV-005",
+      "severity": "P3",
+      "category": "phase-state-coverage-gaps",
+      "description": "Per-section course-state files are not uniformly present across all 52 sections for phase0/phase1/phase2/phase4.",
+      "details": "phase0.json missing for S27-S52 (26 sections). phase1.json missing for S14-S52 (39 sections). phase2.json missing for S09-S52 (44 sections). phase4_progress.json missing for S01 (S01 uses phase4_remaining + phase4_t1a..t4b split files). All 52 sections have phase3.json, phase5_exam_bank.json, phase6_validation.json.",
+      "impact": "S27-S52 were authored under a later parallel pipeline that did not produce phase0/phase1/phase2 state files. The hardening ledger for those phases only covers S01-S08/S01-S13/S01-S26."
+    }
+  ]
+}

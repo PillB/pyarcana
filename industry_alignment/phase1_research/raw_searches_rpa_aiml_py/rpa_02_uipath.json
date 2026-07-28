@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.uipath.com/learning/certification",
+    "name": "AI and Process Automation certifications",
+    "snippet": "This credential demonstrates advanced expertise in automation architecture, enterprise technology stacks, and end-to-end business process automation. This ... Read more\nThis certification validates advanced skills in requirements gathering, process discovery, process analysis, and the design and implementation of automation solutions using UiPath products.",
+    "host_name": "www.uipath.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://academy.uipath.com/certifications",
+    "name": "AI, RPA & Automation Certification",
+    "snippet": "This exam assesses knowledge and skills related to problem solving, process identification, and building simple automation solutions with UiPath platform. ...\nThis exam assesses knowledge and skills related to problem solving, process identification, and building simple automation solutions with UiPath platform components such as UiPath Studio, Robots, and Orchestrator.",
+    "host_name": "academy.uipath.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.pearsonvue.com/us/en/uipath.html",
+    "name": "UiPath Certification Exams | RPA Automation Professional",
+    "snippet": "5 days ago — Schedule UiPath Certified Professional exams to validate skills in robotic process automation and AI-driven workflows.",
+    "host_name": "www.pearsonvue.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/UiPath/comments/131sevi/advice_on_the_uipath_advanced_certification",
+    "name": "Advice on the UiPath advanced certification",
+    "snippet": "You'll want to master logical thinking and workflow design . Solid problem-solving skills and a sprinkle of coding, especially in Python or C#, ... Read more",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=fuU-D7A1fNs",
+    "name": "I Got Certified As An UiPath Developer In One Week",
+    "snippet": "In this video, I share my experience with the Associate and Professional-level tests, offering insights into the refreshed content, preparation ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/How-can-we-prepare-for-UIPath-certification",
+    "name": "How can we prepare for UIPath certification?",
+    "snippet": "How can we prepare for UIPath certification?",
+    "host_name": "www.quora.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://academy.uipath.com/learning-plans/automation-developer-professional-training",
+    "name": "Automation Developer Professional Training (v2024.10)",
+    "snippet": "advanced UI automation and data manipulation , Orchestrator triggers, AI Computer Vision, remote debugging, coded automation, Autopilot, and UiPath Assistant.",
+    "host_name": "academy.uipath.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://intellectualpoint.com/are-you-ready-to-become-a-uipath-certified-professional",
+    "name": "Are you ready to become a UiPath Certified Professional?",
+    "snippet": "General Track is for anyone who works with the UiPath Platform and requires strong foundational technical knowledge and skills ​. RPA Developer Track is for ... Read more",
+    "host_name": "intellectualpoint.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

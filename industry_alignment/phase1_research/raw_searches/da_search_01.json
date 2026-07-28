@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.youtube.com/watch?v=3MQCWFsqBF4",
+    "name": "How to Get a Data Analyst Job in 2026",
+    "snippet": "Here are the skills that you need to get a data analyst job. Some programming skills, Excel, SQL , a bi tool and statistics.",
+    "host_name": "www.youtube.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/deep-chatterjee_dataanalytics-businessintelligence-datastorytelling-activity-7390333156337438720-Ow0w",
+    "name": "I analyzed 200 data analyst job postings from 2025",
+    "snippet": "I analyzed 200 data analyst job postings from 2025 ・ 1️⃣ SQL - 85% of listings 3️⃣ Power BI or Tableau - 71% 4️⃣ Data storytelling - 66% 5️⃣ Business ...\nI analyzed 200 data analyst job postings from 2025 - and what I found might surprise you.",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://jobright.ai/blog/data-analyst-jobs-2026",
+    "name": "Stop Rejection: The Data Analyst Job Strategy (2026)",
+    "snippet": "Jan 9, 2026 — Based on 2025–2026 postings … over 80% of data analyst jobs mention SQL , over 60% mention Excel or Sheets, and ~50% mention Python or R.",
+    "host_name": "jobright.ai",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/SQL/comments/19c258u/what_level_do_sql_and_python_is_required_for_a",
+    "name": "What level do SQL and Python is required for a data",
+    "snippet": "Most data analyst jobs require enough SQL that you can learn in a week . SQL is one of those things that you just get better at doing over time.",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://365datascience.com/career-advice/data-analyst-job-outlook-2025",
+    "name": "Data Analyst Job Outlook 2026: Trends, Salaries, and Skills",
+    "snippet": "SQL still takes the top spot for data analysts , the job postings. Python is less crucial for data analysts than for data scientists, but still appears in a ...\nAfter cleaning and removing duplicates, we extracted key data analysis keywords and requirements from each listing. This comprehensive analysis reveals current job responsibilities, skill requirements, and industry trends.",
+    "host_name": "365datascience.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.indeed.com/q-data-analyst-sql-python-skill-jobs.html",
+    "name": "Data Analyst SQL Python Skill Jobs, Employment",
+    "snippet": "2+ years experience with Python for data analysis, automation, or scripting . 2+ years experience in SQL for data querying, transformation, and performance ...",
+    "host_name": "www.indeed.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datacamp.com/blog/how-to-become-a-data-analyst",
+    "name": "How to Become a Data Analyst in 2026: 5 Steps to Start",
+    "snippet": "Essentially, you'll need to master SQL for querying and manipulating databases, but you'll then need to choose between R and Python for your next programming ...",
+    "host_name": "www.datacamp.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.usesprout.com/blog/entry-level-data-analyst-jobs",
+    "name": "Entry-Level Data Analyst Job (May 2026 Guide)",
+    "snippet": "May 25, 2026 — Entry-level data analyst jobs require SQL, Python or R, and data visualization skills , not years of experience. Salaries range from $50,000 ...",
+    "host_name": "www.usesprout.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/ZeynepGeyik5/job-posting-skills-analyzer",
+    "name": "GitHub - ZeynepGeyik5/job-posting-skills-analyzer: A Python",
+    "snippet": "Job Posting Skills Analyzer is a beginner-friendly data analysis project that uses real-world job posting data to identify the most demanded technical skills for different data-related roles.",
+    "host_name": "github.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/Gokulanandh-p/LinkedIn-Data-Jobs-Dataset",
+    "name": "Data Analyst Job Market Insights 2025 - GitHub",
+    "snippet": "This project aims to understand the Data Analyst job landscape in 2025 and help aspiring professionals like me (and others) align their skills and learning with current market needs.",
+    "host_name": "github.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

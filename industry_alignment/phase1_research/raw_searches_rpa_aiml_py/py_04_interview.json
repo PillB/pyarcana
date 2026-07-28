@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.python.org",
+    "name": "Welcome to Python.org",
+    "snippet": "Python is a programming language that lets you work quickly and integrate systems more effectively. Learn More",
+    "host_name": "www.python.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.online-python.com",
+    "name": "Online Python - IDE, Editor, Compiler, Interpreter",
+    "snippet": "Online-Python is a quick and easy tool that helps you to build, compile, test your python programs. Build, run, and share Python code online for free",
+    "host_name": "www.online-python.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+    "name": "Python (programming language)",
+    "snippet": "Python is a high-level, general-purpose programming language that emphasizes code readability, simplicity, and ease-of-writing with the use of significant ...",
+    "host_name": "en.wikipedia.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.codecademy.com/catalog/language/python",
+    "name": "Best Python Courses + Tutorials",
+    "snippet": "Python is a general-purpose, versatile, and powerful programming language. It's a great first language because Python code is concise and easy to read.",
+    "host_name": "www.codecademy.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pypi.org",
+    "name": "PyPI · The Python Package Index",
+    "snippet": "The Python Package Index (PyPI) is a repository of software for the Python programming language . PyPI helps you find and install software developed and shared ...",
+    "host_name": "pypi.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hackerrank.com/writing/technical-interview-questions",
+    "name": "Technical Interview Questions: The Complete 2026 Guide",
+    "snippet": "Python Technical Interview Questions Python is the most commonly tested language in data engineering, ML engineering, backend, and full-stack roles. Interviewers probe both syntax knowledge and idiomatic Python patterns. Beginner-Level Python Questions Q: What is the difference between a list and a tuple in Python? Lists are mutable — you can add, remove, or change elements after creation ...",
+    "host_name": "www.hackerrank.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openpython.org/articles/python-job-questions",
+    "name": "Python Interview Questions and Answers: The Complete Job Prep",
+    "snippet": "Python job interview questions and answers: 30+ questions covering core Python, OOP, decorators, generators, type hints, and coding challenges — with model answers designed to demonstrate real understanding.",
+    "host_name": "openpython.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.interviewquery.com/p/data-engineer-python-questions",
+    "name": "Top Python Interview Questions for Data Engineers (2025 Guide)",
+    "snippet": "This is a foundational question, and it quickly assesses your familiarity with data processing. Be sure to include NumPy and Pandas and list the advantages of both. NumPy is the best solution for arrays of data, while Pandasis the most efficient solution for processing statistics and machine learning data. Hint:Be prepared for situational questions...",
+    "host_name": "www.interviewquery.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]
