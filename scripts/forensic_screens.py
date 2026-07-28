@@ -40,7 +40,7 @@ DEFAULT_URLS = [
     # Phase 2
     ("llm-agents", "http://localhost:3000/#llm-agents"),
     # Phase 3
-    ("agentic-architecture", "http://localhost:3000/#agentic-architecture"),
+    ("architecture-ddd-decisions", "http://localhost:3000/#architecture-ddd-decisions"),
 ]
 
 # Elements we care about for forensic analysis

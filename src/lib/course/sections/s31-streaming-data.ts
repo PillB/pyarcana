@@ -12,7 +12,7 @@ export const section31: CourseSection = {
   icon: "Network",
   accentColor: "bg-gradient-to-br from-violet-500 to-indigo-800",
   jobRelevance:
-    "En investigación de relaciones entre entidades — banca, BPO y compliance en Perú — necesitas un **grafo de evidencia**. Ese grafo se compone de nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión humana. Tras el ER de S30, el grafo responde *cómo están conectadas* las entidades — no *quién es culpable*.",
+    "En investigación de relaciones entre entidades — banca, BPO (tercerización de procesos) y compliance (cumplimiento normativo) en Perú — necesitas un grafo de evidencia. Ese grafo se compone de nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión humana. Tras el ER (entity resolution, motor de S30), el grafo responde cómo están conectadas las entidades — no quién es culpable.",
   learningOutcomes: [
     { text: "Modelar nodos/aristas con peso y dirección" },
     { text: "Representar multigrafo temporal con provenance" },
@@ -29,13 +29,13 @@ export const section31: CourseSection = {
       paragraphs: [
         "En S30 respondiste **¿misma entidad?** Aquí **inicias CP-N3-B**: modelar **cómo están conectadas** las entidades resueltas con caminos reproducibles y **evidencia por arista**. El grafo *explica* conexiones auditables; **no** etiqueta fraude ni parentesco.",
         "Hilo conductor: contactos, cuentas y transferencias **sintéticas** del fixture `CASO-LIM-031` (`run_id=cpn3b-01`, `@example.pe`, Lima / Red Andina). Contrato: filas → grafo con tipos, pesos y provenance; error tipificado si falta `record_id` o el schema de arista.",
-        "Orden: **T1 Modelo** → **T2 Construcción** → **T3 Algoritmos** → **T4 Calidad y privacidad**. El revisor ve **path + evidencia**, nunca un auto-veredicto. Schema canónico de aristas en esta sección: `owns` · `transfer` · `shared_phone` · `shared_email` · `has_phone` · `has_email`.",
+        "Orden: **T1 Modelo** → **T2 Construcción** → **T3 Algoritmos** → **T4 Calidad y privacidad**. El revisor ve **path (camino) + evidencia**, nunca un auto-veredicto. Schema canónico de aristas en esta sección: `owns` · `transfer` · `shared_phone` · `shared_email` · `has_phone` · `has_email`.",
       ],
       callout: {
         type: "info",
         title: "Puente desde S30",
         content:
-          "Los ids canónicos del ER alimentan nodos; las transacciones y contactos alimentan aristas. Sin provenance, el grafo es decoración y no sirve al workbench.",
+          "Los ids canónicos del ER alimentan nodos; las transacciones y contactos alimentan aristas. Sin provenance, el grafo es decoración y no sirve al workbench (mesa de trabajo del investigador).",
       },
     },
     {
@@ -124,7 +124,7 @@ has_provenance True`,
       paragraphs: [
         "Construyes el grafo desde tablas: **entidades** (nodos persona/organización), **cuentas**, **transacciones** (aristas dirigidas) y **contactos** (email/teléfono/dirección como nodos o como aristas tipadas). Cada fila de tabla se proyecta a nodos y/o aristas con un etype del schema canónico.",
         "Patrón habitual: entity —`owns`→ account; account —`transfer`→ account; entity —`has_phone`/`has_email`→ valor de contacto. Preferencia canónica: el valor de contacto como **nodo** intermedio (`E1 → ph:900 ← E2`). Una arista directa `shared_phone` entre personas es un atajo derivado, no el modelo primario. En ambos casos es un **hecho de contacto compartido** — no parentesco ni fraude.",
-        "Usa ids **sintéticos estables** (`ent-001`, `acc-1`) y dominios demo (`@example.pe`). Ids estables hacen la construcción **idempotente** (mismas filas → mismo grafo ordenado). Nunca cargues PII real en ejercicios del curso.",
+        "Usa ids **sintéticos estables** (`ent-001`, `acc-1`) y dominios demo (`@example.pe`). Ids estables hacen la construcción **idempotente** (mismas filas → mismo grafo ordenado). Nunca cargues PII (datos personales identificables) real en ejercicios del curso.",
       ],
       code: {
         language: 'python',
@@ -170,7 +170,7 @@ shared_phone True`,
         type: "tip",
         title: "Contactos como nodos",
         content:
-          "Modelar el valor de contacto como nodo facilita detectar un **contacto compartido** sin inventar parentesco ni fraude: es un hecho a revisar, no un veredicto.",
+          "Modelar el valor de contacto como nodo facilita detectar un contacto compartido sin inventar parentesco ni fraude: es un hecho a revisar, no un veredicto.",
       },
     },
     {
@@ -374,7 +374,7 @@ k 2`,
       paragraphs: [
         "Visualiza **subgrafos acotados**; no intentes dibujar 100k nodos en el navegador del revisor. A escala tipo SNAP (miles o millones de nodos), la política correcta se divide en dos modos. Para explorar, usa **ego-k o la componente del caso**. Cuando `n_nodes` supera un umbral de render (p. ej. 500 en el lab — valor ilustrativo, no universal), **resume** con top hubs, tamaños de componentes y conteos por etype. Renderizar todo no es “más transparente”: es ruido e inoperable.",
         "**Privacidad**: enmascara PII en labels de la vista (email parcial, teléfono parcial). Los roles ven solo lo necesario para la revisión. Un layout bonito con PII completa es un **incidente de compliance**, no un entregable de portafolio.",
-        "**Evidencia por arista — storyboard del revisor (CASO-LIM-031):** el revisor abre el caso con seed `E1` y recorre cinco pasos: (1) expande ego k=2 y localiza el hop `E1 → ph:900 → E2`; (2) al hacer clic en cada hop, ve `records`, `ts` y `source`; (3) lee el disclaimer de centralidad del hub de contacto; (4) **no** recibe auto-label de fraude ni parentesco, solo hipótesis con evidencia para la cola humana; (5) ese contrato alimenta CP-N3-B y el workbench de S34.",
+        "**Evidencia por arista — storyboard del revisor (CASO-LIM-031).** El revisor abre el caso con seed `E1` y recorre cinco pasos:\n\n1. Expande ego k=2 y localiza el hop `E1 → ph:900 → E2`.\n2. Al hacer clic en cada hop, ve `records`, `ts` y `source`.\n3. Lee el disclaimer de centralidad del hub de contacto.\n4. **No** recibe auto-label de fraude ni parentesco: solo hipótesis con evidencia para la cola humana.\n5. Ese contrato alimenta CP-N3-B y el workbench de S34.",
       ],
       code: {
         language: 'python',
@@ -691,7 +691,7 @@ test_ok True`,
         },
         why: "Subgrafo de caso testeable: ego-k acota el workbench al radio del seed y hace el assert de membresía un test de regresión útil. El path del seed es hipótesis con evidencia, no veredicto. Devolver el grafo entero del «banco» no es más transparente: es ruido. We Do: ego k=1/2, invariantes de calidad e idempotencia del builder.",
         retrospective:
-          "Si puedes decir qué entra y qué no en k=1 vs k=2, ya tienes el hábito de subgrafos de caso. El error clásico es devolver el grafo entero o un solo vecino. Pregunta: ¿por qué un assert `ego1 == [...]` es mejor que solo imprimir el set? We Do: ego, invariantes y build idempotente.",
+          "Si puedes decir qué entra y qué no en k=1 vs. k=2, ya tienes el hábito de subgrafos de caso. El error clásico es devolver el grafo entero o un solo vecino. Pregunta: ¿por qué un assert `ego1 == [...]` es mejor que solo imprimir el set? We Do: ego, invariantes y build idempotente.",
       },
       {
         demoId: "S31-T4-B-DEMO",
@@ -1297,7 +1297,7 @@ detail_kept True`,
         feedback:
           "El invariante es un test de regresión de auditoría: si `total != detail_n`, perdiste filas al agregar. No hardcodees `ok True` sin construir `aggs`. Compara con `total 5`.",
         retrospective:
-          "Contrastar cardinalidades (`sum(n)` vs `len(detail)`) es el hábito que evita bugs silenciosos de agregación. El error clásico es confiar en el dict agregado porque «las sumas se ven bien». Pregunta: si `total != detail_n` en CI, ¿fallas el build o solo logueas un warning? Ese gate te sirve en el You Do y en el workbench real.",
+          "Contrastar cardinalidades (`sum(n)` vs. `len(detail)`) es el hábito que evita bugs silenciosos de agregación. El error clásico es confiar en el dict agregado porque «las sumas se ven bien». Pregunta: si `total != detail_n` en CI, ¿fallas el build o solo logueas un warning? Ese gate te sirve en el You Do y en el workbench real.",
         starterCode: {
           language: 'python',
           title: "exercise.py",

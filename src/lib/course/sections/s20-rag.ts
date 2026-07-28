@@ -28,8 +28,8 @@ export const section20: CourseSection = {
       heading: "Excel factory: de la plantilla al manifest (mapa)",
       paragraphs: [
         "Esta sección es **automatización robusta de Excel** con openpyxl: un reporting factory que manipula hojas, celdas, fórmulas vs. valores, estilos, conciliación, validación estructural, batch e idempotencia. El objetivo no es “hacer un xlsx bonito”, sino entregar un artefacto auditable que un VP de finanzas u operaciones pueda abrir mañana sin sorpresas.",
-        "**Diccionario de la sección** (léelo una vez; el resto lo usa). **Plantilla master** (plantilla maestra): xlsx de referencia que no se sobrescribe. **Celda ancla:** esquina superior izquierda de un merge (ahí vive el valor). **Valor materializado:** número ya calculado en Python y escrito a la celda (no dependes de Excel para evaluarlo). **Conciliación:** comparar totales/n del Excel de salida vs. el DataFrame fuente. **Fail-closed:** si la conciliación falla, no emites el paquete. **Manifest** (manifiesto): JSON con estados de batch, `reconcile_ok`, backup (respaldo) e hashes. **Idempotencia:** misma entrada + misma versión de script → mismo resultado lógico (sin filas fantasma). **Cuarentena:** aislar un archivo corrupto sin tumbar el lote.",
-        "Hilo del caso: workbook sintético `cpn2b_factory.xlsx` con hojas canónicas **Entrada** (datos crudos) y **Salida** (KPIs materializados); opcionalmente **Datos** como staging intermedio. Regiones Lima/Cusco/Arequipa y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas.",
+        "**Diccionario de la sección** (léelo una vez; el resto lo usa). **Plantilla master** (plantilla maestra): xlsx de referencia que no se sobrescribe. **Celda ancla:** esquina superior izquierda de un merge (ahí vive el valor). **Valor materializado:** número ya calculado en Python y escrito a la celda (no dependes de Excel para evaluarlo). **Conciliación:** comparar totales/n del Excel de salida vs. el DataFrame fuente. **Fail-closed:** si la conciliación falla, no emites el paquete. **Manifest** (manifiesto): JSON con estados de batch, `reconcile_ok`, backup (respaldo) y hashes. **Idempotencia:** misma entrada + misma versión de script → mismo resultado lógico (sin filas fantasma). **Cuarentena:** aislar un archivo corrupto sin tumbar el lote.",
+        "Hilo del caso: workbook (libro de Excel) sintético `cpn2b_factory.xlsx` con hojas canónicas **Entrada** (datos crudos) y **Salida** (KPIs materializados); opcionalmente **Datos** como staging intermedio. Regiones Lima/Cusco/Arequipa y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas.",
         "Orden de aprendizaje: **T1 Modelo de libro** (sheets, celdas, encabezados; fórmulas vs. valores materializados) → **T2 Presentación** (estilos, plantillas copy→save, fechas ISO, merges) → **T3 Calidad** (conciliación, pivots lógicos, validación, preservación) → **T4 Operación** (batch, corruptos/locks, backups, idempotencia, tests estructurales). Prerrequisitos S17–S19. Cierra hacia el paquete de reportes de S21 y el gate (control de calidad) CP-N2-B.",
       ],
       callout: {
@@ -79,7 +79,7 @@ Lima 28.0`,
       heading: "Fórmulas vs. valores materializados",
       subtopicId: "S20-T1-B",
       paragraphs: [
-        "Las **fórmulas** viven en la celda como texto (`=SUM(B2:B10)`); los **valores cacheados** son lo que Excel dejó calculado la última vez que abrió el archivo. openpyxl, sin motor Excel, no “resuelve” una fórmula recién escrita solo porque la leas con `data_only=True` en el mismo proceso: esa bandera lee el cache guardado, no ejecuta el motor. En CI Linux no hay Excel: si tu assert depende de un cache ajeno, el pipeline se vuelve no determinista y el “pasa en mi laptop” regresa.",
+        "Las **fórmulas** viven en la celda como texto (`=SUM(B2:B10)`); los **valores cacheados** son lo que Excel dejó calculado la última vez que abrió el archivo. openpyxl no incluye un motor de Excel: no “resuelve” una fórmula recién escrita solo porque la leas con `data_only=True` en el mismo proceso. Esa bandera lee el cache guardado, no ejecuta el motor. En CI (integración continua) Linux no hay Excel: si tu assert depende de un cache ajeno, el pipeline se vuelve no determinista y el “pasa en mi laptop” regresa.",
         "Contrato didáctico: separa “escribir fórmula para el humano en Excel” de “assert de valor de negocio en el factory”. Para asserts de KPI en el curso y en producción headless, escribe **valores materializados** (calculados en pandas/Python) o documenta la dependencia del motor. Nunca digas “el número está bien porque la fórmula se ve bien”: el auditor del factory mira el número materializado, no la estética de la fórmula.",
         "Caso: celda `=SUM(B2:B10)` vs. valor 120 precalculado en Python. El factory de CP-N2-B prefiere materializar métricas ya validadas en pandas y copiar el número a la hoja `Salida` — así S21 recibe un artefacto que no necesita reabrirse en Excel para auditar. Si el VP insiste en ver la fórmula en una celda de presentación, puedes dejarla; pero el gate de calidad del curso y del CI se apoya en el valor Python.",
       ],
@@ -115,7 +115,7 @@ python_sum 15`,
       paragraphs: [
         "Estilos (fuentes, fills, borders) y plantillas reutilizables dan pinta ejecutiva — pero el **contrato de datos** manda sobre el formato. No rompas encabezados al embellecer. Los charts embebidos de Excel son opcionales si el PNG de S19 ya cubre el insight; en este tramo priorizamos estilos + **plantilla intocable** (el master es el contrato visual del VP, no un borrador).",
         "Contrato de plantilla: **copia** el master a un path de salida (`shutil.copy`), abre con `load_workbook`, escribe solo rangos de datos, y `wb.save(out)`. Nunca escribas sobre el master sin backup. Estilos solo en rangos de presentación; datos crudos en `Entrada` sin merges que impidan `iter_rows`. Si guardas in-place sobre el master, la siguiente corrida arranca con datos de ayer mezclados con los de hoy.",
-        "Caso sintético: plantilla con fila 1 de encabezados fijos y color corporativo `1F4E79`; el script rellena filas de detalle y deja el master intacto. El diff estructural del xlsx de salida debe ser predecible entre corridas. En el I Do verás el patrón completo copy→load→write→save; en el We Do T2-A-E3 lo repites tú.",
+        "Caso sintético: plantilla con fila 1 de encabezados fijos y color corporativo `1F4E79`; el script rellena filas de detalle y deja el master intacto. El diff estructural del xlsx de salida debe ser predecible entre corridas. En la pestaña *Hago yo* verás el patrón completo copy→load→write→save; en *Hacemos juntos* T2-A-E3 lo repites tú.",
       ],
       code: {
         language: 'python',
@@ -377,9 +377,9 @@ n 2
 A2 Lima`,
         },
         why:
-          "Los headers de la fila 1 anclan `iter_rows` y la conciliación posterior. `n_filas = max_row - 1` es el mismo conteo que usará el gate con el dashboard de S19. Mapa de hojas estable (`Entrada`/`Salida`) es el primer contrato del adaptador: sin nombres canónicos, el resto del factory no sabe dónde leer ni materializar. Nunca improvises un sheet vacío en silencio si falta `Salida`. En We Do T1-A practicarás renombrar, append de filas y crear el par canónico.",
+          "Los headers de la fila 1 anclan `iter_rows` y la conciliación posterior. `n_filas = max_row - 1` es el mismo conteo que usará el gate con el dashboard de S19. Mapa de hojas estable (`Entrada`/`Salida`) es el primer contrato del adaptador: sin nombres canónicos, el resto del factory no sabe dónde leer ni materializar. Nunca improvises un sheet vacío en silencio si falta `Salida`. En *Hacemos juntos* T1-A practicarás renombrar, append de filas y crear el par canónico.",
         retrospective:
-          "Si puedes explicar por qué `['Entrada', 'Salida']` es un contrato y no decoración, ya tienes el hábito de sheetnames canónicos. El error clásico es renombrar a “Input_v2” y romper el factory. En We Do practicarás renombrar A1, append de filas y crear el par Entrada/Salida.",
+          "Si puedes explicar por qué `['Entrada', 'Salida']` es un contrato y no decoración, ya tienes el hábito de sheetnames canónicos. El error clásico es renombrar a “Input_v2” y romper el factory. En *Hacemos juntos* practicarás renombrar A1, append de filas y crear el par Entrada/Salida.",
       },
       {
         demoId: "S20-T1-B-DEMO",
@@ -413,7 +413,7 @@ no_evaluado_por_openpyxl True`,
         why:
           "`data_only=True` lee cache guardado, no ejecuta el motor. Para asserts de KPI en el curso y en producción headless, escribe valores Python en `Salida`. Puedes dejar la fórmula en celdas de presentación para el VP, pero el gate no depende de ella. El factory prefiere valores Python auditables: la fórmula es para el humano en Excel; el assert de CI mira el número materializado.",
         retrospective:
-          "Fórmula = contrato visual para el humano en Excel; valor Python = contrato auditable del factory. El error clásico es “la fórmula se ve bien, el número está bien” en CI sin motor. Pregunta: ¿qué imprimiría `data_only` sobre una fórmula recién escrita sin cache? We Do: escribir el string `=…`, materializar sumas y detectar celdas con prefijo `=`.",
+          "Fórmula = contrato visual para el humano en Excel; valor Python = contrato auditable del factory. El error clásico es “la fórmula se ve bien, el número está bien” en CI sin motor. Pregunta: ¿qué imprimiría `data_only` sobre una fórmula recién escrita sin cache? *Hacemos juntos*: escribir el string `=…`, materializar sumas y detectar celdas con prefijo `=`.",
       },
       {
         demoId: "S20-T2-A-DEMO",
@@ -464,7 +464,7 @@ True 28.0`,
         why:
           "El flujo es `shutil.copy` → `load_workbook(out)` → escribir rangos de datos → `wb.save(out)`. Estilos solo en presentación; datos crudos sin merges que impidan `iter_rows`. El bool `master.exists()` es evidencia mínima de plantilla intocable para el manifest. Copy → load → write → save deja el master intacto y materializa el estilo en la salida.",
         retrospective:
-          "Copy → load → write → save es el esqueleto del excel factory: el master del VP no es borrador de trabajo. El error clásico es `save` in-place y mezclar datos de ayer con los de hoy. Pregunta: ¿qué evidencia mínima prueba plantilla intocable? We Do: bold, fill corporativo `1F4E79` y el flujo completo en directorio temporal.",
+          "Copy → load → write → save es el esqueleto del excel factory: el master del VP no es borrador de trabajo. El error clásico es `save` in-place y mezclar datos de ayer con los de hoy. Pregunta: ¿qué evidencia mínima prueba plantilla intocable? *Hacemos juntos*: bold, fill corporativo `1F4E79` y el flujo completo en directorio temporal.",
       },
       {
         demoId: "S20-T2-B-DEMO",
@@ -497,7 +497,7 @@ non_anchor_D1 None`,
         why:
           "Serializa ISO o `datetime` documentado; merges solo en presentación; lee y escribe siempre en la celda ancla (top-left). Fechas ISO y merges con lectura en ancla: así no rompes el layout del VP ni lees `None` donde creías ver un valor. No silencies errores de archivo bloqueado (se reutiliza en T4).",
         retrospective:
-          "ISO evita “¿marzo o abril?” entre laptops; ancla = top-left del merge. El error clásico es leer C1/D1 y creer que el valor “desapareció”. Pregunta: ¿dónde escribes si el merge es B1:D1? We Do: fecha en metadata, valor de no-ancla y conteo de rangos merged.",
+          "ISO evita “¿marzo o abril?” entre laptops; ancla = top-left del merge. El error clásico es leer C1/D1 y creer que el valor “desapareció”. Pregunta: ¿dónde escribes si el merge es B1:D1? *Hacemos juntos*: fecha en metadata, valor de no-ancla y conteo de rangos merged.",
       },
       {
         demoId: "S20-T3-A-DEMO",
@@ -528,7 +528,7 @@ reconcile True`,
         why:
           "`abs(sum_det - portada) < tol` con tol típica 0.01 PEN es el assert de credibilidad. El pivot en Excel es para el humano; el factory pega el groupby ya calculado. Conciliación es el control de calidad del workbook: totales y n deben cuadrar antes de emitir el paquete. El resultado vive también en el manifest (`reconcile_ok`).",
         retrospective:
-          "Conciliar n y montos es el quality gate del workbook: sin él, la portada “optimista” viaja a gerencia. El error clásico es sumar a mano la portada y olvidar una región. Pregunta: ¿dónde vive `reconcile_ok` además del print? We Do: corregir portada desde celdas, groupby sum y función `reconcile` con tolerancia.",
+          "Conciliar n y montos es el quality gate del workbook: sin él, la portada “optimista” viaja a gerencia. El error clásico es sumar a mano la portada y olvidar una región. Pregunta: ¿dónde vive `reconcile_ok` además del print? *Hacemos juntos*: corregir portada desde celdas, groupby sum y función `reconcile` con tolerancia.",
       },
       {
         demoId: "S20-T3-B-DEMO",
@@ -561,7 +561,7 @@ abort True`,
         why:
           "Fail-fast en headers y dominios evita rehacer el paquete a medianoche. No “arregles” en silencio el orden de columnas ni inventes regiones. La lista de violators es evidencia auditable. Fail fast preserva la estructura contractual del VP antes de materializar `Salida`.",
         retrospective:
-          "Primero headers, luego dominio, luego escritura. El error clásico es “arreglar” en silencio el orden de columnas o inventar regiones para no abortar. Pregunta: ¿qué debe ir al manifest si `abort` es True? We Do: completar header en hoja, filtrar violators y función `validate_rows`.",
+          "Primero headers, luego dominio, luego escritura. El error clásico es “arreglar” en silencio el orden de columnas o inventar regiones para no abortar. Pregunta: ¿qué debe ir al manifest si `abort` es True? *Hacemos juntos*: completar header en hoja, filtrar violators y función `validate_rows`.",
       },
       {
         demoId: "S20-T4-A-DEMO",
@@ -605,7 +605,7 @@ s20_ido_7()`,
         why:
           "`BadZipFile` aparece porque xlsx es un zip; `PermissionError` señala lock. El lote continúa: un corrupto o un archivo en uso no tumba el batch. Contadores alimentan el summary JSON del factory; corruptos y locks quedan nombrados en el log de cuarentena.",
         retrospective:
-          "Aislar fallos, no abortar todo el lote: un corrupt o lock no tumba la noche del cierre. El error clásico es dejar que una excepción sin capturar mate el proceso. Pregunta: ¿qué mira primero el auditor en el summary? We Do: `ok_count`, `classify` con try/except y Counter del summary.",
+          "Aislar fallos, no abortar todo el lote: un corrupt o lock no tumba la noche del cierre. El error clásico es dejar que una excepción sin capturar mate el proceso. Pregunta: ¿qué mira primero el auditor en el summary? *Hacemos juntos*: `ok_count`, `classify` con try/except y Counter del summary.",
       },
       {
         demoId: "S20-T4-B-DEMO",
@@ -640,7 +640,7 @@ print(json.dumps(manifest, ensure_ascii=False))`,
         why:
           "Orden canónico de filas antes de hashear; backup path versionado; tests `has_header` / `n_data` sin abrir Excel GUI. Idempotencia + backup + tests estructurales + manifest cierran el excel factory listo para CP-N2-B. El JSON es obligatorio en el checklist de entrega.",
         retrospective:
-          "Idempotencia + backup + tests + manifest cierran el factory hacia S21. El error clásico es hashear filas sin orden canónico y creer que “cambió el negocio” en un re-run. Pregunta: ¿qué flag del JSON defiende que el master no se tocó? We Do: armar el dict mínimo, dig orden-invariante y `structural_ok` como superset.",
+          "Idempotencia + backup + tests + manifest cierran el factory hacia S21. El error clásico es hashear filas sin orden canónico y creer que “cambió el negocio” en un re-run. Pregunta: ¿qué flag del JSON defiende que el master no se tocó? *Hacemos juntos*: armar el dict mínimo, dig orden-invariante y `structural_ok` como superset.",
       }
     ],
   },
@@ -1080,7 +1080,7 @@ True`,
           "No uses un string; usa date real.",
           "value.isoformat() produce YYYY-MM-DD.",
         ],
-        edgeCases: ["datetime vs date"],
+        edgeCases: ["datetime vs. date"],
         tests: "salida coincide con solution output",
         feedback:
           "Si no hay `isoformat` de verdad, A1 sigue siendo str u otro tipo: asigna `date(2024, 1, 15)`, no el string `'2024-01-15'`. ISO evita ambigüedad de locale entre laptops del equipo.",
@@ -1205,7 +1205,7 @@ print(len(ws.merged_cells.ranges))`,
           "- **Contexto:** la portada del Excel (B1) no puede “inventar” un total distinto del detalle B2+B3.\n- **Meta:** materializar la suma del detalle, alinear B1 y chequear tolerancia 0.01.\n- **Éxito:** un booleano `True`.\n- **Límites:** no cambies B2/B3 para “hacer cuadrar”; corrige la portada; no uses tol=0.",
         instruction:
           "1. El starter deja B1=16 → print False.\n2. Calcula `det = B2 + B3` (15).\n3. Escribe B1=15 (o 15.0).\n4. Imprime `abs(det - portada) < 0.01`.",
-        hint: "Lee .value de las celdas; corrige B1 a 15 para que cuadre con 10+5.",
+        hint: "Lee `.value` de las celdas; corrige B1 a 15 para que cuadre con 10+5.",
         hints: [
           "det = ws[\"B2\"].value + ws[\"B3\"].value; ws[\"B1\"] = 15.",
           "print(abs(det - ws[\"B1\"].value) < 0.01).",
@@ -1215,7 +1215,7 @@ print(len(ws.merged_cells.ranges))`,
         feedback:
           "Si es False, B1 sigue en 16 (portada incorrecta) o no leíste los `.value` de B2/B3. El detalle 10+5 exige portada 15 con tol 0.01. Fail-closed: no emitas el paquete al VP si no cuadra.",
         retrospective:
-          "El detalle manda; la portada se alinea o se falla. Fail-closed = no emitir paquete si no cuadra. El error clásico es bajar B2/B3 “para que cuadre” en vez de corregir la portada. Pregunta: con tol 0.01, ¿16 vs 15 pasa? Siguiente (E2): pivot lógico con groupby sum.",
+          "El detalle manda; la portada se alinea o se falla. Fail-closed = no emitir paquete si no cuadra. El error clásico es bajar B2/B3 “para que cuadre” en vez de corregir la portada. Pregunta: con tol 0.01, ¿16 vs. 15 pasa? Siguiente (E2): pivot lógico con groupby sum.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1265,7 +1265,7 @@ print(abs(det - portada) < 0.01)`,
         feedback:
           "Si ves promedios (p. ej. 7.5 en Lima), usaste mean en vez de sum. El pivot lógico del factory materializa sumas por región: Lima 10+5=15 y Cusco 7 — el auditor no acepta un “KPI razonable” por error.",
         retrospective:
-          "Mean vs sum es el bug silencioso del “KPI que se ve razonable”. El pivot del factory es suma por región, no promedio. Pregunta: ¿qué número incorrecto vería el VP en Lima si dejas mean? Luego (E3) empaquetar la regla en `reconcile(det, portada, tol)`.",
+          "Mean vs. sum es el bug silencioso del “KPI que se ve razonable”. El pivot del factory es suma por región, no promedio. Pregunta: ¿qué número incorrecto vería el VP en Lima si dejas mean? Luego (E3) empaquetar la regla en `reconcile(det, portada, tol)`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1290,7 +1290,7 @@ print(df.groupby("region")["monto"].sum().to_dict())`,
         kind: "transfer",
         title: "Función reconcile con tolerancia 0.01",
         preamble:
-          "- **Contexto:** en PEN a 2 decimales, “casi igual” necesita tolerancia documentada (0.01), no igualdad bit a bit.\n- **Meta:** completar `reconcile` con `tol=0.01` por defecto.\n- **Éxito:** dos líneas: `True` (22.0 vs 22.005) y `False` (22.0 vs 23.0).\n- **Límites:** no dejes `tol=0.0`; no uses `<=` con semántica distinta sin documentar.",
+          "- **Contexto:** en PEN a 2 decimales, “casi igual” necesita tolerancia documentada (0.01), no igualdad bit a bit.\n- **Meta:** completar `reconcile` con `tol=0.01` por defecto.\n- **Éxito:** dos líneas: `True` (22.0 vs. 22.005) y `False` (22.0 vs. 23.0).\n- **Límites:** no dejes `tol=0.0`; no uses `<=` con semántica distinta sin documentar.",
         instruction:
           "1. El starter tiene `tol=0.0` y falla el primer caso.\n2. Cambia el default a `0.01`.\n3. Mantén `abs(det_sum - portada) < tol`.\n4. Imprime los dos pares del enunciado.",
         hint: "Default de tolerancia documentada en PEN (2 decimales), no igualdad bit a bit.",
@@ -1334,7 +1334,7 @@ False`,
           "- **Contexto:** si falta el header `monto`, el lote no debe escribirse: el schema del VP está roto.\n- **Meta:** completar B1 y validar igualdad exacta de listas de headers.\n- **Éxito:** un booleano `True`.\n- **Límites:** no reordenes columnas; no ignores `None` en B1; comparación sensible al orden.",
         instruction:
           "1. Solo A1=`region` está escrito.\n2. Asigna B1=`\"monto\"`.\n3. Arma `got` con A1 y B1.\n4. Imprime `expected == got`.",
-        hint: "ws[\"B1\"] = \"monto\"; lee los .value de A1 y B1 en orden.",
+        hint: "ws[\"B1\"] = \"monto\"; lee los `.value` de A1 y B1 en orden.",
         hints: [
           "got = [ws[\"A1\"].value, ws[\"B1\"].value].",
           "Comparación de listas es sensible al orden.",
@@ -1381,7 +1381,7 @@ print(expected == got)`,
           "- **Contexto:** el factory aborta con la lista de violators, no con un bool silencioso que el auditor no puede auditar.\n- **Meta:** leer A2/A3 y devolver solo regiones no permitidas.\n- **Éxito:** `['Piura']` (Lima está permitida).\n- **Límites:** no imprimas todas las regiones; no inviertas el predicado hacia las válidas.",
         instruction:
           "1. El starter hace `print(regs)` sin filtrar.\n2. Filtra con `r not in allowed`.\n3. Imprime la lista de violators.\n4. Case-sensitive: no normalices a lower en este ejercicio.",
-        hint: "Lee .value de A2 y A3; filtra con `r not in allowed`.",
+        hint: "Lee `.value` de A2 y A3; filtra con `r not in allowed`.",
         hints: [
           "regs = [ws[\"A2\"].value, ws[\"A3\"].value].",
           "Filtra las que no están en allowed.",
@@ -1439,7 +1439,7 @@ print([r for r in regs if r not in allowed])`,
         feedback:
           "Si devuelves `['Lima']`, invertiste el predicado: quieres violators (`not in allowed`), no las regiones válidas. Ica debe salir; Lima no. Si la lista no está vacía, el manifest debe registrar abort.",
         retrospective:
-          "`in` vs `not in` es el typo que manda Ica a gerencia. Pregunta: ¿qué va al manifest si la lista no está vacía? Puente a T4-A: batch con corruptos y locks.",
+          "`in` vs. `not in` es el typo que manda Ica a gerencia. Pregunta: ¿qué va al manifest si la lista no está vacía? Puente a T4-A: batch con corruptos y locks.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1701,7 +1701,7 @@ print(manifest)`,
         feedback:
           "Sin `sorted(rows)`, el orden de entrada cambia el hash y la re-ejecución deja de ser idempotente. Ordena antes de hashear. Las dos listas deben ser el mismo multiconjunto de filas (solo cambia el orden): si no, el factory “cambia” el artefacto sin cambiar el negocio.",
         retrospective:
-          "Orden canónico = idempotencia lógica. Sin él, re-ejecutar “cambia” el artefacto y el factory pierde confianza en el cierre de mes. El error clásico es hashear el orden de lectura del sheet. Pregunta: ¿Lima/Cusco vs Cusco/Lima debe cambiar el dig? Luego (E3) `structural_ok` con superset de sheets.",
+          "Orden canónico = idempotencia lógica. Sin él, re-ejecutar “cambia” el artefacto y el factory pierde confianza en el cierre de mes. El error clásico es hashear el orden de lectura del sheet. Pregunta: ¿Lima/Cusco vs. Cusco/Lima debe cambiar el dig? Luego (E3) `structural_ok` con superset de sheets.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1781,7 +1781,7 @@ print(structural_ok(["Entrada", "Salida", "Log"], ["Entrada", "Salida"]))`,
     requirements: [
       "No modificar plantilla master in-place (solo la copia en out/)",
       "Manifest JSON con sheets, reconcile_ok, backup, input_sha1_8, master_intact",
-      "Datos sintéticos only — sin PII real en celdas ni paths",
+      "Solo datos sintéticos — sin PII real en celdas ni paths",
       "Headers validados antes de materializar Salida",
       "Etiquetas de hojas de presentación en español profesional (es-PE)",
       "Checklist de entrega: results.xlsx + manifest.json + master intacto + reconcile_ok True",
@@ -1929,7 +1929,7 @@ with tempfile.TemporaryDirectory() as tmp:
         options: ["Solo el color de fuente", "La contraseña del VP", "Estados de batch, conciliación y backups", "El nombre del archivo temporal del SO"],
         correctIndex: 2,
         explanation:
-          "El manifest es la evidencia de la corrida: estados ok/corrupt/locked, `reconcile_ok`, path de backup e hashes. Colores o nombres de temp del SO no cierran una auditoría.",
+          "El manifest es la evidencia de la corrida: estados ok/corrupt/locked, `reconcile_ok`, path de backup y hashes. Colores o nombres de temp del SO no cierran una auditoría.",
       },
       {
         question: "Idempotencia significa:",

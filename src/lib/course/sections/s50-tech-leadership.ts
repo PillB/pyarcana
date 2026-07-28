@@ -12,7 +12,7 @@ export const section50: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **evals, red teaming y fiabilidad de IA** demuestran que el sistema agentic/RAG no solo «funciona en demo»: holdouts, acuerdo humano–LLM, inyección bloqueada y SLO de p95. Se promueve solo cuando los slices cubren las tareas reales, injection/exfil se bloquean y un claim crítico sin soporte se abstiene o escala a humano. El liderazgo técnico aquí es **evidencia medible**, no solo soft skills.",
+    "En equipos de plataforma y producto, las evals (baterías de pruebas repetibles), el red teaming (ataques internos controlados al sistema) y la fiabilidad de IA demuestran que un copiloto agentic/RAG (agente con recuperación aumentada de documentos) no solo «funciona en demo»: exige holdouts (datos reservados, no usados para tunear el prompt), acuerdo humano–LLM (coincidencia entre jueces humanos y modelo), inyección bloqueada y SLO de p95 (objetivo de latencia en el percentil 95). Se promueve solo cuando los slices (segmentos de tareas por tipo) cubren las tareas reales, la inyección y la exfiltración se bloquean, y un claim crítico sin soporte se abstiene o escala a humano. El liderazgo técnico aquí es evidencia medible, no solo soft skills.",
   learningOutcomes: [
     { text: "Diseñar un task dataset versionado con rúbrica 0–3, anclas observables y holdout sellado que no se use para tuning" },
     { text: "Calificar outcome, proceso, trajectory y recovery de un agente (tool args y reanudación), no solo el texto final" },
@@ -620,7 +620,7 @@ rto_breach ROLLBACK_AI_RELEASE`,
         why:
           "`ops_ok` es conjunción p95≤slo y rollback≤rto; en el lab se omiten costo/ACL para foco visual, pero theory y We Do los exigen. Rollback no es «restart hope»: el gate operativo falla si p95 supera el SLO o si el rollback no cabe en el RTO. En We Do: gate multi-eje, assess ROLLBACK/MISSING rto y decide ACTIVATE_INCIDENT_RESPONSE.",
         retrospective:
-          "Fiabilidad operativa = p95 + costo + ACL + rollback en RTO (We Do multi-eje). Restart hope no es rollback medido. Pregunta: p95 800 y rollback 60 vs RTO 10 — ¿qué token y por qué task_pass no salva? We Do: reliability_gate, tres rutas e ACTIVATE_INCIDENT_RESPONSE.",
+          "Fiabilidad operativa = p95 + costo + ACL + rollback en RTO (We Do multi-eje). Restart hope no es rollback medido. Pregunta: p95 800 y rollback 60 vs. RTO 10 — ¿qué token y por qué task_pass no salva? We Do: reliability_gate, tres rutas e ACTIVATE_INCIDENT_RESPONSE.",
       },
     ],
   },
@@ -720,7 +720,7 @@ meets_contract True` ,
         feedback:
           "El adverso activa `REBUILD_EVAL_DATASET`; un campo ausente devuelve `MISSING:holdout` (no inventes PASS). Missing es schema; slices rotos son breach de contenido — el revisor de scorecard lo distingue.",
         retrospective:
-          "Un holdout ausente no es un slice mal balanceado: es eval incompleto (schema). Slices que no suman o rúbrica {1,2} sí son breach de contenido. El error clásico es rellenar `holdout=10` a mano para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs suma de slices, y por qué? Luego (E3): CONTINUE / REBUILD / CALIBRATE_RUBRIC.",
+          "Un holdout ausente no es un slice mal balanceado: es eval incompleto (schema). Slices que no suman o rúbrica {1,2} sí son breach de contenido. El error clásico es rellenar `holdout=10` a mano para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs. suma de slices, y por qué? Luego (E3): CONTINUE / REBUILD / CALIBRATE_RUBRIC.",
         starterCode: {
           language: 'python',
           title: "s50-t1-a-e2.py",

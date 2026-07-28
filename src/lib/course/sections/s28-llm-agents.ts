@@ -13,7 +13,7 @@ export const section28: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El **QA del motor de entity resolution (ER)** exige más que tests unitarios felices. Necesita propiedades que generen bordes, contratos de schema, goldens con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción de revisión. Esta sección te arma la capa de propiedades + datos + dobles + integración que protege el pipeline sintético CP-N3-A.",
+    "El QA del motor de entity resolution (ER), que es el proceso de decidir si dos registros refieren a la misma entidad, exige más que tests unitarios felices. Necesita propiedades que generen bordes, contratos de schema, goldens con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción de revisión. Esta sección te arma la capa de propiedades + datos + dobles + integración que protege el pipeline sintético CP-N3-A.",
   learningOutcomes: [
     { text: "Generar casos desde invariantes con seed o tabla exhaustiva" },
     { text: "Aplicar pruebas metamórficas, de simetría e idempotencia" },
@@ -30,7 +30,7 @@ export const section28: CourseSection = {
       paragraphs: [
         "En S27 convertiste normalización y matching en contratos **pytest**. Aquí **amplías la suite**: propiedades y pruebas metamórficas, contratos de datos/goldens, dobles controlados e integración sin flakes. En S29 el almacén SQL consumirá estos mismos contratos como regresión de schema.",
         "**Diccionario del módulo** (léelo una vez; cada subtema lo profundiza):\n\n- **Invariante:** propiedad que siempre debe cumplirse (`normalize` idempotente, score en [0, 1]).\n- **Prueba de propiedades (property-based testing):** generar muchos casos desde la invariante, no solo un ejemplo feliz.\n- **Prueba metamórfica:** no conoces el score “correcto”, pero sí una relación bajo una transformación del input.\n- **Contrato de schema/calidad:** reglas de tipos, nulls y negocio en el borde de ingest.\n- **Golden:** snapshot versionado de salida esperada; **drift** es la divergencia actual vs. golden.\n- **Doble (mock/fake/stub):** sustituto controlado de HTTP, DB o reloj.\n- **Flake:** prueba inestable (pasa o falla sin cambio de código).\n- **Fail-closed:** si el contrato se rompe, el batch se detiene con evidencia — no se “arregla” en silencio.",
-        "Orden del módulo: **T1 Propiedades** (invariantes, generación, metamórficas) → **T2 Datos** (schema, quality, goldens) → **T3 Dobles** (mocks/fakes/reloj, contratos de borde) → **T4 Sistema/CI** (integración, encoding/cardinalidad/orden/timeout/reanudación, flakes). Fixture de laboratorio (una sola vez en este módulo): `CASO-LIM-028` (run_id=cpn3a-dataqa), contactos sintéticos `@example.pe` — sin PII real y sin auto-veredicto de fraude o parentesco.",
+        "Orden del módulo: **T1 Propiedades** (invariantes, generación, metamórficas) → **T2 Datos** (schema, quality, goldens) → **T3 Dobles** (mocks/fakes/reloj, contratos de borde) → **T4 Sistema/CI** (integración, encoding/cardinalidad/orden/timeout/reanudación, flakes). Fixture de laboratorio (una sola vez en este módulo): `CASO-LIM-028` (run_id=cpn3a-dataqa), contactos sintéticos `@example.pe` — sin PII real y sin autoveredicto de fraude o parentesco.",
         "Lo que ya sabes (S16 calidad + S27 pytest) y lo que es **nuevo aquí**: S16 fallaba cerrado ante schema roto; S27 fijó AAA, fixtures y oráculos. S28 añade **generación desde propiedades**, **goldens versionados con revisión**, **dobles en bordes HTTP/DB/reloj** e **integración multi-componente determinista**. ER solo decide *misma entidad* — nunca parentesco ni fraude.",
         "Caso de desk PE (banca, fintech o retail en Lima): un batch sintético de contactos entra al matcher en CI local. Un fallo de golden muestra expected vs. actual; un fallo de propiedad imprime la semilla y el input que rompió la invariante. Eso es evidencia revisable para el revisor humano, no un “True” mágico en pantalla ni una etiqueta de fraude.",
       ],
@@ -46,8 +46,8 @@ export const section28: CourseSection = {
       subtopicId: "S28-T1-A",
       paragraphs: [
         "Una **invariante** es una propiedad que **siempre** debe cumplirse en el dominio ER: `normalize` es **idempotente** (`f(f(x)) == f(x)`); scores en **[0, 1]**; ids no vacíos; pares canónicos `entity_a < entity_b`. Si se rompe, el matching deja de ser un contrato y se vuelve intuición.",
-        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso:\n\n1. **Tabla exhaustiva** pequeña: todos los bordes conocidos (vacío, solo espacios, tildes, scores 0/1/1.2).\n2. **Random acotado con seed fija:** reproducible en CI; imprime seed+input al fallar.\n3. **Hypothesis:** herramienta industrial — defines la propiedad, una *strategy* genera inputs, y al fallar hace *shrink* del contraejemplo.\n\nAquí practicas el pensamiento de (1)+(2) con `test_*` de pytest; Hypothesis es el siguiente paso industrial (recursos). Un solo caso “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
-        "Mapa mental Hypothesis (sin instalarlo aún): **propiedad** → **strategy** (qué generas) → **muchos ejemplos** → **shrink** del fallo mínimo. Tu análogo local: `assert` en un bucle con `random.seed` + imprimir el `s` que rompió. Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`). Cuando falla un caso generado, imprime **seed + input + expected/actual** para que el bug sea reproducible al primer intento.",
+        "Genera casos **desde la invariante**, no desde un ejemplo feliz. Tres estrategias en este curso:\n\n1. **Tabla exhaustiva** pequeña: todos los bordes conocidos (vacío, solo espacios, tildes, scores 0/1/1.2).\n2. **Random acotado con seed fija:** reproducible en CI; imprime seed+input al fallar.\n3. **Hypothesis:** herramienta industrial — defines la propiedad, una *strategy* (estrategia de generación de inputs) produce casos, y al fallar hace *shrink* (reducción automática del contraejemplo) hasta el input mínimo que rompe la invariante.\n\nAquí practicas el pensamiento de (1)+(2) con `test_*` de pytest; Hypothesis es el siguiente paso industrial (recursos). Un solo caso “Ana López” no caza encoding, espacios dobles ni scores fuera de rango.",
+        "Mapa mental Hypothesis (sin instalarlo aún): **propiedad** → **strategy** (qué generas) → **muchos ejemplos** → **shrink** (reducción del fallo mínimo). Tu análogo local: `assert` en un bucle con `random.seed` + imprimir el `s` que rompió. Documenta la invariante en **español** junto al test (`# invariante: normalize es idempotente`). Cuando falla un caso generado, imprime **seed + input + expected/actual** para que el bug sea reproducible al primer intento.",
       ],
       code: {
         language: "python",
@@ -91,7 +91,7 @@ seed 42`,
       subtopicId: "S28-T1-B",
       paragraphs: [
         "**Idempotencia**: `f(f(x)) == f(x)`. En ER, `normalize` debe ser idempotente: un segundo pase no cambia el texto canónico. Si `f(f(x)) != f(x)`, cada etapa del pipeline “reescribe” el nombre y el matching se vuelve no determinista entre corridas.",
-        "**Simetría**: si el comparador es simétrico, `sim(a,b) == sim(b,a)`. Documenta excepciones (distancias dirigidas, embeddings con orden de query) en el nombre del test. No asumas simetría solo porque “se ve simétrico” en el happy path.",
+        "**Simetría**: si el comparador es simétrico, `sim(a,b) == sim(b,a)`. Documenta excepciones (distancias dirigidas, embeddings con orden de query) en el nombre del test. No asumas simetría solo porque “se ve simétrico” en el happy path (el camino feliz donde todo entra limpio).",
         "**Pruebas metamórficas (metamorphic)**: no conoces el score “correcto” absoluto, pero sí una **relación** entre salidas. Ejemplo: rellenar espacios no debe cambiar `normalize`; reordenar tokens puede o no ser invariante según tu modelo de nombre. Cuando no hay oráculo absoluto, la relación entre salidas *es* el oráculo. No confundas metamórfica con “casefold equality”: casefold es normalización; metamórfica es *transformar el input y predecir cómo se mueve la salida*.",
       ],
       code: {
@@ -132,7 +132,7 @@ note sim!=fraud`,
       paragraphs: [
         "Un **contrato de schema** fija tipos, nullability y dominios (email con `@`, score en 0..1). Un **contrato de calidad** fija reglas de negocio (id único, cardinalidad de pares, encoding UTF-8 legible). En S16 ya viste fail-closed en ingest; aquí los conviertes en **asserts de regresión** que bloquean el merge si se rompen.",
         "Valida en el borde de ingest del ER: registros fuente rechazados no entran silenciosos. La implementación didáctica es una función `validate_record(r) -> list[str]` que devuelve errores legibles — no un booleano opaco. Fail-closed: si faltan columnas requeridas o el dtype rompe el contrato, el batch se detiene con reporte, no se “arregla” en silencio.",
-        "Diferencia con S16: allí diseñaste políticas; aquí **escribes la suite** que las re-ejecuta en cada PR. Caso sintético: batch `@example.pe` con un id vacío y un score 1.5 — el validador debe listar ambos errores sin inventar parentesco ni fraude.",
+        "Diferencia con S16: allí diseñaste políticas; aquí **escribes la suite** que las reejecuta en cada PR. Caso sintético: batch `@example.pe` con un id vacío y un score 1.5 — el validador debe listar ambos errores sin inventar parentesco ni fraude.",
       ],
       code: {
         language: "python",
@@ -171,7 +171,7 @@ contract schema+quality`,
         type: "tip",
         title: "Falla ruidosa en ingest",
         content:
-          "Mejor rechazar con error que contaminar el almacén ER (S29). Cuando construyas S29, re-ejecuta estos mismos validadores como regresión de schema del warehouse.",
+          "Mejor rechazar con error que contaminar el almacén ER (S29). Cuando construyas S29, reejecuta estos mismos validadores como regresión de schema del warehouse.",
       },
     },
     {
@@ -295,7 +295,7 @@ prefer real_pure_logic`,
       paragraphs: [
         "Una prueba de **integración** ejerce **2+ componentes reales** (app + sqlite, o servicio + fake HTTP + DB). **E2E** cubre el flujo punta a punta (`ingest → pares → review`) con datos sintéticos. **Testcontainers** (concepto de CI): DB efímera en contenedor con el mismo dialecto que producción; en este curso usamos sqlite `:memory:` o un archivo temporal como análogo local honesto.",
         "Mide lo que el tagline promete:\n\n- **Encoding:** tildes y formas NFC/NFD unificadas con `unicodedata.normalize`.\n- **Cardinalidad de pares:** `C(n,2)` o igualdad de nombre.\n- **Orden de paginación estable.**\n- **Timeout simulado:** reintento/abort con reloj fake, no `sleep` real.\n- **Reanudación:** checkpoint; no reprocesar ids ya hechos.",
-        "Demo mínima: inserta dos entidades homónimas en sqlite, cuenta filas y el par candidato con `id_a < id_b`. Eso es integración real de schema + query, no un print de `True`. Cuando el almacén sea Postgres en S29, el mismo contrato de pares se re-ejecuta contra el dialecto real.",
+        "Demo mínima: inserta dos entidades homónimas en sqlite, cuenta filas y el par candidato con `id_a < id_b`. Eso es integración real de schema + query, no un print de `True`. Cuando el almacén sea Postgres en S29, el mismo contrato de pares se reejecuta contra el dialecto real.",
       ],
       code: {
         language: "python",
@@ -411,7 +411,7 @@ print("seed", 1)`,
 n 15
 seed 1`,
         },
-        why: "La propiedad se genera desde la invariante, no desde un ejemplo feliz: seed fija + bucle + assert de idempotencia. En CI real, pytest descubre `test_*`; al fallar imprime seed e input para reproducir al primer intento. Evita tautologías tipo `len>=0`. En We Do practicarás re-seed por muestra, rango de scores e idempotencia con N casos generados.",
+        why: "La propiedad se genera desde la invariante, no desde un ejemplo feliz: seed fija + bucle + assert de idempotencia. En CI real, pytest descubre `test_*`; al fallar imprime seed e input para reproducir al primer intento. Evita tautologías tipo `len>=0`. En We Do practicarás resembrar por muestra, rango de scores e idempotencia con N casos generados.",
         retrospective:
           "Si puedes explicar por qué un solo literal no es pensamiento basado en propiedades, ya tienes el hábito de T1-A. El error clásico es hardcodear `True` o mirar un caso. En We Do practicarás seed reproducible, rango de scores e idempotencia con N casos.",
       },
@@ -594,7 +594,7 @@ integration True`,
         },
         why: "Integración mínima del pipeline de candidatos: schema + join real, no un booleano teatral. sqlite `:memory:` es análogo honesto a testcontainers (S29 Postgres); el par sale del motor. We Do: SELECT COUNT, cardinalidad C(n,2) y reanudación+NFC de tildes Latam.",
         retrospective:
-          "Si el par no sale del motor, no es integración: hardcodear `pairs` esconde un JOIN roto. El error clásico es “el test pasó porque imprimí lo esperado”. Pregunta: ¿por qué `id_a < id_b` evita auto-pares y dobles? We Do: COUNT, C(n,2) y pending con encoding Unicode.",
+          "Si el par no sale del motor, no es integración: hardcodear `pairs` esconde un JOIN roto. El error clásico es “el test pasó porque imprimí lo esperado”. Pregunta: ¿por qué `id_a < id_b` evita autopares y dobles? We Do: COUNT, C(n,2) y pending con encoding Unicode.",
       },
       {
         demoId: "S28-T4-B-DEMO",
@@ -618,9 +618,9 @@ print(run(3)[0])`,
           output: `True
 ['a', 'b', 'c']`,
         },
-        why: "Determinismo es requisito de la suite que bloquea merge: seed + sorted. Retry sin root-cause no es fix. We Do: sorted de ids, fail_job por flake_rate y `run(seed)` que re-siembra.",
+        why: "Determinismo es requisito de la suite que bloquea merge: seed + sorted. Retry sin root-cause no es fix. We Do: sorted de ids, fail_job por flake_rate y `run(seed)` que resiembra.",
         retrospective:
-          "Si dos corridas con la misma seed divergen, el diseño es incorrecto — no “mala suerte de CI”. El error clásico es subir retries sin root-cause y llamar a eso un fix. Pregunta: ¿qué tres controles (seed, reloj, sort) fijarías antes del gate de merge? We Do: sorted de ids, fail_job por flake_rate y `run(seed)` que re-siembra.",
+          "Si dos corridas con la misma seed divergen, el diseño es incorrecto — no “mala suerte de CI”. El error clásico es subir retries sin root-cause y llamar a eso un fix. Pregunta: ¿qué tres controles (seed, reloj, sort) fijarías antes del gate de merge? We Do: sorted de ids, fail_job por flake_rate y `run(seed)` que resiembra.",
       },
     ],
   },
@@ -632,22 +632,22 @@ print(run(3)[0])`,
         id: "S28-T1-A-E1",
         subtopicId: "S28-T1-A",
         kind: "guided",
-        title: "Re-sembrar seed antes de cada muestra",
+        title: "Resembrar seed antes de cada muestra",
         preamble:
-          "- **Contexto:** en CI del matcher, dos “mismas” muestras con seed distinta son un flake disfrazado de dato.\n- **Meta:** con `seed=0` **antes de cada** `random.random()`, obtener el mismo valor dos veces.\n- **Éxito:** una sola línea booleana `True`.\n- **Límites:** no compares floats a mano; no dejes el PRNG avanzar sin re-seed; sin PII real.",
+          "- **Contexto:** en CI del matcher, dos “mismas” muestras con seed distinta son un flake disfrazado de dato.\n- **Meta:** con `seed=0` **antes de cada** `random.random()`, obtener el mismo valor dos veces.\n- **Éxito:** una sola línea booleana `True`.\n- **Límites:** no compares floats a mano; no dejes el PRNG avanzar sin resembrar; sin PII real.",
         instruction:
           "1. Abre el starter: `seed(0)` solo una vez; `a` y `b` divergen.\n2. Llama `random.seed(0)` otra vez antes de `b`.\n3. Imprime solo `a == b`.\n4. No hardcodees `True`.",
         hint: "Vuelve a llamar random.seed(0) antes de b",
         hints: [
           "Vuelve a llamar random.seed(0) antes de b",
-          "Sin re-seed, el segundo random avanza el generador pseudoaleatorio (PRNG) y a!=b",
+          "Sin resembrar, el segundo random avanza el generador pseudoaleatorio (PRNG) y a!=b",
         ],
         edgeCases: ["sin seed no es CI-safe"],
         tests: "Una línea booleana: True solo si a y b se regeneran con la misma seed.",
         feedback:
-          "Sin re-seed, el generador avanza: el segundo `random` no es la misma muestra. Seed antes de cada muestra = reproducible en CI del ER; sin eso el gate de merge miente.",
+          "Sin resembrar, el generador avanza: el segundo `random` no es la misma muestra. Sembrar antes de cada muestra = reproducible en CI del ER; sin eso el gate de merge miente.",
         retrospective:
-          "Re-seed por muestra es el hábito mínimo de determinismo. El error clásico es sembrar una vez y asumir que dos lecturas son “la misma”. Siguiente (E2): medir la invariante de scores del batch, no inventar `True`.",
+          "Resembrar por muestra es el hábito mínimo de determinismo. El error clásico es sembrar una vez y asumir que dos lecturas son “la misma”. Siguiente (E2): medir la invariante de scores del batch, no inventar `True`.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1316,7 +1316,7 @@ print("Ana".lower() == "ANA")
         edgeCases: ["tests de borde con negativos"],
         tests: "Una línea: weak si el doble acepta cualquier par distinto",
         feedback:
-          "Si `f('x','y')` y `f('1','2')` son True, el matcher es un overmock débil. Detectarlo es parte del contrato de borde: la suite no debe auto-engañarse.",
+          "Si `f('x','y')` y `f('1','2')` son True, el matcher es un overmock débil. Detectarlo es parte del contrato de borde: la suite no debe autoengañarse.",
         retrospective:
           "Detectar overmock es parte del contrato de borde. Un matcher real no acepta cualquier par. Luego (E3): aserta efecto de estado (filas + name), no orden de métodos.",
         starterCode: {
@@ -1434,7 +1434,7 @@ print(c.execute("select count(*) from t").fetchone()[0])`,
         kind: "independent",
         title: "Cardinalidad C(n,2) de pares candidatos",
         preamble:
-          "- **Contexto:** el join con `id_a < id_b` materializa pares no ordenados sin auto-pares; `n*n` infla el universo.\n- **Meta:** con n=4, calcular C(4,2)=n*(n-1)//2.\n- **Éxito:** una línea `6`.\n- **Límites:** no uses `n*n`; blocking en prod reduce pares, pero aquí mides la cota ingenua.",
+          "- **Contexto:** el join con `id_a < id_b` materializa pares no ordenados sin autopares; `n*n` infla el universo.\n- **Meta:** con n=4, calcular C(4,2)=n*(n-1)//2.\n- **Éxito:** una línea `6`.\n- **Límites:** no uses `n*n`; blocking en prod reduce pares, pero aquí mides la cota ingenua.",
         instruction:
           "1. Revisa el starter: `n * n` → 16.\n2. Cambia a `n * (n - 1) // 2`.\n3. Imprime solo el entero.\n4. No inventes un join sqlite aquí (eso fue E1).",
         hint: "n * (n - 1) // 2",
@@ -1565,7 +1565,7 @@ print(ids)
         feedback:
           "Cualquier `flake_rate > 0` debe fallar el job de merge del ER. Invertir polaridad o subir retries sin root-cause no es política de CI — enmascara el flake.",
         retrospective:
-          "Invertir polaridad o subir retries sin causa no es política de CI. Luego (E3): `run(seed)` que re-siembra y ordena para igualdad entre corridas.",
+          "Invertir polaridad o subir retries sin causa no es política de CI. Luego (E3): `run(seed)` que resiembra y ordena para igualdad entre corridas.",
         starterCode: {
           language: "python",
           title: "exercise.py",
@@ -1588,24 +1588,24 @@ print("fail_job" if flake_rate > 0 else "ok")`,
         kind: "transfer",
         title: "run(seed) determinista con sorted",
         preamble:
-          "- **Contexto:** dos “mismas” corridas de CI deben producir el mismo batch; si no, el gate de merge es un flake.\n- **Meta:** `run(seed)` fija seed, genera 5 letras de `'abc'` y devuelve `sorted(...)`.\n- **Éxito:** dos líneas: `True` (`run(7)==run(7)`) y la lista ordenada de `run(7)`.\n- **Límites:** re-siembra **dentro** de cada `run`; no dejes el PRNG avanzar entre llamadas; sin reloj real.",
+          "- **Contexto:** dos “mismas” corridas de CI deben producir el mismo batch; si no, el gate de merge es un flake.\n- **Meta:** `run(seed)` fija seed, genera 5 letras de `'abc'` y devuelve `sorted(...)`.\n- **Éxito:** dos líneas: `True` (`run(7)==run(7)`) y la lista ordenada de `run(7)`.\n- **Límites:** resiembra **dentro** de cada `run`; no dejes el PRNG avanzar entre llamadas; sin reloj real.",
         instruction:
           "1. Corrige el DEFECT: sin seed ni sorted.\n2. Dentro de `run`: `random.seed(seed)`; genera; `return sorted(...)`.\n3. Imprime igualdad de dos corridas y el resultado.\n4. No muevas el seed al módulo fuera de `run`.",
         hint: "Dentro de run: random.seed(seed); return sorted([...])",
         hints: [
-          "Cada llamada a run debe re-sembrar la seed — si no, la 2.ª corrida diverge",
+          "Cada llamada a run debe resembrar la seed — si no, la 2.ª corrida diverge",
           "sorted garantiza orden estable del batch en CI",
         ],
         edgeCases: ["sin seed la igualdad entre corridas es flake"],
         tests: "Dos líneas: True (run(7)==run(7)) y la lista ordenada de run(7).",
         feedback:
-          "Cada `run` debe re-sembrar la seed y ordenar. Sin `seed`+`sorted`, dos “mismas” corridas de CI divergen: eso es un flake del gate de merge.",
+          "Cada `run` debe resembrar la seed y ordenar. Sin `seed`+`sorted`, dos “mismas” corridas de CI divergen: eso es un flake del gate de merge.",
         retrospective:
-          "Cada llamada a `run` debe re-sembrar *dentro* de la función y devolver orden estable; si no, el gate de merge es un flake disfrazado de test. El error clásico es sembrar una vez a nivel de módulo. Pregunta de cierre: ¿qué tres controles (seed, reloj, sort) documentarías en el README de la suite del You Do antes de pedir review?",
+          "Cada llamada a `run` debe resembrar *dentro* de la función y devolver orden estable; si no, el gate de merge es un flake disfrazado de test. El error clásico es sembrar una vez a nivel de módulo. Pregunta de cierre: ¿qué tres controles (seed, reloj, sort) documentarías en el README de la suite del You Do antes de pedir review?",
         starterCode: {
           language: "python",
           title: "exercise.py",
-          code: `# DEFECT: no re-siembra ni ordena → dos corridas divergen / orden inestable
+          code: `# DEFECT: no resiembra ni ordena → dos corridas divergen / orden inestable
 import random
 
 def run(seed):
@@ -1742,7 +1742,7 @@ if __name__ == "__main__":
     print("qa_starter_ok")
 `,
     portfolioNote:
-      "Suite de QA para CP-N3-A: propiedades, contratos de datos e integración determinista. Documenta límites y evidencia en README_suite.md; no uses PII real ni auto-etiquetes fraude o parentesco.",
+      "Suite de QA para CP-N3-A: propiedades, contratos de datos e integración determinista. Documenta límites y evidencia en README_suite.md; no uses PII real ni autoetiquetes fraude o parentesco.",
     retrospective:
       "Antes de marcar listo: (1) ¿qué invariante demuestras con seed + assert (idempotencia u otra) y qué imprimirías al fallar? (2) ¿por qué un golden con `blocked_drift` sin aprobación protege mejor al desk que un job siempre verde? (3) En el README, una frase de impacto medible (p. ej. “cero flakes en gate / drift visible”) y una línea de **límite** (matching ≠ fraude/parentesco; sin PII real). Defensa en 30 segundos: propiedades → schema/golden → dobles → integración sqlite → determinismo.",
     rubric: [

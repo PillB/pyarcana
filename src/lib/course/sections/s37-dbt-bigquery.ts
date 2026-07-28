@@ -12,7 +12,7 @@ export const section37: CourseSection = {
   icon: "Timer",
   accentColor: "bg-gradient-to-br from-purple-400 to-indigo-900",
   jobRelevance:
-    "Escala el triage midiendo **antes/después** con el mismo dataset sintético. En data eng y ML ops de la región (matching, features, batch de entidad), un speedup sin **same_result** o sin **budget** en CI light es regresión disfrazada: el PR «se siente» más rápido y, con `n` grande, el wall se duplica. Optimizar no justifica saltarse la privacidad ni los tests. Caso de referencia: `CASO-LIM-037`.",
+    "Escala el triage midiendo antes/después con el mismo dataset sintético. En data eng y ML ops de la región (matching, features, batch de entidad), un speedup sin `same_result` (el resultado funcional antes y después de optimizar) o sin `budget` (umbral acordado de ms/memoria/pares que el CI light puede romper) en CI light es regresión disfrazada: el PR «se siente» más rápido y, con `n` grande, el wall se duplica. Optimizar no justifica saltarse la privacidad ni los tests. Caso de referencia: `CASO-LIM-037`.",
   learningOutcomes: [
     { text: "Perfilar wall y CPU (`perf_counter` / `process_time`) y anotar memoria con `n` explícito." },
     { text: "Medir con benchmark: warmup, mediana y una nota de variabilidad (rango o IQR simple)." },
@@ -64,7 +64,7 @@ skip_privacy_or_tests False`,
       heading: "Wall, CPU y profiling de memoria",
       subtopicId: "S37-T1-A",
       paragraphs: [
-        "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o al SO; cuando ambos crecen, el path es **compute-bound** (acotado por cómputo, no por I/O). La memoria pico limita si el job cabe en el worker: `tracemalloc` muestrea alocaciones del **mismo path** medido. Cuando el wall ya indicó *qué tramo* es caro, `cProfile` nombra la **función** exacta (hot path) sin adivinar.",
+        "Wall time es el reloj de pared que percibe el usuario o el batch (`time.perf_counter`); CPU time es el tiempo de procesador (`time.process_time`). Cuando wall >> CPU, el job espera I/O o al SO; cuando ambos crecen, el path es **compute-bound** (acotado por cómputo, no por I/O). La memoria pico limita si el job cabe en el worker: `tracemalloc` muestrea alocaciones del **mismo path** medido. Cuando el wall ya indicó *qué tramo* es caro, `cProfile` nombra la **función** exacta (hot path, la ruta o tramo más costoso del código) sin adivinar.",
         "Mecanismo: envuelve el path caliente, anota `n` del fixture, verifica el resultado funcional en el mismo run y solo entonces publicas los ms. Un número sin `n` no sirve para decidir. Orden profesional: (1) wall+CPU con `n`, (2) si el wall no basta, `cProfile` del pipeline para ver qué función domina, (3) si hay riesgo de OOM, `tracemalloc` sobre el path real (no una alocación aparte). El profile apunta al matching/grafo o features del batch sintético — no a un tramo frío del `import`.",
         "Aplicación al caso sintético T1-A: un pipeline con `cheap` y `expensive`; medimos wall/CPU, el pico de alocaciones del path con `tracemalloc` y, con `cProfile`, comprobamos que `expensive` es la función caliente. En el path real del triage se sustituye por el scorer; la disciplina wall+CPU+`n`+memoria+`hot_fn` se mantiene. Sin PII ni datos productivos en el laboratorio del curso.",
       ],
@@ -138,7 +138,7 @@ hot_ok True`,
         type: "tip",
         title: "Orden: wall → cProfile → tracemalloc",
         content:
-          "`perf_counter` (wall) y `process_time` (CPU) primero, siempre con `n`. `cProfile` nombra la función caliente del pipeline. `tracemalloc` acota el pico del **path medido**. No empieces por micro-shaving de un loop que ni siquiera es el hot path.",
+          "`perf_counter` (wall) y `process_time` (CPU) primero, siempre con `n`. `cProfile` nombra la función caliente del pipeline. `tracemalloc` acota el pico del **path medido**. No empieces por micro-shaving (recorte minucioso de líneas sueltas) de un loop que ni siquiera es el hot path (la ruta o tramo más costoso del código).",
       },
     },
     {
@@ -292,7 +292,7 @@ ok True`,
       heading: "Caché, invalidación y out-of-core",
       subtopicId: "S37-T3-B",
       paragraphs: [
-        "**Guardar en caché** features o resultados de blocking acelera las re-runs, pero un cache stale (obsoleto) miente. La clave incluye la versión del feature set y el cutoff de datos. **Out-of-core** significa no asumir que todo cabe en RAM: chunk o spill a disco cuando `n` crece en el batch de triage.",
+        "**Guardar en caché** features o resultados de blocking acelera las re-runs, pero un cache stale (obsoleto) miente. La clave incluye la versión del feature set y el cutoff (punto de corte temporal de los datos) de datos. **Out-of-core** (fuera de memoria principal) significa no asumir que todo cabe en RAM: chunk o spill (volcar a disco) cuando `n` crece en el batch de triage.",
         "Mecanismo: `put(key, value)`; hit si `key ∈ store`; al cambiar la versión del feature set (p. ej. `fs-v1 → fs-v2`) o el cutoff, la key nueva no pega y se recomputa. Error: cache infinito sin versión de schema. Criterio: se documenta `invalidate_on = version_or_cutoff` y `ooc = chunk_if_needed` de forma explícita.",
         "Aplicación al caso sintético T3-B: `key = ('fs-v1', '2026-01-01')` almacena `n_pairs`; hit `True` tras `put`. Invalidar por `version_or_cutoff`. Solo estructuras en memoria didácticas; sin Redis ni servicios externos en el ejercicio del estudiante.",
       ],
@@ -355,7 +355,7 @@ measured_ms 12`,
       heading: "Costo total, claridad y no microoptimización",
       subtopicId: "S37-T4-B",
       paragraphs: [
-        "El costo total incluye ingeniería humana, cómputo y riesgo de bugs. Una microoptimización del 2 % que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después **con el mismo resultado**, dataset y límites — no un leaderboard de microbenchmarks desconectados del path de producción.",
+        "El costo total incluye ingeniería humana, cómputo y riesgo de bugs. Una microoptimización del 2 % que oscurece el código suele ser pérdida neta. El entregable de escala es el reporte antes/después **con el mismo resultado**, dataset y límites — no un leaderboard (tabla de clasificación) de microbenchmarks (bancos de pruebas aislados del path real) desconectados del path de producción.",
         "Mecanismo: `speedup = before_ms / after_ms` (ratio, no resta). `pair_factor = before_pairs // after_pairs` dice «cuántas veces menos pares»; no lo confundas con `reduction = 1 − after/before` de T2-A (fracción eliminada). `micro_only = False` cuando el ganador fue el blocking o el algoritmo. El PR explica el tradeoff en español profesional.",
         "Aplicación al caso sintético T4-B: before 100 ms / 1e6 pares → after 20 ms / 5e4 pares: `speedup = 5×`, `pair_factor = 20×` (y `reduction = 0.95` si lo reportas como fracción). El equipo prefiere ese cambio al rewrite opaco de un 2 %. Datos sintéticos del path de Red Andina ficticia.",
       ],
@@ -500,9 +500,9 @@ n_runs 5`,
         demoId: "S37-T2-A-DEMO",
         subtopicId: "S37-T2-A",
         environment: "local-python",
-        description: "Demo: all_pairs vs blocked_pairs derivados de n y bloques.",
+        description: "Demo: all_pairs vs. blocked_pairs derivados de n y bloques.",
         preamble:
-          "Escalar entity resolution no empieza por shave del scorer: empieza por contar cuántos pares entran al scorer. En la demo, `n=4` y 2 bloques: 6 pares completos vs 2 bloqueados. No escribas: predice por qué `all_p > blk` y qué implica para el wall del matching. Si no cuentas pares, no sabes si el blocking sirve; si bajas recall por un blocking ciego, no es victoria de escala (puente S30).",
+          "Escalar entity resolution no empieza por shave del scorer: empieza por contar cuántos pares entran al scorer. En la demo, `n=4` y 2 bloques: 6 pares completos vs. 2 bloqueados. No escribas: predice por qué `all_p > blk` y qué implica para el wall del matching. Si no cuentas pares, no sabes si el blocking sirve; si bajas recall por un blocking ciego, no es victoria de escala (puente S30).",
         code: {
           language: 'python',
           title: "s37_t2_a_demo.py",
@@ -553,9 +553,9 @@ print("ok", sizes.get("Lima") == 2)`,
 structure inverted_index
 ok True`,
         },
-        why: "`defaultdict(list)` agrupa `entity_id` por clave; el scorer opera dentro del bloque; membership con set/dict es O(1) amortizado frente a list scan. Ciudad es clave de lab, no señal de parentesco. En We Do practicarás set vs list_scan, count de Lima y el orden block→score.",
+        why: "`defaultdict(list)` agrupa `entity_id` por clave; el scorer opera dentro del bloque; membership con set/dict es O(1) amortizado frente a list scan. Ciudad es clave de lab, no señal de parentesco. En We Do practicarás set vs. list_scan, count de Lima y el orden block→score.",
         retrospective:
-          "Indexar primero es optimización de verdad: el scorer opera dentro del bloque. El error clásico es scan lineal repetido o scorear el cartesiano «porque el scorer es el cuello». Pregunta: si Lima tiene tamaño 2 y Cusco 1, ¿cuántos pares locales predices en Lima? We Do: set vs list_scan, count de Lima y orden block→score.",
+          "Indexar primero es optimización de verdad: el scorer opera dentro del bloque. El error clásico es scan lineal repetido o puntuar el cartesiano «porque el scorer es el cuello». Pregunta: si Lima tiene tamaño 2 y Cusco 1, ¿cuántos pares locales predices en Lima? We Do: set vs. list_scan, count de Lima y orden block→score.",
       },
       {
         demoId: "S37-T3-A-DEMO",
@@ -563,7 +563,7 @@ ok True`,
         environment: "local-python",
         description: "Demo: tamaños de chunk, subset columnar y bound de memoria por itemsize.",
         preamble:
-          "El batch de features del triage puede caber en la laptop del lab y reventar en el worker nocturno. En esta demo se planifican chunks de 10 con size 3 (`[3,3,3,1]`), se proyectan solo `id`/`amount` (sin `blob`) y se compara bound int32 vs int64. No escribas: predice por qué `blob` no debe viajar y por qué el bound de int32 es menor. Si cargas la tabla ancha «porque cabe», el OOM llega en silencio con `n` real.",
+          "El batch de features del triage puede caber en la laptop del lab y reventar en el worker nocturno. En esta demo se planifican chunks de 10 con size 3 (`[3,3,3,1]`), se proyectan solo `id`/`amount` (sin `blob`) y se compara bound int32 vs. int64. No escribas: predice por qué `blob` no debe viajar y por qué el bound de int32 es menor. Si cargas la tabla ancha «porque cabe», el OOM llega en silencio con `n` real.",
         code: {
           language: 'python',
           title: "s37_t3_a_demo.py",
@@ -678,7 +678,7 @@ pair_factor 20
 same_result True
 micro_only False`,
         },
-        why: "`speedup = before/after` (ratio, no resta ni inverso); `pair_factor` es «cuántas veces menos pares» (entero), distinto de `reduction` en [0,1] de T2-A; `same_result` se calcula sobre salidas. `micro_only` es False cuando ganó el algoritmo o el blocking. En We Do practicarás ratio correcto, claridad vs 2 % y las claves del reporte.",
+        why: "`speedup = before/after` (ratio, no resta ni inverso); `pair_factor` es «cuántas veces menos pares» (entero), distinto de `reduction` en [0,1] de T2-A; `same_result` se calcula sobre salidas. `micro_only` es False cuando ganó el algoritmo o el blocking. En We Do practicarás ratio correcto, claridad vs. 2 % y las claves del reporte.",
         retrospective:
           "Before/after con ratio, pares y `same_result` es el lenguaje del PR de escala. El error clásico es publicar after/before o un 2 % opaco sin dataset. Pregunta: ¿por qué `pair_factor` no es lo mismo que `reduction`? We Do: speedup, preferencia de claridad y reporte completo.",
       },
@@ -1135,15 +1135,15 @@ blocking True`,
         preamble:
           "- **Contexto:** en el path O(n²) del triage, bajar un 1 % el inner loop y dejar casi todos los pares es teatro; el blocking de 4950→450 gana en números.\n- **Meta:** elegir `prefer 'blocking'` cuando `blocked < micro_pairs` y marcar `micro False`.\n- **Éxito:** `prefer blocking` / `ok True` / `micro False`.\n- **Límites:** no hardcodees el prefer sin comparar; no celebres microopt sin conteo de pares.",
         instruction:
-          "1. Starter fija `prefer=\"microopt\"` y `micro=True`.\n2. Compara `blocked` vs `micro_pairs`.\n3. Asigna `prefer` y `micro = (prefer == \"microopt\")`.\n4. Imprime prefer, `ok` (blocked < all y prefer blocking) y micro.",
+          "1. Starter fija `prefer=\"microopt\"` y `micro=True`.\n2. Compara `blocked` vs. `micro_pairs`.\n3. Asigna `prefer` y `micro = (prefer == \"microopt\")`.\n4. Imprime prefer, `ok` (blocked < all y prefer blocking) y micro.",
         hint: "Bajar pares O(n²) domina micro-optimizar.",
-        hints: ["Compara blocked vs micro_pairs numéricamente.", "prefer = 'blocking' si blocked es menor; micro = (prefer == 'microopt')."],
+        hints: ["Compara blocked vs. micro_pairs numéricamente.", "prefer = 'blocking' si blocked es menor; micro = (prefer == 'microopt')."],
         edgeCases: ["teatro de 1%", "sintético"],
         tests: "Salida alinea con solution output de S37-T2-A-E3; predicado de dominio sobre fixture sintético.",
         feedback:
           "Priorizar blocking se decide con números de pares, no con lemas de «código más ingenioso». El PR del 1 % con n² intacto es teatro de escala.",
         retrospective:
-          "El PR del 1–2 % con n² casi intacto es teatro de escala: los números de pares deciden, no el lema de «código más ingenioso». El error clásico es hardcodear `prefer='blocking'` sin comparar `blocked` vs `micro_pairs`. Pregunta: si micro_pairs fuera 400 y blocked 450, ¿qué preferirías y por qué? En T2-B el orden operativo será block→score.",
+          "El PR del 1–2 % con n² casi intacto es teatro de escala: los números de pares deciden, no el lema de «código más ingenioso». El error clásico es hardcodear `prefer='blocking'` sin comparar `blocked` vs. `micro_pairs`. Pregunta: si micro_pairs fuera 400 y blocked 450, ¿qué preferirías y por qué? En T2-B el orden operativo será block→score.",
         starterCode: {
           language: 'python',
           title: "s37-t2-a-e3.py",
@@ -1267,7 +1267,7 @@ ok True`,
         kind: "transfer",
         title: "Orden operativo: block luego score",
         preamble:
-          "- **Contexto:** el path de escala del matching no es «scorear todo y luego filtrar»: primero se bloquea, luego se puntúa sobre candidatos reducidos.\n- **Meta:** con `n=10` y 5 bloques, fijar el orden correcto y reportar pares después del block.\n- **Éxito:** `order ['block', 'score']` / `pairs_after_block 5` / `ok True`.\n- **Límites:** no inviertas a score→block; no dejes `pairs_after = all_pairs`.",
+          "- **Contexto:** el path de escala del matching no es «puntuar todo y luego filtrar»: primero se bloquea, luego se puntúa sobre candidatos reducidos.\n- **Meta:** con `n=10` y 5 bloques, fijar el orden correcto y reportar pares después del block.\n- **Éxito:** `order ['block', 'score']` / `pairs_after_block 5` / `ok True`.\n- **Límites:** no inviertas a score→block; no dejes `pairs_after = all_pairs`.",
         instruction:
           "1. Starter pone `order = [\"score\", \"block\"]` y `pairs_after = all_pairs`.\n2. Calcula `blocked` con bloques iguales.\n3. Asigna `order = [\"block\", \"score\"]` y `pairs_after = blocked`.\n4. Imprime order, pares y `ok` si pares < all_pairs.",
         hint: "Primero reduces candidatos; luego features.",
@@ -1288,7 +1288,7 @@ all_pairs = n * (n - 1) // 2
 size = n // blocks
 blocked = blocks * size * (size - 1) // 2
 order = ["score", "block"]  # DEFECT
-pairs_after = all_pairs     # DEFECT: scorea el cartesiano
+pairs_after = all_pairs     # DEFECT: puntúa el cartesiano
 print("order", order)
 print("pairs_after_block", pairs_after)
 print("ok", pairs_after < all_pairs)
@@ -1404,15 +1404,15 @@ columnar True`,
         kind: "transfer",
         title: "dtype estrecho por itemsize",
         preamble:
-          "- **Contexto:** el bound de memoria del batch sintético se discute en bytes, no en intuición de «int64 siempre seguro».\n- **Meta:** comparar `itemsize` de `'i'` vs `'q'` y elegir int32 cuando cabe y ahorra.\n- **Éxito:** `dtype int32` / `ok True` / `mem lower`.\n- **Límites:** no fuerces int64 sin comparar; no ignores overflow si el dominio no cabe (aquí el lab asume que sí).",
+          "- **Contexto:** el bound de memoria del batch sintético se discute en bytes, no en intuición de «int64 siempre seguro».\n- **Meta:** comparar `itemsize` de `'i'` vs. `'q'` y elegir int32 cuando cabe y ahorra.\n- **Éxito:** `dtype int32` / `ok True` / `mem lower`.\n- **Límites:** no fuerces int64 sin comparar; no ignores overflow si el dominio no cabe (aquí el lab asume que sí).",
         instruction:
           "1. Starter deja `dtype = \"int64\"` y `mem = \"higher\"`.\n2. Compara `i32` e `i64` con `array.array`.\n3. Elige dtype y mem según `i32 < i64`.\n4. Imprime dtype, `ok` y mem.",
         hint: "Si el rango cabe en int32, ahorras memoria.",
-        hints: ["import array; array.array('i').itemsize vs 'q'.", "Elige int32 cuando itemsize_i es menor."],
+        hints: ["import array; array.array('i').itemsize vs. 'q'.", "Elige int32 cuando itemsize_i es menor."],
         edgeCases: ["overflow si no cabe", "sintético"],
         tests: "Salida alinea con solution output de S37-T3-A-E3; predicado de dominio sobre fixture sintético.",
         feedback:
-          "El dtype se elige midiendo `itemsize` (`'i'` vs `'q'`), no por fe de «int64 siempre seguro». Sin comparar bytes, el default ancho infla el bound del batch sintético aunque el dominio quepa en int32.",
+          "El dtype se elige midiendo `itemsize` (`'i'` vs. `'q'`), no por fe de «int64 siempre seguro». Sin comparar bytes, el default ancho infla el bound del batch sintético aunque el dominio quepa en int32.",
         retrospective:
           "Overflow sigue siendo riesgo si el dominio no cabe: aquí el lab asume que sí y exige evidencia de ahorro. El error clásico es forzar int64 sin medición. Pregunta: si `i32 == i64` en una plataforma rara, ¿qué imprime el lab y por qué `ok` depende de la comparación? En caché (T3-B) el riesgo pasa a ser datos stale, no solo bytes.",
         starterCode: {
@@ -1727,7 +1727,7 @@ n 3`,
         feedback:
           "`speedup` es un ratio, no una diferencia ni el inverso. after/before (0.25) confunde al revisor del PR; `micro_only True` solo si el gain fue cosmético, no cuando ganó blocking o algoritmo.",
         retrospective:
-          "after/before (0.25) confunde al revisor: no es «cuántas veces más rápido». El error clásico es marcar `micro_only True` cuando ganó blocking/algoritmo. Pregunta: con before 80 y after 20, ¿qué ratio debe ver el PR y por qué `micro_only` es False? Luego (E2): claridad vs shave del 2 %.",
+          "after/before (0.25) confunde al revisor: no es «cuántas veces más rápido». El error clásico es marcar `micro_only True` cuando ganó blocking/algoritmo. Pregunta: con before 80 y after 20, ¿qué ratio debe ver el PR y por qué `micro_only` es False? Luego (E2): claridad vs. shave del 2 %.",
         starterCode: {
           language: 'python',
           title: "s37-t4-b-e1.py",
@@ -1763,7 +1763,7 @@ micro_only False`,
         instruction:
           "1. Starter fija `prefer=\"micro_shave\"` y `shave=\"2pct_yes\"`.\n2. Aplica la condición de umbral 0.05 y comparación de gains.\n3. Deriva `shave` del prefer.\n4. Imprime prefer, ok y shave.",
         hint: "Costo total incluye bugs y review.",
-        hints: ["Compara algo_gain vs micro_gain con la regla del umbral 0.05.", "2% opaco suele ser pérdida neta frente a un gain algorítmico medido."],
+        hints: ["Compara algo_gain vs. micro_gain con la regla del umbral 0.05.", "2% opaco suele ser pérdida neta frente a un gain algorítmico medido."],
         edgeCases: ["heroics sin medición", "sintético"],
         tests: "Salida alinea con solution output de S37-T4-B-E2; predicado de dominio sobre fixture sintético.",
         feedback:

@@ -12,73 +12,73 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 301,
-  "total_paragraphs": 226,
-  "total_findings": 23,
+  "total_sentences": 493,
+  "total_paragraphs": 324,
+  "total_findings": 114,
   "severity": {
-    "low": 23
+    "low": 114
   },
-  "mean_quality_score": 10.0,
-  "min_quality_score": 10.0,
-  "mean_fernandez_huerta": 79.1,
+  "mean_quality_score": 9.51,
+  "min_quality_score": 9.51,
+  "mean_fernandez_huerta": 79.9,
   "mean_fh_label": "bastante fácil",
-  "mean_wps": 17.41,
+  "mean_wps": 11.25,
   "languagetool": false,
   "top_rules": [
     [
-      "long_sentence",
-      15
-    ],
-    [
-      "lowercase_after_period",
-      6
+      "fragment",
+      93
     ],
     [
       "comma_density",
-      1
+      12
     ],
     [
-      "possible_plural_det_singular_noun",
-      1
+      "lowercase_after_period",
+      7
+    ],
+    [
+      "long_sentence",
+      2
     ]
   ],
   "improvement_playbook": [
     {
-      "rule": "long_sentence",
-      "count": 15,
-      "cause": "Explicaciones densas sin cortes.",
-      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
-    },
-    {
-      "rule": "lowercase_after_period",
-      "count": 6,
+      "rule": "fragment",
+      "count": 93,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "comma_density",
-      "count": 1,
+      "count": 12,
       "cause": "Subordinación excesiva.",
       "fix": "Listas o frases independientes."
     },
     {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 1,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
+      "rule": "lowercase_after_period",
+      "count": 7,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "long_sentence",
+      "count": 2,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     }
   ],
   "sections_ranked": [
     {
-      "section": 49,
-      "file": "s49-data-contracts.ts",
-      "quality_score_0_10": 10.0,
-      "fernandez_huerta": 79.1,
-      "avg_words_per_sentence": 17.41,
+      "section": 52,
+      "file": "s52-career-strategy.ts",
+      "quality_score_0_10": 9.51,
+      "fernandez_huerta": 79.9,
+      "avg_words_per_sentence": 11.25,
       "findings_by_severity": {
-        "low": 23
+        "low": 114
       },
-      "findings_total": 23
+      "findings_total": 114
     }
   ]
 }

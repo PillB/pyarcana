@@ -12,7 +12,7 @@ export const section47: CourseSection = {
   icon: "Server",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En un equipo de producto en Lima o Arequipa que prioriza atención con un ranker sintético, **MLOps** es el día a día. El ciclo es: registrar el run, comparar el candidato con el baseline en el mismo holdout, promover solo con firma y aprobación, y abrir canary al 5% con rollback listo. La promoción ocurre cuando el candidato supera al baseline con datos fijos y el serving respeta el feature contract. Si el canary rompe el SLO, se revierte sin borrar evidencia.",
+    "En un equipo de producto en Lima o Arequipa que prioriza atención con un ranker sintético (un modelo que ordena casos por prioridad), MLOps (la ingeniería de llevar modelos a producción) es el día a día. El ciclo empieza registrando el run (cada ejecución del experimento). Luego se compara el candidato con el baseline (la versión de referencia) en el mismo holdout (datos no vistos en entrenamiento). Solo con firma y aprobación se promueve, y se abre canary al 5% (despliegue gradual a un porcentaje pequeño del tráfico) con rollback listo. La promoción ocurre cuando el candidato supera al baseline con datos fijos y el serving respeta el feature contract (el acuerdo de qué entradas acepta el modelo). Si el canary rompe el SLO (el objetivo medible de calidad de servicio), se revierte sin borrar evidencia.",
   learningOutcomes: [
     { text: "Registrar un experiment run con params, métricas, seed, artefactos y versión de dataset, y re-ejecutarlo dentro de tolerancia." },
     { text: "Comparar baseline vs. candidato solo cuando data, code, env, split y la definición de métrica coinciden." },
@@ -333,7 +333,7 @@ print("delta", round(abs(run["metric"] - run["rerun"]), 3))`,
 seed 42
 delta 0.005`,
         },
-        why: "`within_tol` modela el contrato de re-ejecución: el delta 0.005 ≤ 0.01 es evidencia, no magia del dashboard. `bool(params)` y `seed is not None` cierran el caso de run vacío o sin ancla aleatoria. Orden: tracking reproducible antes de lineage comparable. En We Do repararás el comparador invertido (`>` vs `≤`), la tabla PASS/MARK/MISSING y decide CONTINUE/MARK/INVESTIGATE.",
+        why: "`within_tol` modela el contrato de re-ejecución: el delta 0.005 ≤ 0.01 es evidencia, no magia del dashboard. `bool(params)` y `seed is not None` cierran el caso de run vacío o sin ancla aleatoria. Orden: tracking reproducible antes de lineage comparable. En We Do repararás el comparador invertido (`>` vs. `≤`), la tabla PASS/MARK/MISSING y decide CONTINUE/MARK/INVESTIGATE.",
         retrospective:
           "Si puedes explicar por qué un F1 alto sin seed o con params vacíos no es promote, ya tienes el hábito de evidencia de run. El error clásico es confiar en un score de una sola corrida. En We Do practicarás el predicado, las tres rutas y la rama de incertidumbre cuando falta `tolerance`.",
       },

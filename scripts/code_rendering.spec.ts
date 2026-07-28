@@ -13,7 +13,7 @@ const SECTION_IDS = [
   'streamlit-dashboards', 'integrator-phase1', 'async-concurrency', 'llm-agents',
   'mlops', 'security-infra', 'streaming-data', 'microservices', 'advanced-models',
   'cv-ai-integration', 'system-design', 'ai-apis-advanced', 'dbt-bigquery',
-  'performance-extreme', 'integrator-phase2', 'agentic-architecture',
+  'performance-extreme', 'integrator-phase2', 'architecture-ddd-decisions',
   'llm-finetuning', 'graph-rag', 'llmops', 'multimodal', 'iac', 'gpu-computing',
   'opensource', 'ai-governance', 'data-contracts', 'tech-leadership',
   'integrator-final', 'career-strategy',

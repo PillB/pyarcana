@@ -18,36 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **301** | Paragraphs: **226**
-- Findings: **23** (high=0, medium=0, low=23)
-- Mean quality score (0–10): **10.0**
-- Mean Fernández-Huerta: **79.1** (bastante fácil)
-- Mean words/sentence: **17.41**
+- Sentences: **493** | Paragraphs: **324**
+- Findings: **114** (high=0, medium=0, low=114)
+- Mean quality score (0–10): **9.51**
+- Mean Fernández-Huerta: **79.9** (bastante fácil)
+- Mean words/sentence: **11.25**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S49 | 10.0 | 79.1 | 17.41 | 0/0/23 | `s49-data-contracts.ts` |
+| S52 | 9.51 | 79.9 | 11.25 | 0/0/114 | `s52-career-strategy.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `long_sentence` (n=15)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `lowercase_after_period` (n=6)
+### `fragment` (n=93)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=1)
+### `comma_density` (n=12)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
 
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
+### `lowercase_after_period` (n=7)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `long_sentence` (n=2)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
 ## How to use
 

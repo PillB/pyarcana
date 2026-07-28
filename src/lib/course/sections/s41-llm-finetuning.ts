@@ -3,8 +3,8 @@ import type { CourseSection } from '../../types'
 export const section41: CourseSection = {
   id: "llm-finetuning",
   index: 41,
-  title: "APIs con FastAPI y contratos HTTP",
-  shortTitle: "APIs FastAPI",
+  title: "API con FastAPI y contratos HTTP",
+  shortTitle: "API FastAPI",
   tagline: "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
   estimatedHours: 20,
   level: "Master",
@@ -12,7 +12,7 @@ export const section41: CourseSection = {
   icon: "Server",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **APIs con FastAPI y contratos HTTP** convierten las fronteras de S40 en endpoints versionados con evidencia operativa: respuestas OpenAPI sin PII (status, evidencia, errores tipados). Gate de promoción CP-N4-A: la misma Idempotency-Key no duplica side effects y la lectura conserva compatibilidad v1. S42 sumará authz, schemas estrictos y privacidad de servicios sobre este control plane.",
+    "En equipos de plataforma y producto, las API con FastAPI y contratos HTTP convierten las fronteras de S40 en endpoints versionados con evidencia operativa: respuestas OpenAPI sin PII (información personal identificable) y con status, evidencia y errores tipados. Gate de promoción CP-N4-A: la misma Idempotency-Key no duplica side effects (cambios observables del sistema, como crear un job) y la lectura conserva compatibilidad v1. S42 sumará autorización, schemas estrictos y privacidad de servicios sobre este control plane (la capa que orquesta y gobierna los servicios).",
   learningOutcomes: [
     { text: "Diseñar recursos versionados (`/v1/jobs`) con métodos y status semánticos (201/200/4xx/5xx)" },
     { text: "Implementar Idempotency-Key, paginación con cursor estable y compatibilidad de lectura" },
@@ -25,7 +25,7 @@ export const section41: CourseSection = {
   ],
   theory: [
     {
-      heading: "Ruta de S41: APIs con FastAPI y contratos HTTP",
+      heading: "Ruta de S41: API con FastAPI y contratos HTTP",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1). **Recurso:** sustantivo versionado (`/v1/jobs`). **Status semántico:** 201 create, 200 read (colección o ítem existente), **422** validación de body (Pydantic/FastAPI), **405** método no permitido en un path que sí existe, **404** ítem ausente (`/v1/jobs/{id}`), 409 conflicto de negocio/idempotencia, 429 rate limit, 5xx servidor. No uses 400 genérico para enmascarar un 422 de esquema. **Idempotency-Key:** la misma clave + el mismo body canónico ⇒ un solo side effect; body distinto ⇒ conflicto, no segundo create. **OpenAPI:** contrato de request/response documentado y fiel al comportamiento. **Dependency injection:** handler delgado; capacidad inyectada (`Depends` en FastAPI). **Compatibilidad de lectura:** clientes v1 siguen leyendo campos estables. **PII en errores:** prohibido — códigos, título y `trace_id` seguros (estilo RFC 9457).",
         "S41 implementa las fronteras de S40 como **contratos HTTP** del control plane: API versionada de jobs sintéticos para una oficina ficticia en Arequipa (`CASO-ARE-041`). Progressive disclosure: primero modelamos el contrato en **stdlib** (dicts y funciones); los recursos enlazan el equivalente en FastAPI/OpenAPI/TestClient sin exigir un cluster real. Sin credenciales, sin red externa y sin PII real.",
@@ -108,7 +108,7 @@ GET /v1/jobs 200`,
       heading: "Idempotencia, paginación y versionado",
       subtopicId: "S41-T1-B",
       paragraphs: [
-        "Con el recurso y el 201 claros, el riesgo operativo es el **reintento del cliente**. La **Idempotency-Key** (header de industria, p. ej. Stripe) liga una clave al **hash canónico del body** y a la respuesta guardada. La misma clave + el mismo body ⇒ **replay** sin segundo side effect. La misma clave + body distinto ⇒ **conflicto** (no silenciar ni crear otro job). El **versionado** (`/v1/...`) congela campos públicos; la **paginación por cursor** (keyset: `next=job-020`) es más estable que offset puro cuando el set cambia entre requests.",
+        "Con el recurso y el 201 claros, el riesgo operativo es el **reintento del cliente**. La **Idempotency-Key** (header de industria, p. ej. Stripe) liga una clave al **hash canónico del body** y a la respuesta guardada. La misma clave + el mismo body ⇒ **replay** sin segundo side effect. La misma clave + un body distinto ⇒ **conflicto** (no silenciar ni crear otro job). El **versionado** (`/v1/...`) congela campos públicos; la **paginación por cursor** (keyset: `next=job-020`) es más estable que offset puro cuando el set cambia entre requests.",
         "Artefacto de este subtema: un store durable de claves donde la primera llamada es `created`, la segunda idéntica es `replay` y `len(store)==1`. Hash mismatch con la misma key no es replay: es conflicto. Criterio: dos POST idénticos no duplican el job; un POST con body distinto bajo la misma key no “repara” en silencio. En listados, preferir **keyset** (`after_id` → `next`) frente a `offset`, que reordena si llegan filas nuevas al inicio.",
         "`CASO-ARE-041-1B`: dos POST con `idem-are-1` y el mismo body dejan un solo job sintético. El lab imprime cursor keyset (`job-001`…`job-004`). En producción el cursor suele ser opaco firmado; aquí usamos ids legibles para ver el mecanismo. Sin PII en headers de log. Luego, en T2, el mismo create se separa en handler delgado + dominio.",
       ],
@@ -381,7 +381,7 @@ trace_ok True`,
     },
   ],
   iDo: {
-    intro: "Te muestro 8 demos de S41 (APIs con FastAPI y contratos HTTP) alineadas a CP-N4-A. Piensa en voz alta conmigo: cada demo **calcula** un contrato en stdlib — no imprime una respuesta mágica. Cubriremos status, idempotencia con keyset, DI, validación 422, boundaries async, timeouts con Problem Details, pirámide de tests y 429 con traza. Luego el lab te pedirá implementar la misma idea.",
+    intro: "Te muestro 8 demos de S41 (API con FastAPI y contratos HTTP) alineadas a CP-N4-A. Piensa en voz alta conmigo: cada demo **calcula** un contrato en stdlib — no imprime una respuesta mágica. Cubriremos status, idempotencia con keyset (paginación por cursor), DI, validación 422, boundaries async, timeouts con Problem Details (RFC 9457), pirámide de tests y 429 con traza. Luego el lab te pedirá implementar la misma idea.",
     steps: [
       {
         demoId: "S41-T1-A-DEMO",
@@ -590,7 +590,7 @@ print(run_with_budget(40, 30, resources), "open", resources)`,
           output: `{'outcome': 'ok'} open []
 {'outcome': 'timeout', 'error': {'type': 'https://api.example/errors/UPSTREAM_TIMEOUT', 'title': 'UPSTREAM_TIMEOUT', 'status': 504, 'trace_id': 'tr-are-041'}} open []`,
         },
-        why: "El budget decide ok vs timeout; el `finally` cierra siempre. El error lleva type/title/status/trace_id estilo RFC 9457, sin PII. En We Do quitarás el 500 con email del starter y medirás cascada client>service>db.",
+        why: "El budget decide ok vs. timeout; el `finally` cierra siempre. El error lleva type/title/status/trace_id estilo RFC 9457, sin PII. En We Do quitarás el 500 con email del starter y medirás cascada client>service>db.",
         retrospective:
           "Cancel + close + payload seguro es el trío de timeout. El error clásico es 500 genérico con PII o cerrar el pool solo si `outcome==ok`. Pregunta: ¿por qué el error lleva `trace_id` y no email? We Do: implementar budget y assess de cascada client>service>db.",
       },
@@ -654,7 +654,7 @@ print(log_fields({"trace_id": "tr-are-041", "job_id": "j1", "email": "a@b.c"}))`
     ],
   },
   weDo: {
-    intro: "S41 · Laboratorio de contratos HTTP (modelo stdlib de FastAPI) para jobs y evidencia: 24 retos locales. **E1 implementa** la función de dominio del subtema (status, idempotencia, DI, 422, boundary, timeout, pirámide, 429) con un DEFECT real en el cuerpo — no solo invertir un booleano. **E2 evalúa** válido, adverso y missing con `assess`. **E3 decide** CONTINUE, token de breach o token de incertidumbre. Los tokens (`RETURN_*`, `THIN_THE_HANDLER`, …) son códigos de lab fail-closed, no enums de producción. Fixtures sintéticos de Arequipa (`CASO-ARE-041-*`).",
+    intro: "S41 · Laboratorio de contratos HTTP (modelo stdlib de FastAPI) para jobs y evidencia: 24 retos locales. E1 implementa la función de dominio del subtema (status, idempotencia, DI, 422, boundary, timeout, pirámide, 429) con un DEFECT real en el cuerpo. No se trata solo de invertir un booleano. E2 evalúa tres registros (válido, adverso y missing) con `assess`. E3 decide CONTINUE, token de breach o token de incertidumbre. Los tokens (`RETURN_*`, `THIN_THE_HANDLER`, …) son códigos de lab fail-closed, no enums de producción. Fixtures sintéticos de Arequipa (`CASO-ARE-041-*`).",
     steps: [
       {
         id: "S41-T1-A-E1",
@@ -2193,7 +2193,7 @@ assert results == ["CONTINUE", "THROTTLE_AND_REDACT", "INSPECT_COMPATIBILITY"]
     ],
   },
   youDo: {
-    title: "APIs con FastAPI y contratos HTTP",
+    title: "API con FastAPI y contratos HTTP",
     context: "API versionada de jobs y evidencia para una oficina ficticia en Arequipa (`CASO-ARE-041`). Entrada: solicitudes HTTP con identidad sintética e Idempotency-Key. Salida: respuestas sin PII con status semánticos, evidencia y errores tipados. El gate se bloquea si un payload inválido, un timeout, un duplicado conflictivo o un límite excedido no produce un error tipado y observable — o si el replay duplica side effects.",
     objectives: [
       "Implementar create + replay + conflicto de Idempotency-Key y GET de status en un lab stdlib (isomorfo a FastAPI).",
@@ -2378,7 +2378,7 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "OpenAPI Specification",
         url: "https://spec.openapis.org/oas/latest.html",
-        note: "Contrato interoperable de APIs",
+        note: "Contrato interoperable de API",
       },
       {
         label: "Pydantic",
@@ -2393,7 +2393,7 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "OWASP API Security Top 10",
         url: "https://owasp.org/www-project-api-security/",
-        note: "Riesgos de APIs y fail-closed",
+        note: "Riesgos de API y fail-closed",
       },
       {
         label: "Python asyncio",

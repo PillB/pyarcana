@@ -3849,8 +3849,8 @@
     },
   ],
 
-  // === Section 40: Arquitectura de Sistemas Agénticos a Escala (agentic-architecture) ===
-  'agentic-architecture': [
+  // === Section 40: Arquitectura de Sistemas Agénticos a Escala (architecture-ddd-decisions) ===
+  'architecture-ddd-decisions': [
     {
       concept: 'diseñar-arquitecturas-multi-ag',
       question: '¿Cuál es el concepto principal de diseñar arquitecturas multi ag?',

@@ -13,7 +13,7 @@ export const section29: CourseSection = {
   icon: "Database",
   accentColor: "bg-gradient-to-br from-sky-500 to-blue-800",
   jobRelevance:
-    "El **almacén de verdad del ER** guarda fuentes, entidades, pares, decisiones y evidencia con historia auditable. En equipos de datos (banca, telecom, retail en Perú y LATAM), un analista o ingeniero que modela PK/FK, temporalidad y consultas de cola de revisión en SQL reduce re-procesos. También reemplaza discusiones sin evidencia por decisiones trazables. La práctica de esta sección usa SQLite de laboratorio (constraints, joins, ACID, migraciones, *repository*) como contrato del motor antes de un almacén corporativo (*warehouse*).",
+    "El almacén de verdad del ER (entity resolution: decidir si dos registros refieren a la misma persona o empresa) guarda fuentes, entidades, pares, decisiones y evidencia con historia auditable. En equipos de datos (banca, telecom, retail en Perú y LATAM), un analista o ingeniero que modela PK/FK (claves primaria y foránea), temporalidad y consultas de cola de revisión en SQL reduce reprocesos. También reemplaza discusiones sin evidencia por decisiones trazables. La práctica de esta sección usa SQLite de laboratorio (constraints, joins, ACID, migraciones y repository) como contrato del motor antes de un almacén corporativo (warehouse).",
   learningOutcomes: [
     {
       text: "Definir PK/FK/CHECK/UNIQUE en SQLite con `PRAGMA foreign_keys=ON` y demostrar violación con IntegrityError",
@@ -46,7 +46,7 @@ export const section29: CourseSection = {
       paragraphs: [
         "Modelas el **almacén ER** del capstone CP-N3-A: `source_records` ↔ `entity_source_links` ↔ `entities` → `candidate_pairs` → `decisions` (append-only) → `evidence`. Sin historia de decisiones no hay auditoría: un UPDATE in-place del label borra el rastro de quién cambió de `review` a `match`. Fixture de lab: **CASO-LIM-029** (`run_id=cpn3a-sql`, correos `@example.pe`, ids `ent-00N`). Solo datos sintéticos; **match ≠ fraude** ni parentesco; fallo cerrado (*fail-closed*) si falta llave o el join multiplica filas sin documentar *fan-out*.",
         "SQLite local es una base real y reproducible para observar constraints, NULL, planes y transacciones. En SQLite las foreign keys están **apagadas por defecto**: cada conexión debe ejecutar `PRAGMA foreign_keys = ON` o el `REFERENCES` es solo documentación. Las diferencias con PostgreSQL/Oracle se declaran cuando importan (p. ej. isolation rica, pooling de servidor).",
-        "Mapa de cardinalidades del almacén (*warehouse*):\n`entities` 1—N `entity_source_links` N—1 `source_records` (una entidad canónica consolida varios registros fuente) · `entities` N—N vía `candidate_pairs` (con `entity_a < entity_b` y UNIQUE del par) · `candidate_pairs` 1—N `decisions` · `decisions` 1—N `evidence`.\nOrden de estudio: **T1 Modelo** (PK/FK/historia) → **T2 Consulta** (CTE/windows/anti-join) → **T3 Transacción** (ACID/upsert) → **T4 Evolución** (índices/migraciones/repo).\nRuta de carga: **núcleo** = teoría + I Do + E1 de cada subtema; **consolidación** = E2; **extensión** = E3 y You Do. Puedes posponer E3 sin romper el puente a S30 si el núcleo y el proyecto mínimo están sólidos.",
+        "Mapa de cardinalidades del almacén:\n`entities` 1—N `entity_source_links` N—1 `source_records` (una entidad canónica consolida varios registros fuente) · `entities` N—N vía `candidate_pairs` (con `entity_a < entity_b` y UNIQUE del par) · `candidate_pairs` 1—N `decisions` · `decisions` 1—N `evidence`.\nOrden de estudio: **T1 Modelo** (PK/FK/historia) → **T2 Consulta** (CTE/windows/anti-join) → **T3 Transacción** (ACID/upsert) → **T4 Evolución** (índices/migraciones/repo).\nRuta de carga: **núcleo** = teoría + I Do + E1 de cada subtema; **consolidación** = E2; **extensión** = E3 y You Do. Puedes posponer E3 sin romper el puente a S30 si el núcleo y el proyecto mínimo están sólidos.",
       ],
       callout: {
         type: "info",
@@ -233,7 +233,7 @@ antijoin True`,
       paragraphs: [
         "**Cardinalidad** de un join define explosión de pares: sin *blocking* el producto cartesiano es inviable. Con n = 10 000 entidades: n² ≈ 100 millones de filas; n(n−1) ≈ 99,99 millones (sin diagonal, ambos sentidos); y C(n,2) ≈ 50 millones con orden canónico `a.id < b.id`. En producción, las cubetas de *blocking* reducen aún más. Estima filas **antes** de correr el join sobre nombres o bloques.",
         "**NULL en SQL no es Python None.** En SQL, `NULL = NULL` es desconocido (no TRUE): usa `IS NULL` / `IS NOT NULL`. `COUNT(*)` cuenta filas; `COUNT(col)` ignora NULL. Un join mal escrito multiplica filas (fan-out) e infla la cola de candidatos; filas con clave NULL no se emparejan entre sí por igualdad.",
-        "**Planes**: `EXPLAIN QUERY PLAN` en SQLite muestra SCAN (recorrido completo) vs SEARCH/INDEX (uso de índice). No adivines “ya tengo índice”: pide el plan, léelo y decide si falta un índice en `block_key`, `pair_id` o `score`. El mini-lab imprime conteos y el número de filas del plan para que el hábito sea observable.",
+        "**Planes**: `EXPLAIN QUERY PLAN` en SQLite muestra SCAN (recorrido completo) vs. SEARCH/INDEX (uso de índice). No adivines “ya tengo índice”: pide el plan, léelo y decide si falta un índice en `block_key`, `pair_id` o `score`. El mini-lab imprime conteos y el número de filas del plan para que el hábito sea observable.",
       ],
       code: {
         language: 'python',
@@ -326,7 +326,7 @@ atomic True`,
       heading: "Upserts, reintentos y recuperación",
       subtopicId: "S29-T3-B",
       paragraphs: [
-        "Un **upsert** (`INSERT … ON CONFLICT DO UPDATE`) actualiza atributos mutables de una entidad (`name`, `updated`) sin cambiar el id estable. Es el patrón correcto para re-ingestar un registro fuente cuando el CRM reenvía el mismo `external_id`; **no** reemplaza el append-only de decisions ni borra labels pasados.",
+        "Un **upsert** (`INSERT … ON CONFLICT DO UPDATE`) actualiza atributos mutables de una entidad (`name`, `updated`) sin cambiar el id estable. Es el patrón correcto para reingestar un registro fuente cuando el CRM reenvía el mismo `external_id`; **no** reemplaza el append-only de decisions ni borra labels pasados.",
         "Reintentos e integridad del par: dos workers no deben crear el mismo par como (e1,e2) y (e2,e1). Combina `CHECK(entity_a < entity_b)`, `UNIQUE(entity_a, entity_b)` y reintento si `IntegrityError` por conflicto. Tras un crash, un job puede volver a `pending` y reaplicarse de forma idempotente. Contención real multi-conexión (`SQLITE_BUSY`, `BEGIN IMMEDIATE`) se profundiza en S38; aquí el lab es de una sola conexión.",
         "El mini-lab hace upsert de `Ana` → `Ana López` y deja `updated=2`. Las decisiones del par no se tocan aquí a propósito: son otra tabla, otra política. Si necesitas “corregir” un label, insertas una decisión nueva (T1-B), no sobrescribes la fila del upsert de entidad.",
       ],
@@ -476,7 +476,7 @@ test_db :memory:`,
   ],
   iDo: {
     intro:
-      "Observa ocho demos del almacén ER en SQLite `:memory:`. Cada una imprime el resultado que el código realmente calcula: claves con FK y CHECK; historia append-only; CTE + anti-join de cola; COUNT y cardinalidad; ROLLBACK atómico; upsert de entidad; migration + índice con plan; y `Repo.pending()`. Antes de copiar, predice la salida; después, contrasta con la mostrada y pregunta qué fallaría sin el constraint o el PRAGMA. Luego pasa a We Do.",
+      "Observa ocho demos del almacén ER en SQLite `:memory:`. Cada una imprime el resultado que el código realmente calcula. En modelo y consulta verás claves con FK y CHECK, historia append-only, CTE con anti-join de cola y COUNT con cardinalidad. En transacción y evolución verás ROLLBACK atómico, upsert de entidad, migration con índice y plan, y `Repo.pending()`. Antes de copiar, predice la salida; después, contrasta con la mostrada y pregunta qué fallaría sin el constraint o el PRAGMA. Luego pasa a We Do.",
     steps: [
       {
         demoId: "S29-T1-A-DEMO",
@@ -678,7 +678,7 @@ acid True`,
         },
         why: "Atomicidad decisión+evidencia: si falla el segundo write, no queda basura en la primera tabla. El lab enfoca atomicidad en una conexión; isolation multi-conexión se retoma en S38. En We Do practicarás ROLLBACK simple, ambos counts en 0 y la política `evidence_ok`.",
         retrospective:
-          "ROLLBACK es la red de seguridad: todo o nada en decisión+evidencia. El error clásico es commitear la decisión “y la evidencia después” — basura de auditoría. Pregunta: si el raise ocurre *después* del insert de evidence, ¿qué counts quedarían sin ROLLBACK? We Do: rollback simple, atomicidad y abort por flag.",
+          "ROLLBACK es la red de seguridad: todo o nada en decisión+evidencia. El error clásico es confirmar con `COMMIT` la decisión “y la evidencia después” — basura de auditoría. Pregunta: si el raise ocurre *después* del insert de evidence, ¿qué counts quedarían sin ROLLBACK? We Do: rollback simple, atomicidad y abort por flag.",
       },
       {
         demoId: "S29-T3-B-DEMO",
@@ -687,7 +687,7 @@ acid True`,
         description:
           "Upsert actualiza name de entidad e1 a 'Ana L' y lo imprime.",
         preamble:
-          "Re-ingerir el mismo `external_id` del CRM no debe crear otra entidad ni borrar labels pasados. En esta demo un upsert actualiza el `name` de `e1` a `Ana L` y lo imprime. No escribas: predice el name final y el flag `upsert`; luego contrasta. Observa que no hay tabla de decisions en el demo: a propósito, para no confundir políticas.",
+          "Reingerir el mismo `external_id` del CRM no debe crear otra entidad ni borrar labels pasados. En esta demo un upsert actualiza el `name` de `e1` a `Ana L` y lo imprime. No escribas: predice el name final y el flag `upsert`; luego contrasta. Observa que no hay tabla de decisions en el demo: a propósito, para no confundir políticas.",
         code: {
           language: 'python',
           title: "upsert_demo.py",
@@ -1093,7 +1093,7 @@ print({'source': row[0], 'record': row[1]})
         feedback:
           "`valid_to IS NULL` marca la ventana abierta. `= NULL` no devuelve filas: es el mismo error conceptual que en la teoría de T2-B.",
         retrospective:
-          "Una ventana vigente se filtra con `IS NULL`, no con igualdad. El error clásico es copiar `= null` desde un print de Python. Pregunta: ¿qué imprime `COUNT(*)` vs `COUNT(valid_to)` sobre este fixture?",
+          "Una ventana vigente se filtra con `IS NULL`, no con igualdad. El error clásico es copiar `= null` desde un print de Python. Pregunta: ¿qué imprime `COUNT(*)` vs. `COUNT(valid_to)` sobre este fixture?",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1364,7 +1364,7 @@ print([r[0] for r in c.execute(q)])
         feedback:
           "Self-join con `a.id < b.id` da C(5,2)=10 pares no ordenados. Sin el filtro, n×n=25 incluye diagonales y dobles sentidos — inviable en ER.",
         retrospective:
-          "`a.id < b.id` da C(5,2)=10: sin diagonal ni doble sentido. Sin el filtro, 25 incluye basura de pares. Siguiente (E2): `= NULL` vs `IS NULL`.",
+          "`a.id < b.id` da C(5,2)=10: sin diagonal ni doble sentido. Sin el filtro, 25 incluye basura de pares. Siguiente (E2): `= NULL` vs. `IS NULL`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1399,12 +1399,12 @@ print(n)
         id: "S29-T2-B-E2",
         subtopicId: "S29-T2-B",
         kind: "independent",
-        title: "NULL en SQL: = NULL vs IS NULL",
+        title: "NULL en SQL: = NULL vs. IS NULL",
         preamble:
-          "- **Contexto:** filtrar filas abiertas o claves nulas en el almacén exige el predicado SQL correcto, no la intuición de Python.\n- **Meta:** comparar `WHERE x = NULL` vs `WHERE x IS NULL` sobre una fila NULL.\n- **Éxito:** `0 1` (eq e isn separados por espacio).\n- **Límites:** no uses `None is None` de Python para razonar; no “arregles” el NULL con COALESCE aquí.",
+          "- **Contexto:** filtrar filas abiertas o claves nulas en el almacén exige el predicado SQL correcto, no la intuición de Python.\n- **Meta:** comparar `WHERE x = NULL` vs. `WHERE x IS NULL` sobre una fila NULL.\n- **Éxito:** `0 1` (eq e isn separados por espacio).\n- **Límites:** no uses `None is None` de Python para razonar; no “arregles” el NULL con COALESCE aquí.",
         instruction:
           "1. Revisa el starter: el segundo predicado también usa `= null`.\n2. Cambia el segundo a `x is null`.\n3. Imprime `eq` e `isn` en una línea.\n4. No alteres el insert NULL.",
-        hint: "IS NULL vs = NULL",
+        hint: "IS NULL vs. = NULL",
         hints: [
           "eq = ... where x = null → 0",
           "isn = ... where x is null → 1",
@@ -1467,7 +1467,7 @@ print(eq, isn)
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# CASO-LIM-029 · plan SCAN vs INDEX
+          code: `# CASO-LIM-029 · plan SCAN vs. INDEX
 # DEFECT: ignora el plan y asume INDEX
 import sqlite3
 c = sqlite3.connect(':memory:')
@@ -1731,7 +1731,7 @@ print(c.execute("select name from e where id='1'").fetchone()[0])
           "update jobs set status='pending' where id='er_block'",
           "print del SELECT status",
         ],
-        edgeCases: ["reintento idempotente: pending se puede re-procesar"],
+        edgeCases: ["reintento idempotente: pending se puede reprocesar"],
         tests: "salida coincide con solution output",
         feedback:
           "Tras un crash, el job vuelve a `pending` con UPDATE y se relee. Así el reintento es idempotente sin duplicar lógica de matching.",

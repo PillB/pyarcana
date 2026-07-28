@@ -13,7 +13,7 @@ export const section27: CourseSection = {
   icon: "FlaskConical",
   accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",
   jobRelevance:
-    "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de **entity resolution** solo es confiable si normalización y matching son **contratos ejecutables** con pytest — no scripts que “pasaron una vez en mi laptop”. En esta sección inicias **CP-N3-A**. Priorizas pruebas por riesgo y capa (unit/contract/integration), escribes tests AAA con oráculos fijos y aíslas datos con fixtures. Cubres bordes (excepciones, floats, fechas, tmp) y demuestras con mutación conceptual que la suite realmente protege el contrato. Matching solo responde “¿misma entidad sintética?”; **nunca** etiqueta fraude ni parentesco.",
+    "En equipos de data engineering y compliance en Perú (bancos, fintech, retail con padrones de clientes), un motor de entity resolution (resolución de entidades: decidir si dos registros son la misma persona o empresa) solo es confiable si normalización y matching son contratos ejecutables con pytest — no scripts que “pasaron una vez en mi laptop”. En esta sección inicias CP-N3-A (capstone del Nivel 3, pista A). Priorizas pruebas por riesgo y capa (unit/contract/integration), escribes tests AAA con oráculos fijos y aíslas datos con fixtures. Cubres bordes (excepciones, floats, fechas, tmp) y demuestras con mutación conceptual que la suite realmente protege el contrato. Matching solo responde “¿misma entidad sintética?”; nunca etiqueta fraude ni parentesco.",
   learningOutcomes: [
     { text: "Priorizar suites con score de riesgo (impacto × probabilidad) y la pirámide unit → integration → E2E" },
     { text: "Escribir tests AAA con oráculos deterministas para normalize_name y exact_match" },
@@ -28,7 +28,7 @@ export const section27: CourseSection = {
     {
       heading: "Estrategia pytest e inicio CP-N3-A",
       paragraphs: [
-        "En S26 orquestaste el VP con evidencia por estado (RPA + analista HITL). Ese pipeline **asume** que `normalize_name` y el matching se comportan igual mañana que hoy. Si alguien “arregla” un `strip` o un umbral sin red de seguridad, el clerical queue hereda basura con confianza falsa. Aquí **inicias CP-N3-A**: conviertes esos supuestos en **contratos de prueba** con pytest, para que un refactor o un typo no rompa en silencio lo que ya automatizaste.",
+        "En S26 orquestaste el VP (pipeline de verificación) con evidencia por estado: RPA (automatización robótica de procesos) más un analista HITL (humano en el bucle, *human-in-the-loop*). Ese pipeline **asume** que `normalize_name` y el matching se comportan igual mañana que hoy. Si alguien “arregla” un `strip` o un umbral sin red de seguridad, el clerical queue hereda basura con confianza falsa. Aquí **inicias CP-N3-A**: conviertes esos supuestos en **contratos de prueba** con pytest, para que un refactor o un typo no rompa en silencio lo que ya automatizaste.",
         "Trabajamos un módulo sintético sobre contactos del **Caso 27** (run_id=`cpn3a-01`, correos `@example.pe`): sin PII real y **sin** auto-veredicto de fraude o parentesco. Cada bug reproducido debe dejar un test de regresión con oráculo fijo. Matching solo responde: ¿son la misma entidad sintética tras normalizar? El resto del curso (S28+) ampliará dobles e integración; hoy sellas la base unitaria.",
         "Orden de aprendizaje: **T1 Diseño** (pirámide, riesgo, AAA y oráculos) → **T2 Pytest** (discovery, asserts, fixtures y scopes) → **T3 Bordes** (excepciones, floats, fechas, tmp, negativos) → **T4 Cobertura** (ramas de negocio y mutación conceptual). Dual-track honesto: en tu máquina `python -m pytest -q`; en este entorno del curso ejecutamos el **mismo contrato** como módulo con `assert` + `print` cuando no invocas el CLI. No hay teatro de “pytest sin pytest”: verás formas `test_*` reales aunque el runner del curso no sea el CLI.",
       ],
@@ -413,7 +413,7 @@ maintain one_oracle`,
         environment: "local-python",
         description: "Prioriza suites unit/integration por score de riesgo para el motor ER sintético.",
         preamble:
-          "Antes de escribir un solo `assert` del motor ER sintético, el equipo decide *dónde* gastar minutos de prueba. En esta demo se calcula score = impacto × probabilidad y se ordenan tres áreas: normalización, blocking y repo SQL. No escribas aún: predice el orden impreso y la capa del tope (`unit` vs `integration`). Si inviertes la pirámide con solo E2E de la cola de revisión, el `strip` roto llegará al clerical queue con confianza falsa — la UI ni siquiera aparece aquí porque su score pierde.",
+          "Antes de escribir un solo `assert` del motor ER sintético, el equipo decide *dónde* gastar minutos de prueba. En esta demo se calcula score = impacto × probabilidad y se ordenan tres áreas: normalización, blocking y repo SQL. No escribas aún: predice el orden impreso y la capa del tope (`unit` vs. `integration`). Si inviertes la pirámide con solo E2E de la cola de revisión, el `strip` roto llegará al clerical queue con confianza falsa — la UI ni siquiera aparece aquí porque su score pierde.",
         code: {
           language: 'python',
           title: "risk_rank_demo.py",
@@ -474,7 +474,7 @@ aaa pass`,
         environment: "local-python",
         description: "Suite mínima estilo pytest: dos test_* con asserts de normalización y matching.",
         preamble:
-          "pytest descubre funciones `test_*` (y clases `Test*`) en archivos `test_*.py`. En esta demo hay dos contratos ejecutados a mano con la misma forma que el runner real: normalización y dominio sintético `@example.pe`. Observa los `node_ids` impresos: son los nombres con los que re-correrías solo el fallido. No escribas; predice qué pasa si renombras a `helper_exact` sin el prefijo.",
+          "pytest descubre funciones `test_*` (y clases `Test*`) en archivos `test_*.py`. En esta demo hay dos contratos ejecutados a mano con la misma forma que el runner real: normalización y dominio sintético `@example.pe`. Observa los `node_ids` impresos: son los nombres con los que volverías a correr solo el fallido. No escribas; predice qué pasa si renombras a `helper_exact` sin el prefijo.",
         code: {
           language: 'python',
           title: "discovery_demo.py",
@@ -501,7 +501,7 @@ n_tests 2`,
         why:
           "Nombres estables = re-run puntual en CI a las 2 a. m. El lab ejecuta assert+print cuando no hay CLI, pero la forma `test_*` es la real; helpers no son casos ni node ids. En We Do filtrarás discovery, distinguirás ok/fail y aplicarás oráculos fila a fila estilo parametrize.",
         retrospective:
-          "Naming `test_*` es el contrato de discovery: sin prefijo, el runner real no lo corre y a las 2 a. m. no hay node id que re-lanzar. El error clásico es meter lógica de prueba en helpers que “parecen” tests. Pregunta: ¿cuántos casos reales hay si renombras ambos a `check_*`? We Do: filtrar la lista, distinguir ok/fail y aplicar oráculos fila a fila.",
+          "Naming `test_*` es el contrato de discovery: sin prefijo, el runner real no lo corre y a las 2 a. m. no hay node id que relanzar. El error clásico es meter lógica de prueba en helpers que “parecen” tests. Pregunta: ¿cuántos casos reales hay si renombras ambos a `check_*`? We Do: filtrar la lista, distinguir ok/fail y aplicar oráculos fila a fila.",
       },
       {
         demoId: "S27-T2-B-DEMO",
@@ -540,7 +540,7 @@ scope function`,
         environment: "local-python",
         description: "Excepción ValueError, isclose de score, reloj inyectado y escritura en directorio temporal.",
         preamble:
-          "Los tests de matching se rompen en producción por bordes, no por el happy path. Esta demo empaqueta cuatro: excepción tipada con mensaje, `isclose` para scores IEEE, edad con reloj *inyectado* (no `date.today()`), y lectura en directorio temporal. No escribas: anota mentalmente qué fallaría si usaras `==` en floats o el reloj real del sistema en Lima vs UTC del runner.",
+          "Los tests de matching se rompen en producción por bordes, no por el happy path. Esta demo empaqueta cuatro: excepción tipada con mensaje, `isclose` para scores IEEE, edad con reloj *inyectado* (no `date.today()`), y lectura en directorio temporal. No escribas: anota mentalmente qué fallaría si usaras `==` en floats o el reloj real del sistema en Lima vs. UTC del runner.",
         code: {
           language: 'python',
           title: "borders_demo.py",
@@ -608,7 +608,7 @@ n 4`,
         why:
           "Mensajes con valor sintético aceleran el fix; sin PII real ni tokens. La tabla input→excepción→fragmento es el diseño del contrato de entrada. En We Do imprimirás el mensaje (no solo el tipo), validarás la arroba y armarás f-strings con campo y valor ofensivo.",
         retrospective:
-          "Negativos controlados son parte del contrato público del validador. El error clásico es confiar en el happy path o filtrar PII real en el assert. We Do: mensaje vs tipo, gate de `@`, mensaje con campo nombrado.",
+          "Negativos controlados son parte del contrato público del validador. El error clásico es confiar en el happy path o filtrar PII real en el assert. We Do: mensaje vs. tipo, gate de `@`, mensaje con campo nombrado.",
       },
       {
         demoId: "S27-T4-A-DEMO",
@@ -865,7 +865,7 @@ print('pass')`,
         kind: "transfer",
         title: "Matching exacto tras normalizar ambos",
         preamble:
-          "- **Contexto:** el motor ER pregunta solo si dos cadenas sintéticas son la misma entidad tras el contrato de normalización — no si hay fraude ni parentesco.\n- **Meta:** normalizar `a` y `b` (`casefold` + colapsar espacios) y comparar.\n- **Éxito:** `True` para `'X Y'` vs `'x  y'`.\n- **Límites:** no compares crudo; no etiquetes fraude; datos sintéticos.",
+          "- **Contexto:** el motor ER pregunta solo si dos cadenas sintéticas son la misma entidad tras el contrato de normalización — no si hay fraude ni parentesco.\n- **Meta:** normalizar `a` y `b` (`casefold` + colapsar espacios) y comparar.\n- **Éxito:** `True` para `'X Y'` vs. `'x  y'`.\n- **Límites:** no compares crudo; no etiquetes fraude; datos sintéticos.",
         instruction:
           "1. El starter hace `a == b` crudo (False).\n2. Aplica el mismo normalize a ambos lados.\n3. Imprime el booleano de igualdad.\n4. No cambies los strings de prueba.",
         hint: "normaliza ambos y compara",
@@ -1255,7 +1255,7 @@ print(Path(path).read_text(encoding='utf-8').strip())`,
         kind: "guided",
         title: "Imprime el mensaje, no el tipo",
         preamble:
-          "- **Contexto:** el caso negativo de email vacío debe dejar un mensaje legible en el log de CI.\n- **Meta:** lanzar `ValueError('email vacío')`, capturarlo e imprimir el **texto** del contrato.\n- **Éxito:** la línea `email vacío`.\n- **Límites:** no imprimas `type(e).__name__`; no uses PII real; None vs vacío es otro caso (edge).",
+          "- **Contexto:** el caso negativo de email vacío debe dejar un mensaje legible en el log de CI.\n- **Meta:** lanzar `ValueError('email vacío')`, capturarlo e imprimir el **texto** del contrato.\n- **Éxito:** la línea `email vacío`.\n- **Límites:** no imprimas `type(e).__name__`; no uses PII real; None vs. vacío es otro caso (edge).",
         instruction:
           "1. El starter imprime `type(e).__name__` → `ValueError`.\n2. Cambia a `print(e)` o `print(str(e))`.\n3. Mantén el raise con el mensaje dado.\n4. No borres el try/except.",
         hint: "print(e) o print(str(e))",

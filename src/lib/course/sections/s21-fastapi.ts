@@ -100,7 +100,7 @@ s21_th_2()`,
  },
  callout: {
  type: "warning",
- title: "Cero vs missing",
+ title: "Cero vs. missing",
  content:
  "Imprimir 0.00 cuando no hay datos es un error de reporting grave: distorsiona totales y engaña al comité.",
  },
@@ -111,7 +111,7 @@ s21_th_2()`,
  paragraphs: [
  "T1 te dio un context limpio; T2 lo materializa en **artefactos de disco**. Un **DOCX** trazable tiene secciones fijas (portada, resumen, método, hallazgos, anexos) y estilos reales (Heading 1/2), no solo negrita visual. El `.docx` es un ZIP de XML: la auditoría verifica firma ZIP (`PK`), headings extraídos y tamaño. “Se veía bien en Word del autor” no es evidencia auditable ante un revisor que no tiene tu sesión abierta.",
  "Contrato: crear `informe.docx` con título, heading Resumen, párrafo `n=40`; **guardar, reabrir**, demostrar extracción de texto/estilos. En producción muchos equipos usan plantillas con Jinja dentro del DOCX (`docxtpl`); aquí aprendes el contrato con `python-docx` imperativo — los mismos principios de paridad y estilos aplican a ambos enfoques. El factory no “exporta una vez y reza”: reabre y prueba.",
- "Caso sintético CASO-LIM-021: headings contados al reabrir (p. ej. Resumen como Heading 1). El mismo `n=40` debe aparecer en resumen y en el data note — paridad con S18/S20. Si el outline no está congelado, cada revisor reescribe la estructura y se rompe la reconciliación del paquete CP-N2-B.",
+ "Caso sintético CASO-LIM-021: headings contados al reabrir (p. ej. Resumen como Heading 1). El mismo `n=40` debe aparecer en resumen y en el data note — paridad con S18/S20. Si el outline (esquema jerárquico de secciones) no está congelado, cada revisor reescribe la estructura y se rompe la reconciliación del paquete CP-N2-B.",
  ],
  code: {
  language: 'python',
@@ -149,7 +149,7 @@ True True`,
  paragraphs: [
  "Un **PDF digital** tiene texto seleccionable (pypdf extrae); un **PDF escaneado** es imagen y puede requerir OCR con tasa de error. Si la extracción queda vacía, el contrato devuelve `needs_ocr` — **no inventa texto**. El render a PNG (PyMuPDF) prueba legibilidad visual; la extracción prueba la capa digital. Ninguna sustituye la reconciliación tabular.",
  "Contrato: generar PDF local con `n=40`, extraer texto, firmar PDF (`%PDF`); render primera página a PNG y verificar existencia de ambos artefactos. El hash del PDF entra al provenance del paquete.",
- "Caso: PDF imagen-only con texto dibujado en un PNG sintético → pypdf no recupera capa de texto → `needs_ocr`. El paquete documenta el modo (digital vs OCR pendiente); no finge un PDF nativo. Más adelante (S24) profundizarás OCR; aquí aprendes a **abstenerte con honestidad**.",
+ "Caso: PDF imagen-only con texto dibujado en un PNG sintético → pypdf no recupera capa de texto → `needs_ocr`. El paquete documenta el modo (digital vs. OCR pendiente); no finge un PDF nativo. Más adelante (S24) profundizarás OCR; aquí aprendes a **abstenerte con honestidad**.",
  ],
  code: {
  language: 'python',
@@ -217,9 +217,9 @@ Tabla1`,
  heading: "Gráficos, tablas, fuentes y limitaciones",
  subtopicId: "S21-T3-B",
  paragraphs: [
- "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con **caption alineado** en fuente, corte y n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcilia checksum de métricas clave entre artefactos: si el PNG dice mediana 28 y el DOCX dice 30, el control de consistencia falla.",
+ "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con **caption alineado** en fuente, corte y n. Lista limitaciones al final de hallazgos, no escondidas solo en anexo. Reconcilia el checksum (suma de verificación) de métricas clave entre artefactos: si el PNG dice mediana 28 y el DOCX dice 30, el control de consistencia falla.",
  "Contrato: caption dict + pie con campo Fuente visible; unidades PEN a 1 decimal en todo el paquete. Tres artefactos (png, xlsx, docx) comparten `run_id` y `n=40`. El memo de limitaciones repite cobertura (p. ej. web-only) donde el lector la vea.",
- "Caso sintético: bundle con `metrics`, `limits` y caption `Fig.1 … | Fuente: sintético | n_Lima=40`. Paridad `dash == xlsx == doc` es el corazón del cierre CP-N2-B: un solo número, tres superficies.",
+ "Caso sintético: bundle (paquete) con `metrics`, `limits` y caption `Fig.1 … | Fuente: sintético | n_Lima=40`. Paridad `dash == xlsx == doc` es el corazón del cierre CP-N2-B: un solo número, tres superficies.",
  ],
  code: {
  language: 'python',
@@ -446,7 +446,7 @@ True`,
  environment: "local-python",
  description: "Estructurar informe en resumen, método y hallazgos con ids",
  preamble:
- "Con DOCX/PDF reales, falta la **voz ejecutiva** sin contaminar el método con opinión. Esta demo empaqueta resumen con n=40, método (fuente y filtros) y un hallazgo H1 que apunta a Tabla1 con `decision=None`. Observa que el claim “Lima > Cusco” no trae recomendación de precios. No escribas aún; predice las tres líneas de salida. Sin id de evidencia, el párrafo es eslogan, no paquete de aprobación.",
+ "Con DOCX/PDF reales, falta la **voz ejecutiva** sin contaminar el método con opinión. Esta demo empaqueta resumen con n=40, método (fuente y filtros) y un hallazgo H1 que apunta a Tabla1 con `decision=None`. Observa que el claim (afirmación) “Lima > Cusco” no trae recomendación de precios. No escribas aún; predice las tres líneas de salida. Sin id de evidencia, el párrafo es eslogan, no paquete de aprobación.",
  code: {
  language: 'python',
  title: "demo_exec.py",
@@ -622,7 +622,7 @@ print(Template("CASO-LIM-021 · {{ region }} (n={{ n }})").render(region="Lima",
  "Dos variables en el mismo Template.",
  "Incluye la unidad PEN y el prefijo n=.",
  ],
- edgeCases: ["tipos str vs int"],
+ edgeCases: ["tipos str vs. int"],
  tests: "el print es 28 PEN (n=40)",
  feedback:
  "Si falta «(n=40)», la plantilla no declara `{{ n }}` o no lo pasas en render. Sin n el comité no reconcilia el KPI del DOCX con el Excel de S20.",
@@ -661,9 +661,9 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
  edgeCases: ["key error"],
  tests: "el print es Cusco: 22.5 PEN (n=18)",
  feedback:
- "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. n=18 es otra muestra (Cusco), no un desfase del paquete Lima n=40.",
+ "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. El n=18 es otra muestra (Cusco), no un desfase del paquete Lima n=40.",
  retrospective:
- "Centralizar el template evita que cada autor invente su string de KPI. n=18 es **otro context** (Cusco), no un bug de paridad del paquete Lima n=40. Pregunta: si hardcodeas “Cusco” fuera del dict, ¿qué pasa al reutilizar la función en Lima? Puente a T1-B: cuando el valor falta, no inventes 0 — usa em-dash.",
+ "Centralizar el template evita que cada autor invente su string de KPI. Ese n=18 es **otro context** (Cusco), no un bug de paridad del paquete Lima n=40. Pregunta: si hardcodeas “Cusco” fuera del dict, ¿qué pasa al reutilizar la función en Lima? Puente a T1-B: cuando el valor falta, no inventes 0 — usa em-dash.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -1275,7 +1275,7 @@ print(sorted(pack_report(["a"], {}, []).keys()))`,
  "Ambos dicts deben llevar median_Lima=28.0.",
  "La lista limits debe incluir el string exacto \"solo web\".",
  ],
- edgeCases: ["float vs int", "limits vacía"],
+ edgeCases: ["float vs. int", "limits vacía"],
  tests: "print True True (paridad y limitación presentes)",
  feedback:
  "Si el primer booleano es False, `doc[\"median_Lima\"]` sigue en 27.0 (redondeo a mano). Si el segundo falla, `limits` no incluye el string exacto `\"solo web\"`: el lector no ve la cobertura.",

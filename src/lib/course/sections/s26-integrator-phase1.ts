@@ -12,7 +12,7 @@ export const section26: CourseSection = {
   icon: "Award",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Cierras **CP-N2-C** orquestando el Value Proposition **RPA + AI Analyst**: Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo. En un escritorio de operaciones (p. ej. Lima) demuestras evidencia por estado, recuperación ante fallas, regresión N2 reproducible y costo acotado. Sin auto-fraude ni envío sin approve registrado en audit.",
+    "Cierras CP-N2-C orquestando el Value Proposition RPA + AI Analyst: Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo. En un escritorio de operaciones (p. ej. Lima) demuestras evidencia por estado, recuperación ante fallas, regresión N2 reproducible y costo acotado. Sin autofraude ni envío sin approve registrado en audit.",
   learningOutcomes: [
     { text: "Modelar tasks/flows/DAG con estados" },
     { text: "Configurar límites, metadata y schedules" },
@@ -28,7 +28,7 @@ export const section26: CourseSection = {
       heading: "Cierre CP-N2-C: orquestación del VP y regresión N2",
       paragraphs: [
         "S25 te dejó **ai_assist** evaluado: la IA propone, el humano cierra. S26 cierra el **Value Proposition RPA + AI Analyst** de CP-N2-C. Orquesta el pipeline sintético Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo, con evidencia por estado y recuperación ante fallas. En un escritorio de operaciones en Lima, el `run_id` une logs, artefactos y la cola HITL sin reescribir historial.",
-        "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicados de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit. **CF-2** fija las interfaces entre Familiarity, reporting y automatización que la regresión N2 debe revalidar.",
+        "La regresión N2 (S14–S26 + CF-2) exige contratos estables entre análisis, reporting y automatización: mismos fixtures sintéticos, mismos predicados de éxito, y cero etiquetas automáticas de fraude. Matching o score de IA solo alimentan revisión humana; el correo no se envía sin aprobación explícita registrada en audit. **CF-2** (contrato cruzado de interfaces entre capstones) fija las interfaces entre Familiarity (producto de la Fase 0), reporting y automatización que la regresión N2 debe revalidar.",
         "Orden pedagógico: **T1 Orquestación** (DAG/estados/límites) → **T2 Resiliencia** (checkpoint, retry, DLQ, idempotencia, rollback) → **T3 HITL** (colas, approve/reject/edit) → **T4 Operación/E2E** (SLO, runbook, costo/valor). Cada bloque asume el anterior: sin path no hay checkpoint; sin HITL no hay draft; sin E2E no hay promoción.",
         "Diccionario rápido de la sección para que leas el resto sin tropezar con siglas:",
         "- **DAG**: grafo de dependencias sin ciclos.",
@@ -342,7 +342,7 @@ runbook_step disable_schedule → drain queue → page oncall`,
     evidence["audit_events"] = 3
     evidence["cost_tokens"] = 1200
     evidence["value_minutes_saved_est"] = 45
-    evidence["fraud_labels"] = 0  # debe ser 0: no auto-fraude
+    evidence["fraud_labels"] = 0  # debe ser 0: no autofraude
     evidence["n2_regression"] = "pass"  # re-run real, no "planned"
     return evidence
 
@@ -667,7 +667,7 @@ ok True`,
     ],
   },
   weDo: {
-    intro: "24 ejercicios de DAG, limits, checkpoint/DLQ, rollback, colas HITL, audit, SLO y E2E/regresión. Cada starter trae un **DEFECT** (fallo intencional) marcado en un comentario: tu trabajo es corregirlo hasta igualar el output de la solución. En T1-A pasas de derivar un path parcial desde edges a armar aristas con zip y, al final, a agregar el estado global del flow: tres escalas del mismo contrato de orquestación.",
+    intro: "24 ejercicios de DAG, limits, checkpoint/DLQ, rollback, colas HITL, audit, SLO y E2E/regresión. Cada starter trae un **DEFECT** (fallo intencional) marcado en un comentario: tu trabajo es corregirlo hasta igualar el output de la solución. En T1-A pasas de derivar un path parcial desde edges a armar aristas con zip y, al final, a agregar el estado global del flow. Son tres escalas del mismo contrato de orquestación.",
     steps: [
       {
         id: "S26-T1-A-E1",
@@ -1554,12 +1554,12 @@ print(ok)`,
           "El DEFECT invierte o ignora approved.",
           "Matching/score nunca justifican labels automáticos.",
         ],
-        edgeCases: ["no auto-fraude", "success sin approve"],
+        edgeCases: ["no autofraude", "success sin approve"],
         tests: "ok solo con fraud_labels=0 y approved True",
         feedback:
           "`fraud_labels=0` sin approve no cierra el E2E: ambas condiciones son obligatorias e independientes. Matching/score nunca justifican labels automáticos ni «ok» si el humano no firmó.",
         retrospective:
-          "Cero auto-fraude y approve humano son independientes y ambos obligatorios. El error clásico es «labels en 0 ya basta». Luego (E3) el paquete de defensa con value y CF-2.",
+          "Cero autofraude y approve humano son independientes y ambos obligatorios. El error clásico es «labels en 0 ya basta». Luego (E3) el paquete de defensa con value y CF-2.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1726,7 +1726,7 @@ print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_sa
       { criterion: "Notas de regresión N2 y CF-2 con: lista de tests re-ejecutados, resultado, e interfaces CF-2 verificadas", weight: "bonus checklist" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante del gate demuestras con print o test (approve en audit, triple cola en 0, o blocked sin approve)? (2) ¿qué harías distinto con datos reales vs sintéticos (PII, secretos, cero envíos reales)? (3) En el README, una frase de impacto medible (p. ej. minutos estimados o regresión N2 pass) que puedas defender en 30 segundos sin abrir el código. Si no puedes explicar por qué `fraud_labels` debe quedar en 0, el cierre CP-N2-C aún no está listo.",
+      "Antes de marcar listo: (1) ¿qué invariante del gate demuestras con print o test (approve en audit, triple cola en 0, o blocked sin approve)? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, secretos, cero envíos reales)? (3) En el README, una frase de impacto medible (p. ej. minutos estimados o regresión N2 pass) que puedas defender en 30 segundos sin abrir el código. Si no puedes explicar por qué `fraud_labels` debe quedar en 0, el cierre CP-N2-C aún no está listo.",
   },
   selfCheck: {
     questions: [

@@ -12,7 +12,7 @@ export const section33: CourseSection = {
   icon: "LineChart",
   accentColor: "bg-gradient-to-br from-purple-500 to-indigo-800",
   jobRelevance:
-    "En banca, fintech y ops de riesgo en LatAm (p. ej. mesas de revisión de alertas en Lima o Arequipa), un workbench serio **no reemplaza** reglas claras por un modelo opaco sin baseline. Primero se documenta un **baseline** (dummy majority o regla simple) y los costos de FP/FN de cola; solo entonces se prueba si un modelo supervisado mejora la **prioridad de revisión**. Si el modelo no gana al dummy, el experimento se **loguea igual** y no se promociona complejidad inútil. Predicción de cola ≠ etiqueta de fraude ni de parentesco. Capstone de referencia: workbench CP-N3-B con datos sintéticos.",
+    "En banca, fintech y ops de riesgo en LatAm (p. ej. mesas de revisión de alertas en Lima o Arequipa), un workbench serio —la mesa de trabajo del analista— no reemplaza reglas claras por un modelo opaco sin un baseline, es decir, una línea base determinista que todo modelo debe superar. Primero se documenta ese baseline (dummy majority, «siempre predecir la clase más frecuente», o una regla simple) y los costos de FP/FN (falsos positivos y falsos negativos) de la cola de revisión humana; solo entonces se prueba si un modelo supervisado mejora la prioridad de revisión. Si el modelo no gana al dummy, el experimento se loguea igual y no se promociona complejidad inútil. Predicción de cola ≠ etiqueta de fraude ni de parentesco. Capstone de referencia: workbench CP-N3-B con datos sintéticos.",
   learningOutcomes: [
     { text: "Definir unidad de scoring, target observable y horizonte temporal" },
     { text: "Fijar baseline de regla y dummy majority con costo FP/FN" },
@@ -462,7 +462,7 @@ penalty l2`,
         },
         why: "La sigmoid acota p en (0,1). El thr es decisión de producto (cuánta cola aguantas), no magia del modelo. `l2_sq=Σw²` es solo diagnóstico de magnitud: no prueba que el fit usó L2. Sin `penalty=\"l2\"` el gate marca REJECT_UNREGULARIZED. Umbral ≠ veredicto de fraude. En We Do: thr 0.6, Σw² y penalty documentada.",
         retrospective:
-          "Umbral ≠ veredicto de fraude; L2 se **declara** en params, no se «prueba» con Σw²>0. El error clásico es creer que un vector no nulo ya está regularizado. Pregunta: si thr bajara a 0.5 con la misma p≈0.55, ¿qué cambia en la cola y por qué no es magia del modelo? We Do: arreglar L1 vs L2 y thr del lab.",
+          "Umbral ≠ veredicto de fraude; L2 se **declara** en params, no se «prueba» con Σw²>0. El error clásico es creer que un vector no nulo ya está regularizado. Pregunta: si thr bajara a 0.5 con la misma p≈0.55, ¿qué cambia en la cola y por qué no es magia del modelo? We Do: arreglar L1 vs. L2 y thr del lab.",
       },
       {
         demoId: "S33-T2-B-DEMO",
@@ -522,7 +522,7 @@ depth_unlimited False`,
         environment: "local-python",
         description: "Detecta overfit por gap train−valid (umbral 0.2) y fija seed reproducible.",
         preamble:
-          "Un gap **train − valid** grande señala memorización. El umbral **0.2** es diagnóstico de lab del workbench, no una ley de ML. En esta demo, 0.95 vs 0.70 dispara overfit True; `seeded_ints(42)` fija tres enteros reproducibles. No escribas: predice overfit y la lista; observa que sin seed no hay auditoría entre PRs del modelo.",
+          "Un gap **train − valid** grande señala memorización. El umbral **0.2** es diagnóstico de lab del workbench, no una ley de ML. En esta demo, 0.95 vs. 0.70 dispara overfit True; `seeded_ints(42)` fija tres enteros reproducibles. No escribas: predice overfit y la lista; observa que sin seed no hay auditoría entre PRs del modelo.",
         code: {
           language: 'python',
           title: "ov_demo.py",
@@ -2320,7 +2320,7 @@ if __name__ == "__main__":
     portfolioNote:
       "Primero dual baseline (dummy y regla); el portafolio debe incluir run log (params/metrics/beats_dummy/beats_rule), costo de cola y group CV con disyunción de entidades. Un beats_dummy=False o beats_rule=False bien documentado es válido. En el README: por qué el thr elegido prioriza de forma sensata sin convertir el score en veredicto de fraude, y al menos un print o assert de disyunción train/valid.",
     retrospective:
-      "Antes de marcar listo: (1) ¿qué invariante demuestras — dual baseline documentado, seed en params, o disyunción de entidades? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, prevalencias distintas)? (3) Escribe en el README una frase de impacto medible (p. ej. «regla acc X vs stump Y; beats_rule=Z») que puedas defender en 30 segundos sin overclaim de fraude.",
+      "Antes de marcar listo: (1) ¿qué invariante demuestras — dual baseline documentado, seed en params, o disyunción de entidades? (2) ¿qué harías distinto con datos reales vs. sintéticos (PII, prevalencias distintas)? (3) Escribe en el README una frase de impacto medible (p. ej. «regla acc X vs. stump Y; beats_rule=Z») que puedas defender en 30 segundos sin overclaim de fraude.",
     rubric: [
       { criterion: "Framing unit/target/horizon + baseline dummy y regla documentados", weight: "25%" },
       { criterion: "Correctitud técnica: dummy, regla, modelo, costo y métricas calculados (no hardcode)", weight: "20%" },

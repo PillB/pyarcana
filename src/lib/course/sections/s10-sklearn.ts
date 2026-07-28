@@ -1,7 +1,7 @@
 import type { CourseSection } from '../../types'
 
 export const section10: CourseSection = {
-  // Platform id `sklearn` is legacy stable for routing only — never surface to learners.
+  // Routing id intentionally stable for deep-link/progress compatibility; do not rename without a coordinated platform migration.
   id: "sklearn",
   index: 10,
   title: "Módulos, packaging y CLI profesional",
@@ -28,8 +28,8 @@ export const section10: CourseSection = {
     {
       heading: "Del notebook suelto al paquete instalable (mapa)",
       paragraphs: [
-        "Hasta S09 tu lógica vive en scripts y módulos sueltos. Aquí empaquetas **familiarity_core**: imports estables, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia**. Es la herramienta que el equipo puede instalar con `pip install -e .` y ejecutar sin notebook.",
-        "Integra el ETL de CP-N1-B (S08) y la observabilidad de S09 (logs sin PII, exit codes). Entorno local con biblioteca estándar: argparse, pathlib y metadata de empaquetado. Fail-closed si config o schema no cuadran al arranque.",
+        "Hasta S09 tu lógica vive en scripts y módulos sueltos. Aquí empaquetas **familiarity_core**: imports estables, un archivo **`pyproject.toml`** (que es la ficha técnica que describe cómo se llama y se instala tu paquete), una **CLI** — interfaz de línea de comandos, el programa que se ejecuta en la terminal — con subcomandos y **config por precedencia** (es decir, un orden fijo de quién decide cada valor cuando varias fuentes lo definen). Es la herramienta que el equipo puede instalar con `pip install -e .` y ejecutar sin notebook.",
+        "Integra el ETL de CP-N1-B (S08) y la observabilidad de S09 (logs sin PII, exit codes). Entorno local con biblioteca estándar: argparse, pathlib y metadata de empaquetado. Si config o schema no cuadran al arranque, el programa aborta de inmediato (fail-closed) antes de procesar nada a ciegas.",
         "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**. Caso de lab: CLI local con datos sintéticos y exit codes 0/1/2 — **nunca** PII real ni claims de fraude.",
       ],
       callout: {
@@ -43,9 +43,9 @@ export const section10: CourseSection = {
       heading: "Imports, namespaces y __main__",
       subtopicId: "S10-T1-A",
       paragraphs: [
-        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script. Ejecutar `python -m familiarity_core` usa el paquete como `__main__` sin pelear con `sys.path`.",
-        "`if __name__ == '__main__':` protege el CLI/demo para que **no** corra al importar. **`__all__`** documenta la API pública (y comunica intención). Fail-closed si el schema de config no cuadra al arranque.",
-        "Los **imports circulares** se rompen extrayendo un tercer módulo compartido, usando *lazy import* o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso. Evita `import` dentro de cada método, salvo como último recurso documentado.",
+        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo **una vez** en `sys.modules` (un diccionario interno que Python mantiene con todo lo ya importado). **`__name__`** es una variable especial que contiene el nombre del módulo, o el string `'__main__'` cuando el archivo se ejecuta directamente como script. Ejecutar `python -m familiarity_core` usa el paquete como `__main__` sin pelear con `sys.path` (la lista interna que decide de qué carpetas importar).",
+        "`if __name__ == '__main__':` protege el CLI/demo para que **no** corra al importar. **`__all__`** documenta la API pública — la lista corta de nombres que el equipo puede importar con confianza — y comunica intención. Si el schema de config no cuadra al arranque, aborta (fail-closed) en vez de procesar a ciegas.",
+        "Los **imports circulares** (módulo A importa a B y B importa a A: Python se enreda) se rompen extrayendo un tercer módulo compartido, usando *lazy import* — que es postergar el `import` hasta dentro de una función, cuando ya hace falta — o invirtiendo la dirección de dependencias. **Prefiere diseño a hacks**: si A y B se necesitan mutuamente, el util común es el primer recurso. Evita `import` dentro de cada método, salvo como último recurso documentado.",
       ],
       code: {
         language: 'python',
@@ -79,9 +79,9 @@ ana perez`,
       heading: "Dependencias cíclicas y API pública",
       subtopicId: "S10-T1-B",
       paragraphs: [
-        "Prefijo `_` marca helpers **privados** (convención). La fachada (`__init__.py` o `api.py`) reexporta solo lo **estable**. Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperlo.",
-        "Una **API pública pequeña** (p. ej. 4 símbolos: normalize, compare, report…) reduce breaking changes. Semver simple: **añadir** es minor; **renombrar/eliminar** es major. Fail-closed en contratos rotos.",
-        "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado (p. ej. un parser opcional). Úsalo con intención: la API pública sigue en `__all__`, pero el módulo pesado se carga solo al primer uso.",
+        "El prefijo `_` marca helpers **privados** (es una convención: el guion bajo le dice al lector «esto es detalle interno, no lo importes de afuera»). La fachada — el archivo `__init__.py` o `api.py` que el equipo ve como entrada al paquete — reexporta solo lo **estable**. Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperle el código.",
+        "Una **API pública pequeña** (p. ej. 4 símbolos: normalize, compare, report…) reduce breaking changes. SemVer — *Semantic Versioning*, un esquema de versiones de tres números — en simple: **añadir** es minor; **renombrar/eliminar** es major. Fail-closed en contratos rotos.",
+        "El *lazy import* dentro de funciones evita ciclos y acelera el arranque del paquete cuando un submódulo es pesado (p. ej. un parser opcional). Úsalo con intención: la API pública sigue declarada en `__all__`, pero el módulo pesado se carga solo al primer uso.",
       ],
       code: {
         language: 'python',
@@ -112,9 +112,9 @@ True`,
       heading: "Layout src, pyproject.toml y builds",
       subtopicId: "S10-T2-A",
       paragraphs: [
-        "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo **sin** instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling).",
-        "`pip install -e .` instala en **editable**: cambias código y el import refleja al toque. Ideal en desarrollo del CLI del gate CP-N1-B/C. Fail-closed si metadata falta (`name`, `version`).",
-        "Si ves `ModuleNotFoundError` tras instalar, revisa en este orden: (1) ¿`pip install -e .` se ejecutó en el venv activo?; (2) ¿el nombre de import coincide con la carpeta bajo `src/`?; (3) ¿un script homónimo en el cwd tapa el paquete en `sys.path`?",
+        "Layout **src/**: poner el código bajo `src/familiarity_core/...` evita que Python importe el paquete desde el repo **sin** instalarlo primero. El archivo `pyproject.toml` declara name, version, requires-python y el build backend — el programa que construye el paquete instalable, p. ej. setuptools o hatchling.",
+        "`pip install -e .` instala en **editable** (modo edición): cambias código y el import refleja el cambio al toque, sin reinstalar. Ideal en desarrollo del CLI del gate CP-N1-B/C. Si falta metadata clave (`name`, `version`), el instalador aborta (fail-closed).",
+        "Si ves `ModuleNotFoundError` tras instalar, revisa en este orden: (1) ¿`pip install -e .` se ejecutó en el venv activo (el entorno virtual aislado donde instalas paquetes)?; (2) ¿el nombre de import coincide con la carpeta bajo `src/`?; (3) ¿un script homónimo en el cwd — la carpeta actual donde corre Python — tapa el paquete en `sys.path`?",
       ],
       code: {
         language: 'python',
@@ -158,9 +158,9 @@ layout src/familiarity_core/__init__.py`,
       heading: "Versionado y compatibilidad",
       subtopicId: "S10-T2-B",
       paragraphs: [
-        "**SemVer** simple: MAJOR.MINOR.PATCH. Un cambio *breaking* (incompatible) → major; una *feature* compatible → minor; un *fix* sin cambio de contrato → patch. En 0.x es más flexible, pero **documenta igual**. Renombrar la API pública de normalizers es *major* para los consumidores del paquete.",
-        "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Fail-closed si falta metadata en pyproject.",
-        "Un **CHANGELOG** real, aunque breve (Added/Changed/Fixed), evita amnesia entre sprints. Breaking de firma pública se **anuncia** con versión major y nota de migración; deprecar un símbolo un minor antes reduce el dolor del major.",
+        "**SemVer** — *Semantic Versioning*, un esquema de tres números — en simple: MAJOR.MINOR.PATCH. Un cambio *breaking* (incompatible para quien ya usa el paquete) sube el MAJOR; una *feature* compatible sube el MINOR; un *fix* sin cambio de contrato sube el PATCH. En 0.x es más flexible, pero **documenta igual**. Renombrar la API pública de normalizers es *major* para los consumidores del paquete.",
+        "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón). Si falta metadata en pyproject, aborta (fail-closed).",
+        "Un **CHANGELOG** real — un archivo donde anotas qué cambió en cada versión — aunque sea breve (Added/Changed/Fixed), evita amnesia entre sprints. Un breaking de firma pública se **anuncia** con versión major y nota de migración; deprecar un símbolo un minor antes reduce el dolor del major.",
       ],
       code: {
         language: 'python',
@@ -193,8 +193,8 @@ print("1.0.0 + rename API", bump("1.0.0", "major"))`,
       heading: "argparse, subcomandos y exit codes",
       subtopicId: "S10-T3-A",
       paragraphs: [
-        "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios y `help=` en español claro para operadores.",
-        "Exit codes: **0** = éxito; **2** = uso/CLI inválido (default de argparse); **1** = error de runtime/negocio. Los scripts y el CI **dependen** de esto: no devuelvas siempre 0.",
+        "`argparse.ArgumentParser` + **subparsers** — sub-analizadores que modelan cada subcomando del CLI, p. ej. `ingest|normalize|compare|report` — modelan las acciones del paquete. Cada subcomando tiene flags propios (opciones como `--field`) y `help=` en español claro para operadores.",
+        "Exit codes — códigos numéricos que devuelve el proceso al terminar: **0** = éxito; **2** = uso/CLI inválido (default de argparse); **1** = error de runtime/negocio. Los scripts y el CI — *Continuous Integration*, el sistema que ejecuta pruebas automáticamente — **dependen** de esto: no devuelvas siempre 0.",
         "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`. Así puedes unit-testear `main([...])` sin spawn de proceso y simular usage errors (código 2) con argv inválidos.",
       ],
       code: {
@@ -245,9 +245,9 @@ code 2`,
       heading: "stdin/stdout/stderr y ayuda",
       subtopicId: "S10-T3-B",
       paragraphs: [
-        "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` **no** contamina el archivo. Un `print('ok')` extra rompe el pipe de quien parsea JSON.",
-        "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`. Fail-closed si el schema de entrada no cuadra.",
-        "Soporta **`-`** como path de entrada para pipes (`cat data.json | familiarity normalize -`). En el lab, si capturas stderr a un `StringIO`, no uses `print` para el progreso: escribe en el stream. En CLI real: `print(..., file=sys.stderr)`.",
+        "**stdout** — *standard output*, la salida estándar donde van los datos (JSON, CSV). **stderr** — *standard error*, la salida de error donde van logs y progreso. Así `cmd > out.json` **no** contamina el archivo. Un `print('ok')` extra en stdout rompe el *pipe* — la cadena de comandos conectados con `|` — de quien parsea JSON.",
+        "Soportar path o **`-`** para stdin — *standard input*, la entrada estándar — habilita pipes: `cat data.json | familiarity normalize`. Si el schema de entrada no cuadra, aborta (fail-closed).",
+        "Soporta **`-`** como path de entrada para pipes (`cat data.json | familiarity normalize -`). En el lab, si capturas stderr a un `StringIO` (un objeto que simula un archivo en memoria), no uses `print` para el progreso: escribe en el stream. En CLI real: `print(..., file=sys.stderr)`.",
       ],
       code: {
         language: 'python',
@@ -282,8 +282,8 @@ stage=normalize event=done`,
       heading: "Archivo/env/flags y precedencia",
       subtopicId: "S10-T4-A",
       paragraphs: [
-        "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. Documenta la tabla en README — sin sorpresas en ops.",
-        "Un flag `--log-level` debe ganar a la variable `FAMILIARITY_LOG_LEVEL`. Trata `None` en los flags como «no pasado», para no pisar *env* con *nulls*.",
+        "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**. Es decir, si el operador pasa `--log-level ERROR` en la terminal, ese gana; si no, se mira la variable de entorno; luego el archivo de config; y al final los defaults internos del paquete. Documenta la tabla en README — sin sorpresas en ops.",
+        "Un flag `--log-level` debe ganar a la variable `FAMILIARITY_LOG_LEVEL`. Trata `None` en los flags como «no pasado», para no pisar *env* — *environment*, las variables de entorno — con *nulls*.",
         "Implementa un `merge_config` **puro y testeable**: dicts por capa, reduce de menor a mayor prioridad. Casos de borde: `None` en flags significa “no pasado” (no pisa env); una clave solo en defaults sobrevive si nadie la redefine.",
       ],
       code: {
@@ -317,9 +317,9 @@ print(cfg)`,
       heading: "Secretos, defaults y validación temprana",
       subtopicId: "S10-T4-B",
       paragraphs: [
-        "Secretos **fuera del repo**: `.env` en `.gitignore`, **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**. Defaults seguros (log level INFO, no debug con PII).",
+        "Secretos **fuera del repo**: `.env` (el archivo de variables de entorno) va en `.gitignore` (la lista de archivos que git ignora), **nunca** en logs (S09). El ETL local de este nivel **no inventa un token de API**. Defaults seguros (log level INFO, no debug con PII — *Personally Identifiable Information*, datos personales identificables).",
         "`validate_config()` al arranque reporta qué clave falta y qué subcomando la exige: `input_path` para ingest y `manifest_path` para report. Fail-closed — no proceses a ciegas.",
-        "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Mensaje de error: nombra la **clave** y el **subcomando** (`config: falta input_path para ingest`); jamás imprimas el valor de un token en traceback aunque el adaptador remoto lo tenga en memoria.",
+        "Fail-fast de config evita procesar 10k filas con un path mal tipeado. Mensaje de error: nombra la **clave** y el **subcomando** (`config: falta input_path para ingest`); jamás imprimas el valor de un token en el *traceback* — el volcado de errores que Python muestra — aunque el adaptador remoto lo tenga en memoria.",
       ],
       code: {
         language: 'python',
@@ -352,15 +352,15 @@ config: falta input_path para ingest`,
     },
   ],
   iDo: {
-    intro: "Ocho demos I Do (uno por subtema, orden T1→T4). Cada demo muestra el mecanismo que luego practicarás en We Do: módulos y API, layout/src + SemVer, argparse con exit codes, stdio limpio y config por precedencia. Solo stdlib; datos sintéticos.",
+    intro: "Ocho demos I Do (una por subtema, en orden T1→T4). Cada demo te muestra el mecanismo que luego practicarás en We Do: módulos y API, layout/src + SemVer, argparse con exit codes, stdio limpio y config por precedencia. Solo stdlib — la biblioteca estándar de Python — y datos sintéticos. Antes de mirar la salida del panel, predice mentalmente lo que va a imprimir cada demo: esa predicción es lo que consolida el aprendizaje.",
     steps: [
       {
         demoId: "S10-T1-A-DEMO",
         subtopicId: "S10-T1-A",
         environment: "local-python",
-        description: "Separar `normalize` del entrypoint `main` (sin side-effects al importar)",
+        description: "Separar `normalize` del entrypoint `main` (sin *side-effects* al importar)",
         preamble:
-          "Antes de empaquetar el CLI de **familiarity_core**, la lógica de normalizar nombres debe vivir en una función pura y el entrypoint solo orquestar. En esta demo (datos sintéticos, sin PII) observa tres cosas sin escribir aún: (1) `__all__` declara solo `normalize`; (2) `main` imprime el nombre limpio y devuelve `0`; (3) al «importar» se puede llamar `normalize` con un `assert`, y el CLI se invoca **explícito** vía `main([...])`. Predice la salida de `\"  José Pérez \"` y compárala con el panel.",
+          "Antes de empaquetar el CLI de **familiarity_core**, la lógica de normalizar nombres debe vivir en una función pura (que solo devuelve un valor, sin efectos afuera) y el *entrypoint* — la función que arranca el CLI — solo orquesta. En esta demo (datos sintéticos, sin PII) observa tres cosas sin escribir aún: (1) `__all__` declara solo `normalize`; (2) `main` imprime el nombre limpio y devuelve `0`; (3) al «importar» se puede llamar `normalize` con un `assert`, y el CLI se invoca **explícito** vía `main([...])`. Predice la salida de `\"  José Pérez \"` y compárala con el panel.",
         code: {
           language: 'python',
           title: "normalize_cli_split.py",
@@ -380,7 +380,7 @@ assert normalize("X") == "x"
 raise SystemExit(main(["  José Pérez "]))`,
           output: `josé pérez`,
         },
-        why: "La lógica vive en `normalize`; el entrypoint solo orquesta. La guarda de entrada (aquí simulada con llamada explícita a `main`) evita que un `import familiarity_core` ejecute el CLI. En el paquete real usa `if __name__ == \"__main__\"` o `__main__.py` para el mismo contrato: API usable sin side-effects.",
+        why: "La lógica vive en `normalize`; el *entrypoint* solo orquesta. La guarda de entrada (aquí simulada con llamada explícita a `main`) evita que un `import familiarity_core` ejecute el CLI. En el paquete real usa `if __name__ == \"__main__\"` o un archivo `__main__.py` para el mismo contrato: API usable sin *side-effects* (efectos colaterales al importar).",
         retrospective:
           "Si puedes explicar por qué `normalize` debe ser usable sin imprimir nada al importar, ya internalizaste el contrato de módulo. El error clásico es meter `print` o `parse_args` a nivel de módulo. En We Do T1-A practicarás API pública, util compartido anti-ciclo y estilos de import.",
       },
@@ -390,7 +390,7 @@ raise SystemExit(main(["  José Pérez "]))`,
         environment: "local-python",
         description: "Fachada que exporta solo 4 símbolos públicos.",
         preamble:
-          "La fachada de **familiarity_core** debe ser pequeña y estable: el equipo importa pocos nombres y el resto es detalle. En la demo, sigue el código sin reescribirlo: (1) `_private_token` no aparece en `__all__`; (2) `normalize` / `compare` / `ingest_row` / `report` sí; (3) `compare(\"Ana\", \" ana \")` devuelve `1.0` porque normaliza ambos lados. Datos sintéticos. Predice `exports` y el último `1` del `report` antes de mirar la salida.",
+          "La fachada — el archivo `__init__.py` que el equipo ve como entrada al paquete — de **familiarity_core** debe ser pequeña y estable: el equipo importa pocos nombres y el resto es detalle. En la demo, sigue el código sin reescribirlo: (1) `_private_token` no aparece en `__all__`; (2) `normalize` / `compare` / `ingest_row` / `report` sí; (3) `compare(\"Ana\", \" ana \")` devuelve `1.0` porque normaliza ambos lados. Datos sintéticos. Predice `exports` y el último `1` del `report` antes de mirar la salida.",
         code: {
           language: 'python',
           title: "facade_exports.py",
@@ -496,7 +496,7 @@ kind = classify_change(ch)
 print(ch, "->", kind, bump("0.1.0", kind))`,
           output: `add subcomando report -> minor 0.2.0`,
         },
-        why: "Feature compatible = minor; breaking de API pública = major; fix de help = patch. La aritmética del bump es inútil sin nota: anota el cambio en CHANGELOG (aunque sea una línea Added/Changed) para que el consumidor sepa *qué* subió de `0.1.0` a `0.2.0`.",
+        why: "Una *feature* compatible sube minor; un breaking de API pública sube major; un fix de help sube patch. La aritmética del bump no sirve sin nota: anota el cambio en el CHANGELOG (aunque sea una línea Added/Changed) para que el consumidor sepa *qué* subió de `0.1.0` a `0.2.0`.",
         retrospective:
           "Si clasificas mal un rename como patch, rompes a consumidores sin aviso. El error clásico es bumpear solo el string de versión y olvidar la nota de migración. We Do: clasificar en español, separar deps runtime/dev y políticas hacia entidades de S11.",
       },
@@ -662,7 +662,7 @@ ingest ok`,
         edgeCases: ["import * no es recomendado; __all__ documenta intención."],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
-          "`__all__` documenta la API que el equipo puede importar con confianza. Un helper `_ws` es detalle interno: si lo exportas, mañana no puedes renombrarlo. `strip` no colapsa espacios internos; `split`+`join` sí, y casefold unifica mayúsculas de forma más robusta que `lower` en textos con acentos.",
+          "`__all__` documenta la API que el equipo puede importar con confianza. Un helper `_ws` es detalle interno: si lo exportas, mañana no puedes renombrarlo. `strip` no colapsa espacios internos; en cambio `split` + `join` sí lo hace. Y `casefold` unifica mayúsculas de forma más robusta que `lower` en textos con acentos.",
         retrospective:
           "Público = contrato; `_` = convención de «no toques esto». Exportar el helper no te hace más transparente: te ata la mano en el próximo rename. Pregunta: ¿qué rompería si un colega hace `from mod import _ws`? Siguiente (E2): util compartido para romper ciclos A↔B.",
         starterCode: {
@@ -1497,9 +1497,9 @@ validación de config falla al arrancar: 1`,
         kind: "transfer",
         title: "Ayuda alineada para el operador",
         preamble:
-          "- **Contexto:** en producción el operador copia ejemplos del `--help`, no lee la teoría del curso.\n- **Meta:** alinear notas con `#` en columna fija y documentar códigos de salida.\n- **Éxito:** dos HELP de ejemplo + una línea de códigos 2=uso / 1=error.\n- **Límites:** width=52; no dejes un solo espacio arbitrario; no uses el placeholder «buen luck».",
+          "- **Contexto:** en producción el operador copia ejemplos del `--help`, no lee la teoría del curso.\n- **Meta:** alinear notas con `#` en columna fija y documentar códigos de salida.\n- **Éxito:** dos HELP de ejemplo + una línea de códigos 2=uso / 1=error.\n- **Límites:** width=52; no dejes un solo espacio arbitrario; no dejes texto de relleno vago en la tercera línea.",
         instruction:
-          "1. Completa `format_help` para alinear el comentario `#` en una columna fija (`width=52`).\n2. Imprime los dos ejemplos del starter con sus notas.\n3. Añade la línea de códigos de salida del contrato (sin el placeholder «buen luck»).\n4. Quita prints de debug.",
+          "1. Completa `format_help` para alinear el comentario `#` en una columna fija (`width=52`).\n2. Imprime los dos ejemplos del starter con sus notas.\n3. Reemplaza la tercera línea del starter por la frase de códigos de salida del contrato (2=uso / 1=error de datos o config), en lugar del texto de relleno que trae.\n4. Quita prints de debug.",
         hint: "Construye `left = f\"HELP: {cmd}\"` y calcula cuántos espacios faltan hasta `width` (mínimo 1).",
         hints: [
           "Construye `left = f\"HELP: {cmd}\"` y calcula cuántos espacios faltan hasta `width` (mínimo 1).",
@@ -1556,7 +1556,7 @@ HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config`,
         preamble:
           "- **Contexto:** un paso del CLI multiplica un valor de negocio y deja un evento de telemetría.\n- **Meta:** devolver el dato por el return (stdout del demo) y escribir el log en el stream de error.\n- **Éxito:** `6` y `stderr: event=done`.\n- **Límites:** no uses `print` para el log; no inviertas el orden de las líneas de verificación.",
         instruction:
-          "1. Abre el starter: `process` hace `print(\"event=done\")` en stdout.\n2. Cambia a `err.write(\"event=done\\n\")` y retorna `n * 2`.\n3. Imprime el valor y la línea `stderr: …`.\n4. Quita `ok`.",
+          "1. Abre el starter: `process` hace `print(\"event=done\")` en stdout.\n2. Cambia el log para que se escriba en el stream `err` (con `err.write` y un salto de línea al final) y haz que la función retorne `n * 2`.\n3. Imprime el valor retornado y la línea `stderr: …`.\n4. Quita `ok`.",
         hint: "Función process(n) retorna n*2; log event=done en err.",
         hints: [
           "Función process(n) retorna n*2; log event=done en err.",
@@ -1565,7 +1565,7 @@ HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config`,
         edgeCases: ["En CLI real: print(..., file=sys.stderr)"],
         tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback:
-          "Si `event=done` aparece antes del `6` sin prefijo `stderr:`, aún escribes el log con `print` en stdout. Usa `err.write(...\\n)` y deja el valor de negocio en el `return` (el harness lo imprime como «stdout» del demo).",
+          "Si `event=done` aparece antes del `6` sin prefijo `stderr:`, aún escribes el log con `print` en stdout. Escribe el evento en el stream `err` (con su salto de línea) y deja el valor de negocio en el `return` (el harness lo imprime como «stdout» del demo).",
         retrospective:
           "El canal importa más que el mensaje. Mismo patrón en el CLI real con `sys.stderr`. Pregunta: si alguien hace `cmd | jq`, ¿dónde debe vivir `event=done`? E2: el path `-` como convención de stdin.",
         starterCode: {
@@ -1657,9 +1657,9 @@ desde file`,
           "- **Contexto:** un consumidor `jq` o un pipe a otro subcomando falla si «empezando/fin» contaminan stdout.\n- **Meta:** contrastar un CLI malo (todo en un string) con uno bueno (JSON en return, logs en err).\n- **Éxito:** bloque BAD con tres líneas de basura+JSON; bloque GOOD solo JSON + línea `stderr_only …`.\n- **Límites:** no dejes logs en el return de `good_cli`.",
         instruction:
           "1. Deja `bad_cli` como ejemplo de contaminación.\n2. En `good_cli`, escribe progreso en `err` y retorna solo el JSON.\n3. Imprime BAD/GOOD según el solution (incluye `stderr_only`).\n4. Quita `ok`.",
-        hint: "Imprime BAD y GOOD; GOOD solo JSON final; progreso en err.",
+        hint: "Imprime BAD y luego GOOD; en GOOD solo el JSON final; el progreso va a err.",
         hints: [
-          "Imprime BAD y GOOD; GOOD solo JSON final.",
+          "Imprime BAD y luego GOOD; en GOOD solo el JSON final.",
           "Los mensajes de progreso van al StringIO de err; imprime stderr_only al final.",
         ],
         edgeCases: ["jq falla si hay basura alrededor del JSON"],
@@ -2070,7 +2070,7 @@ api_token: 'hardcoded' -> None`,
   youDo: {
     title: "Paquete familiarity_core + CLI profesional",
     context:
-      "Conviertes el ETL de familiaridad en un **paquete instalable** con subcomandos `ingest|normalize|compare|report`, config por precedencia y validación temprana. Sin secretos en el repositorio; solo datos sintéticos. Al cerrar, prepárate para defender en ~30 s qué invariante demuestras (install editable, exit codes, import sin side-effects).",
+      "Conviertes el ETL de familiaridad en un **paquete instalable** — un conjunto de módulos que cualquiera puede `pip install` y ejecutar — con subcomandos `ingest|normalize|compare|report`, config por precedencia y validación temprana al arranque. Sin secretos en el repositorio; solo datos sintéticos. Al cerrar, prepárate para defender en ~30 s qué invariante demuestras (install editable, exit codes, import sin side-effects).",
     objectives: [
       "Layout src/ + pyproject.toml instalable en editable",
       "Subcomandos ingest, normalize, compare, report",
@@ -2080,14 +2080,14 @@ api_token: 'hardcoded' -> None`,
       "Demostrar exit 2 con argv inválido y exit 0 con normalize sintético",
     ],
     requirements: [
-      "pip install -e . en un venv fresco (Python ≥3.11, sin extras) y documenta el comando en el README",
-      "python -m familiarity_core --help o entry point console_scripts",
-      "Sin secretos en repo; datos sintéticos",
-      "Errores de uso vs. runtime distinguibles por exit code",
-      "Lógica importable sin side-effects",
-      "README de precedencia de config",
-      "El subcomando ingest ejecuta una versión simplificada del ETL CSV del S08: parseo de Decimal desde texto, partición clean/quarantine y manifest por fuente reconciliado (reutiliza lo que ya construiste en S08)",
-      "python -m unittest discover -s tests pasa en un checkout limpio",
+      "`pip install -e .` en un venv fresco — un entorno virtual nuevo, Python ≥3.11, sin extras — y documenta el comando en el README",
+      "`python -m familiarity_core --help` o un *entry point* de `console_scripts` (el comando `familiarity` que instala pip)",
+      "Sin secretos en el repo; datos sintéticos",
+      "Errores de uso vs. runtime distinguibles por exit code (2 vs. 1)",
+      "Lógica importable sin *side-effects* (efectos colaterales al importar)",
+      "README con la tabla de precedencia de config (flags > env > archivo > defaults)",
+      "El subcomando ingest ejecuta una versión simplificada del ETL CSV del S08: parseo de `Decimal` desde texto, partición clean/quarantine (registros válidos vs. descartados) y manifest por fuente reconciliado (reutiliza lo que ya construiste en S08)",
+      "`python -m unittest discover -s tests` pasa en un checkout limpio",
     ],
     starterCode: `"""bootstrap_familiarity.py — crea un paquete real, instalable y testeable.
 Ejecuta: python bootstrap_familiarity.py; cd familiarity_core_project;

@@ -12,7 +12,7 @@ export const section49: CourseSection = {
   icon: "FileCheck",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **agentes, herramientas y context engineering** orquestan pasos con tools de scope mínimo, presupuestos y checkpoints. Prefiere **workflow** cuando los pasos son conocidos y el baseline determinista iguala o supera al agente; promueve un **agente** solo si supera ese baseline con plan evaluado, budgets y tools de responsabilidad única. Todo side effect sensible exige aprobación humana explícita.",
+    "En equipos de plataforma y producto, los agentes (sistemas que eligen pasos con un LLM), las herramientas (las funciones que esos agentes pueden invocar) y el context engineering (el diseño de qué información entra al modelo en cada paso) orquestan pasos con tools de scope mínimo, presupuestos y checkpoints (puntos de guardado para reanudar sin repetir efectos). Prefiere workflow (una secuencia fija de pasos conocidos) cuando el baseline (la versión de referencia sin agente) determinista iguala o supera al agente; promueve un agente solo si supera ese baseline con plan evaluado, budgets (topes de pasos, tokens y costo) y tools de responsabilidad única (una sola acción cada una). Todo side effect (efecto sobre el mundo: envío, escritura, gasto) sensible exige aprobación humana explícita.",
   learningOutcomes: [
     { text: "Elegir workflow vs. agente con baseline documentado y ADR." },
     { text: "Diseñar routing planner/worker/evaluator con máximo de iteraciones." },
@@ -577,9 +577,9 @@ REQUEST_HUMAN_APPROVAL
 SANDBOX_AND_STOP
 SANDBOX_AND_STOP`,
         },
-        why: "Red abierta o efectos duplicados ganan a la approval; approval debe igualar el nombre de la acción `prod_*`. Evidencia fail-closed. En We Do practicarás `sandbox_ok` (none, workspace-read, approval si aplica, cp-*, replay 0), assess SANDBOX/MISSING y decide REQUEST_HUMAN_APPROVAL.",
+        why: "Red abierta o efectos duplicados ganan a la aprobación; el flag de approval debe igualar el nombre de la acción `prod_*`. Evidencia fail-closed. En We Do practicarás `sandbox_ok` (none, workspace-read, approval si aplica, cp-*, replay 0), assess SANDBOX/MISSING y decide REQUEST_HUMAN_APPROVAL.",
         retrospective:
-          "Recovery = reanudar desde checkpoint sin re-ejecutar side effects. El error clásico es «volver a enviar el correo» al recuperar. We Do: predicado, tres rutas y HITL cuando falta evidencia de replay.",
+          "Recovery = reanudar desde checkpoint sin reejecutar side effects. El error clásico es «volver a enviar el correo» al recuperar. We Do: predicado, tres rutas y HITL cuando falta evidencia de replay.",
       },
     ],
   },
@@ -662,7 +662,7 @@ assert meets_contract is True` ,
         feedback:
           "El path abierto activa KEEP (no promociones aún). Faltar `agent_success` es MISSING, no FAIL de contenido: el revisor del ADR pide medir baseline antes de abrir el loop.",
         retrospective:
-          "Un `agent_success` ausente no es un path abierto: es evidencia de medición incompleta. Path abierto (`known_steps=False`, agent > baseline) sí es KEEP. El error clásico es inventar 0.8 para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs `workflow_preferred`, y por qué? Luego (E3): CONTINUE / KEEP / RUN_AGENT_BASELINE.",
+          "Un `agent_success` ausente no es un path abierto: es evidencia de medición incompleta. Path abierto (`known_steps=False`, agent > baseline) sí es KEEP. El error clásico es inventar 0.8 para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs. `workflow_preferred`, y por qué? Luego (E3): CONTINUE / KEEP / RUN_AGENT_BASELINE.",
         starterCode: {
           language: 'python',
           title: "s49-t1-a-e2.py",
@@ -1236,7 +1236,7 @@ assert meets_contract is True` ,
         feedback:
           "Scope denegado o multi-efecto es DENY. Faltar error_kind es MISSING: no ejecutes a ciegas sin tipar el error; el revisor del log exige kind antes del retry.",
         retrospective:
-          "Scope denegado o multi-efecto es DENY de política; falta de kind es incertidumbre de retry — no ejecutes a ciegas. El error clásico es inventar `retryable` para forzar PASS. Pregunta: ¿en qué orden miras missing vs `tool_call_ok`? Luego (E3): CONTINUE / DENY / CLASSIFY_TOOL_ERROR.",
+          "Scope denegado o multi-efecto es DENY de política; falta de kind es incertidumbre de retry — no ejecutes a ciegas. El error clásico es inventar `retryable` para forzar PASS. Pregunta: ¿en qué orden miras missing vs. `tool_call_ok`? Luego (E3): CONTINUE / DENY / CLASSIFY_TOOL_ERROR.",
         starterCode: {
           language: 'python',
           title: "s49-t2-b-e2.py",
@@ -2074,7 +2074,7 @@ print(*results)
         feedback:
           "CONTINUE solo sandboxed (none, workspace-read, approval si aplica, cp-*, replay 0). Breach de red/FS/replay/approval → SANDBOX_AND_STOP. Sin evidencia de replay no reanudes inventando 0: REQUEST_HUMAN_APPROVAL.",
         retrospective:
-          "Recovery = reanudar desde checkpoint **sin** re-ejecutar side effects. El error clásico es CONTINUE con network open «porque hay approval en el README». Pregunta: ¿por qué `approval_present` debe ligarse a la acción y no a un flag global? Esto es lo que S50 evaluará con red team.",
+          "Recovery = reanudar desde checkpoint **sin** reejecutar side effects. El error clásico es CONTINUE con network open «porque hay approval en el README». Pregunta: ¿por qué `approval_present` debe ligarse a la acción y no a un flag global? Esto es lo que S50 evaluará con red team.",
         starterCode: {
           language: 'python',
           title: "s49-t4-b-e3.py",

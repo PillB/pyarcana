@@ -492,7 +492,7 @@ print(d, ok)
         environment: "local",
         description: "Compara total vs. suma de líneas: ok si cuadra, needs_review si no (sin label de fraude).",
         preamble:
-          "Cuando la suma de líneas no cuadra con el total, el intake no acusa fraude: encola revisión. En esta demo la comparación con tolerancia 0.01 devuelve `ok` para 150 vs [100, 50]. Observa el contrato: status de calidad, no veredicto legal. No escribas; predice qué devolverías si las líneas sumaran 140.",
+          "Cuando la suma de líneas no cuadra con el total, el intake no acusa fraude: encola revisión. En esta demo la comparación con tolerancia 0.01 devuelve `ok` para 150 vs. [100, 50]. Observa el contrato: status de calidad, no veredicto legal. No escribas; predice qué devolverías si las líneas sumaran 140.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -579,7 +579,7 @@ print(accept_doc({"mime": "application/pdf", "n": 100}))
         feedback:
           "`max(96, 200)` eleva al piso de OCR del lab. Dejar 96 envía tipografía pequeña rota al motor y llena la cola de RUC ilegibles; no es «falta de modelo», es preflight omitido.",
         retrospective:
-          "El piso de DPI es barato frente a re-correr OCR. El error clásico es culpar al adapter sin mirar 96 DPI. Siguiente (E2): marcar deskew solo cuando el sesgo lo exige.",
+          "El piso de DPI es barato frente a volver a correr OCR. El error clásico es culpar al adapter sin mirar 96 DPI. Siguiente (E2): marcar deskew solo cuando el sesgo lo exige.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -696,7 +696,7 @@ print(dpi, deskew, crop)`,
         feedback:
           "El score máximo está en 90°; `min()` era el defecto del starter y enviaría la peor rotación al motor, llenando HITL de basura en el batch nocturno.",
         retrospective:
-          "La key del score máximo es la rotación candidata del preflight; el valor del score se usa después (umbral auto vs manual). El error clásico es imprimir el score 0.8 en vez de los grados. Siguiente (E2): contar flags de ruido para el runbook, no el largo del vector.",
+          "La key del score máximo es la rotación candidata del preflight; el valor del score se usa después (umbral auto vs. manual). El error clásico es imprimir el score 0.8 en vez de los grados. Siguiente (E2): contar flags de ruido para el runbook, no el largo del vector.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -882,7 +882,7 @@ print([t["text"] for t in ordered])`,
         preamble:
           "- **Contexto:** en CP-N2-C un total a 0.75 no se esconde detrás de un RUC a 0.9; el intake reporta el eslabón más débil.\n- **Meta:** calcular min conf, status review/auto y nombres weak bajo thr=0.8.\n- **Éxito:** `0.75 review ['total']`.\n- **Límites:** no promedies confidences; no dejes weak vacío si m<thr.",
         instruction:
-          "1. Elimina el promedio del starter.\n2. `m = min(f['conf'] for f in fields)`.\n3. status según m vs thr; weak = nombres con conf<thr.\n4. Imprime m, status, weak.",
+          "1. Elimina el promedio del starter.\n2. `m = min(f['conf'] for f in fields)`.\n3. status según m vs. thr; weak = nombres con conf<thr.\n4. Imprime m, status, weak.",
         hint: "min + list comp de nombres débiles",
         hints: [
           "No promedies confidences: un campo débil tumba la autoaceptación",
@@ -931,7 +931,7 @@ print(m, status, weak)`,
         kind: "guided",
         title: "Parse KV con strip en clave y valor",
         preamble:
-          "- **Contexto:** una línea OCR `Total: 12.5` no debe dejar el valor con espacio inicial.\n- **Meta:** separar con `split(':', 1)`, strip y imprimir clave y valor.\n- **Éxito:** `Total 12.5` (sin dos puntos ni espacio residual).\n- **Límites:** no omitas strip; corta solo en el primer `:`.",
+          "- **Contexto:** una línea OCR `Total: 12.5` no debe dejar el valor con espacio inicial.\n- **Meta:** separar con `split(':', 1)`, strip e imprimir clave y valor.\n- **Éxito:** `Total 12.5` (sin dos puntos ni espacio residual).\n- **Límites:** no omitas strip; corta solo en el primer `:`.",
         instruction:
           "1. Abre el starter: `print(k, v)` sin strip.\n2. Aplica `k.strip()` y `v.strip()`.\n3. Imprime k y v.\n4. No rearmes la línea con `:` en la salida.",
         hint: "split once",
@@ -1335,7 +1335,7 @@ review_not_fraud`,
         feedback:
           "`correct/n = 0.75`. El starter calculaba la tasa de error (1 − acc): métrica distinta que miente al SLO si la reportas como accuracy.",
         retrospective:
-          "Accuracy y error rate suman 1, pero el contrato del lab pide accuracy. Confundirlas miente al SLO. Siguiente (E2): medir por filas de RUC pred vs true.",
+          "Accuracy y error rate suman 1, pero el contrato del lab pide accuracy. Confundirlas miente al SLO. Siguiente (E2): medir por filas de RUC pred vs. true.",
         starterCode: {
           language: 'python',
           title: "exercise.py",

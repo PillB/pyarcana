@@ -195,7 +195,7 @@ n_cand 0`,
       heading: "combinaciones, costo y pares imposibles",
       subtopicId: "S30-T2-B",
       paragraphs: [
-        "Candidate recall alto no basta si el bloque es monstruoso. El **costo** de comparación es O(suma n_b·(n_b−1)/2) por bloque. Una clave débil (solo ciudad “Lima”) mete decenas de miles de registros en un bloque y explota CPU/memoria. Vigila el tamaño máximo de bloque como **SLO** de diseño y redefine la clave antes de escalar el batch nocturno.",
+        "Candidate recall alto no basta si el bloque es monstruoso. El **costo** de comparación es O(suma n_b·(n_b−1)/2) por bloque. Una clave débil (solo ciudad “Lima”) mete decenas de miles de registros en un bloque y explota CPU/memoria. Vigila el tamaño máximo de bloque como **SLO** (service level objective: objetivo de nivel de servicio, la meta cuantitativa del batch) de diseño y redefine la clave antes de escalar el batch nocturno.",
         "**Pares imposibles**: reglas de exclusión (tipo persona vs. organización, fechas de nacimiento incompatibles en el fixture sintético) evitan gastar scorer en lo incomparable. El filtro corre **antes** del scorer pesado: política `filter_before_score` (filtrar antes de puntuar), no un post-filtro cosmético.",
         "Pipeline sano: blocking → filtro de imposibles → scorer → umbrales. Si inviertes el orden, pagas similitudes caras (distancia de edición, conjuntos de tokens) que nunca debieron calcularse. En el Caso 30, person vs. org se descarta sin invocar edit distance ni saturar la cola clerical. Con candidatos viables, T3 define cómo puntuar y decidir.",
       ],
@@ -269,7 +269,7 @@ explain {'name': 0.95, 'email': 1.0, 'phone': 0.0}`,
       heading: "calibración, cola clerical y consistencia de cluster",
       subtopicId: "S30-T3-B",
       paragraphs: [
-        "Decidir un par no termina el trabajo: hay que **calibrar** y **fusionar** con honestidad. **Calibración**: ajusta pesos o umbrales con pares etiquetados **sintéticos** (sin PII real). Aquí “entrenamiento” significa calibración supervisada de un scorer interpretable, no un black-box que invente labels de riesgo o parentesco.",
+        "Decidir un par no termina el trabajo: hay que **calibrar** y **fusionar** con honestidad. **Calibración**: ajusta pesos o umbrales con pares etiquetados **sintéticos** (sin PII real — personally identifiable information, información personal identificable). Aquí “entrenamiento” significa calibración supervisada de un scorer interpretable, no un black-box que invente labels de riesgo o parentesco.",
         "**Cola clerical (clerical review)**: cada ítem lleva score, explicación por campo y acciones `match` / `non_match` / `uncertain`, más actor y timestamp. El espacio de labels de ER **no incluye** `fraud`: eso es otra tarea del path de investigación y se filtra en el borde del sistema.",
         "**Consistencia de cluster**: si A=B y B=C entonces A=C en la misma entidad. Resuelve uniones con **Union-Find** y revisa contradicciones (A=B, B≠C, A=C) antes de exportar nodos a S31. En el demo, una **aprobación clerical** de e3–e4 cierra el cluster e1…e4 de forma transitiva. La transitividad es propiedad del cierre; un puente falso (bridge) puede sobrefundir — valida el merge, no solo el `union`. T4 mide si ese motor generaliza sin leakage.",
       ],
@@ -364,7 +364,7 @@ entity_overlap 0`,
       subtopicId: "S30-T4-B",
       paragraphs: [
         "Con el split de T4-A, mide lo que el motor predice. **Pairwise** (par a par): precisión, recall y F1 sobre pares predichos vs. gold. Un F1 pairwise alto puede esconder clusters partidos o fusionados de más. Por eso reportas también una vista de **cluster**.",
-        "**Cluster (simplificado didáctico)**: *co-cluster completeness* ≈ fracción de pares gold match que el sistema mantiene en el mismo cluster (recall de uniones). *Co-cluster quality* ≈ fracción de pares predichos como co-cluster que son match en el gold (precisión de uniones). En literatura de *blocking*, *pairs completeness* / *pairs quality* miden el espacio de candidatos; aquí reutilizamos la familia de nombres solo como vista de co-cluster, etiquetada y simplificada. En el demo calculas ambas sobre Union-Find sintético.",
+        "**Cluster (simplificado didáctico)**: *co-cluster completeness* ≈ fracción de pares gold match que el sistema mantiene en el mismo cluster (recall de uniones). *Co-cluster quality* ≈ fracción de pares predichos como co-cluster que son match en el gold (precisión de uniones). En literatura de *blocking*, *pairs completeness* / *pairs quality* miden el espacio de candidatos; aquí reutilizamos la familia de nombres solo como vista de co-cluster, etiquetada y simplificada. En el demo calculas ambas sobre Union-Find sintético; no es toda la literatura de clustering metrics, pero ya no es solo un nombre en el párrafo.",
         "**Error slices** (rebanadas de error): corta fallos por fuente, apellido frecuente, teléfono ausente, ciudad. Encuentra fallas sistemáticas sin convertir un error de matching en acusación de fraude. El índice de error del demo es la semilla de un slice (`missing_phone`, `common_last_name`, …). Con T1–T4 cerrados, el You Do ensambla el motor CP-N3-A completo.",
       ],
       code: {
@@ -522,7 +522,7 @@ print("ncand", len(candidates))`,
 ncand 1`,
         },
         why:
-          "Candidate recall = |gold ∩ candidates| / |gold|; si es bajo, ningún umbral posterior recupera el match. Aquí las claves ya están plegadas y el recall es 1.0; en theory el mismo gold con tildes sin fold cae a 0.0. El 1.0 se deriva de la intersección, no se imprime a mano. En We Do: fold de tildes, intersección vs unión, y pares por bloque.",
+          "Candidate recall = |gold ∩ candidates| / |gold|; si es bajo, ningún umbral posterior recupera el match. Aquí las claves ya están plegadas y el recall es 1.0; en theory el mismo gold con tildes sin fold cae a 0.0. El 1.0 se deriva de la intersección, no se imprime a mano. En We Do: fold de tildes, intersección vs. unión, y pares por bloque.",
         retrospective:
           "Blocking sin recall medido es fe en ciego. El error clásico es “optimizar CPU” sin gold sintético. Pregunta: si r3 cayera en el mismo bucket, ¿subiría el numerador del recall o solo `ncand`? We Do: clave estable, intersección honesta y pares por bloque.",
       },
@@ -1139,7 +1139,7 @@ print(sum(n * (n - 1) // 2 for n in sizes))`,
         id: "S30-T2-B-E2",
         subtopicId: "S30-T2-B",
         kind: "independent",
-        title: "Filtro person vs org",
+        title: "Filtro person vs. org",
         preamble:
           "- **Contexto:** en el fixture del Caso 30, person y org no se fusionan; gastar edit distance en ese par es basura.\n- **Meta:** imprimir `True` (saltar scorer) cuando los tipos difieren.\n- **Éxito:** una línea `True` con `ta=\"person\"`, `tb=\"org\"`.\n- **Límites:** `True` = impossible; no inviertas a igualdad; no etiquetes fraude.",
         instruction:
@@ -1246,7 +1246,7 @@ filter_before_score`,
           language: 'python',
           title: "exercise.py",
           code: `# Caso 30 · score ponderado
-# Error: no divide por sum(w) — con w=1.0+1.0 el bug es visible (1.5 vs 0.75)
+# Error: no divide por sum(w) — con w=1.0+1.0 el bug es visible (1.5 vs. 0.75)
 print(1 * 1.0 + 0.5 * 1.0)
 `,
         },
@@ -1450,7 +1450,7 @@ print({"pair": pair, "score": score, "explain": explain, "actions": actions})`,
         kind: "transfer",
         title: "Filtrar labels ajenos a ER",
         preamble:
-          "- **Contexto:** una propuesta de producto mete `fraud` y `kinship` en el motor de matching; el borde del sistema del Caso 30 debe filtrarlos.\n- **Meta:** devolver solo labels permitidos en el orden de aparición.\n- **Éxito:** `['match', 'non_match', 'uncertain']`.\n- **Límites:** no dejes pasar fraud/kinship; no reordenes alfabéticamente; ER solo decide misma entidad.",
+          "- **Contexto:** una propuesta de producto mete `fraud` y `kinship` en el motor de matching; el borde del sistema del Caso 30 debe filtrarlos.\n- **Meta:** devolver solo labels permitidos en el orden de aparición.\n- **Éxito:** `['match', 'non_match', 'uncertain']`.\n- **Límites:** no dejes pasar fraud/kinship; no reordenes alfabéticamente; ER solo decide si dos registros son la misma entidad.",
         instruction:
           "1. Lee el starter: imprime `proposed` sin filtrar.\n2. Filtra con `allowed = {\"match\", \"non_match\", \"uncertain\"}`.\n3. Usa comprensión que preserve el orden de `proposed`.\n4. Imprime la lista filtrada.",
         hint: "allowed = {...}; list comprehension",

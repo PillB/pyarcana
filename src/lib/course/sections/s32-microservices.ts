@@ -13,7 +13,7 @@ export const section32: CourseSection = {
   icon: "TableProperties",
   accentColor: "bg-gradient-to-br from-indigo-500 to-violet-800",
   jobRelevance:
-    "Features mal hechas **filtran el futuro** y crean modelos que fallan en producción. En esta sección construyes la **tabla de features versionada** del workbench de investigación relacional (CP-N3-B): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Features de grafo o contacto compartido **no** son etiqueta de fraude ni de parentesco.",
+    "Features mal hechas filtran el futuro (usan datos que solo existirán después de la decisión) y producen modelos que fallan en producción. En esta sección construyes la tabla de features versionada del workbench de investigación relacional (CP-N3-B, el capstone de nivel Competente): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Features de grafo o contacto compartido no son etiqueta de fraude ni de parentesco: son señales para el modelo o la cola humana, no veredictos.",
   learningOutcomes: [
     { text: "Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys." },
     { text: "Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False." },
@@ -763,7 +763,7 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         feedback:
           "`REQUEST_CATALOG` protege el fit pidiendo el artefacto. `REJECT` solo cuando el catálogo existe y el row lo viola: continuar ciego deja el baseline S33 sobre columnas inventadas.",
         retrospective:
-          "`REQUEST_*` pide artefacto; `REJECT_*` demuestra violación del contrato existente. El error clásico es CONTINUE cuando falta el catálogo o inventar un schema vacío “para pasar”. Pregunta: ¿qué imprimirías si el row trae `unknown_feat` y el schema sí existe? Ese hábito (pedir vs rechazar) se reutiliza en todo el promote hacia S33.",
+          "`REQUEST_*` pide artefacto; `REJECT_*` demuestra violación del contrato existente. El error clásico es CONTINUE cuando falta el catálogo o inventar un schema vacío “para pasar”. Pregunta: ¿qué imprimirías si el row trae `unknown_feat` y el schema sí existe? Ese hábito (pedir vs. rechazar) se reutiliza en todo el promote hacia S33.",
         starterCode: {
           language: 'python',
           title: "s32-t1-a-e3.py",
@@ -829,7 +829,7 @@ assert results == ["CONTINUE", "REJECT_UNKNOWN_FEATURE", "REQUEST_CATALOG"]
         feedback:
           "Escalar la serie rellena es el patrón de stats solo de train. Un z “bonito” sobre constantes no se puede servir: silent fill o desalineación es `REJECT_SILENT_FILL` y engaña al score de la cola.",
         retrospective:
-          "El z sigue a `filled`, no a un ejemplo de pizarra: si hardcodeas la salida, train≡serve se rompe en el primer batch real. El error clásico es copiar constantes del notebook “porque el assert pasa”. Pregunta: ¿qué se rompe si mañana la mediana de train deja de ser 2.0? Siguiente (E2): validar indicator vs values.",
+          "El z sigue a `filled`, no a un ejemplo de pizarra: si hardcodeas la salida, train≡serve se rompe en el primer batch real. El error clásico es copiar constantes del notebook “porque el assert pasa”. Pregunta: ¿qué se rompe si mañana la mediana de train deja de ser 2.0? Siguiente (E2): validar indicator vs. values.",
         starterCode: {
           language: 'python',
           title: "s32-t1-b-e1.py",
@@ -893,7 +893,7 @@ def assess(record: dict) -> str:
     missing = sorted(required - record.keys())
     if missing:
         return "MISSING:" + ",".join(missing)
-    # DEFECT: no verifica indicator vs values
+    # DEFECT: no verifica indicator vs. values
     return "PASS" if record["median"] is not None else "REJECT_SILENT_FILL"
 
 valid = {
@@ -1176,7 +1176,7 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         feedback:
           "Pedir la feature de grafo es mejor que inventar degree=0 en silencio. El `CONTINUE` se gana recalculando topología, no leyendo un flag: silent defaults contaminan el baseline S33.",
         retrospective:
-          "Pedir la feature de grafo evita silent defaults que contaminan el baseline S33. El error clásico es inventar degree=0 “por si acaso” cuando faltan vecinos. Pregunta: ¿qué código sale si falta `neighbors` y el resto del record está completo? Ese hábito (REQUEST vs inventar) es entrevista-relevante.",
+          "Pedir la feature de grafo evita silent defaults que contaminan el baseline S33. El error clásico es inventar degree=0 “por si acaso” cuando faltan vecinos. Pregunta: ¿qué código sale si falta `neighbors` y el resto del record está completo? Ese hábito (REQUEST vs. inventar) es entrevista-relevante.",
         starterCode: {
           language: 'python',
           title: "s32-t2-a-e3.py",
@@ -1481,7 +1481,7 @@ assert meets is True
         id: "S32-T3-A-E2",
         subtopicId: "S32-T3-A",
         kind: "independent",
-        title: "Assess fit real vs try_before_fit",
+        title: "Assess fit real vs. try_before_fit",
         preamble:
           "- **Contexto:** un notebook que “transforma primero” no deja state reproducible para serve.\n- **Meta:** PASS con fit+transform reales; REJECT si try_before_fit; MISSING sin train_xs.\n- **Éxito:** `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:train_xs`.\n- **Límites:** no confíes en un flag `fitted` prebakeado; mode desde train_xs.",
         instruction:
@@ -1804,7 +1804,7 @@ print(*(assess(r) for r in (valid, invalid, incomplete)))
         feedback:
           "`REQUEST_STATE_JSON` es fail-closed cuando falta el artefacto. El `CONTINUE` se gana aplicando el state, no con un flag versioned ni promoviendo version vacía.",
         retrospective:
-          "Falta de `version` en el record es ausencia de artefacto: se pide JSON de state, no se inventa un id. El error clásico es promover con `version=\"\"` o CONTINUE sin apply. Pregunta: ¿qué sale si `version=\"\"` (string vacío, key presente)? Ese matiz (REJECT_UNVERSIONED vs REQUEST) es el que cierra el handoff a S33.",
+          "Falta de `version` en el record es ausencia de artefacto: se pide JSON de state, no se inventa un id. El error clásico es promover con `version=\"\"` o CONTINUE sin apply. Pregunta: ¿qué sale si `version=\"\"` (string vacío, key presente)? Ese matiz (REJECT_UNVERSIONED vs. REQUEST) es el que cierra el handoff a S33.",
         starterCode: {
           language: 'python',
           title: "s32-t3-b-e3.py",

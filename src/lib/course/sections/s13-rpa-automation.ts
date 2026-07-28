@@ -27,15 +27,17 @@ export const section13: CourseSection = {
     {
       heading: "Mapa del Familiarity Evidence Dashboard y cierre N1",
       paragraphs: [
-        "Aquí cierras **CP-N1-C** con un **Familiarity Evidence Dashboard**: entity resolution por reglas, señales de relación **separadas** del score ER, explicación humana y operación responsable. La automatización de browser, OCR y orquestación avanzada llegan en secciones posteriores; en N1 el producto es la ficha de evidencia auditable que un revisor puede leer en cinco minutos.",
+        "Aquí cierras **CP-N1-C** (el gate práctico del Nivel 1) con un **Familiarity Evidence Dashboard**: entity resolution por reglas —esto es, decidir si dos filas hablan de la misma persona—, señales de relación **separadas** del score ER, explicación humana y operación responsable. La automatización de browser, OCR y orquestación avanzada llegan en secciones posteriores; en N1 el producto es la ficha de evidencia auditable que un revisor puede leer en cinco minutos.",
         "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados (`C00x`, Lima/Arequipa). Si falta evidencia o el schema no cuadra, **falla cerrado** — no auto-merge, no `auto_fraud`. Stack: stdlib + reglas deterministas de S01–S12; **sin** sklearn ni NumPy/Pandas de S14–S15.",
         "Desde **S12** ya traes HTTP con timeout/retry, SQL parametrizado y geoseñal con política de egress (solo ciudad/mock, sin PII cruda a geocoders públicos). En S13 esos ladrillos alimentan **tooltips del mapa** y la ficha: `geo_distance_km=…; source=mock`. No reaprendes el adapter: lo **conectas** a la vista de evidencia.",
         "Orden de estudio: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**. Métrica del gate: dos scores visibles en ficha + cola clerical + privacy sheet + demo de un comando. Nunca PII real ni `is_family` automático.",
         "**Diccionario de la sección:**",
+        "- *entity resolution (ER)*: decide si dos filas hablan de la misma entidad; no de parentesco ni fraude.",
         "- *blocking*: acota pares candidatos antes de reglas finas.",
         "- *cola clerical*: la bandeja humana de duda.",
         "- *fail-closed*: niega el merge si falta evidencia.",
         "- *uncertainty* (`low`/`med`/`high`): declara qué tan confiable es el score.",
+        "- *CP-N1-C*: el gate práctico de cierre del Nivel 1; pide dashboard, regresión S01–S13 y CF-1.",
         "- *CF-1*: el paquete de privacidad + demo + runbook del cierre de nivel.",
         "**Ritmo sugerido (19 h):** ~6 h T1–T2 (identidad y señales), ~5 h T3 (matriz y explicación), ~5 h T4 (dashboard + CF-1), ~3 h regresión S01–S13 y pulido de portfolio.",
       ],
@@ -50,8 +52,8 @@ export const section13: CourseSection = {
       heading: "Normalización, blocking y entity resolution",
       subtopicId: "S13-T1-A",
       paragraphs: [
-        "**Ancla:** entity resolution (ER) responde *¿es la misma entidad en dos filas?* No responde *¿son familia?* ni *¿hay fraude?* Esas preguntas se tratan con otros scores y con humanos. Sin normalización, `D-12.34` y `d1234` parecen identidades distintas aunque son el mismo documento sintético: por eso casefold y limpieza de no-alfanuméricos van **antes** de cualquier comparación.",
-        "**Mecanismo — blocking:** el producto cartesiano de *N* registros es *N×N* pares; con miles de filas es inviable revisarlos a mano. **Blocking** (apellido paterno + región) acota el espacio: solo corres reglas finas dentro del mismo bloque. En nombres peruanos sintéticos del curso: con `Nombre ApellidoPaterno ApellidoMaterno`, toma el **segundo** token (`parts[1]`); si solo hay un token, usa ese. Ejemplo: `Luis Huamán Soto` + Cusco → `huamán|cusco`. Documenta la regla en el memo y **no** mezcles «último token» (materno) con «paterno» en el mismo pipeline.",
+        "**Ancla:** entity resolution (ER) responde *¿es la misma entidad en dos filas?* No responde *¿son familia?* ni *¿hay fraude?* Esas preguntas se tratan con otros scores y con humanos. Sin normalización, `D-12.34` y `d1234` parecen identidades distintas aunque son el mismo documento sintético: por eso casefold (pasar todo a minúsculas) y limpieza de no-alfanuméricos van **antes** de cualquier comparación.",
+        "**Mecanismo — blocking:** el producto cartesiano de *N* registros es *N×N* pares (todas las combinaciones posibles); con miles de filas es inviable revisarlos a mano. **Blocking** (apellido paterno + región) acota el espacio: solo corres reglas finas dentro del mismo bloque. En nombres peruanos sintéticos del curso: con `Nombre ApellidoPaterno ApellidoMaterno`, toma el **segundo** token (`parts[1]`, el apellido paterno); si solo hay un token, usa ese. Ejemplo: `Luis Huamán Soto` + Cusco → `huamán|cusco`. Documenta la regla en el memo y **no** mezcles «último token» (materno) con «paterno» en el mismo pipeline.",
         "**Trabajo guiado:** ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. Contrato típico N1: 1.0 si documento normalizado y blocking key coinciden; 0.5 si solo el documento coincide (bloques distintos — sospecha de migración o error de región); 0.0 en otro caso. Caso sintético: `Ana Quispe` / `ANA QUISPE` en Lima con el mismo doc → ER 1.0; el `relationship_signal_score` se calcula en T2 y **no** se suma a ciegas al ER.",
         "**Borde / fail-closed:** si falta `document_id`, el nombre está vacío o el bloque queda sin tokens, **no** inventes score 1.0. No uses embeddings, sklearn ni ER probabilístico aquí (eso es tramo posterior, p. ej. S30). En la ficha del dashboard los dos scores viajan en campos **separados** con etiquetas legibles.",
       ],
@@ -92,7 +94,7 @@ relationship_signal_score SEPARATE`,
       heading: "Verdad etiquetada, precision/recall y revisión clerical",
       subtopicId: "S13-T1-B",
       paragraphs: [
-        "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La etiqueta es ground truth de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
+        "**Ancla:** sin etiquetas no sabes si tu regla de ER ayuda o daña. Con pares **sintéticos** etiquetados calculas **TP** (dijiste match y era match), **FP** (dijiste match y no lo era) y **FN** (era match y lo dejaste pasar). De ahí: precision = TP/(TP+FP) y recall = TP/(TP+FN). La etiqueta es ground truth (verdad de referencia) de *identidad en el fixture del curso* — **no** es un veredicto legal sobre personas reales.",
         "**Mecanismo y trade-off:** en ER de alto riesgo (crédito, compliance) priorizas **precision**: un merge falso puede unir cuentas de dos personas distintas. El recall imperfecto se compensa con la **cola clerical** (humano revisa la duda). Scores en banda intermedia (p. ej. [0.4, 0.7]) **nunca** auto-mergean: van a revisión. Aceptar solo si score ≥ 0.8 y uncertainty ≠ high. Fail-closed si la etiqueta o el score no son finitos.",
         "**Caso trabajado:** tabla de 6 pares sintéticos con 2 TP, 1 FP y 1 FN → precision 0.667 y recall 0.667. Reportas ambos redondeados a 3 decimales y el flag explícito `fp_means_fraud=False` en el memo del gate. Si solo publicas «accuracy alto» sin desglose TP/FP/FN, el revisor no puede auditar el coste de los errores.",
         "**Borde ético:** un **FP no implica fraude**. Es colisión de identidad estimada (dos personas, un score alto por casualidad o por regla débil). Tratar FP como delito es el error más grave que puedes llevar a un dashboard de N1: por eso la ficha y el runbook repiten la frase hasta que se vuelva reflejo.",
@@ -131,7 +133,7 @@ fp_means_fraud False`,
       heading: "Email/teléfono/dirección compartidos, distancia y apellidos",
       subtopicId: "S13-T2-A",
       paragraphs: [
-        "**Ancla:** el score de **relación** responde *¿hay indicios de familiaridad operativa entre dos entidades?* (contacto compartido, cercanía, apellido). **No** responde *¿son parientes?* ni *¿hay colusión?* Esas inferencias quedan fuera de N1 y de la UI automática. Cada señal es un booleano o parcial con traza legible: `shared_phone`, `geo_close`, `surname_jaccard`.",
+        "**Ancla:** el score de **relación** responde *¿hay indicios de familiaridad operativa entre dos entidades?* (contacto compartido, cercanía, apellido). **No** responde *¿son parientes?* ni *¿hay colusión?* Esas inferencias quedan fuera de N1 y de la UI automática. Cada señal es un booleano o parcial con traza legible: `shared_phone` (teléfono compartido), `geo_close` (cercanía geográfica), `surname_jaccard` (similitud de apellidos).",
         "**Mecanismo — fórmula canónica N1:** `rel = 0.5*shared_phone + 0.3*geo_close + 0.2*surname_jaccard` (pesos fijos en el memo del curso). La distancia de par es **bilateral**: ambos registros deben reportar el mismo `km` sintético y `km ≤ 2.0` (reutiliza la geoseñal de S12). En ejercicios de práctica puedes usar una **variante** (p. ej. solo geo+apellido 0.6/0.4) **si** la consigna del ejercicio lo declara; no inventes una tercera fórmula sin etiquetarla.",
         "**Caso trabajado:** teléfono compartido + `km=1.2` en ambos + Jaccard de tokens de apellido 0.2 → `relationship_signal_score` 0.84. La ficha lista las tres señales en la explicación y fija `kinship_verdict=None`. Si solo imprimes el número 0.84 sin bullets, el revisor no sabe *por qué* subió el score.",
         "**Borde / fail-closed:** si falta el campo de una señal con peso no cero, **no** inventes `True` ni un km «promedio». Apellido compartido + teléfono **no** autoriza `is_family=true`. La salida del demo y del portfolio debe poder afirmar en voz alta: *señal ≠ parentesco*.",
@@ -230,7 +232,7 @@ collusion_claim False`,
       heading: "Score de evidencia, incertidumbre y explicación",
       subtopicId: "S13-T3-A",
       paragraphs: [
-        "**Ancla:** la ficha de caso es el artefacto que lee un humano. No basta con un número: necesitas **tres salidas que viajan juntas** — `evidence_score`, banda de **incertidumbre** (`low`/`med`/`high`) y **bullets** legibles. Si no puedes listar al menos tres bullets honestos (qué inputs usaste y qué falta), **no publiques** el score en la UI.",
+        "**Ancla:** la ficha de caso es el artefacto que lee un humano. No basta con un número: necesitas **tres salidas que viajan juntas** — `evidence_score` (score de evidencia), banda de **incertidumbre** (`low`/`med`/`high`) y **bullets** legibles (viñetas con la traza del cálculo). Si no puedes listar al menos tres bullets honestos (qué inputs usaste y qué falta), **no publiques** el score en la UI.",
         "**Mecanismo:** combina ER y relación con pesos **explícitos** (canónico de ficha: 0.6·ER + 0.4·REL). Uncertainty sube a `high` si hay conflicto fuerte (|ER−REL| > 0.5) o si faltan ≥2 campos; a `med` si falta al menos uno; `low` solo si el input está completo y coherente. Auditoría mínima: lista `missing` + `rules_version` (p. ej. `n1-er-1.0`).",
         "**Caso trabajado:** `explain(0.9, 0.4, [\"phone\"])` → evidence_score 0.7, uncertainty `med` (falta teléfono; el gap |0.9−0.4|=0.5 no supera el umbral de conflicto >0.5 en este contrato), bullets con ER, REL y missing, audit `rules_version=n1-er-1.0`. El revisor debe poder recalcular 0.7 desde el fixture.",
         "**Borde / fail-closed:** si faltan campos obligatorios, eleva uncertainty; **no** inventes un teléfono o km «promedio» para subir el score. Señales conflictivas (ER alto y REL muy baja) se **explican**, no se maquillan hacia el centro. Un score sin bullets es teatro, no evidencia.",
@@ -273,7 +275,7 @@ print(explain(0.9, 0.4, ["phone"]))`,
       heading: "Umbral de revisión, abstención y no inferencia automática",
       subtopicId: "S13-T3-B",
       paragraphs: [
-        "**Ancla:** el dashboard no «decide culpables». Decide **qué hacer con un par de evidencia**: invalidar entrada, abstenerse, encolar revisión o aceptar el par de identidad. Matriz **total y sin huecos** (todo score finito en [0,1] y toda uncertainty conocida cae en exactamente un estado). **Nunca** `auto_fraud=true` ni `is_family=true`.",
+        "**Ancla:** el dashboard no «decide culpables». Decide **qué hacer con un par de evidencia**: invalidar entrada (`invalid_input`), abstenerse (`abstain`), encolar revisión (`needs_review`) o aceptar el par de identidad (`accept_pair`). Matriz **total y sin huecos** (todo score finito en [0,1] y toda uncertainty conocida cae en exactamente un estado). **Nunca** `auto_fraud=true` ni `is_family=true`.",
         "**Mecanismo (orden de evaluación):** la función `decide_ops_status(score, uncertainty)` recorre cinco reglas en orden y devuelve el primer estado que aplica:",
         "| # | Condición | Estado |",
         "|---|-----------|--------|",
@@ -283,8 +285,8 @@ print(explain(0.9, 0.4, ["phone"]))`,
         "| 4 | score < 0.80 | `needs_review` |",
         "| 5 | resto | `accept_pair` |",
         "Los límites **0.40** y **0.80** son exactos. Ejemplos: 0.399 → `abstain`; 0.4 → `needs_review`; 0.799 → `needs_review`; 0.8 con uncertainty distinta de high → `accept_pair`. No «aproximes» 0.799 a `accept_pair`.",
-        "**Human-in-the-loop:** la acción es de **datos** (revisar / aceptar par / abstenerse), no veredicto legal, no KYC automático y no «lista negra» de personas. El revisor ve la ficha (ER, REL, bullets, uncertainty) y elige; el código solo clasifica el par.",
-        "**Borde y auditoría de portfolio:** busca con `grep` en el repo y elimina cualquier path que establezca `is_family` o `auto_fraud`. Las 9 filas de `DECISION_MATRIX` del You Do deben pasar con asserts exactos y **siempre** `auto_fraud=False` en la salida del demo. Si queda un hueco numérico entre umbrales, el gate de N1 no cierra.",
+        "**Human-in-the-loop** (un humano revisa la duda): la acción es de **datos** (revisar / aceptar par / abstenerse), no veredicto legal, no KYC automático (verificación de identidad del cliente) y no «lista negra» de personas. El revisor ve la ficha (ER, REL, bullets, uncertainty) y elige; el código solo clasifica el par.",
+        "**Borde y auditoría de portfolio:** busca con `grep` (la herramienta de búsqueda en texto del repo) y elimina cualquier path que establezca `is_family` o `auto_fraud`. Las 9 filas de `DECISION_MATRIX` del You Do deben pasar con asserts exactos y **siempre** `auto_fraud=False` en la salida del demo. Si queda un hueco numérico entre umbrales, el gate de N1 no cierra.",
       ],
       code: {
         language: 'python',
@@ -325,8 +327,8 @@ nan low invalid_input auto_fraud False`,
       heading: "Dashboard/mapa pseudonimizado y ficha de caso",
       subtopicId: "S13-T4-A",
       paragraphs: [
-        "**Ancla de producto:** el gate de N1 no pide un design system ni Streamlit de secciones futuras. Pide un **scaffold auditable**: tres fichas + puntos de mapa con coords sintéticas (Lima/Arequipa) y tooltips de geoseñal **trazable** (`geo_distance_km=…; source=mock`). Un revisor debe poder abrir la vista y entender cada caso en cinco minutos.",
-        "**Mecanismo de privacidad en UI:** **pseudonimiza** nombres (por ejemplo `A*** Q***`). Reutiliza la política de egress de S12: no mandes PII cruda a un geocoder público. La ficha muestra `entity_resolution_score` **y** `relationship_signal_score` en campos **separados**. Si los mezclas en un solo número sin etiqueta, rompes el gate ético: el revisor ya no sabe si «0.7» es identidad o familiaridad operativa.",
+        "**Ancla de producto:** el gate de N1 no pide un design system (sistema visual completo) ni Streamlit (framework de UI de secciones futuras). Pide un **scaffold auditable** —un andamiaje mínimo que se puede revisar—: tres fichas + puntos de mapa con coords sintéticas (Lima/Arequipa) y tooltips de geoseñal **trazable** (`geo_distance_km=…; source=mock`). Un revisor debe poder abrir la vista y entender cada caso en cinco minutos.",
+        "**Mecanismo de privacidad en UI:** **pseudonimiza** nombres (por ejemplo `A*** Q***`). Reutiliza la política de egress de S12 (egress es lo que sale del sistema): no mandes PII cruda (datos personales identificables) a un geocoder público (servicio de coordenadas). La ficha muestra `entity_resolution_score` **y** `relationship_signal_score` en campos **separados**. Si los mezclas en un solo número sin etiqueta, rompes el gate ético: el revisor ya no sabe si «0.7» es identidad o familiaridad operativa.",
         "**Casos trabajados (mínimo tres):**",
         "- **CASE-1** `A*** Q***` — ER 0.92, REL 0.41: identidad fuerte, relación moderada.",
         "- **CASE-2** `L*** H***` — ER medio, REL más alto: el revisor ve la tensión **sin** autoetiqueta de parentesco.",
@@ -387,10 +389,10 @@ CASE-3 M*** R*** ER 0.77 REL 0.22`,
       heading: "Privacidad, acceso, pruebas, demo y runbook",
       subtopicId: "S13-T4-B",
       paragraphs: [
-        "**Ancla CF-1:** sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. La **privacy sheet** fija clase de datos `synthetic_only`, retención local, sin egress de PII a geocoders públicos (política S12), y roles mínimos `viewer` / `reviewer`. Documenta qué se guarda, quién ve la ficha y qué **no** sale del entorno de demo. Sin esta hoja, CF-1 no cierra aunque el score «se vea bonito».",
-        "**Mecanismo de entrega:** (1) **tests en verde** de ER, señales y umbrales; (2) **demo de un comando** (`python -m demo_n1_dashboard --synthetic`); (3) **runbook** con setup + playbook de incidente (token o nombre en log → `rotate_secret` / `redact_logs` / post mortem). Un compañero en máquina limpia debe poder reproducir la demo con el mismo fixture sintético.",
+        "**Ancla CF-1:** sin operación documentada, el dashboard es un prototipo de laptop, no un cierre de nivel. La **privacy sheet** —la hoja de privacidad del cierre— fija clase de datos `synthetic_only`, retención local, sin egress de PII a geocoders públicos (política S12), y roles mínimos `viewer` / `reviewer` (lectura / revisión). Documenta qué se guarda, quién ve la ficha y qué **no** sale del entorno de demo. Sin esta hoja, CF-1 no cierra aunque el score «se vea bonito».",
+        "**Mecanismo de entrega:** (1) **tests en verde** (pruebas automáticas que pasan sin fallos) de ER, señales y umbrales; (2) **demo de un comando** (`python -m demo_n1_dashboard --synthetic`); (3) **runbook** (manual de operación) con setup + playbook de incidente (token o nombre en log → `rotate_secret` / `redact_logs` / post mortem). Un compañero en máquina limpia debe poder reproducir la demo con el mismo fixture sintético.",
         "**Regresión level-1 y carga cognitiva:** artefactos CF-1 + checklist **S01–S13** cierran el nivel. En ~30 min re-ejecuta solo los checks críticos de `LEVEL1_REGRESSION_MATRIX` y anota pass/fail. El bloque de producto (dashboard + privacy) es aparte: no intentes rehacer todos los capstones en una sola noche.",
-        "**Borde de gate:** tu entrega **documenta evidencia** del producto N1; el progreso del curso se registra por el proceso de gate formal, no por un flag dentro del script de demo. La demo no escribe «aprobado» en ningún ledger: solo prueba que el producto corre y es auditable.",
+        "**Borde de gate:** tu entrega **documenta evidencia** del producto N1; el progreso del curso se registra por el proceso de gate formal (la revisión humana del portafolio), no por un flag dentro del script de demo. La demo no escribe «aprobado» en ningún ledger (registro interno): solo prueba que el producto corre y es auditable.",
       ],
       code: {
         language: 'python',
@@ -439,7 +441,7 @@ level1_regression S01-S13 checklist required`,
   ],
   iDo: {
     intro:
-      "Ocho demos del cierre N1 — uno por subtema, en el mismo orden T1→T4. Observa el código, córrelo y compara la salida: **cada print debe ser reproducible** (sin teatro). Cubres ER por reglas, evaluación + cola clerical, señales de relación (fórmula canónica 0.5/0.3/0.2), graphlet de txs, ficha con uncertainty, umbrales sin auto_fraud, scaffold de 3 casos y runbook con regresión level-1. Después de cada demo, el We Do del mismo subtema te pide arreglar un **DEFECT** del mismo contrato. Ese es el puente I Do → We Do antes del You Do del portfolio.",
+      "Ocho demos del cierre N1 — uno por subtema, en el mismo orden T1→T4. Observa el código, córrelo y compara la salida: **cada print debe ser reproducible** (sin teatro, esto es, sin líneas que el código no produce). En los demos cubres ER por reglas, evaluación con precision/recall y cola clerical. También modelas señales de relación con la fórmula canónica 0.5/0.3/0.2 y un graphlet (un mini-grafo de transacciones). Para cerrar, ficha con uncertainty, umbrales sin `auto_fraud`, scaffold de 3 casos y runbook con regresión level-1. Después de cada demo, el We Do del mismo subtema te pide arreglar un **DEFECT** —un defecto intencional que debes corregir— del mismo contrato. Ese es el puente I Do → We Do antes del You Do del portfolio.",
     steps: [
       {
         demoId: "S13-T1-A-DEMO",
@@ -744,7 +746,7 @@ demo_writes_course_progress False`,
   },
   weDo: {
     intro:
-      "Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, ids `S13-T*-E*`). Cada starter trae **un DEFECT** claro: no reescribas el fixture; corrígelo hasta que la salida/pass coincida. Orden recomendado: cierra T1 (identidad) antes de T2 (relación), luego T3 (decisión) y T4 (producto/ops + CF-1). Los demos del I Do ya modelaron el contrato canónico (blocking paterno `parts[1]`, rel 0.5/0.3/0.2, umbrales 0.40/0.80); aquí lo practicas con fixtures sintéticos. Dos pistas por ejercicio; mira la solución solo si te trabas. Al final, el You Do ensambla el dashboard completo y la regresión N1.",
+      "Andamiaje decreciente por subtema: **E1 guiado → E2 independiente → E3 transferencia** (24 ejercicios, ids `S13-T*-E*`). Cada starter —el código inicial que recibes— trae **un DEFECT** (un defecto intencional que debes corregir): no reescribas el fixture; corrígelo hasta que la salida/pass coincida. Orden recomendado: cierra T1 (identidad) antes de T2 (relación), luego T3 (decisión) y T4 (producto/ops + CF-1). Los demos del I Do ya modelaron el contrato canónico (blocking paterno `parts[1]`, rel 0.5/0.3/0.2, umbrales 0.40/0.80); aquí lo practicas con fixtures sintéticos. Dos pistas por ejercicio; mira la solución solo si te trabas. Al final, el You Do ensambla el dashboard completo y la regresión N1.",
     steps: [
       {
         id: "S13-T1-A-E1",
@@ -1002,10 +1004,10 @@ print(clerical_queue(pairs))`,
           "- **Contexto:** un revisor de compliance lee el reporte de evaluación del matching sintético; un FP no es veredicto de delito.\n- **Meta:** calcular precision/recall (tp=5, fp=1, fn=2) y adjuntar disclaimer + `ops_action=needs_review`.\n- **Éxito:** cuatro líneas — precision 0.833, recall 0.714, frase exacta `fp_not_fraud`, y `ops_action: needs_review`.\n- **Límites:** no `auto_fraud`; texto exacto del solution; solo stdlib.",
         instruction:
           "1. El starter deja PR en 0.0 y trata FP como delito — corrige ambos.\n2. Calcula PR con round 3.\n3. Texto exacto: *False positive de matching no es evidencia de delito*.\n4. `ops_action` debe ser `needs_review`, no `auto_fraud`.",
-        hint: "precision=tp/(tp+fp); recall=tp/(tp+fn); round 3; adjunta límites éticos al mismo report",
+        hint: "precision=tp/(tp+fp); recall=tp/(tp+fn); round 3; adjunta límites éticos al mismo report.",
         hints: [
           "tp=5,fp=1 → precision 0.833; tp=5,fn=2 → recall 0.714",
-          "FP no es auto_fraud: ops_action debe ser needs_review",
+          "FP no es auto_fraud: ops_action debe ser needs_review.",
         ],
         edgeCases: ["métricas y ética viajan juntas en el mismo artefacto de gate"],
         tests: "precision/recall + texto + needs_review",
@@ -1107,9 +1109,9 @@ False`,
           "- **Contexto:** en práctica de T2 usas una **variante** geo+apellido (0.6/0.4); el canónico de tres señales queda para la ficha y E3.\n- **Meta:** `rel_score(km, surname_jaccard)` con geo si km≤2.0 inclusive.\n- **Éxito:** `0.8` (km=1.2, j=0.5) y `0.2` (km=5.0, j=0.5).\n- **Límites:** no uses la fórmula de tres señales aquí; documenta pesos; solo stdlib.",
         instruction:
           "1. El starter solo devuelve el jaccard — añade el término geo.\n2. geo = 1.0 si km ≤ 2, si no 0.0.\n3. score = round(0.6*geo + 0.4*jaccard, 3).\n4. Imprime ambos casos del fixture.",
-        hint: "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2",
+        hint: "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2.",
         hints: [
-          "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2",
+          "Variante: 0.6 geo + 0.4 apellido (no es el canónico de 3 señales); geo si km<=2.",
           "km=1.2, j=0.5 → 0.8",
         ],
         edgeCases: ["km lejos anula geo; km=2.0 sigue contando como geo_close"],
@@ -1150,12 +1152,12 @@ print(rel_score(5.0, 0.5))`,
           "- **Contexto:** la ficha de caso muestra `relationship_signal_score` **junto** a un disclaimer; el revisor no debe leer «1.0» como parentesco.\n- **Meta:** calcular rel canónico 0.5·phone + 0.3·geo + 0.2·surname y adjuntar el disclaimer exacto.\n- **Éxito:** `score 1.0` y la frase *relationship_signal_score no implica parentesco ni colusión*.\n- **Límites:** no hardcodees parentesco legal; pesos fijos; solo stdlib.",
         instruction:
           "1. Calcula `rel` con los tres factores del starter (todos 1.0).\n2. Arma el dict de ficha con score y disclaimer.\n3. Texto exacto del solution (tests de portfolio).\n4. Imprime score y disclaimer en dos líneas.",
-        hint: "Calcula rel con 0.5/0.3/0.2; adjunta disclaimer al dict; no infieras parentesco",
+        hint: "Calcula rel con 0.5/0.3/0.2; adjunta disclaimer al dict; no infieras parentesco.",
         hints: [
           "phone=geo=surname=1.0 → rel 1.0 con pesos canónicos",
           "Texto exacto del disclaimer para tests de portfolio",
         ],
-        edgeCases: ["disclaimer UI debe viajar junto al score, no reemplazarlo"],
+        edgeCases: ["disclaimer UI debe viajar junto al score, no reemplazarlo."],
         tests: "score 1.0 + frase exacta de disclaimer",
         feedback:
           "Score calculado + disclaimer adjunto: el revisor ve número y límite ético juntos. Si el disclaimer afirma parentesco, rompes el gate ético de N1 aunque el score sea correcto.",
@@ -1559,7 +1561,7 @@ print(sorted(thresholds.items()))`,
           "1. El starter no valida y prioriza accept — reescribe la cascada.\n2. Orden: invalid (tipo/bool/rango/unc) → high → score < review_low → score < accept_min → accept_pair.\n3. Imprime cada fila del loop del starter.\n4. No cambies `th` ni la lista de casos.",
         hint: "Valida tipo/isfinite/unc antes de comparar umbrales; high unc gana sobre score alto",
         hints: [
-          "Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar",
+          "Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar.",
           "Orden: invalid → high → abstain → needs_review → accept_pair",
         ],
         edgeCases: ["0.4", "0.8", "NaN", "bool", "unc desconocida", "high unc → review"],
@@ -1868,7 +1870,7 @@ print(demo_command())`,
         kind: "transfer",
         title: "Incidente PII y regresión N1",
         preamble:
-          "- **Contexto:** si un token o nombre aparece en un log del demo, la respuesta es playbook — no «seguir como si nada».\n- **Meta:** tres acciones en orden (`rotate_secret`, `redact_logs`, `postmortem`) y nota de re-check S01–S13.\n- **Éxito:** `rotate_secret|redact_logs|postmortem` y la línea exacta de `level1_regression`.\n- **Límites:** orden fijo; no `ignore`; solo stdlib.",
+          "- **Contexto:** si un token o nombre aparece en un log del demo, la respuesta es playbook — no «seguir como si nada».\n- **Meta:** tres acciones en orden (`rotate_secret`, `redact_logs`, `postmortem`) y nota de revisión S01–S13.\n- **Éxito:** `rotate_secret|redact_logs|postmortem` y la línea exacta de `level1_regression`.\n- **Límites:** orden fijo; no `ignore`; solo stdlib.",
         instruction:
           "1. Reemplaza la lista `ignore/continue`.\n2. Une con `|` en el orden del solution.\n3. Segundo print: texto exacto de regresión level-1.\n4. No inventes pasos extra.",
         hint: "Orden fijo de respuesta",
@@ -1879,7 +1881,7 @@ print(demo_command())`,
         edgeCases: ["incidente + regresión"],
         tests: "3 acciones + nota regresión",
         feedback:
-          "Si ves `ignore|continue` o `level1_regression: skip`, no implementaste el playbook. El orden fijo es rotate → redact → postmortem; el segundo print debe re-checkear S01–S13, no «saltar» la regresión.",
+          "Si ves `ignore|continue` o `level1_regression: skip`, no implementaste el playbook. El orden fijo es `rotate_secret` → `redact_logs` → `postmortem`; el segundo print debe volver a verificar S01–S13, no «saltar» la regresión.",
         retrospective:
           "Incidente y regresión forman parte del cierre N1: no basta con que el dashboard «corra otra vez». En el You Do ensamblas ER, REL, matriz de decisión, privacy y las 13 filas de regresión en un solo entregable que puedas defender en el gate.",
         starterCode: {
@@ -1907,7 +1909,7 @@ level1_regression: re-check S01-S13 critical paths after incident`,
   youDo: {
     title: "Familiarity Evidence Dashboard — cierre CP-N1-C + regresión nivel 1 + CF-1",
     context:
-      "Cierras el **Familiarity Evidence Dashboard (CP-N1-C)**: ER determinista por reglas, `entity_resolution_score` **separado** de `relationship_signal_score`, geoseñal trazable, fichas pseudonimizadas y umbrales de revisión/abstención **sin** parentesco/fraude automático. **Antes de este You Do:** completa al menos un E1+E2+E3 de T1 (identidad), T2 (relación) y T3 (decisión); el starter reutiliza esos contratos con DEFECTOS intencionales que debes corregir. Incluye **notas de regresión de nivel 1 (S01–S13)**: en ~30 min re-ejecuta los checks críticos listados en `LEVEL1_REGRESSION_MATRIX` sobre fixtures sintéticos y registra pass/fail en el runbook. El bloque de producto (dashboard + privacy) es aparte. Entrega artefactos **CF-1** (privacy sheet, acceso, tests, demo de un comando). Esta entrega documenta evidencia CF-1 y la regresión N1; no inventes un flag de «aprobado» dentro del código.",
+      "Cierras el **Familiarity Evidence Dashboard (CP-N1-C)** —el gate práctico del Nivel 1—: ER determinista por reglas, `entity_resolution_score` **separado** de `relationship_signal_score` (esto es, identidad y familiaridad operativa nunca se mezclan en un solo número), geoseñal trazable, fichas pseudonimizadas y umbrales de revisión/abstención **sin** parentesco/fraude automático. **Antes de este You Do:** completa al menos un E1+E2+E3 de T1 (identidad), T2 (relación) y T3 (decisión); el starter —el código inicial que recibes— reutiliza esos contratos con DEFECTOS intencionales que debes corregir. Incluye **notas de regresión de nivel 1 (S01–S13)**: en ~30 min re-ejecuta los checks críticos listados en `LEVEL1_REGRESSION_MATRIX` sobre fixtures sintéticos y registra pass/fail en el runbook. El bloque de producto (dashboard + privacy) es aparte. Entrega artefactos **CF-1** (privacy sheet, acceso, tests, demo de un comando). Esta entrega documenta evidencia CF-1 y la regresión N1; no inventes un flag de «aprobado» dentro del código.",
     objectives: [
       "Pipeline normalize → blocking → entity_resolution_score",
       "Precision/recall + cola clerical sobre pares sintéticos",
@@ -2074,56 +2076,56 @@ if __name__ == "__main__":
         options: ["Mantenerse separados en la ficha de caso", "Fusionarse siempre en un solo número sin etiqueta", "Reemplazarse por is_family", "Ocultarse al revisor"],
         correctIndex: 0,
         explanation:
-          "Son constructos distintos; la UI y el modelo los muestran aparte.",
+          "Son constructos distintos —la identidad y la familiaridad operativa son preguntas separadas—; la UI y el modelo los muestran aparte.",
       },
       {
         question: "Un false positive de ER implica…",
         options: ["Fraude confirmado", "Parentesco automático", "Error de matching; no es veredicto legal de fraude", "Borrar la cola clerical"],
         correctIndex: 2,
         explanation:
-          "FP es error de identidad estimada, no delito.",
+          "FP (falso positivo) es error de identidad estimada, no delito.",
       },
       {
         question: "En la zona gris del score el sistema debe…",
         options: ["Marcar auto_fraud=true", "Asignar is_family=true", "Publicar PII real en el mapa", "Encolar needs_review / abstenerse según política"],
         correctIndex: 3,
         explanation:
-          "Human-in-the-loop: revisión o abstención, nunca fraude auto.",
+          "Human-in-the-loop (un humano revisa la duda): revisión o abstención, nunca fraude automático.",
       },
       {
         question: "CF-1 en S13 incluye…",
         options: ["Solo un modelo de deep learning", "Privacy sheet, acceso, tests, demo y runbook", "Hardcodear tokens en el repo", "Omitir la privacy sheet si el demo corre"],
         correctIndex: 1,
         explanation:
-          "Artefactos de operación y privacidad del cierre N1.",
+          "CF-1 reúne los artefactos de operación y privacidad del cierre N1: privacy sheet, acceso, tests, demo y runbook.",
       },
       {
         question: "Level-1 regression notes en el You Do exigen…",
         options: ["Re-chequear paths críticos S01–S13 y documentarlos en el runbook de entrega", "Ignorar S01–S12", "Borrar el dashboard", "Enviar PII a geocoder público"],
         correctIndex: 0,
         explanation:
-          "La regresión de nivel se documenta en el runbook de entrega N1.",
+          "La regresión de nivel —volver a verificar los paths críticos S01–S13— se documenta en el runbook de entrega N1.",
       },
       {
         question: "Si score=0.4 y uncertainty=low, decide_ops_status debe devolver…",
         options: ["abstain", "accept_pair", "needs_review", "auto_fraud"],
         correctIndex: 2,
         explanation:
-          "score < 0.8 y >= 0.4 cae en needs_review; abstain es solo score < 0.4.",
+          "score < 0.8 y >= 0.4 cae en `needs_review` (revisión humana); `abstain` (abstenerse) es solo score < 0.4.",
       },
       {
         question: "Blocking en N1 sirve para…",
         options: ["Inferir parentesco automáticamente", "Enviar PII a un geocoder público", "Fusionar ER y relationship en un solo score", "Reducir pares candidatos antes de reglas finas"],
         correctIndex: 3,
         explanation:
-          "Blocking acota el espacio de comparación; no es veredicto legal.",
+          "`Blocking` (acotar pares candidatos por bloque paterno|región) reduce el espacio de comparación; no es veredicto legal.",
       },
       {
         question: "Con TP=5, FP=1, FN=2, precision y recall redondeados a 3 decimales son…",
         options: ["precision 0.714 y recall 0.833", "precision 0.833 y recall 0.714", "precision 1.0 y recall 1.0", "precision 0.5 y recall 0.5"],
         correctIndex: 1,
         explanation:
-          "precision = 5/(5+1) ≈ 0.833; recall = 5/(5+2) ≈ 0.714. No inviertas numerador/denominador.",
+          "precision = 5/(5+1) ≈ 0.833; recall = 5/(5+2) ≈ 0.714. No inviertas numerador/denominador: precision castiga falsos positivos, recall castiga falsos negativos.",
       },
       {
         question: "En nombres peruanos sintéticos N1, el token de blocking de apellido es…",

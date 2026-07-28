@@ -13,7 +13,7 @@ export const section22: CourseSection = {
   icon: "Mail",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En una mesa de control de operaciones o RPA (tickets, alertas, notificaciones a clientes sintéticos en Lima o Arequipa), el peaje más caro no es “enviar el correo”: es **enviarlo mal**. Destinatario incorrecto, HTML inseguro, un reintento que duplica el mensaje, o un bot con scopes de más — cada uno es un incidente evitable. Un pipeline profesional separa **borrador → aprobación humana → envío** y deja evidencia (quién aprobó, con qué draft, bajo qué key). S22 inicia **CP-N2-C** *(Capstone de Nivel 2, Canal C: notificación con aprobación humana)* a partir del paquete de informe de S21 (DOCX/PDF/dashboard ya reconciliado): MIME multiparte, scopes OAuth mínimos, resolución de destinatarios y cola de aprobación con audit. Coincidir emails o nombres es evidencia de **entrega correcta**, **no** prueba de fraude ni parentesco. En S23 el canal web se conecta; aquí el producto es un `.eml`/draft de sandbox fail-closed que un revisor de turno puede inspeccionar antes de cualquier acción de envío (simulada).",
+    "En una mesa de control de operaciones o RPA (tickets, alertas, notificaciones a clientes sintéticos en Lima o Arequipa), el peaje más caro no es “enviar el correo”: es enviarlo mal. Destinatario incorrecto, HTML inseguro, un reintento que duplica el mensaje, o un bot con scopes de más — cada uno es un incidente evitable. Un pipeline profesional separa borrador → aprobación humana → envío y deja evidencia (quién aprobó, con qué draft, bajo qué key). S22 inicia CP-N2-C (Capstone de Nivel 2, Canal C: notificación con aprobación humana) a partir del paquete de informe de S21 (DOCX/PDF/dashboard ya reconciliado): MIME multiparte, scopes OAuth mínimos, resolución de destinatarios y cola de aprobación con audit. Coincidir emails o nombres es evidencia de entrega correcta, no prueba de fraude ni parentesco. En S23 el canal web se conecta; aquí el producto es un `.eml`/draft de sandbox fail-closed que una revisora de turno puede inspeccionar antes de cualquier acción de envío (simulada).",
   learningOutcomes: [
     { text: "Construir mensajes MIME multiparte (plain+HTML+adjunto) con UTF-8 y serializarlos a `.eml`/string" },
     { text: "Sanitizar templates HTML con escape y allowlist de host real (sin substring)" },
@@ -30,8 +30,8 @@ export const section22: CourseSection = {
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1; cada término se desempaca en T1–T4):\n- **CP-N2-C:** Capstone de Nivel 2, Canal C — notificación con aprobación humana. Inicia en S22 y se conecta al canal web en S23.\n- **HITL:** Human-In-The-Loop, aprobación humana obligatoria antes de cualquier envío (simulado).\n- **MIME:** mensaje multiparte (text/html + adjuntos).\n- **Draft sandbox:** borrador local o API de prueba — **no envío real**.\n- **Scopes mínimos:** permisos OAuth justos para lo que el producto hace (aquí: drafts).\n- **Resolución de destinatario:** mapear id de negocio → email verificado.\n- **Cola de aprobación:** revisión humana obligatoria antes de cualquier envío (simulado).\n- **Máquina de estados:** `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`.\n- **Idempotency key:** evita duplicar drafts al reintentar (`sha256` hex de **16** caracteres).\n- **Fail-closed:** sin transición válida ni aprobación humana no hay envío.\n- **Matching ≠ fraude:** coincidir contactos no prueba parentesco ni culpa.",
         "Aquí **inicias CP-N2-C**: el canal de **notificación con aprobación humana** que toma el paquete de reporte ya reconciliado (S21: DOCX/PDF/dashboard) y prepara un **borrador** seguro. Enfocamos MIME, sanitización HTML, scopes mínimos, drafts con expiración, resolución de destinatarios sintéticos, privacidad de listas, cola de aprobación e idempotencia. El entity resolution probabilístico profundo llega más adelante en el roadmap; aquí el matching de contactos solo sirve para **entrega correcta**. En S23 conectarás un adaptador web (browser RPA); en esta sección el canal es `.eml` o draft de sandbox — el mismo contrato de gates, otro transporte.",
-        "Hilo operativo (Lima / operaciones sintéticas): el paquete del run `cpn2c-01` ya salió de Reporting Factory (S21). La mesa de control necesita avisar a `revisora@example.pe` sin spamear ni exponer listas. Caso de laboratorio **Caso 22**: contactos fake `@example.pe`, revisor humano de turno, SLA de respuesta en cola. **Ningún correo real se envía**: solo `.eml` locales o drafts de sandbox. Matching de contactos es para **entrega correcta**, nunca para inferir fraude, parentesco o culpabilidad.",
-        "Orden de aprendizaje (divulgación progresiva): **T1 Mensaje** (MIME, templates seguros) → **T2 Proveedor** (OAuth/scopes, adaptadores de draft) → **T3 Destinatario** (resolución, verificación, CC/BCC, mínima divulgación) → **T4 Workflow** (máquina de estados de aprobación, audit log, reintento sin duplicar). Si te trabas, vuelve al diccionario y al contrato del intro: **draft-only**, **human_approval**, **synthetic_recipients**, **idempotent_retry**.",
+        "Hilo operativo (Lima / operaciones sintéticas): el paquete del run `cpn2c-01` ya salió de Reporting Factory (S21). La mesa de control necesita avisar a `revisora@example.pe` sin spamear ni exponer listas. Caso de laboratorio **Caso 22**: contactos fake `@example.pe`, revisora humana de turno, SLA (acuerdo de nivel de servicio) de respuesta en cola. **Ningún correo real se envía**: solo `.eml` locales o drafts de sandbox. Matching de contactos es para **entrega correcta**, nunca para inferir fraude, parentesco o culpabilidad.",
+        "Orden de aprendizaje (divulgación progresiva): **T1 Mensaje** (MIME, templates seguros) → **T2 Proveedor** (OAuth/scopes, adaptadores de draft) → **T3 Destinatario** (resolución, verificación, CC/BCC, mínima divulgación) → **T4 Workflow** (máquina de estados de aprobación, audit log (registro de auditoría), reintento sin duplicar). Si te trabas, vuelve al diccionario y al contrato del intro: **draft-only**, **human_approval**, **synthetic_recipients**, **idempotent_retry**.",
       ],
       code: {
         language: 'python',
@@ -56,7 +56,7 @@ auto_send_ok False`,
         type: "info",
         title: "Límite operativo (gates)",
         content:
-          "Solo se crean `.eml` locales o drafts de sandbox con contactos de laboratorio (`@example.pe` es **allowlist del curso**, no un dominio “imposible de enrutar” por RFC). Ninguna ruta de la lección envía correo real. Sin `pending_review` aprobado por humano, el pipeline no promueve el draft.",
+          "Solo se crean `.eml` locales o drafts de sandbox con contactos de laboratorio (`@example.pe` es allowlist del curso, no un dominio “imposible de enrutar” por RFC). Ninguna ruta de la lección envía correo real. Sin `pending_review` aprobado por humano, el pipeline no promueve el draft.",
       },
     },
     {
@@ -108,7 +108,7 @@ has_attachment True`,
       subtopicId: "S22-T1-B",
       paragraphs: [
         "Los **templates** de correo interpolan variables de negocio (nombre de contacto, `run_id`, montos del informe de S21). Cualquier dato que no sea 100 % confiable se trata como **no confiable**: se escapa con `html.escape` (o autoescape del motor de plantillas). Eso es **escape contextual**, el primer control obligatorio; no sustituye un sanitizador HTML de producción ni un render seguro de plantillas. La política de links usa allowlist de **hosts reales** (`example.pe` o subdominios propios) o rutas relativas, y bloquea los esquemas `javascript:` y `data:`. **Nunca** uses substring (`'example.pe' in url`). Un host como `example.pe.evil.test` lo burlaría, y el curso no enseña ese bypass como solución.",
-        "Contrato: el template `Hola {name}` con `name = '<b>Ana</b>'` debe producir entidades HTML escapadas (`&lt;b&gt;…`), no markup activo. Para links: parsea el host (`urlparse` o strip del esquema) y compara **igualdad exacta** o sufijo de subdominio controlado; cualquier otro host → `blocked` / enlace neutralizado. XSS en el cuerpo del correo es phishing interno real: un revisor de la mesa puede hacer clic en un enlace malicioso si el pipeline no sanitiza.",
+        "Contrato: el template `Hola {name}` con `name = '<b>Ana</b>'` debe producir entidades HTML escapadas (`&lt;b&gt;…`), no markup activo. Para links: parsea el host (`urlparse` o strip del esquema) y compara **igualdad exacta** o sufijo de subdominio controlado; cualquier otro host → `blocked` / enlace neutralizado. XSS (inyección de script en sitio) en el cuerpo del correo es phishing interno real: una revisora de la mesa puede hacer clic en un enlace malicioso si el pipeline no sanitiza.",
         "Caso sintético: el cuerpo del borrador incluye un enlace al portal de revisión del run. Sin allowlist correcta, un fragmento malicioso redirige a un dominio externo. Por eso el gate de sanitización es **obligatorio** antes de encolar el draft en `pending_review`: la revisora humana debe ver HTML seguro, no un vector de ataque.",
       ],
       code: {
@@ -141,7 +141,7 @@ s22_th_2()`,
         type: "danger",
         title: "HTML de usuario = XSS",
         content:
-          "Nunca marques como safe un string de destinatario o de un documento OCR sin sanitizar.",
+          "Nunca marques como safe un string de destinatario o de un documento OCR (reconocimiento óptico de caracteres) sin sanitizar.",
       },
     },
     {
@@ -237,7 +237,7 @@ bytes 184`,
       subtopicId: "S22-T3-A",
       paragraphs: [
         "Antes de poner un `To:` en el borrador, el pipeline **resuelve** y **verifica** al destinatario. Resolución: mapear un id de negocio (`C001`) a un email desde un directorio sintético. Verificación: formato básico, dominio allowlisted (`example.pe`) y estado activo. Los estados del contacto van de `unresolved` → `candidate` → `verified` | `rejected`. Sin `verified`, fail-closed: no se encola aprobación para envío (aunque en el curso solo simules).",
-        "Contrato ético y técnico: si usas un score de similitud de nombres o emails, **siempre** acompáñalo de la nota **`match_no_es_fraude`**. En el ejercicio de transferencia calculas un prefijo común que da **0.86**. El self-check usa **0.92** solo como número de un MCQ ético. En ambos casos un score “alto” **no** autoriza claims de identidad legal, parentesco ni colusión: solo prioriza la revisión de **entrega correcta**. Matching de contactos ≠ investigación de fraude.",
+        "Contrato ético y técnico: si usas un score de similitud de nombres o emails, **siempre** acompáñalo de la nota **`match_no_es_fraude`**. En el ejercicio de transferencia calculas un prefijo común que da **0.86**. El self-check usa **0.92** solo como número de un MCQ (pregunta de opción múltiple) ético. En ambos casos un score “alto” **no** autoriza claims de identidad legal, parentesco ni colusión: solo prioriza la revisión de **entrega correcta**. Matching de contactos ≠ investigación de fraude.",
         "Caso: `ana@example.pe` pasa formato y dominio; `bad` se rechaza; `C001` queda `verified` en el directorio de laboratorio; `C002` con dominio no allowlisted queda `rejected`. Si el id no existe, el estado es `unresolved` y la mesa de control decide a mano. Al comparar dos strings de email, el ejercicio imprime el score sintético **0.86** y la nota anti-claim — nunca `fraude_probable`.",
       ],
       code: {
@@ -326,15 +326,15 @@ to_visible_to_others ['ana@example.pe', 'luis@example.pe']`,
         type: "warning",
         title: "CC expone la lista de trabajo",
         content:
-          "Un CC masivo **expone** a todos entre sí (en jerga de operaciones, “filtra” significa filtrar o exponer la lista de trabajo). Usa BCC o tickets internos cuando haya externos.",
+          "Un CC masivo expone a todos entre sí (en jerga de operaciones, “filtra” significa filtrar o exponer la lista de trabajo). Usa BCC o tickets internos cuando haya externos.",
       },
     },
     {
       heading: "Cola de aprobación y máquina de estados",
       subtopicId: "S22-T4-A",
       paragraphs: [
-        "La **cola de aprobación** es el corazón human-in-the-loop de CP-N2-C: una máquina de estados `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. Cada transición lleva **actor** (quién) y, en producción, timestamp. Sin transición válida, fail-closed: no hay envío ni promoción del draft. En tu código y en el You Do usa siempre `pending_review` (nunca el atajo `pending`) y `needs_edit` cuando el revisor pide cambios.",
-        "Contrato: tabla `TRANSITIONS` como única fuente de verdad. `submit` desde `draft` → `pending_review`; `approve` desde `draft` → `invalid`; `request_edit` desde `pending_review` → `needs_edit` y luego otro `submit`. La UI y los jobs leen el estado; no “envían porque alguien pulsó un botón” sin validar la máquina. En mesa de control, un `pending_review` sin respuesta dentro del SLA suele **escalar** al revisor de turno o volver a `needs_edit` con nota — no se autoaprueba por timeout. En CP-N2-C la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso solo simule el envío).",
+        "La **cola de aprobación** es el corazón human-in-the-loop de CP-N2-C: una máquina de estados `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`. Cada transición lleva **actor** (quién) y, en producción, timestamp. Sin transición válida, fail-closed: no hay envío ni promoción del draft. En tu código y en el You Do usa siempre `pending_review` (nunca el atajo `pending`) y `needs_edit` cuando la revisora pide cambios.",
+        "Contrato: tabla `TRANSITIONS` como única fuente de verdad. `submit` desde `draft` → `pending_review`; `approve` desde `draft` → `invalid`; `request_edit` desde `pending_review` → `needs_edit` y luego otro `submit`. La UI y los jobs leen el estado; no “envían porque alguien pulsó un botón” sin validar la máquina. En mesa de control, un `pending_review` sin respuesta dentro del SLA suele **escalar** a la revisora de turno o volver a `needs_edit` con nota — no se autoaprueba por timeout. En CP-N2-C la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso solo simule el envío).",
         "Caso de laboratorio: el analista hace `submit`; la revisora `rev1` hace `approve` y el log registra `{from: pending_review, to: approved, action, actor}`. Si alguien intenta aprobar desde `draft`, el sistema responde `invalid`. El portfolio adjunta ese audit: evidencia de cumplimiento y de fail-closed para el hilo que en S23 saldrá a un adaptador web.",
       ],
       code: {
@@ -428,7 +428,7 @@ audit_events ['create', 'retry_hit', 'create']`,
     },
   ],
   iDo: {
-    intro: "Te muestro el inicio de CP-N2-C a partir del paquete de S21: MIME seguro, scopes, drafts con expiración, destinatarios verificados y cola de aprobación — sin envío real ni inferencia de fraude. En cada demo, fíjate en la **decisión** (no solo en el print):\n- por qué draft y no send;\n- por qué parsear el host y no un substring;\n- por qué denegar `mail.full`;\n- por qué un externo va a BCC;\n- por qué fail-closed ante una transición inválida;\n- por qué la key de 16 hex evita spam al reintentar.",
+    intro: "Te muestro el inicio de CP-N2-C a partir del paquete de S21: MIME seguro, scopes, drafts con expiración, destinatarios verificados y cola de aprobación. Todo sin envío real ni inferencia de fraude. En cada demo, fíjate en la **decisión** (no solo en el print):\n- por qué draft y no send;\n- por qué parsear el host y no un substring;\n- por qué denegar `mail.full`;\n- por qué un externo va a BCC;\n- por qué fail-closed ante una transición inválida;\n- por qué la key de 16 hex evita spam al reintentar.",
     steps: [
       {
         demoId: "S22-T1-A-DEMO",
@@ -436,7 +436,7 @@ audit_events ['create', 'retry_hit', 'create']`,
         environment: "local/sandbox proveedor",
         description: "Construir mensaje MIME multi-parte seguro (text+HTML+adjunto sintético).",
         preamble:
-          "Antes de encolar un borrador de CP-N2-C, el analista debe *ver* un mensaje como árbol MIME, no como un string suelto. En esta demo se arma `mixed` con `alternative` (texto plano + HTML) y un adjunto de meta del run (`run.json`, sin secretos). No escribas aún: sigue los `print` y comprueba que el serializado contiene el adjunto y UTF-8. Si confundes “pegar HTML” con un correo multiparte, el revisor de la mesa no puede auditar el `.eml` con claridad.",
+          "Antes de encolar un borrador de CP-N2-C, el analista debe *ver* un mensaje como árbol MIME, no como un string suelto. En esta demo se arma `mixed` con `alternative` (texto plano + HTML) y un adjunto de meta del run (`run.json`, sin secretos). No escribas aún: sigue los `print` y comprueba que el serializado contiene el adjunto y UTF-8. Si confundes “pegar HTML” con un correo multiparte, la revisora de la mesa no puede auditar el `.eml` con claridad.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -465,7 +465,7 @@ s22_ido_1()`,
 n_headers_subj 1`,
         },
         why:
-          "Decisión: plain+HTML+meta del run en un solo árbol MIME, sin secretos en el cuerpo. Plain y HTML cubren clientes y filtros anti-spam; el adjunto de meta enlaza el run de S21 sin tokens ni DNI; `as_string()` permite inspeccionar el `.eml` antes de guardar. El revisor de la mesa audita el árbol completo, no un string HTML suelto. En We Do corregirás subtype, Disposition y anidado.",
+          "Decisión: plain+HTML+meta del run en un solo árbol MIME, sin secretos en el cuerpo. Plain y HTML cubren clientes y filtros anti-spam; el adjunto de meta enlaza el run de S21 sin tokens ni DNI; `as_string()` permite inspeccionar el `.eml` antes de guardar. La revisora de la mesa audita el árbol completo, no un string HTML suelto. En We Do corregirás subtype, Disposition y anidado.",
         retrospective:
           "Si puedes explicar por qué un correo de mesa lleva plain y HTML en `alternative` dentro de `mixed`, ya tienes el hábito de árbol MIME. El error clásico es un solo `MIMEText` HTML sin meta del run. En We Do practicarás plain UTF-8, filename legible y el conteo de `Content-Type`.",
       },
@@ -503,7 +503,7 @@ s22_ido_2()`,
         why:
           "Decisión: escapamos HTML y validamos el **host real** (`urlparse` / strip de esquema). El escape contextual es el primer control; parsear el host evita el bypass de subdominio malicioso. Un substring `'example.pe' in url` aceptaría `example.pe.evil.test` — el curso lo rechaza como solución. En We Do practicarás escape, interpolación segura y allowlist con `urlparse`.",
         retrospective:
-          "Host real + escape es el hábito anti-XSS del canal de correo. El error clásico es confiar en substring del dominio. Pregunta: sin mirar el código, ¿por qué `example.pe.evil.test` engaña a un `in` y no a igualdad de host? We Do: escapar script, saludar con nombre seguro y clasificar URLs con `urlparse`.",
+          "Host real + escape es el hábito anti-XSS del canal de correo. El error clásico es confiar en substring del dominio. Pregunta: sin mirar el código, ¿por qué `example.pe.evil.test` engaña a un `in` y no a igualdad de host? We Do: escapar script, saludar con nombre seguro y clasificar URL con `urlparse`.",
       },
       {
         demoId: "S22-T2-A-DEMO",
@@ -570,7 +570,7 @@ n 1`,
         why:
           "Decisión: la expiración fuerza regenerar y reaprobar contenido viejo (cifras del informe de S21 pueden haber cambiado). El adaptador es dueño del ciclo de vida; el workflow solo pregunta si el draft sigue usable. En este curso solo `.eml` o sandbox: cero SMTP real. Un draft caducado no se promueve a envío.",
         retrospective:
-          "Draft usable = status `draft` y `now < expires_at`. El error clásico es reutilizar un id caducado “porque ya está en el store”. Pregunta: si las cifras de S21 cambiaron, ¿qué debe regenerarse antes de un nuevo `pending_review`? We Do: status vs key, usable y mini adaptador con ids secuenciales.",
+          "Draft usable = status `draft` y `now < expires_at`. El error clásico es reutilizar un id caducado “porque ya está en el store”. Pregunta: si las cifras de S21 cambiaron, ¿qué debe regenerarse antes de un nuevo `pending_review`? We Do: status vs. key, usable y mini adaptador con ids secuenciales.",
       },
       {
         demoId: "S22-T3-A-DEMO",
@@ -614,7 +614,7 @@ disclaimer: verificación de entrega, no de fraude`,
         environment: "local/sandbox proveedor",
         description: "Aplicar mínima divulgación: externos a BCC y dedupe.",
         preamble:
-          "En operaciones, un CC masivo **expone** quién trabaja el caso; BCC oculta la lista a los demás. En esta demo hay duplicados de `ana@example.pe` y un partner externo en CC. Observa cómo queda la lista limpia y por qué el externo termina en BCC. No escribas: predice el orden y los roles finales. Datos sintéticos, sin PII real.",
+          "En operaciones, un CC masivo **expone** quién trabaja el caso; BCC oculta la lista a los demás. En esta demo hay duplicados de `ana@example.pe` y un partner externo en CC. Observa cómo queda la lista limpia y por qué el externo termina en BCC. No escribas: predice el orden y los roles finales. Datos sintéticos, sin PII (información personal identificable) real.",
         code: {
           language: 'python',
           title: "demo.py",
@@ -638,7 +638,7 @@ s22_ido_6()`,
           output: `[('ana@example.pe', 'to'), ('partner@other.test', 'bcc')]`,
         },
         why:
-          "Decisión: todo lo que no es @example.pe va a BCC. Dedupe preserva la primera aparición; dominio externo fuerza BCC. Un CC masivo expone la lista de trabajo del caso; mínima divulgación es hábito diario de la mesa, no checklist de cumplimiento olvidable. BCC o tickets internos protegen la privacidad operativa.",
+          "Decisión: todo lo que no es @example.pe va a BCC. Dedupe preserva la primera aparición; dominio externo fuerza BCC. Un CC masivo expone la lista de trabajo del caso; mínima divulgación es hábito diario de la mesa, no lista de verificación de cumplimiento olvidable. BCC o tickets internos protegen la privacidad operativa.",
         retrospective:
           "Higiene de listas = dedupe + BCC a externos + contar visibles. El error clásico es CC “por comodidad” cuando hay partners. Pregunta: BCC oculta la lista a los demás — ¿cifra el cuerpo? We Do: orden estable, forzar BCC y conteo de visibles tras la política.",
       },
@@ -677,7 +677,7 @@ trail ['pending_review', 'approved']
 last_actor rev1`,
         },
         why:
-          "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. El actor es accountability; los estados canónicos son `pending_review`/`needs_edit` (nunca el atajo `pending`). `approve` desde draft no existe en la tabla — fail-closed protege al destinatario y deja rastro de quién actuó.",
+          "Decisión: solo `submit` mueve draft→pending_review; `approve` lleva actor (`rev1`) al audit. El actor es accountability. Los estados canónicos son `pending_review`/`needs_edit` (nunca el atajo `pending`). `approve` desde draft no existe en la tabla — fail-closed protege al destinatario y deja rastro de quién actuó.",
         retrospective:
           "El estado es la verdad; el botón no envía sin la máquina. El error clásico es hardcodear `approved` o el atajo `pending`. Pregunta: ¿quién aparece como actor en el último evento del trail de la demo? We Do: transición submit, fail-closed invalid y apply con actor en el log.",
       },
@@ -736,9 +736,9 @@ s22_ido_8()`,
         edgeCases: ["charset None en algunos builds — usa utf-8 explícito"],
         tests: "salida coincide con solution output",
         feedback:
-          "`text/plain` + `utf-8` es el cuerpo mínimo legible en español peruano. Si dejas `html` o imprimes `ascii`, el revisor ve un tipo incorrecto o mojibake en el `.eml` de laboratorio.",
+          "`text/plain` + `utf-8` es el cuerpo mínimo legible en español peruano. Si dejas `html` o imprimes `ascii`, la revisora ve un tipo incorrecto o mojibake en el `.eml` de laboratorio.",
         retrospective:
-          "El cuerpo plain con UTF-8 es la base del árbol multiparte que la mesa audita en el `.eml`. “Solo HTML” o un charset inventado en el print miente al revisor. Pregunta: si el cuerpo tiene acentos peruanos, ¿qué falla primero — el subtype o el charset? Siguiente (E2): adjunto con `Content-Disposition` y filename legible.",
+          "El cuerpo plain con UTF-8 es la base del árbol multiparte que la mesa audita en el `.eml`. “Solo HTML” o un charset inventado en el print miente a la revisora. Pregunta: si el cuerpo tiene acentos peruanos, ¿qué falla primero — el subtype o el charset? Siguiente (E2): adjunto con `Content-Disposition` y filename legible.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -781,9 +781,9 @@ utf-8`,
         ],
         tests: "salida coincide con solution output",
         feedback:
-          "El revisor de la mesa abre el `.eml` y espera un adjunto con nombre legible. `Content-Disposition` con filename es lo que ven los clientes; el `Name` del Content-Type no basta como contrato de entrega.",
+          "La revisora de la mesa abre el `.eml` y espera un adjunto con nombre legible. `Content-Disposition` con filename es lo que ven los clientes. El `Name` del Content-Type no basta como contrato de entrega.",
         retrospective:
-          "Los clientes leen el filename en la disposición; el `Name` del Content-Type no es el contrato de entrega. Confundir ambos deja adjuntos “sin nombre” en la mesa. Pregunta: si el revisor solo ve `application/octet-stream`, ¿qué header mirarías primero? Luego (E3) anidas `alternative` y cuentas los `Content-Type`.",
+          "Los clientes leen el filename en la disposición; el `Name` del Content-Type no es el contrato de entrega. Confundir ambos deja adjuntos “sin nombre” en la mesa. Pregunta: si la revisora solo ve `application/octet-stream`, ¿qué header mirarías primero? Luego (E3) anidas `alternative` y cuentas los `Content-Type`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -920,7 +920,7 @@ print(html.escape('<script>x</script>'))`,
         feedback:
           "El nombre del destinatario llega del directorio o de un OCR: trátarlo como no confiable. Escapa primero, saluda después — el orden del hábito evita XSS en el cuerpo.",
         retrospective:
-          "Un nombre “del directorio” no es confiable: el hábito es tratar todo campo de negocio como no confiable hasta escaparlo. El error clásico es un f-string con HTML crudo “porque se ve bien en la consola”. Pregunta: si el template del motor ya autoescape, ¿qué riesgo introduce un segundo `html.escape`? Luego (E3) clasificas URLs con host real, no con substring.",
+          "Un nombre “del directorio” no es confiable: el hábito es tratar todo campo de negocio como no confiable hasta escaparlo. El error clásico es un f-string con HTML crudo “porque se ve bien en la consola”. Pregunta: si el template del motor ya autoescape, ¿qué riesgo introduce un segundo `html.escape`? Luego (E3) clasificas URL con host real, no con substring.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -947,7 +947,7 @@ print('Hola ' + html.escape(name))`,
         kind: "transfer",
         title: "Allowlist de host real con urlparse",
         preamble:
-          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URLs aceptando solo host exactamente `example.pe` vía `urlparse`.\n- **Éxito:** dos líneas — `https://example.pe/a ok` y `https://evil.test blocked`.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
+          "- **Contexto:** un enlace en el borrador de revisión puede ser phishing si el host no está en la allowlist del laboratorio.\n- **Meta:** clasificar URL aceptando solo host exactamente `example.pe` vía `urlparse`.\n- **Éxito:** dos líneas — `https://example.pe/a ok` y `https://evil.test blocked`.\n- **Límites:** igualdad exacta de host (no `'example.pe' in url`); el bypass `example.pe.evil.test` no debe pasar en tu prueba mental.",
         instruction:
           "1. El starter imprime siempre `ok` (bug).\n2. Obtén `urlparse(u).hostname`.\n3. Imprime `ok` solo si host == `'example.pe'`; si no, `blocked`.\n4. No uses substring del URL completo.",
         hint: "urlparse(u).hostname",
@@ -1044,7 +1044,7 @@ print([s for s in requested if s in allowed])`,
         feedback:
           "`isdisjoint True` significa que granted no toca scopes peligrosos. Invertir la lógica te da un falso “seguro” cuando hay intersección — el hallazgo de seguridad desaparece del radar.",
         retrospective:
-          "`isdisjoint True` es evidencia de least privilege en el paquete de auditoría. Invertir con `not` da un falso “seguro” cuando hay solape con `mail.full`/`admin`. Pregunta: si granted incluye `mail.send` y el producto es draft-only, ¿qué imprime el gate y qué haces en la mesa? Luego (E3) clasificas credenciales por `expires_at` vs now.",
+          "`isdisjoint True` es evidencia de least privilege en el paquete de auditoría. Invertir con `not` da un falso “seguro” cuando hay solape con `mail.full`/`admin`. Pregunta: si granted incluye `mail.send` y el producto es draft-only, ¿qué imprime el gate y qué haces en la mesa? Luego (E3) clasificas credenciales por `expires_at` vs. now.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1833,7 +1833,7 @@ True`,
   youDo: {
     title: "Borrador .eml con aprobación (inicio CP-N2-C)",
     context:
-      "La mesa de control acaba de aprobar el paquete de informe de S21 (métricas reconciliadas en DOCX/PDF/dashboard). Tu trabajo: construir el **mini pipeline de notificación** de inicio de CP-N2-C — mensaje MIME → destinatario verificado → draft con idempotency key de 16 hex → estado `pending_review` con audit (actor). No envíes correo real. Matching de contactos no implica fraude. En S23 conectarás un adaptador web (browser RPA); aquí el canal es `.eml`/sandbox fail-closed. Entrega algo que un revisor humano pueda inspeccionar y firmar en el audit.",
+      "La mesa de control acaba de aprobar el paquete de informe de S21 (métricas reconciliadas en DOCX/PDF/dashboard). Tu trabajo: construir el **mini pipeline de notificación** de inicio de CP-N2-C — mensaje MIME → destinatario verificado → draft con idempotency key de 16 hex → estado `pending_review` con audit (actor). No envíes correo real. Matching de contactos no implica fraude. En S23 conectarás un adaptador web (browser RPA); aquí el canal es `.eml`/sandbox fail-closed. Entrega algo que una revisora humana pueda inspeccionar y firmar en el audit.",
     objectives: [
       "Generar un string MIME multiparte (plain+HTML+adjunto meta del run) listo para `.eml`",
       "Verificar al menos un destinatario con dominio allowlisted (`example.pe`)",

@@ -13,7 +13,7 @@ export const section34: CourseSection = {
   icon: "Gauge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
   jobRelevance:
-    "En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), el baseline de S33 ya produce **scores de priorización**. El paso que separa un notebook de un producto operable es convertir esos scores en una **cola de revisión humana**: métricas honestas bajo desbalance, calibración fuera de muestra y umbrales versionados por costo y capacidad del equipo. Cierras **CP-N3-B** del **Relationship Investigation Workbench** (Red Andina, ficticia): precision/recall de la cola — **nunca** autoetiqueta de fraude. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude.",
+    "En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), el baseline de S33 — la línea base determinista que todo modelo debe superar — ya produce scores de priorización. El paso que separa un notebook de un producto operable es convertir esos scores en una cola de revisión humana: métricas honestas bajo desbalance, calibración fuera de muestra y umbrales versionados por costo y capacidad del equipo. Cierras CP-N3-B del Relationship Investigation Workbench — la mesa de trabajo del analista de relaciones — sobre el caso sintético Red Andina: precision/recall de la cola, nunca autoetiqueta de fraude. Entity resolution (resolución de identidad entre registros) o matching de identidad no equivale a parentesco ni a fraude.",
   learningOutcomes: [
     {
       text: "Calcular matriz de confusión completa (TP/FP/FN/TN), precision, recall, F1 y average precision de ranking cuando la clase positiva es rara",
@@ -45,7 +45,7 @@ export const section34: CourseSection = {
       heading: "Cierre CP-N3-B: de scores a cola de revisión humana",
       paragraphs: [
         "Esta sección **cierra CP-N3-B**. En S31 armaste el grafo de relaciones, en S32 las features de evidencia y en S33 un baseline responsable que ya produce un número por caso. Hoy ese número deja de vivir en un notebook: se convierte en una **cola de revisión humana** — un ranking con métricas honestas, calibración fuera de muestra y umbrales versionados por costo y capacidad. Sin esa capa, el score es decoración: no prioriza a nadie de forma auditable.",
-        "Imagina el mini-tablero sintético `CASO-LIM-034` en Red Andina (ficticia): cinco scores `[0.1, 0.4, 0.55, 0.6, 0.9]` y etiquetas `needs_review` `[0, 0, 1, 0, 1]`. Es el mismo hilo de punta a punta. En T1 mides confusión, F1 y la calidad del ranking; en T2 enfrentas el desbalance y la prevalencia; en T3 preguntas si el score se comporta como probabilidad útil (Brier y reliability); en T4 eliges thr-v1 bajo capacidad y dejas la zona gris en **abstain**. Nunca imprimes `fraud=true`: el score solo ordena trabajo humano.",
+        "Imagina el mini-tablero sintético `CASO-LIM-034` en Red Andina: cinco scores `[0.1, 0.4, 0.55, 0.6, 0.9]` y etiquetas `needs_review` `[0, 0, 1, 0, 1]`. Es el mismo hilo de punta a punta. En T1 mides confusión, F1 y la calidad del ranking; en T2 enfrentas el desbalance y la prevalencia; en T3 preguntas si el score se comporta como probabilidad útil (Brier y reliability); en T4 eliges thr-v1 bajo capacidad y dejas la zona gris en **abstain**. Nunca imprimes `fraud=true`: el score solo ordena trabajo humano.",
         "Mapa mental: **T1** confusión y ranking → **T2** desbalance y prevalencia → **T3** Brier y calibrador en holdout → **T4** umbral por costo/capacidad y banda de abstención. Entity resolution o matching de identidad **no** equivale a parentesco ni a fraude. Solo datos sintéticos.",
         "Glosario del workbench (códigos de política, no de Python): `REJECT_*` = la evidencia está completa pero **rompe** la política (accuracy sola, resample global, thr sin versionar, forzar label en banda). `REQUEST_*` = **falta** un campo necesario (counts, capacidad, base rate, set de calibración). Regla de oro: no inventes evidencia y no autoetiquetes fraude. Cuando falte un dato, pides; cuando la política se rompe, rechazas.",
       ],
@@ -478,7 +478,7 @@ def fold_plan(resample_global):
     return {"resample_train_only": not resample_global, "test_untouched": True}
 
 def rebalance_train_only(train_y, resample_global):
-    # Esqueleto: aquí iría oversample; el test del fold no entra
+    # Plantilla: aquí iría oversample; el test del fold no entra
     plan = fold_plan(resample_global)
     assert plan["test_untouched"] is True
     return plan, len(train_y)
@@ -553,7 +553,7 @@ print("calibrated", False)`,
 bin (0.85, 0.5)
 calibrated False`,
         },
-        why: "Brier promedia (p−y)² sobre el set; reliability contrasta mean_p vs frecuencia observada en un bin. Un punto perfecto no calibra el modelo. La medición debe vivir fuera del set de fit del calibrador (T3-B). En We Do calcularás Brier medio 0.25 en un mini-set equilibrado.",
+        why: "Brier promedia (p−y)² sobre el set; reliability contrasta mean_p vs. frecuencia observada en un bin. Un punto perfecto no calibra el modelo. La medición debe vivir fuera del set de fit del calibrador (T3-B). En We Do calcularás Brier medio 0.25 en un mini-set equilibrado.",
         retrospective:
           "Calibración se mide en conjunto y en bins, no en un solo acierto. El error clásico es «p=1, y=1 ⇒ ya está». Pregunta: ¿un Brier bajo con bins desalineados cuenta la misma historia que bins perfectos con Brier alto? We Do: Brier medio 0.25 en un mini-set equilibrado.",
       },
@@ -576,7 +576,7 @@ print("calibrator_set", "holdout_v1")`,
           output: `[1.0, 0.0, 0.42]
 calibrator_set holdout_v1`,
         },
-        why: "Calibrar fuera de muestra evita autoengaño y training-serving skew de probabilidades. Clip solo recorta rango; no aprende mean_p vs freq. Documenta el set versionado (`holdout_vN`); sin él el gate pide `REQUEST_CAL_SET`. En We Do repararás el mapa y cerrarás la política del set.",
+        why: "Calibrar fuera de muestra evita autoengaño y training-serving skew de probabilidades. Clip solo recorta rango; no aprende mean_p vs. freq. Documenta el set versionado (`holdout_vN`); sin él el gate pide `REQUEST_CAL_SET`. En We Do repararás el mapa y cerrarás la política del set.",
         retrospective:
           "Clip recorta rango; calibración aprende la relación score–frecuencia. El error clásico es fit in-sample. Pregunta: si `calibrator_set=train_in_sample`, ¿qué código de política activa el workbench? We Do: repara el mapa y cierra la política del set.",
       },
@@ -652,7 +652,7 @@ force_label False`,
   },
   weDo: {
     intro:
-      "Ahora te toca operar el Relationship Investigation Workbench sobre `CASO-LIM-034` (Red Andina, sintético) y cerrar **CP-N3-B**. En cada unidad practicas el cálculo de la métrica o la política de decisión (E1), triages un fixture válido frente a uno adverso y uno incompleto (E2), y cierras fail-closed con CONTINUE / REJECT_* / REQUEST_* (E3). Los fixtures usan `case_id` peruanos sintéticos, sin PII real ni autofraude: el score solo prioriza revisión humana.",
+      "Ahora te toca operar el Relationship Investigation Workbench sobre `CASO-LIM-034` (Red Andina, sintético) y cerrar **CP-N3-B**. En cada unidad practicas el cálculo de la métrica o la política de decisión (E1), y triages un fixture válido frente a uno adverso y uno incompleto (E2). Luego cierras fail-closed con CONTINUE / REJECT_* / REQUEST_* (E3). Los fixtures usan `case_id` peruanos sintéticos, sin PII real ni autofraude: el score solo prioriza revisión humana.",
     steps: [
       {
         id: "S34-T1-A-E1",
@@ -720,7 +720,7 @@ assert (tp, fp, fn, tn) == (1, 1, 0, 1)
         id: "S34-T1-A-E2",
         subtopicId: "S34-T1-A",
         kind: "independent",
-        title: "Assess: counts honestos vs accuracy sola",
+        title: "Assess: counts honestos vs. accuracy sola",
         preamble:
           "- **Contexto:** el workbench triages tres fixtures de confusión: válido, adverso (accuracy sola o counts cero) e incompleto (sin `tp`).\n- **Meta:** reparar `assess` para que el predicado de dominio sea honesto.\n- **Éxito:** `PASS REJECT_ACCURACY_ONLY MISSING:tp`.\n- **Límites:** missing antes de leer campos; `region`/`team` son contexto, no gates; no inventes `tp`.",
         instruction:
@@ -883,7 +883,7 @@ assert results == ["CONTINUE", "REJECT_ACCURACY_ONLY", "REQUEST_CONFUSION"]
         feedback:
           "Precision@k es «qué tan limpio es el top»; recall@k es «cuántos positivos del set atrapaste». Mezclar denominadores rompe el informe del turno.",
         retrospective:
-          "k mide el recorte del top; n_pos mide el universo de positivos reales. Confundirlos rompe el informe del turno aunque el print «se vea numérico». Siguiente (E2): assess de overload vs missing capacity — no re-enseñar la fórmula.",
+          "k mide el recorte del top; n_pos mide el universo de positivos reales. Confundirlos rompe el informe del turno aunque el print «se vea numérico». Siguiente (E2): assess de overload vs. missing capacity — no re-enseñar la fórmula.",
         starterCode: {
           language: "python",
           title: "s34-t1-b-e1.py",
@@ -927,7 +927,7 @@ assert ok is True
         id: "S34-T1-B-E2",
         subtopicId: "S34-T1-B",
         kind: "independent",
-        title: "Assess: load vs capacity",
+        title: "Assess: load vs. capacity",
         preamble:
           "- **Contexto:** la cola `cola-revision-manana` en Lima-sintética reporta precision@k, load y capacity.\n- **Meta:** PASS solo con load ≤ capacity y precision en [0,1]; overload y missing con códigos distintos.\n- **Éxito:** `PASS REJECT_QUEUE_OVERLOAD MISSING:capacity`.\n- **Límites:** missing primero; `region`/`queue` no son predicados; no inventes capacity.",
         instruction:
@@ -1527,7 +1527,7 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_UNCALIBRATED MISSING:brier`.",
         feedback:
-          "Bins alineados con Brier alto cuentan otra historia: calibración vs discriminación. No mires solo un número.",
+          "Bins alineados con Brier alto cuentan otra historia: calibración vs. discriminación. No mires solo un número.",
         retrospective:
           "El contrato exige Brier y |mean_p−freq| juntos: un solo KPI del dashboard no basta. Pregunta: con brier=0.1 y |mean_p−freq|=0.05, ¿qué ruta imprime y por qué no basta el Brier solo? Luego (E3): REQUEST_BRIER.",
         starterCode: {
@@ -1916,7 +1916,7 @@ assert ok is True
         ],
         tests: "Salida: `PASS REJECT_FIXED_THR MISSING:cost`.",
         feedback:
-          "thr-v1 vs thr-v2 permite rollback cuando el equipo pasa de 10 a 6 analistas. thr «default» sin matriz de costos no se audita.",
+          "thr-v1 vs. thr-v2 permite rollback cuando el equipo pasa de 10 a 6 analistas. thr «default» sin matriz de costos no se audita.",
         retrospective:
           "Versionar thr-vN documenta el corte ante cambio de headcount; un thr_id «default» sin cost no se audita. Pregunta: si cost is None pero thr_id=thr-v1, ¿qué ruta debe devolver assess? Luego (E3): REQUEST_COST_MATRIX.",
         starterCode: {
@@ -2062,7 +2062,7 @@ assert results == ["CONTINUE", "REJECT_FIXED_THR", "REQUEST_COST_MATRIX"]
         feedback:
           "Forzar review en 0.5 satura la cola y finge certeza. Abstain deja el caso a política humana o a un segundo look.",
         retrospective:
-          "Zona gris ≠ «casi review». El error clásico es sesgar la banda hacia un solo lado. Siguiente (E2): assess de decision vs force_1.",
+          "Zona gris ≠ «casi review». El error clásico es sesgar la banda hacia un solo lado. Siguiente (E2): assess de decision vs. force_1.",
         starterCode: {
           language: "python",
           title: "s34-t4-b-e1.py",

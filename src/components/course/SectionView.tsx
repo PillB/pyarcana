@@ -2833,75 +2833,76 @@ Texto extraido: 'Holoa'`,
       hint: 'Anade mas pixeles a texto_como_pixeles y observa el resultado',
     },
     'system-design': {
-      title: 'Practica arquitectura y ADR',
-      code: `# Simulacion de design de sistemas
-# Generar ADR (Architecture Decision Record)
+      title: 'Practica la ficha de caso CP-N3-C',
+      code: `# Ficha de caso CP-N3-C sobre CASO-LIM-035 (sintetico)
+# Construye las 4 capas: evidencia | modelo | incertidumbre | humano
 
-def generate_adr(title, context, decision, alternatives, consequences):
-    """Genera un ADR con formato estandar."""
-    adr = f"# ADR: {title}\\n"
-    adr += f"\\n## Context\\n{context}\\n"
-    adr += f"\\n## Decision\\n{decision}\\n"
-    adr += f"\\n## Alternatives\\n"
-    for alt in alternatives:
-        adr += f"- {alt}\\n"
-    adr += f"\\n## Consequences\\n{consequences}\\n"
-    adr += f"\\n## Status: Proposed\\n"
-    return adr
+# Capa 1: evidencia observada (hechos del caso, no veredicto)
+evidence = ["shared_phone", "amount_z_high"]
 
-# Generar ADR para decision real
-adr = generate_adr(
-    title="Batch vs Real-Time Inference",
-    context="El equipo de riesgo necesita scoring en <100ms para aprobar creditos en tiempo real.",
-    decision="Usar real-time inference con FastAPI + Redis cache + XGBoost model.",
-    alternatives=[
-        "Batch scoring: descartado (necesitan tiempo real)",
-        "Lambda function: descartado (cold start > 100ms)",
-        "gRPC: descartado (clientes usan REST)",
-    ],
-    consequences="Latencia p99 < 100ms. Requiere Redis + monitoring 24/7. Costo ~$500/mes."
-)
+# Capa 2: contribucion local del modelo (value x weight, baseline=0)
+contrib = {"shared_phone": (0.9, 1.0), "amount_z": (0.1, 1.0)}
+score = round(sum(v * w for v, w in contrib.values()), 2)
+means_fraud = False   # False: el score no acusa fraude
+causal = False        # False: contribucion no es causa legal
 
-print(adr)
+# Capa 3: incertidumbre (banda toy p-q / p+q + OOD)
+p, q = 0.6, 0.1
+band = (round(p - q, 2), round(p + q, 2))
+zs = [1.0, 2.0, 3.5]
+ood = max(abs(z) for z in zs) > 3.0
+action = "abstain" if ood else "score"
 
-# Simular feature store
-print("\\n=== Feature Store (simulado) ===")
-features = {
-    "user_123": {"age": 25, "avg_spend": 150.5, "login_count": 30},
-    "user_456": {"age": 35, "avg_spend": 320.0, "login_count": 12},
+# Capa 4: decision humana (audit minimo: case, human, by)
+human = {"case": "CASO-LIM-035", "human": "override_skip", "by": "analyst_7"}
+
+# Model card minima (use, out_of_scope, owner, contestability)
+card = {
+    "use": "queue_rank",
+    "out_of_scope": ["fraud_label"],
+    "owner": "risk_ops",
+    "contestability": True,
 }
 
-def get_features(user_id, source="online"):
-    """Obtiene features (online=Redis <10ms, offline=parquet)."""
-    if source == "online":
-        return features.get(user_id, {})
-    return {"note": "En offline, trae features historicas point-in-time"}
+# Ensamblar ficha de 4 capas
+ficha = {
+    "evidence": evidence,
+    "model": {"score": score, "means_fraud": means_fraud, "causal": causal},
+    "uncertainty": {"band": band, "ood": ood, "action": action},
+    "human": human,
+}
 
-print(f"Online user_123: {get_features('user_123', 'online')}")
-print(f"Online user_999: {get_features('user_999', 'online')}")`,
-      expectedOutput: `# ADR: Batch vs Real-Time Inference
+print("=== Ficha CP-N3-C ===")
+for capa, val in ficha.items():
+    print(f"  {capa}: {val}")
 
-## Context
-El equipo de riesgo necesita scoring en <100ms para aprobar creditos en tiempo real.
+print("\\n=== Model card ===")
+for k, v in card.items():
+    print(f"  {k}: {v}")
 
-## Decision
-Usar real-time inference con FastAPI + Redis cache + XGBoost model.
+# Gate de portfolio: etica + incertidumbre + gobernanza
+ok = (
+    (not means_fraud)
+    and (not causal)
+    and (card["use"] != "fraud_label")
+    and card["contestability"]
+    and bool(human["by"])
+)
+print(f"\\nportfolio_ready: {ok}")`,
+      expectedOutput: `=== Ficha CP-N3-C ===
+  evidence: ['shared_phone', 'amount_z_high']
+  model: {'score': 1.0, 'means_fraud': False, 'causal': False}
+  uncertainty: {'band': (0.5, 0.7), 'ood': True, 'action': 'abstain'}
+  human: {'case': 'CASO-LIM-035', 'human': 'override_skip', 'by': 'analyst_7'}
 
-## Alternatives
-- Batch scoring: descartado (necesitan tiempo real)
-- Lambda function: descartado (cold start > 100ms)
-- gRPC: descartado (clientes usan REST)
+=== Model card ===
+  use: queue_rank
+  out_of_scope: ['fraud_label']
+  owner: risk_ops
+  contestability: True
 
-## Consequences
-Latencia p99 < 100ms. Requiere Redis + monitoring 24/7. Costo ~$500/mes.
-
-## Status: Proposed
-
-
-=== Feature Store (simulado) ===
-Online user_123: {'age': 25, 'avg_spend': 150.5, 'login_count': 30}
-Online user_999: {}`,
-      hint: 'Escribe un ADR para tu propia decision tecnica',
+portfolio_ready: True`,
+      hint: 'Cambia means_fraud a True o by a "" y observa como portfolio_ready pasa a False',
     },
     'ai-apis-advanced': {
       title: 'Practica function calling (simulado)',
@@ -3137,7 +3138,7 @@ for metric, value in metrics.items():
       hint: 'Cambia las probabilidades de fallo a 0.0 y observa si el pipeline siempre pasa',
     },
     // === Phase 3 demos (S40-S52) ===
-    'agentic-architecture': {
+    'architecture-ddd-decisions': {
       title: 'Practica multi-agent (simulado)',
       code: `# Simulacion de sistema multi-agente
 # Cada agente tiene un rol especifico
@@ -3260,82 +3261,70 @@ GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4`,
       hint: 'Calcula la VRAM necesaria para un modelo de 70B en INT4',
     },
     'graph-rag': {
-      title: 'Practica knowledge graphs (simulado)',
-      code: `# Simulacion de knowledge graph y GraphRAG
-# Sin Neo4j - implementamos con dict de adyacencia
+      title: 'Practica el policy_engine fail-closed (simulado)',
+      code: `# Simulacion del policy_engine fail-closed de S42
+# Caso sintetico CASO-CUS-042 (mesa de soporte de Cusco)
+# Cadena: schema -> SSRF host -> path -> authz resource binding
 
-class KnowledgeGraph:
-    """Knowledge graph simple con dict de adyacencia."""
-    def __init__(self):
-        self.nodes = {}
-        self.edges = []
-    
-    def add_node(self, name, node_type):
-        self.nodes[name] = {"type": node_type}
-    
-    def add_edge(self, source, target, rel_type):
-        self.edges.append({"source": source, "target": target, "type": rel_type})
-    
-    def neighbors(self, node, rel_type=None):
-        """Encuentra vecinos de un nodo."""
-        result = []
-        for e in self.edges:
-            if e["source"] == node and (rel_type is None or e["type"] == rel_type):
-                result.append(e["target"])
-        return result
-    
-    def find_path(self, start, end, max_depth=3):
-        """Encuentra camino entre dos nodos (BFS)."""
-        queue = [(start, [start])]
-        visited = {start}
-        while queue:
-            node, path = queue.pop(0)
-            if node == end:
-                return path
-            if len(path) >= max_depth:
-                continue
-            for neighbor in self.neighbors(node):
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append((neighbor, path + [neighbor]))
-        return None
+ALLOWED_KEYS = {"case_id", "status"}
+ALLOWED_HOSTS = {"docs.local"}
+SAFE_ROOT = "/safe/reports"
 
-# Construir knowledge graph
-kg = KnowledgeGraph()
-kg.add_node("Ana", "Person")
-kg.add_node("Interbank", "Company")
-kg.add_node("Luis", "Person")
-kg.add_node("ChurnBot", "Project")
 
-kg.add_edge("Ana", "Interbank", "WORKS_AT")
-kg.add_edge("Luis", "Interbank", "WORKS_AT")
-kg.add_edge("Ana", "ChurnBot", "WORKS_ON")
-kg.add_edge("Luis", "ChurnBot", "WORKS_ON")
+def policy_engine(req, actor, owner, scopes, host, user_path="a.txt", root=SAFE_ROOT):
+    """Decide CONTINUE / REJECT_SCHEMA / REJECT_UNTRUSTED_INPUT / DENY_CROSS_TENANT."""
+    # 1. Schema estricto: solo las claves permitidas, nada extra
+    if not ALLOWED_KEYS.issubset(req) or set(req) - ALLOWED_KEYS:
+        return "REJECT_SCHEMA"
+    # 2. SSRF: el host debe estar en la allowlist
+    if host not in ALLOWED_HOSTS:
+        return "REJECT_UNTRUSTED_INPUT"
+    # 3. Path traversal: ni '..' ni escape de la raiz
+    if ".." in user_path.split("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    joined = f"{root.rstrip('/')}/{user_path.lstrip('/')}"
+    if not joined.startswith(root.rstrip("/") + "/") and joined != root.rstrip("/"):
+        return "REJECT_UNTRUSTED_INPUT"
+    # 4. Authz: el actor debe ser el dueno y tener el scope cases:read
+    if "cases:read" not in scopes or actor != owner:
+        return "DENY_CROSS_TENANT"
+    return "CONTINUE"
 
-# Query: colegas de Ana
-print("=== Knowledge Graph Queries ===")
-colegas = kg.neighbors("Ana", "WORKS_AT")
-print(f"Colegas de Ana: {colegas}")
 
-# Query: proyectos de Ana
-proyectos = kg.neighbors("Ana", "WORKS_ON")
-print(f"Proyectos de Ana: {proyectos}")
+print("=== Policy Engine (CASO-CUS-042) ===")
 
-# Multi-hop: quien mas trabaja en el mismo proyecto que Ana?
-print(f"\\nMulti-hop: colegas en mismo proyecto:")
-for proj in kg.neighbors("Ana", "WORKS_ON"):
-    workers = kg.neighbors(proj)  # pero edges van persona->proyecto
-    # Invertir: buscar quien tiene edge hacia este proyecto
-    for e in kg.edges:
-        if e["target"] == proj and e["source"] != "Ana":
-            print(f"  {e['source']} tambien trabaja en {proj}")`,
-      expectedOutput: `=== Knowledge Graph Queries ===
-Colegas de Ana: ['Interbank']
-Proyectos de Ana: ['ChurnBot']
+# 1. Happy path: analista abre su propio ticket
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "docs.local"))
 
-Multi-hop: colegas en mismo proyecto:
-  Luis tambien trabaja en ChurnBot`,
-      hint: 'Anade un nodo "Maria" que tambien trabaja en Interbank y encuentra el camino',
+# 2. Schema reject: el cliente manda un campo extra (note_interna)
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open", "note_interna": "x"},
+    "user-a", "user-a", {"cases:read"}, "docs.local"))
+
+# 3. Cross-tenant: el analista user-a intenta leer el ticket de user-b
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-b", {"cases:read"}, "docs.local"))
+
+# 4. SSRF: el adjunto apunta a metadata cloud (169.254.169.254)
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "169.254.169.254"))
+
+# 5. Path traversal: el adjunto intenta leer /etc/passwd
+print(policy_engine(
+    {"case_id": "CASO-CUS-042", "status": "open"},
+    "user-a", "user-a", {"cases:read"}, "docs.local",
+    user_path="../etc/passwd"))`,
+      expectedOutput: `=== Policy Engine (CASO-CUS-042) ===
+CONTINUE
+REJECT_SCHEMA
+DENY_CROSS_TENANT
+REJECT_UNTRUSTED_INPUT
+REJECT_UNTRUSTED_INPUT`,
+      hint: 'Cambia user_path a "subdir/a.txt" y observa CONTINUE; prueba sin cases:read en scopes',
     },
     'llmops': {
       title: 'Practica tracing y eval (simulado)',
@@ -3777,84 +3766,55 @@ for key, value in model_card.items():
       hint: 'Cambia la probabilidad de aprobacion de mujeres a 0.65 y observa si el bias desaparece',
     },
     'data-contracts': {
-      title: 'Practica data contracts',
-      code: `# Simulacion de data contracts con validacion
-from dataclasses import dataclass
-from typing import Optional
+      title: 'Practica agentes y tools',
+      code: `# Mini-lab de agente acotado (stdlib) con tool registry, idempotencia y gate HITL
+# CASO-AYA-049 (entidad ficticia en Ayacucho) — sin PII real, sin red, sin secretos.
 
-# Definir contrato de datos (estilo pydantic)
-@dataclass
-class TransactionContract:
-    """Contrato para transacciones de clientes."""
-    transaction_id: str
-    user_id: str
-    amount: float
-    currency: str = "PEN"
-    
-    def validate(self):
-        """Valida el contrato y retorna errores."""
-        errors = []
-        if not self.transaction_id:
-            errors.append("transaction_id es requerido")
-        if not self.user_id:
-            errors.append("user_id es requerido")
-        if self.amount <= 0:
-            errors.append("amount debe ser positivo")
-        if self.currency not in ["PEN", "USD", "EUR"]:
-            errors.append("currency debe ser PEN, USD o EUR")
-        return errors
+TOOLS = {
+    "get_case": {"scope": "case:read", "side_effect": False},
+    "prepare_report": {"scope": "report:prepare", "side_effect": True},
+    "prod_send": {"scope": "prod:write", "side_effect": True},
+}
 
-# Simular Great Expectations
-def gx_validate(data, expectations):
-    """Simula Great Expectations: valida reglas de calidad."""
-    results = []
-    for exp in expectations:
-        name = exp["name"]
-        check = exp["check"](data)
-        results.append({"name": name, "passed": check})
-    return results
+# Allowlist de scopes concedidos en el lab (least privilege).
+GRANTED = {"case:read", "report:prepare"}
 
-# Datos de prueba
-transactions = [
-    {"id": "tx1", "user": "u1", "amount": 100.0},
-    {"id": "tx2", "user": "u2", "amount": 50.0},
-    {"id": "tx3", "user": "", "amount": -10.0},  # invalido
-]
+# Store de idempotencia: misma key => un solo side effect aplicado.
+idempotency_store: dict[str, dict] = {}
 
-# Validar contrato
-print("=== Data Contract Validation ===")
-for tx in transactions:
-    contract = TransactionContract(
-        transaction_id=tx["id"],
-        user_id=tx["user"],
-        amount=tx["amount"],
-    )
-    errors = contract.validate()
-    status = "OK" if not errors else f"ERROR: {errors}"
-    print(f"  {tx['id']}: {status}")
 
-# Simular Great Expectations
-print("\\n=== Great Expectations ===")
-expectations = [
-    {"name": "not_null_id", "check": lambda d: all(t["id"] for t in d)},
-    {"name": "positive_amount", "check": lambda d: all(t["amount"] > 0 for t in d)},
-    {"name": "unique_ids", "check": lambda d: len(set(t["id"] for t in d)) == len(d)},
-]
+def call_tool(name: str, key: str, human_ok: bool = False) -> dict:
+    """Llama una tool con schema estrecho, scope chequeado y replay seguro."""
+    tool = TOOLS[name]
+    # 1) Permiso: scope debe estar en el grant.
+    if tool["side_effect"] and tool["scope"] not in GRANTED:
+        return {"error": "forbidden", "kind": "terminal"}
+    if not tool["side_effect"] and tool["scope"] not in GRANTED:
+        return {"error": "forbidden", "kind": "terminal"}
+    # 2) Aprobacion humana si hay side effect.
+    if tool["side_effect"] and not human_ok:
+        return {"error": "needs_approval", "kind": "terminal"}
+    # 3) Replay idempotente: si la key ya se aplicó, devolvemos el mismo efecto.
+    if key in idempotency_store:
+        return idempotency_store[key]
+    # 4) Aplicamos el efecto una sola vez y lo guardamos.
+    result = {"ok": True, "name": name, "effect": 1 if tool["side_effect"] else 0}
+    idempotency_store[key] = result
+    return result
 
-results = gx_validate(transactions, expectations)
-for r in results:
-    status = "PASS" if r["passed"] else "FAIL"
-    print(f"  {r['name']}: {status}")`,
-      expectedOutput: `=== Data Contract Validation ===
-  tx1: OK
-  tx2: OK
-  tx3: ERROR: ['user_id es requerido', 'amount debe ser positivo']
 
-=== Great Expectations ===
-  not_null_id: PASS
-  positive_amount: FAIL
-  unique_ids: PASS`,
-      hint: 'Corrige la transaccion 3 y observa si todas las validaciones pasan',
+# Trayectoria feliz + fallas del catálogo (fail-closed, nunca exito silencioso).
+print(call_tool("get_case", "k1"))
+print(call_tool("prepare_report", "k2", human_ok=False))
+print(call_tool("prepare_report", "k2", human_ok=True))
+print(call_tool("prepare_report", "k2", human_ok=True))  # replay idempotente
+print(call_tool("prod_send", "k3", human_ok=True))       # scope fuera del grant`,
+      expectedOutput: `{'ok': True, 'name': 'get_case', 'effect': 0}
+{'error': 'needs_approval', 'kind': 'terminal'}
+{'ok': True, 'name': 'prepare_report', 'effect': 1}
+{'ok': True, 'name': 'prepare_report', 'effect': 1}
+{'error': 'forbidden', 'kind': 'terminal'}`,
+      hint: 'Cambia human_ok de False a True en la segunda llamada y observa que la cuarta linea es idempotente: mismo efecto, sin duplicar el side effect.',
     },
     'tech-leadership': {
       title: 'Practica design doc y postmortem',

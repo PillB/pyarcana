@@ -41,7 +41,7 @@ import { section37 } from './sections/s37-dbt-bigquery'
 import { section38 } from './sections/s38-performance-extreme'
 import { section39 } from './sections/s39-integrator-phase2'
 // Phase 3 — Master (40-52)
-import { section40 } from './sections/s40-agentic-architecture'
+import { section40 } from './sections/s40-architecture-ddd'
 import { section41 } from './sections/s41-llm-finetuning'
 import { section42 } from './sections/s42-graph-rag'
 import { section43 } from './sections/s43-llmops'

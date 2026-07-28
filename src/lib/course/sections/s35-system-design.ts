@@ -12,7 +12,7 @@ export const section35: CourseSection = {
   icon: "Scale",
   accentColor: "bg-gradient-to-br from-violet-400 to-purple-800",
   jobRelevance:
-    "En un workbench de **riesgo operativo** (p. ej. cola de revisión en Lima, datos sintéticos de Red Andina) el analista no solo mira un score: arma una **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Inicias **CP-N3-C**: explicar un score **no** es acusar de fraude ni de parentesco, y sin audit trail el override no es gobernanza.",
+    "En un workbench de riesgo operativo (entorno de revisión; p. ej. cola de fraude en Lima, datos sintéticos de Red Andina) el analista no solo mira un score: arma una ficha de caso que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana. Inicias CP-N3-C (competencia de explicabilidad responsable): explicar un score no es acusar de fraude ni de parentesco, y sin audit trail (rastro auditable de quién decidió qué) el override (decisión humana que reemplaza al modelo) no es gobernanza.",
   learningOutcomes: [
     { text: "Calcular ranking de importancia por permutación (drop de métrica) con means_fraud=False" },
     { text: "Construir explicación local value×weight y ficha de 4 capas con causal=False" },
@@ -28,7 +28,7 @@ export const section35: CourseSection = {
       heading: "Inicio CP-N3-C: ficha de caso responsable",
       paragraphs: [
         "Esta sección **inicia CP-N3-C** y parte de S34: reutilizas métricas, umbrales y baselines ya presentados en el workbench. El caso sintético `CASO-LIM-035` de Red Andina (organización ficticia en Lima) se ejecuta **sin** credenciales, servicios externos ni PII real: es el laboratorio donde la ficha de caso se vuelve producto, no un diagrama abstracto.",
-        "Producto incremental: **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Entrada: score, features y cohorte; salida: plantilla auditable **sin** auto-etiqueta de fraude (`means_fraud=False`). Taxonomía que usarás en T1–T4: **global** (importancia del modelo en todo el batch) vs. **local** (contribución al score de *este* caso); **equidad** (slices y proxies) vs. **incertidumbre** (banda y OOD); **gobernanza** (card + override). Pregunta guía de la semana: ¿qué capa del caso estoy mirando y qué **no** puedo afirmar desde ella?",
+        "Producto incremental: **ficha de caso** que separa **evidencia observada**, **contribución del modelo**, **incertidumbre** y **decisión humana**. Entrada: score, features y cohorte; salida: plantilla auditable **sin** auto-etiqueta de fraude (`means_fraud=False`). Taxonomía que usarás en T1–T4: **global** (importancia del modelo en todo el batch) vs. **local** (contribución al score de *este* caso); **equidad** (slices y proxies) vs. **incertidumbre** (banda y OOD, casos fuera del dominio de train); **gobernanza** (card + override, decisión humana que reemplaza al modelo). Pregunta guía de la semana: ¿qué capa del caso estoy mirando y qué **no** puedo afirmar desde ella?",
         "Orden de la sección: **T1 explicación** (global y local) → **T2 equidad/slices y proxies** → **T3 incertidumbre y abstención OOD** → **T4 model card, contestabilidad y override**. Cada bloque cierra con un puente al siguiente: el mapa global no basta sin explicación del caso; la explicación del caso no basta sin slices; los slices no bastan sin banda/OOD; la incertidumbre no basta sin card y audit. El producto es la ficha auditable; explicar **no** es acusar.",
         "Glosario mínimo de la ficha: **evidencia** = hechos del caso; **modelo** = score y contribuciones (no veredicto); **incertidumbre** = banda/OOD; **humano** = decisión con `by` auditable. Códigos de política: `REJECT_*` = incumplimiento del contrato; `REQUEST_*` = falta dato para decidir; `CONTINUE`/`PASS` = contrato satisfecho en el lab. No memorices la lista entera: cada subtema introduce el código que usa."
       ],
@@ -183,7 +183,7 @@ means_fraud False`,
       subtopicId: "S35-T3-A",
       paragraphs: [
         "Un **score puntual engaña**; comunicar un **intervalo** deja claro qué tan estable es la señal de cola. En producción, la **predicción conformal** (p. ej. MAPIE) usa un **set de calibración** y busca **cobertura** empírica: que el valor verdadero caiga en la banda con la frecuencia prometida (p. ej. 90 %). El lab **no** implementa calibración: practicas una **banda ilustrativa** `p±q` con `level=\"toy\"` y `coverage_claim=False`. El hábito de **no publicar solo el punto** es el gate de la ficha; el algoritmo conformal queda en recursos.",
-        "Contrato: entrada `p`, `q` y (en portfolio) `q_source`; salida `(lo, hi)`, label de nivel y flag de no-cobertura. Error: publicar solo `p` **sin** ancho (`q==0` o `level=point`) o afirmar cobertura real con banda toy. Criterio: todo score de ficha lleva banda o flag de no-cobertura. Brier y bandas son **complementarios**, no rivales.",
+        "Contrato: entrada `p`, `q` y (en portfolio) `q_source`; salida `(lo, hi)`, label de nivel y flag de no-cobertura. Error: publicar solo `p` **sin** ancho (`q==0` o `level=point`) o afirmar cobertura real con banda toy. Criterio: todo score de ficha lleva banda o flag de no-cobertura. Brier (score de calibración de probabilidades) y bandas son **complementarios**, no rivales.",
         "Aplicación a `CASO-LIM-035`: `p=0.6` con `q=0.1` produce `[0.5, 0.7]` nivel toy **sin** claim de cobertura; el analista ve incertidumbre **antes** de override. Si el caso sale del soporte de train, la banda *dentro* del dominio no basta: T3-B fuerza abstención por OOD."
       ],
       code: {
@@ -222,7 +222,7 @@ point_only False`,
       subtopicId: "S35-T3-B",
       paragraphs: [
         "Aunque la banda esté bien comunicada, si un caso se sale del soporte visto en train (**canal nuevo**, z-score extremo), la política correcta es **abstener y escalar**, no forzar `pred=1` ni inventar fraude. La banda describe incertidumbre *dentro* del dominio; OOD es **cambio de dominio** (otra capa de la ficha, otro verbo de política).",
-        "Contrato: entrada vector z, umbral y **procedencia del escalado** (`reference_split=train`); salida `ood` bool y action `abstain|score`. El lab usa una heurística univariante `max(|z|) > thr`: **no** es un detector OOD general ni captura novedad multivariante. Error: **auto-label en OOD** (`action=auto_fraud`). Criterio: fail-closed hacia humano con razón en `uncertainty.reason` (p. ej. `ood`).",
+        "Contrato: entrada vector z, umbral y **procedencia del escalado** (`reference_split=train`); salida `ood` bool y action `abstain|score`. El lab usa una heurística univariante `max(|z|) > thr`: **no** es un detector OOD general ni captura novedad multivariante. Error: **auto-label en OOD** (`action=auto_fraud`). Criterio: fail-closed (ante la duda, escalar a humano) con razón en `uncertainty.reason` (p. ej. `ood`).",
         "Aplicación a `CASO-LIM-035`: z estandarizados con media/desvío de train; `z=[1,2,3.5]` dispara ood; `action=abstain` y la ficha registra `uncertainty.reason=ood` **sin** label de fraude. Con incertidumbre gobernada, T4 documenta usos permitidos (model card) y el rastro del override: sin card y audit, la abstención no cierra el caso."
       ],
       code: {
@@ -660,7 +660,7 @@ assert meets_contract is True
         feedback:
           "Schema primero, ética después: en la cola de Lima, `means_fraud=True` es breach de contenido que convierte el mapa en acusación; faltar drops es otro código.",
         retrospective:
-          "Faltar `drops` es incertidumbre de schema; `means_fraud=True` con drops presentes es breach de **contenido**. No son el mismo ticket en la cola. Pregunta: ¿por qué un drop de 0.1 con flag malo no se «arregla» inventando un `MISSING`? Luego (E3): REQUEST vs REJECT en fail-closed de cola.",
+          "Faltar `drops` es incertidumbre de schema; `means_fraud=True` con drops presentes es breach de **contenido**. No son el mismo ticket en la cola. Pregunta: ¿por qué un drop de 0.1 con flag malo no se «arregla» inventando un `MISSING`? Luego (E3): REQUEST vs. REJECT en fail-closed de cola.",
         starterCode: {
           language: 'python',
           title: "s35-t1-a-e2.py",
@@ -867,7 +867,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** el gate de explicación local debe aceptar ficha completa con `causal=False`, rechazar claim causal y reportar layers ausentes.\n- **Meta:** `assess` con missing primero y predicado de 4 capas + causal.\n- **Éxito:** `PASS REJECT_CAUSAL_CLAIM MISSING:layers`.\n- **Límites:** no des PASS si `causal=True` o layers incompletas.",
         instruction:
-          "1. Starter da PASS con `causal is True`.\n2. Missing → `MISSING:…`.\n3. PASS solo si `causal is False` y set(layers) es el de 4 capas.\n4. Imprime las tres rutas.",
+          "1. Starter da PASS con `causal is True`.\n2. Campo ausente → `MISSING:…`.\n3. PASS solo si `causal is False` y set(layers) es el de 4 capas.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a layers debe ocurrir antes de esa rama.",
@@ -1033,7 +1033,7 @@ assert results == ["CONTINUE", "REJECT_CAUSAL_CLAIM", "REQUEST_LAYER_FIELDS"]
         feedback:
           "El flag se calcula desde n; precision alta no salva low_n. En equity de cola, un n chico no autoriza paridad ni inequidad a gritos.",
         retrospective:
-          "El flag se deriva de **n vs min_n**, no del brillo de la precision. Un n chico con 0.95 no «mejora» el reporte: lo vuelve `low_n`. Pregunta: con n=100 y precision 0.6, ¿por qué PASS no es un juicio de «buena equity» sino de muestra usable? Siguiente (E2): rechazar claim con n=5.",
+          "El flag se deriva de **n vs. min_n**, no del brillo de la precision. Un n chico con 0.95 no «mejora» el reporte: lo vuelve `low_n`. Pregunta: con n=100 y precision 0.6, ¿por qué PASS no es un juicio de «buena equity» sino de muestra usable? Siguiente (E2): rechazar claim con n=5.",
         starterCode: {
           language: 'python',
           title: "s35-t2-a-e1.py",
@@ -1084,7 +1084,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** un slice AQP sintético con n=5 y precision 0.95 no autoriza afirmación fuerte de equidad.\n- **Meta:** `assess` → PASS / REJECT_LOW_N_CLAIM / MISSING:slice_n.\n- **Éxito:** `PASS REJECT_LOW_N_CLAIM MISSING:slice_n`.\n- **Límites:** schema primero; no des PASS al adverso de n bajo.",
         instruction:
-          "1. Starter da PASS si slice_n < min_n (invertido).\n2. Missing → MISSING.\n3. PASS si n ≥ min_n y precision en [0,1]; si no REJECT_LOW_N_CLAIM.\n4. Imprime las tres rutas.",
+          "1. Starter da PASS si slice_n < min_n (invertido).\n2. Campo ausente → `MISSING`.\n3. PASS si n ≥ min_n y precision en [0,1]; si no REJECT_LOW_N_CLAIM.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a slice_n debe ocurrir antes de esa rama.",
@@ -1328,7 +1328,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** el gate de T2-B acepta proxy high con mitigación y rechaza auto_label o action ausente.\n- **Meta:** `assess` → PASS / REJECT_PROXY_FEATURE / MISSING:action.\n- **Éxito:** `PASS REJECT_PROXY_FEATURE MISSING:action`.\n- **Límites:** schema primero; auto_label siempre REJECT.",
         instruction:
-          "1. Starter da PASS si action == auto_label.\n2. Missing → MISSING.\n3. PASS si risk high y action en {review, mitigate, drop}.\n4. Imprime las tres rutas.",
+          "1. Starter da PASS si action == auto_label.\n2. Campo ausente → `MISSING`.\n3. PASS si risk high y action en {review, mitigate, drop}.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
@@ -1553,7 +1553,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** el gate de incertidumbre debe rechazar punto solo y pedir q si falta.\n- **Meta:** `assess` con missing primero y q>0 + level ≠ point.\n- **Éxito:** `PASS REJECT_POINT_ONLY MISSING:q`.\n- **Límites:** no des PASS si q==0 o level=point.",
         instruction:
-          "1. Starter da PASS si q==0.\n2. Missing → MISSING.\n3. PASS si q>0, level ≠ point y p en [0,1].\n4. Imprime las tres rutas.",
+          "1. Starter da PASS si q==0.\n2. Campo ausente → `MISSING`.\n3. PASS si q>0, level ≠ point y p en [0,1].\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a q debe ocurrir antes de esa rama.",
@@ -1738,7 +1738,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** el gate de T3-B acepta OOD+abstain, rechaza auto_fraud y reporta action ausente.\n- **Meta:** `assess` con missing primero y predicado de OOD+abstain.\n- **Éxito:** `PASS REJECT_AUTO_LABEL MISSING:action`.\n- **Límites:** schema primero; auto_fraud siempre REJECT.",
         instruction:
-          "1. Starter da PASS si action == auto_fraud.\n2. Missing → MISSING.\n3. PASS si max|z| > thr y action == abstain.\n4. Imprime las tres rutas.",
+          "1. Starter da PASS si action == auto_fraud.\n2. Campo ausente → `MISSING`.\n3. PASS si max|z| > thr y action == abstain.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a action debe ocurrir antes de esa rama.",
@@ -1957,7 +1957,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** el gate de T4-A acepta card de cola con contestabilidad y rechaza use=fraud_label o scope vacío.\n- **Meta:** `assess` → PASS / REJECT_SCOPE_BREACH / MISSING:out_of_scope.\n- **Éxito:** `PASS REJECT_SCOPE_BREACH MISSING:out_of_scope`.\n- **Límites:** schema primero; adverso por contenido.",
         instruction:
-          "1. Starter da PASS si use==fraud_label.\n2. Missing → MISSING.\n3. PASS si queue_rank, fraud_label en out_of_scope y contestability True.\n4. Imprime las tres rutas.",
+          "1. Starter da PASS si use==fraud_label.\n2. Campo ausente → `MISSING`.\n3. PASS si queue_rank, fraud_label en out_of_scope y contestability True.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a out_of_scope debe ocurrir antes de esa rama.",
@@ -2174,7 +2174,7 @@ assert meets_contract is True
         preamble:
           "- **Contexto:** el gate de T4-B acepta override con actor, rechaza by vacío y reporta by ausente.\n- **Meta:** `assess` → PASS / REJECT_SILENT_OVERRIDE / MISSING:by.\n- **Éxito:** `PASS REJECT_SILENT_OVERRIDE MISSING:by`.\n- **Límites:** schema primero; by vacío es breach de contenido.",
         instruction:
-          "1. Starter da PASS si not by.\n2. Missing → MISSING.\n3. PASS si by, case y human son truthy.\n4. Imprime las tres rutas.",
+          "1. Starter da PASS si not by.\n2. Campo ausente → `MISSING`.\n3. PASS si by, case y human son truthy.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a by debe ocurrir antes de esa rama.",
@@ -2185,7 +2185,7 @@ assert meets_contract is True
         feedback:
           "Faltar by (MISSING) no es lo mismo que by=\"\" (REJECT): el audit trail de Red Andina distingue schema de override silencioso.",
         retrospective:
-          "Faltar la key `by` (MISSING) no es lo mismo que `by=\"\"` (REJECT): schema vs override silencioso. Pregunta: ¿qué código devuelve cada uno y por qué la cola no los trata igual? En E3 enrutas missing a REQUEST_AUDIT_FIELDS.",
+          "Faltar la key `by` (MISSING) no es lo mismo que `by=\"\"` (REJECT): schema vs. override silencioso. Pregunta: ¿qué código devuelve cada uno y por qué la cola no los trata igual? En E3 enrutas missing a REQUEST_AUDIT_FIELDS.",
         starterCode: {
           language: 'python',
           title: "s35-t4-b-e2.py",
@@ -2296,11 +2296,11 @@ assert results == ["CONTINUE", "REJECT_SILENT_OVERRIDE", "REQUEST_AUDIT_FIELDS"]
     context:
       "Como analista de riesgo operativo en la cola sintética de Red Andina (Lima), arma la plantilla de ficha de caso con explicación local, banda ilustrativa de incertidumbre, abstención OOD y model card sobre CASO-LIM-035. En la nota de portfolio documenta además un mini-reporte de slice (n + flag) y un proxy con evidencia de gap. Sin PII real ni auto-etiqueta de fraude: el código debe llegar a `portfolio_ready True` reparando los tres `fill_*`.",
     objectives: [
-      "Calcular contrib local value×weight (baseline=0 de lab) y dejar means_fraud=False y causal=False",
-      "Publicar banda p±q con coverage_claim implícito False y, si OOD, action=abstain con reason=ood",
-      "Completar model card (use=queue_rank, owner, out_of_scope con fraud_label, contestability=True)",
-      "Registrar decisión humana con by no vacío; en portfolio extendido: ts, reason y model_version",
-      "Documentar en la nota un slice con n/flag y un proxy justificado (no solo tag inventado)",
+      "Calcular contrib local value×weight (baseline=0 de lab) y dejar means_fraud=False y causal=False.",
+      "Publicar banda p±q con coverage_claim implícito False y, si OOD, action=abstain con reason=ood.",
+      "Completar model card (use=queue_rank, owner, out_of_scope con fraud_label, contestability=True).",
+      "Registrar decisión humana con by no vacío; en portfolio extendido: ts, reason y model_version.",
+      "Documentar en la nota un slice con n/flag y un proxy justificado (no solo tag inventado).",
     ],
     requirements: [
       "4 capas en ficha (evidence|model|uncertainty|human) más card",

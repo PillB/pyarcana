@@ -12,7 +12,7 @@ export const section46: CourseSection = {
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto en LATAM, **ingeniería de datos y orquestación de producción** convierte el job asíncrono de la sección anterior (*object store*, colas, DLQ e *idempotency keys*) en pipelines batch/stream con calidad medible y **SLA** de frescura. Entregas típicas: tablas y contratos versionados, orquestación con *checkpoint*, *lineage* y alertas cuando el dato llega tarde o el schema se rompe. Se promociona solo cuando backfills y *re-runs* no corrompen el sink ni duplican agregados. La siguiente sección (MLOps) consumirá estas tablas versionadas y el *lineage* como fuente confiable de *features* y *runs*.",
+    "En equipos de plataforma y producto en LATAM, ingeniería de datos y orquestación de producción convierte el job asíncrono de la sección anterior —object store, colas, DLQ (cola de mensajes muertos: eventos que agotaron reintentos) e idempotency keys (claves que evitan reprocesar el mismo evento)— en pipelines batch/stream con calidad medible y SLA de frescura. Entregas típicas: tablas y contratos versionados, orquestación con checkpoint, lineage y alertas cuando el dato llega tarde o el schema se rompe. Se promociona solo cuando backfills y re-runs no corrompen el sink ni duplican agregados. La siguiente sección (MLOps) consumirá estas tablas versionadas y el lineage como fuente confiable de features y runs.",
   learningOutcomes: [
     { text: "Clasificar eventos on-time, allowed-late, late u out-of-window dado event_time, window_end, watermark y allowed_lateness, con política documentada" },
     { text: "Componer exactly-once end-to-end: fuente at-least-once + checkpoint + sink idempotente por clave + política de late data" },
@@ -21,13 +21,22 @@ export const section46: CourseSection = {
     { text: "Evaluar data contracts (schema + owner + freshness SLO) y fallar cerrado ante drift o retraso" },
     { text: "Registrar lineage run→inputs→outputs con owner y métricas de calidad para reconstruir incidentes" },
     { text: "Implementar carga incremental por partición con merge de claves y segunda corrida con cero cambios" },
-    { text: "Operar data SLOs (SLI vs. objetivo), RTO de recuperación y post mortem con acciones concretas" },
+    { text: "Operar data SLOs (SLI vs. objetivo), RTO de recuperación y post mórtem con acciones concretas" },
   ],
   theory: [
     {
       heading: "Ruta de S46: Ingeniería de datos y orquestación de producción",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1).\n- **Event time:** cuándo ocurrió el hecho (no el *processing time* del worker).\n- **Watermark:** aserción de progreso en *event time*; un watermark `t` declara que no se esperan más eventos con timestamp ≤ `t`.\n- **Late data:** llega después de que el watermark superó su timestamp. Política: drop / side-output / update / quarantine.\n- **Exactly-once (compuesto):** end-to-end con sinks idempotentes + checkpoints; no es un flag mágico del broker.\n- **DAG/asset:** grafo de dependencias sin ciclos.\n- **Backfill:** *re-run* acotado de rangos históricos.\n- **Data contract:** schema + freshness + ownership.\n- **Lineage:** de qué *run* o tabla salió cada fila.\n- **Incremental load:** particiones / *keys* sin *full rewrite* ciego.",
+        "**Diccionario de la sección** (léelo antes de T1):",
+        "- **Event time:** cuándo ocurrió el hecho (no el *processing time* del worker).",
+        "- **Watermark:** aserción de progreso en *event time*; un watermark `t` declara que no se esperan más eventos con timestamp ≤ `t`.",
+        "- **Late data:** llega después de que el watermark superó su timestamp. Política: drop / side-output / update / quarantine.",
+        "- **Exactly-once (compuesto):** end-to-end con sinks idempotentes + checkpoints; no es un flag mágico del broker.",
+        "- **DAG/asset:** grafo de dependencias sin ciclos.",
+        "- **Backfill:** *re-run* acotado de rangos históricos.",
+        "- **Data contract:** schema + freshness + ownership.",
+        "- **Lineage:** de qué *run* o tabla salió cada fila.",
+        "- **Incremental load:** particiones / *keys* sin *full rewrite* ciego.",
         "Puente S45 → S46 → S47. En S45 modelaste un **job asíncrono** con *artifact store*, *status*, *retry*, DLQ e *idempotency keys*. Aquí ese job se vuelve **pipeline de datos de producción**. El mismo `event_id` / *idempotency key* alimenta el *dedup* del sink. La cola *at-least-once* obliga a sinks idempotentes. El *object store* aloja particiones y artefactos de *lineage*. En S47 (MLOps) esas tablas versionadas, el *lineage* y la *freshness* serán la base de *features*, *experiment tracking* y *serving*. Un pipeline sin contratos no es un buen dataset de entrenamiento.",
         "Producto incremental: orquestación de producción. Entrada: eventos con `event_time`, schema, **SLA** de frescura y *keys* de idempotencia. Salida: ventanas cerradas con política de *late data*, sink deduplicado, DAG acíclico y alertas de calidad. Error de promoción: *late data* silenciosa, edges cíclicos, *schema drift* no detectado o segundo *run* que reescribe sin control.",
         "Orden: T1 event-time/watermarks → T2 DAG tipado y *checkpoint* → T3 calidad/freshness → T4 *re-runs* y SLI/SLO. El watermark y la *late policy* de T1 habilitan el *merge* incremental de T4 (solo filas ON_TIME / ALLOWED_LATE entran al sink). El DAG acíclico de T2 ordena qué *asset* se backfillea. Los contratos de T3 deciden cuándo cuarentenar. Stack didáctico: **stdlib** (dicts, listas) para modelar contratos al estilo Airflow / dbt / streaming **sin cluster**. El foco es corrección de datos y operación del pipeline, no kernels de hardware. Para `CASO-HYO-046` (Huancayo sintético): eventos de atención de una entidad ficticia, sin PII real ni servicios externos.",
@@ -275,7 +284,7 @@ QUARANTINE_DATASET`,
       subtopicId: "S46-T3-B",
       paragraphs: [
         "**Lineage** conecta dataset de salida con inputs, código y run_id. **Observabilidad de datos** combina volumen, calidad (`null_rate`) y tiempo. Sin owner, el incidente no tiene dueño de página: el on-call de plataforma no debería adivinar quién rompió el schema de `clean-v3`.",
-        "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Error: inputs vacíos, null_rate sobre umbral o run_id no trazable. Criterio: un **post mortem** puede responder “qué corrida produjo esta fila”.",
+        "Contrato operativo de trazabilidad. Entrada: run_id, sets de inputs/outputs, métricas (rows, null_rate) y owner. Salida: registro reconstruible run→datasets; incidente solo si calidad/owner fallan. Error: inputs vacíos, null_rate sobre umbral o run_id no trazable. Criterio: un **post mórtem** puede responder “qué corrida produjo esta fila”.",
         "Aplicación a `CASO-HYO-046`: el *run* `run-hyo-46` materializa `clean-v3` desde `raw-v2` con `null_rate` 0.01 y *owner* `analytics`. Si `null_rate` sube a 0.3, se abre `OPEN_QUALITY_INCIDENT` con el `run_id` en el ticket. Riesgo de ingeniería de datos: “arreglar a ciegas” sin saber qué *upstream* cambió.",
       ],
       code: {
@@ -347,7 +356,7 @@ no_dup_rerun True`,
       subtopicId: "S46-T4-B",
       paragraphs: [
         "Un **SLO de datos** une un **SLI** (indicador medido, p. ej. proporción de particiones frescas) con un objetivo y una ventana. Un **incidente de datos** protege consumidores (dejar de publicar basura), recupera particiones y documenta causa + prevención. El **RTO** mide cuánto tarda la recuperación — un *runbook* sin dueño es teatro.",
-        "Contrato operativo de operación. Entrada: `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto`, `postmortem_actions` y *owner*. Salida: PASS si SLI ≥ SLO, RTO ≤ target, ≥1 acción de **post mortem** y *owner*. Error: SLI bajo o RTO excedido → declarar incidente y activar *runbook*. Criterio: simulacro medido, no promesa en README.",
+        "Contrato operativo de operación. Entrada: `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto`, `postmortem_actions` y *owner*. Salida: PASS si SLI ≥ SLO, RTO ≤ target, ≥1 acción de **post mórtem** y *owner*. Error: SLI bajo o RTO excedido → declarar incidente y activar *runbook*. Criterio: simulacro medido, no promesa en README.",
         "Aplicación a `CASO-HYO-046`: el SLO de frescura del dashboard de atenciones es 0.99. Un lag masivo baja el SLI a 0.80 y el RTO del *replay* a 90 min (>30). Se declara `DECLARE_DATA_INCIDENT` y se activa el *runbook* de *recovery*. Riesgo de ingeniería de datos: consumidores de ML (S47) entrenan sobre datos “vivos” que en realidad están congelados.",
       ],
       code: {
@@ -368,9 +377,9 @@ recovery replay_partition`,
       },
       callout: {
         type: "tip",
-        title: "Cierre T4-B · RTO y post mortem",
+        title: "Cierre T4-B · RTO y post mórtem",
         content:
-          "Cierre S46-T4-B: simulacro cumple RTO y **post mortem** con acciones. Breach → `DECLARE_DATA_INCIDENT`; sin owner → `ACTIVATE_RECOVERY_RUNBOOK`.",
+          "Cierre S46-T4-B: simulacro cumple RTO y post mórtem con acciones. Breach → `DECLARE_DATA_INCIDENT`; sin owner → `ACTIVATE_RECOVERY_RUNBOOK`.",
       },
     },
   ],
@@ -550,7 +559,7 @@ QUARANTINE_DATASET`,
         environment: "local-python",
         description: "Construye facet de lineage y decide si se pagina al owner",
         preamble:
-          "Lineage conecta la fila del dashboard con el run que la produjo. En esta demo un facet de `run-hyo-46` une raw-v2→clean-v3 con null_rate 0.01 y owner analytics; no se pagina. No escribas: predice el dict y `page False`. Si el run_id está vacío o faltan inputs, el post mortem de Huancayo no puede responder “qué corrida produjo esta fila”.",
+          "Lineage conecta la fila del dashboard con el run que la produjo. En esta demo un facet de `run-hyo-46` une raw-v2→clean-v3 con null_rate 0.01 y owner analytics; no se pagina. No escribas: predice el dict y `page False`. Si el run_id está vacío o faltan inputs, el post mórtem de Huancayo no puede responder “qué corrida produjo esta fila”.",
         code: {
           language: 'python',
           title: "demo_lineage_obs_ownership.py",
@@ -574,7 +583,7 @@ print("page", should_page(f))`,
           output: `{'run': 'run-hyo-46', 'inputs': ['raw-v2'], 'outputs': ['clean-v3'], 'null_rate': 0.01, 'owner': 'analytics'}
 page False`,
         },
-        why: "El facet mínimo une run/IO/métricas/owner: no es un *print* de listas sueltas. `should_page` se activa por owner vacío, run mal formado o null_rate alto. Solo con ese facet un incidente de calidad es reconstruible en el **post mortem** de Huancayo. En We Do practicarás el predicado completo, OPEN_QUALITY_INCIDENT y TRACE_LINEAGE.",
+        why: "El facet mínimo une run/IO/métricas/owner: no es un *print* de listas sueltas. `should_page` se activa por owner vacío, run mal formado o null_rate alto. Solo con ese facet un incidente de calidad es reconstruible en el **post mórtem** de Huancayo. En We Do practicarás el predicado completo, OPEN_QUALITY_INCIDENT y TRACE_LINEAGE.",
         retrospective:
           "Lineage es un facet reconstruible (run + IO + métricas + owner), no un log suelto. El error clásico es “arreglar a ciegas” sin inputs ni run_id. Pregunta: si `null_rate` es 0.01 pero `run` no empieza por `run-`, ¿por qué igual se pagina? We Do: PASS / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE.",
       },
@@ -634,9 +643,9 @@ print("sli_vs_slo", "medida vs. objetivo")`,
 DECLARE_DATA_INCIDENT
 sli_vs_slo medida vs. objetivo`,
         },
-        why: "SLI es la medición; SLO es el objetivo. El contrato de ops exige sli ≥ slo, rto ≤ target, ≥1 acción de post mortem y owner; sin owner se activa el runbook. Vocabulario SRE que el self-check y el youDo reutilizan al declarar incidentes de datos. En We Do practicarás el predicado, MISSING:owner y ACTIVATE_RECOVERY_RUNBOOK.",
+        why: "SLI es la medición; SLO es el objetivo. El contrato de ops exige sli ≥ slo, rto ≤ target, ≥1 acción de post mórtem y owner; sin owner se activa el runbook. Vocabulario SRE que el self-check y el youDo reutilizan al declarar incidentes de datos. En We Do practicarás el predicado, MISSING:owner y ACTIVATE_RECOVERY_RUNBOOK.",
         retrospective:
-          "SLI es la **medida**; SLO es el **objetivo**. El error clásico es prometer frescura en el README sin simulacro de RTO y post mortem. Pregunta: si sli=0.995 y rto=90 con target 30, ¿qué código de ops debe salir y por qué no basta el SLI “bonito”? We Do: predicado, DECLARE y ACTIVATE_RECOVERY_RUNBOOK.",
+          "SLI es la **medida**; SLO es el **objetivo**. El error clásico es prometer frescura en el README sin simulacro de RTO y post mórtem. Pregunta: si sli=0.995 y rto=90 con target 30, ¿qué código de ops debe salir y por qué no basta el SLI “bonito”? We Do: predicado, DECLARE y ACTIVATE_RECOVERY_RUNBOOK.",
       },
     ],
   },
@@ -957,7 +966,7 @@ assert meets_contract is True` ,
         feedback:
           "El adverso falla por contenido (dedup/checkpoint/policy), no por KeyError. Missing de policy es otra rama: no la colapses en REPLAY o el on-call reprocesa sin reglas.",
         retrospective:
-          "REPLAY asume que ya conoces la política y el sink está roto; MISSING es “aún no hay regla de late”. Colapsar ambas en un solo “falló” manda al on-call a reprocesar sin política. Pregunta: el viernes a las 18:00, ¿abres replay o eliges policy primero? Luego (E3): CHOOSE_LATE_POLICY vs REPLAY.",
+          "REPLAY asume que ya conoces la política y el sink está roto; MISSING es “aún no hay regla de late”. Colapsar ambas en un solo “falló” manda al on-call a reprocesar sin política. Pregunta: el viernes a las 18:00, ¿abres replay o eliges policy primero? Luego (E3): CHOOSE_LATE_POLICY vs. REPLAY.",
         starterCode: {
           language: 'python',
           title: "s46-t1-b-e2.py",
@@ -1187,7 +1196,7 @@ assert meets_contract is True` ,
         feedback:
           "El adverso ya no es self-loop decorativo: es un ciclo real que el orquestador de Huancayo no puede ordenar, aunque typed_io diga True. MISSING:typed_io es otra rama (incertidumbre de diseño).",
         retrospective:
-          "Tipado no salva el ciclo: el planificador de Huancayo necesita orden topológico, no solo I/O declarado. El error clásico es “typed_io True ⇒ confío y materializo”. Pregunta: si raw→clean→raw, ¿qué asset “termina primero” en el backfill? Luego (E3): DECLARE_ASSET_DEPENDENCY vs REJECT_DAG.",
+          "Tipado no salva el ciclo: el planificador de Huancayo necesita orden topológico, no solo I/O declarado. El error clásico es “typed_io True ⇒ confío y materializo”. Pregunta: si raw→clean→raw, ¿qué asset “termina primero” en el backfill? Luego (E3): DECLARE_ASSET_DEPENDENCY vs. REJECT_DAG.",
         starterCode: {
           language: 'python',
           title: "s46-t2-a-e2.py",
@@ -1591,7 +1600,7 @@ meets_contract True` ,
         feedback:
           "Fail closed: drift o frescura rota no se publican. Owner vacío es breach de ownership aunque el schema coincida — el on-call no debe adivinar a quién paginar.",
         retrospective:
-          "Contrato publicable = schema exacto **y** lag ≤ SLO **y** owner real. El starter invertía igualdad/lag y olvidaba el dueño: publicar “casi bien” manda basura al dashboard de operaciones. El error clásico es warning en vez de fail-closed. Pregunta: si el schema coincide pero owner=\"\", ¿a quién pagina el on-call? Siguiente (E2): cuarentena vs MISSING:owner.",
+          "Contrato publicable = schema exacto **y** lag ≤ SLO **y** owner real. El starter invertía igualdad/lag y olvidaba el dueño: publicar “casi bien” manda basura al dashboard de operaciones. El error clásico es warning en vez de fail-closed. Pregunta: si el schema coincide pero owner=\"\", ¿a quién pagina el on-call? Siguiente (E2): cuarentena vs. MISSING:owner.",
         starterCode: {
           language: 'python',
           title: "s46-t3-a-e1.py",
@@ -1800,9 +1809,9 @@ meets_contract True` ,
         ],
         tests: "`S46-T3-B PASS`.",
         feedback:
-          "Lineage mínimo = run trazable + IO + calidad + owner. Sin un eslabón, el incidente no se reconstruye y el post mortem de Huancayo queda a ciegas.",
+          "Lineage mínimo = run trazable + IO + calidad + owner. Sin un eslabón, el incidente no se reconstruye y el post mórtem de Huancayo queda a ciegas.",
         retrospective:
-          "Un solo eslabón roto basta para abrir incidente: run mal formado, IO vacío, null_rate alto u owner vacío. El error clásico es mirar solo `null_rate` y declarar “calidad OK”. Pregunta: ¿qué pones en el ticket de Huancayo si no hay inputs? Siguiente (E2): adverso multi-eslabón vs MISSING:owner.",
+          "Un solo eslabón roto basta para abrir incidente: run mal formado, IO vacío, null_rate alto u owner vacío. El error clásico es mirar solo `null_rate` y declarar “calidad OK”. Pregunta: ¿qué pones en el ticket de Huancayo si no hay inputs? Siguiente (E2): adverso multi-eslabón vs. MISSING:owner.",
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e1.py",
@@ -1940,9 +1949,9 @@ meets_contract True` ,
         ],
         tests: "CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE.",
         feedback:
-          "TRACE recupera contexto; OPEN asume que ya sabes qué se rompió. Un incidente vacío de ownership no sirve en el post mortem de Huancayo — no lo disfraces de CONTINUE.",
+          "TRACE recupera contexto; OPEN asume que ya sabes qué se rompió. Un incidente vacío de ownership no sirve en el post mórtem de Huancayo — no lo disfraces de CONTINUE.",
         retrospective:
-          "TRACE_LINEAGE es el runbook cuando falta evidencia de ownership; OPEN_QUALITY_INCIDENT es cuando ya sabes qué se rompió en el facet. El error clásico es ticket de incidente sin run_id ni inputs. Pregunta: ¿qué tres campos del facet copias al post mortem antes de “arreglar” clean-v3? Ese hábito alimenta el youDo y CP-N4-B.",
+          "TRACE_LINEAGE es el runbook cuando falta evidencia de ownership; OPEN_QUALITY_INCIDENT es cuando ya sabes qué se rompió en el facet. El error clásico es ticket de incidente sin run_id ni inputs. Pregunta: ¿qué tres campos del facet copias al post mórtem antes de “arreglar” clean-v3? Ese hábito alimenta el youDo y CP-N4-B.",
         starterCode: {
           language: 'python',
           title: "s46-t3-b-e3.py",
@@ -2213,7 +2222,7 @@ meets_contract True` ,
         id: "S46-T4-B-E1",
         subtopicId: "S46-T4-B",
         kind: "guided",
-        title: "SLI, RTO, post mortem y owner",
+        title: "SLI, RTO, post mórtem y owner",
         preamble:
           "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de ops de atenciones solo pasa si frescura, RTO, acciones y owner cierran.\n- **Meta:** sli ≥ slo ∧ rto ≤ target ∧ actions ≥ 1 ∧ owner.\n- **Éxito:** `S46-T4-B PASS`.\n- **Límites:** no apruebes con postmortem_actions=0; no ignores owner.",
         instruction:
@@ -2230,9 +2239,9 @@ meets_contract True` ,
         ],
         tests: "`S46-T4-B PASS`.",
         feedback:
-          "SLO de datos se demuestra con desigualdades y dueño, no con un README. Un simulacro sin acciones de post mortem o con RTO por encima del target es teatro: el on-call de Huancayo no tiene runbook ejecutable.",
+          "SLO de datos se demuestra con desigualdades y dueño, no con un README. Un simulacro sin acciones de post mórtem o con RTO por encima del target es teatro: el on-call de Huancayo no tiene runbook ejecutable.",
         retrospective:
-          "Cuatro eslabones: sli ≥ slo, rto ≤ target, ≥1 acción de post mortem y owner. Mirar solo el porcentaje de frescura es teatro operativo. El error clásico es PASS con `postmortem_actions=0`. Pregunta: ¿qué demuestra un simulacro sin acciones concretas? Siguiente (E2): adverso multi-indicador.",
+          "Cuatro eslabones: sli ≥ slo, rto ≤ target, ≥1 acción de post mórtem y owner. Mirar solo el porcentaje de frescura es teatro operativo. El error clásico es PASS con `postmortem_actions=0`. Pregunta: ¿qué demuestra un simulacro sin acciones concretas? Siguiente (E2): adverso multi-indicador.",
         starterCode: {
           language: 'python',
           title: "s46-t4-b-e1.py",

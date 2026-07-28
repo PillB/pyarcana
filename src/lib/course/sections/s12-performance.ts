@@ -12,7 +12,7 @@ export const section12: CourseSection = {
   icon: "MapPin",
   accentColor: "bg-gradient-to-br from-indigo-500 to-purple-600",
   jobRelevance:
-    "En onboarding, compliance y data quality en bancos, fintech y retail del Perú, el pipeline no empieza en el dashboard. Empieza en **adaptadores HTTP resilientes** que leen señales con timeout y retry selectivo, en un **SQLite local parametrizado** que une entidad y evidencia, y en **geoevidencia controlada** sin filtrar PII bancaria a geocoders públicos. Un analista que hardcodea el token, reintenta un 400 o manda `document_id` a un proveedor gratis quema cuota, rompe auditoría y expone datos. Esta sección construye el tramo de **adquisición + geoevidencia del capstone CP-N1-C** con mocks locales y datos sintéticos (Lima/Arequipa, ids `C00x`): status y JSON, secretos fuera de código, joins con placeholders y geocoding autorizado. En S13 se cierra el dashboard de evidencia.",
+    "En onboarding (el alta de un cliente), compliance (el cumplimiento de normas) y data quality (la calidad de los datos) en bancos, fintech y retail del Perú, el pipeline (la cadena de pasos que mueve datos de la fuente al resultado) no empieza en el dashboard (el panel visual donde un analista revisa el caso). Empieza en **adaptadores HTTP resilientes** (piezas de código que hablan con un servidor web y resisten caídas) que leen señales con timeout y retry selectivo, en un **SQLite local parametrizado** (una base de datos en archivo local que evita inyección de SQL) que une entidad y evidencia, y en **geoevidencia controlada** (coords y distancias usadas como pista) sin filtrar PII bancaria (información personal identificable) a geocoders públicos (servicios que devuelven coords a partir de una dirección). Un analista que hardcodea (pega el secreto en el código fuente) el token, reintenta un 400 o manda `document_id` a un proveedor gratis quema cuota, rompe auditoría y expone datos. Esta sección construye el tramo de **adquisición + geoevidencia del capstone CP-N1-C** con mocks locales y datos sintéticos (Lima/Arequipa, ids `C00x`): status y JSON, secretos fuera de código, joins con placeholders y geocoding autorizado. En S13 se cierra el dashboard de evidencia.",
   learningOutcomes: [
     { text: "Consumir API HTTP síncronas, interpretar status y parsear JSON con errores controlados" },
     { text: "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios" },
@@ -27,9 +27,9 @@ export const section12: CourseSection = {
     {
       heading: "Mapa de la sección: HTTP, SQL y geodatos responsables",
       paragraphs: [
-        "**Diccionario de la sección** (léelo antes de T1; el resto profundiza cada término). **Status code:** código HTTP de la respuesta (2xx éxito, 4xx error de cliente, 5xx error de servidor). **Timeout:** tiempo máximo de espera por request — en un cliente real siempre pasas `timeout=`. **Retry/backoff:** reintentar solo errores **transitorios** (en N1: 429 y 503) con espera creciente. **Provenance (traza de origen):** metadatos del fetch (`source_url`, `fetched_at`, `status_code`, `cache_hit`) **sin** secretos. **SQL parametrizado:** placeholders `?` en lugar de f-strings con input. **Geocoder autorizado/mock:** proveedor permitido o simulado. **Egress (salida de datos):** qué campos pueden salir a un servicio externo. **Geoseñal:** distancia u otra métrica geo que alimenta un score de relación — **no** es parentesco ni fraude. **Fail-closed (falla cerrado):** si el contrato falla, se detiene; no se inventan filas ni coordenadas.",
-        "Imagina el onboarding de un caso sintético en Lima: un proveedor te lista señales por HTTP, tú las guardas en SQLite local y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, caché, provenance y fallback offline. Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Si el schema del JSON o del SQL no cuadra, **falla cerrado**.",
-        "Orden del aprendizaje: **T1 HTTP** (status, JSON, timeout, paginación, retry) → **T2 Auth/caché/contratos** (secretos en env, provenance, fallback) → **T3 SQL** (CRUD, join, placeholders, transacciones) → **T4 Geodatos responsables** (normalize, egress, Haversine como señal). Gate de la sección: adaptador con status/retry selectivo + join local de caso + geoseñal documentada. En **S13** armarás el dashboard de evidencia; aquí cierras la adquisición. Nunca tokens en logs ni claims de parentesco/fraude. Profiling y concurrency de producción se tratan más adelante en el tramo de sistemas — no son el foco de esta semana."
+        "**Diccionario de la sección** (léelo antes de T1; el resto profundiza cada término). **Status code:** el código HTTP que devuelve el servidor (2xx éxito, 4xx error de cliente, 5xx error de servidor). **Timeout:** tiempo máximo de espera por request (cada pedido al servidor) — en un cliente real siempre pasas `timeout=`. **Retry/backoff:** reintentar solo errores **transitorios** (los que se curan solos, como 429 y 503) con espera creciente entre intentos. **Provenance (traza de origen):** metadatos del fetch (los datos que describen cómo se obtuvo la respuesta: `source_url`, `fetched_at`, `status_code`, `cache_hit`) **sin** secretos. **SQL parametrizado:** placeholders `?` en lugar de f-strings (los strings formateados con `f\"...\"`) cuando el input viaja en la consulta. **Geocoder autorizado/mock:** proveedor permitido o simulado en local. **Egress (salida de datos):** qué campos pueden salir de tu sistema hacia un servicio externo. **Geoseñal:** distancia u otra métrica geo que alimenta un score de relación — **no** es parentesco ni fraude. **Fail-closed (falla cerrado):** si el contrato falla, el código se detiene; no se inventan filas ni coordenadas.",
+        "Imagina el onboarding (el alta de un cliente) de un caso sintético en Lima: un proveedor te lista señales por HTTP (el protocolo de la web), tú las guardas en SQLite local (la base de datos en archivo) y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, caché, provenance y fallback offline (una salida de emergencia cuando no hay red). Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Si el schema (la forma esperada del JSON o del SQL) no cuadra, **falla cerrado**.",
+        "Orden del aprendizaje: **T1 HTTP** (status, JSON, timeout, paginación, retry) → **T2 Auth/caché/contratos** (secretos en env, provenance, fallback) → **T3 SQL** (CRUD, join, placeholders, transacciones) → **T4 Geodatos responsables** (normalize, egress, Haversine como señal). Gate de la sección (la puerta que debes cruzar): adaptador con status/retry selectivo + join local de caso + geoseñal documentada. En **S13** armarás el dashboard de evidencia; aquí cierras la adquisición. Nunca tokens en logs ni claims de parentesco/fraude. El profiling (la medición de rendimiento) y la concurrencia (ejecutar varias tareas a la vez) de producción se tratan más adelante en el tramo de sistemas; no son el foco de esta semana."
       ],
       callout: {
         type: "info",
@@ -42,9 +42,9 @@ export const section12: CourseSection = {
       heading: "requests/responses, status y JSON",
       subtopicId: "S12-T1-A",
       paragraphs: [
-        "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es **status primero, body después**, no pelear con la librería de red del día. Si el status no es 2xx, no asumas que el JSON “tiene sentido” — un 404 puede traer un mensaje de error o un cuerpo vacío.",
-        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas: el id o el payload están mal); **5xx** = error del servidor. En N1 el retry selectivo se limita a **429** y **503** (más timeouts de red); un **500** se registra como `fail_server` y no se reintenta a ciegas en los ejercicios (en producción a veces sí se reintenta con límite, pero aquí forzamos selectividad). Parsea con manejo de cuerpo vacío o JSON inválido: un `json.JSONDecodeError` es **fail-closed** (falla cerrado), no un dict inventado.",
-        "**Timeout es obligatorio** (lo modelamos en T1-B): en un cliente real siempre pasas `timeout=` (segundos); sin él un socket colgado congela el pipeline de CP-N1-C. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador. Caso sintético `CASO-LIM-012`: store `{\"C001\": {...}}` → 200 con keys `id/region/score` o 404 con body `error`; cuerpo basura → `parse_json_body` devuelve `None`. **Qué observar en el demo:** status y body van juntos en la tupla de respuesta; el parse inválido no inventa claves."
+        "Un cliente HTTP síncrono (que espera la respuesta antes de seguir) hace **GET/POST** (los verbos de pedir y enviar datos), recibe un **status code** y un cuerpo (a menudo JSON, el formato de texto para datos en la web). En este curso usamos un **cliente mock** (una simulación que reemplaza al proveedor real) o `urllib` con fixtures (datos de prueba fijos): la pedagogía es **status primero, body después**, no pelear con la librería de red del día. Si el status no es 2xx, no asumas que el JSON “tiene sentido” — un 404 puede traer un mensaje de error o un cuerpo vacío.",
+        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas: el id o el payload — los datos que enviaste — están mal); **5xx** = error del servidor. En N1 (la política de nivel 1 del curso) el retry selectivo se limita a **429** y **503** (más timeouts de red); un **500** se registra como `fail_server` y no se reintenta a ciegas en los ejercicios (en producción a veces sí se reintenta con límite, pero aquí forzamos selectividad). Parsea (interpreta el cuerpo) con manejo de cuerpo vacío o JSON inválido: un `json.JSONDecodeError` es **fail-closed** (falla cerrado), no un dict inventado.",
+        "**Timeout es obligatorio** (lo modelamos en T1-B): en un cliente real siempre pasas `timeout=` (segundos); sin él un socket colgado (una conexión TCP que no responde ni cierra) congela el pipeline de CP-N1-C. Headers (`Accept`, `User-Agent`) (encabezados del request HTTP) documentan el contrato del adaptador. Caso sintético `CASO-LIM-012`: store `{\"C001\": {...}}` → 200 con keys `id/region/score` o 404 con body `error`; cuerpo basura → `parse_json_body` devuelve `None`. **Qué observar en el demo:** status y body van juntos en la tupla de respuesta (una pareja de valores); el parse inválido no inventa claves."
       ],
       code: {
         language: 'python',
@@ -95,9 +95,9 @@ good_json {'id': 'C001'}`,
       heading: "Timeout, paginación, retry/backoff y rate limit",
       subtopicId: "S12-T1-B",
       paragraphs: [
-        "Ya sabes leer status y JSON; ahora el adaptador no se cuelga ni se come mil filas de un golpe. **Timeout** acota la espera por request. En un cliente real pasas siempre `timeout=` (p. ej. `urlopen(req, timeout=5)` o el equivalente del SDK); aquí lo modelamos como `cost_s` vs. `timeout_s` para tests deterministas sin red. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap — crítico cuando el proveedor lista miles de señales sintéticas para el caso.",
-        "**Retry/backoff** solo en errores **transitorios**: **429**, **503** y timeouts de red en este curso (**política N1**). Otros **5xx** pueden reintentarse en producción con límite, pero el contrato de ejercicios usa `{429, 503}` para forzar selectividad. Un **400** o **404** no se reintenta: reintentar no repara un id mal formado. Respeta `Retry-After` cuando exista y un **max_retries** duro (p. ej. 3). La función `should_retry` y la tabla `status_action` deben contar la misma historia.",
-        "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos contador de delays en lugar de `time.sleep` real para tests deterministas. Caso sintético: páginas 1→2→3 con `next` y `rate_limit_pauses == 2`; cuando **`next is None`**, dejas de pedir la siguiente página. **Qué observar:** el bucle termina por contrato del proveedor, no por un contador mágico de “siempre 3 páginas”."
+        "Ya sabes leer status y JSON; ahora el adaptador no se cuelga ni se come mil filas de un golpe. **Timeout** acota la espera por request. En un cliente real pasas siempre `timeout=` (p. ej. `urlopen(req, timeout=5)` o el equivalente del SDK); aquí lo modelamos como `cost_s` (el costo simulado) frente a `timeout_s` (el límite) para tests deterministas (que dan siempre el mismo resultado) sin red. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez al heap (la memoria del proceso) — crítico cuando el proveedor lista miles de señales sintéticas para el caso.",
+        "**Retry/backoff** (reintento con espera) solo en errores **transitorios**: **429**, **503** y timeouts de red en este curso (**política N1**). Otros **5xx** pueden reintentarse en producción con límite, pero el contrato de ejercicios usa `{429, 503}` para forzar selectividad. Un **400** o **404** no se reintenta: reintentar no repara un id mal formado. Respeta `Retry-After` (el encabezado que dice cuánto esperar) cuando exista y un **max_retries** duro (tope de intentos, p. ej. 3). La función `should_retry` y la tabla `status_action` deben contar la misma historia.",
+        "Rate limit (cuota del proveedor): duerme entre páginas o respeta cuotas. En demo usamos contador de delays en lugar de `time.sleep` real para tests deterministas (que dan siempre el mismo resultado). Caso sintético: páginas 1→2→3 con `next` y `rate_limit_pauses == 2`; cuando **`next is None`**, dejas de pedir la siguiente página. **Qué observar:** el bucle termina por contrato del proveedor, no por un contador mágico de “siempre 3 páginas”."
       ],
       code: {
         language: 'python',
@@ -136,9 +136,9 @@ print("items", all_items, "rate_limit_pauses", delays)`,
       heading: "Auth, secretos, caché y provenance",
       subtopicId: "S12-T2-A",
       paragraphs: [
-        "Con el cliente resiliente en T1, el siguiente riesgo profesional es filtrar el secreto. Autenticación **Bearer** (o basic) lee el token de **variable de entorno** / secret store, nunca hardcodeado en el repo ni en un notebook compartido. Si falta `API_TOKEN`, **falla cerrado** con mensaje claro — no envíes requests anónimos “por si acaso” ni uses un token de demo pegado en el código que mañana se commitea.",
+        "Con el cliente resiliente en T1, el siguiente riesgo profesional es filtrar el secreto. Autenticación **Bearer** (o basic) lee el token de **variable de entorno** (una configuración del sistema operativo, no del código) o de un secret store (un almacén de secretos), nunca hardcodeado (pegado en el repo) ni en un notebook compartido. Si falta `API_TOKEN`, **falla cerrado** con mensaje claro — no envíes requests anónimos “por si acaso” ni uses un token de demo pegado en el código que mañana se commitea (se sube al repositorio).",
         "**Caché de GET** por hash de URL (o la URL misma en demos) con **TTL** reduce costo y latencia; no caches respuestas de escritura ni PII sin política. Invalida o no reutilices si el status no fue 2xx. El segundo hit al mismo URL debe marcar `cache_hit=True` sin volver a “pegarle” al mock.",
-        "**Provenance (traza de origen)**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit` (y a veces `body_sha12` o `auth_scheme`). **Nunca loguees el token** ni el header Authorization: solo un booleano `token_present` o la longitud. Caso sintético: segundo `cached_get` a `https://api.example.com/signals` → `cache_hit=True`; el manifest de provenance no contiene la cadena del token. **Qué observar:** `token_len` sí; el valor del token, no."
+        "**Provenance (traza de origen)**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit` (y a veces `body_sha12` o `auth_scheme`). **Nunca loguees (imprimas en el log) el token** ni el header Authorization: solo un booleano `token_present` o la longitud. Caso sintético: segundo `cached_get` a `https://api.example.com/signals` → `cache_hit=True`; el manifest de provenance no contiene la cadena del token. **Qué observar:** `token_len` sí; el valor del token, no."
       ],
       code: {
         language: 'python',
@@ -193,9 +193,9 @@ second_hit True`,
       heading: "Contract tests y fallback",
       subtopicId: "S12-T2-B",
       paragraphs: [
-        "Ya tienes secretos y provenance; ahora blindas el adaptador contra el schema del proveedor. Un **contract test** fija las claves obligatorias del JSON (fixture). Si el schema cambia (`lat` renombrado a `latitude`), el test falla **antes** de producción y del dashboard de S13 — mejor un assert rojo en CI que un mapa con huecos silenciosos.",
-        "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` (o `offline_fallback`) en provenance. No finjas éxito online: la traza debe decir la verdad al auditor. **Falla suave, traza dura** (*fail soft, trace hard*): el pipeline sigue con datos locales, pero no miente sobre el origen.",
-        "Feature flag offline permite demos reproducibles sin red — **obligatorio** en CP-N1-C y en entrevistas técnicas donde “demo con internet” falla. Caso sintético: `assert_contract` exige `{\"lat\",\"lon\",\"label\"}`; `geocode(..., online=True)` → `mode=online`; `online=False` → `mode=offline_fallback`. **Qué observar:** el contrato falla en falta de `lon`; el fallback no reescribe el modo a online."
+        "Ya tienes secretos y provenance; ahora blindas el adaptador contra el schema (la forma del JSON) del proveedor. Un **contract test** (prueba de contrato) fija las claves obligatorias del JSON con un fixture (un dato de prueba fijo). Si el schema cambia (`lat` renombrado a `latitude`), el test falla **antes** de producción y del dashboard de S13 — mejor un assert rojo en CI que un mapa con huecos silenciosos.",
+        "**Fallback degradado** (salida de emergencia): si 5xx o la red está caída, lee coordenadas precomputadas locales y marca `mode=offline` (o `offline_fallback`) en la provenance. No finjas éxito online: la traza debe decir la verdad al auditor. **Falla suave, traza dura** (*fail soft, trace hard*): el pipeline sigue con datos locales, pero no miente sobre el origen.",
+        "Un feature flag (interruptor de configuración) offline permite demos reproducibles sin red — **obligatorio** en CP-N1-C y en entrevistas técnicas donde “demo con internet” falla. Caso sintético: `assert_contract` exige `{\"lat\",\"lon\",\"label\"}`; `geocode(..., online=True)` → `mode=online`; `online=False` → `mode=offline_fallback`. **Qué observar:** el contrato falla en falta de `lon`; el fallback no reescribe el modo a online."
       ],
       code: {
         language: 'python',
@@ -233,9 +233,9 @@ offline offline_fallback`,
       heading: "Esquema, CRUD y joins",
       subtopicId: "S12-T3-A",
       paragraphs: [
-        "Con el adaptador HTTP listo, las señales no viven solo en memoria del proceso: las **persistes** para el caso. SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence` (nombres alineados al dominio de S11). Archivo `:memory:` en demos o `case.db` local — sin servidor remoto ni ORM en esta sección.",
-        "CRUD = CREATE/INSERT/SELECT/UPDATE (DELETE con cuidado y soft-delete si hace falta auditoría). El **JOIN** une evidencias a entidades por `entity_id` (y transacciones por `client_id`) para armar la ficha del caso que el dashboard de S13 consumirá. Prefer **placeholders `?`** desde el primer INSERT: el hábito de parametrizar se aprende antes del ejercicio de inyección en T3-B.",
-        "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK e índices. Caso sintético: insert `C001` + evidence `geo` → JOIN devuelve `[('Ana Demo', 'geo')]`. **Qué observar:** el resultado es una lista de tuplas (nombre, kind), no un string suelto; el join falla en silencio solo si olvidaste el `entity_id` correcto."
+        "Con el adaptador HTTP listo, las señales no viven solo en memoria del proceso: las **persistes** (las guardas en disco) para el caso. SQLite (el motor de base de datos en archivo) vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence` (nombres alineados al dominio de S11). Archivo `:memory:` (base de datos en RAM, se borra al cerrar) en demos o `case.db` local — sin servidor remoto ni ORM (un mapeador objeto-relacional) en esta sección.",
+        "CRUD = CREATE/INSERT/SELECT/UPDATE (DELETE con cuidado y soft-delete si hace falta auditoría). El **JOIN** une evidencias a entidades por `entity_id` (y transacciones por `client_id`) para armar la ficha del caso que el dashboard de S13 consumirá. Prefiere **SQL parametrizado** (marcadores posicionales) desde el primer INSERT: el hábito de parametrizar (usar marcadores en vez de f-strings) se aprende antes del ejercicio de inyección de T3-B.",
+        "Empieza transacciones explícitas (BEGIN/COMMIT/ROLLBACK) cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK e índices. Caso sintético: insert `C001` + evidence `geo` → JOIN devuelve `[('Ana Demo', 'geo')]`. **Qué observar:** el resultado es una lista de tuplas (nombre, kind), no un string suelto; el join falla en silencio solo si olvidaste el `entity_id` correcto."
       ],
       code: {
         language: 'python',
@@ -266,16 +266,16 @@ print(seed_and_join())`,
         type: "tip",
         title: "FKs lógicas primero",
         content:
-          "Documenta entity_id aunque no actives FOREIGN KEY en SQLite; la integridad empieza en el modelo. Usa placeholders `?` desde el primer INSERT.",
+          "Documenta `entity_id` aunque no actives `FOREIGN KEY` en SQLite; la integridad empieza en el modelo. Usa SQL parametrizado (con marcadores posicionales en el código) desde el primer INSERT.",
       },
     },
     {
       heading: "Parámetros, transacciones, constraints e índices",
       subtopicId: "S12-T3-B",
       paragraphs: [
-        "El join de T3-A asume datos limpios; ahora blindas integridad e inyección. Usa placeholders `?` (o `:name` con `Connection.row_factory`). **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a inyección (OWASP) aunque “solo sea un id sintético”. El input `C001' OR '1'='1` no debe devolver filas ajenas.",
-        "`executemany` + `BEGIN`/`COMMIT` hacen batch **atómico**; un `UNIQUE` roto → `ROLLBACK` y `COUNT(*)==0`. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.",
-        "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del caso y documentan el modelo. Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `('rolled_back', 0)` es la promesa de atomicidad; si ves count `2`, olvidaste el rollback."
+        "El join de T3-A asume datos limpios; ahora blindas integridad e inyección. Usa placeholders `?` (o `:name` con `Connection.row_factory`). **Prohibido** armar SQL con f-strings de input de usuario: es el camino clásico a la inyección SQL (según OWASP, el proyecto abierto de seguridad web) aunque “solo sea un id sintético”. El input `C001' OR '1'='1` no debe devolver filas ajenas.",
+        "`executemany` (ejecutar varios inserts de golpe) + `BEGIN`/`COMMIT` hacen batch **atómico** (todo o nada); un `UNIQUE` roto → `ROLLBACK` (deshacer) y `COUNT(*)==0`. No dejes la DB a medias con 2 de 3 inserts “casi ok”: en compliance, un estado parcial es peor que un fallo ruidoso. Reporta la fila ofensora en el log de aplicación, no en el SQL interpolado.",
+        "`UNIQUE`/`NOT NULL` (restricciones de SQL) e **índices** (estructuras que aceleran búsquedas) en `document_id` / `entity_id` aceleran lookups (búsquedas por clave) del caso y documentan el modelo. Caso sintético: batch `C001/D-100`, `C002/D-200`, `C003/D-100` (duplicado) → status `rolled_back` y count `0`. **Qué observar en el demo:** la tupla `('rolled_back', 0)` es la promesa de atomicidad; si ves count `2`, olvidaste el rollback."
       ],
       code: {
         language: 'python',
@@ -308,14 +308,14 @@ print(try_batch_unique_doc())`,
         type: "danger",
         title: "f-string SQL = vulnerabilidad",
         content:
-          "Nunca interpoles input en SQL. Siempre `?` y tupla de params.",
+          "Nunca interpoles input en SQL. Usa siempre marcador positional y tupla de params.",
       },
     },
     {
       heading: "Normalización y geocoding autorizado",
       subtopicId: "S12-T4-A",
       paragraphs: [
-        "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress. Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload: el invento silencioso contamina geoevidencia y el score de S13.",
+        "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress (cuidado con qué datos salen). Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload (los datos que envía el proveedor): el invento silencioso contamina la geoevidencia y el score de S13.",
         "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es ciudad/dirección sintética autorizada. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"address\", \"city\", \"country\"}`. Si aparece `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
         "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles; ciudad desconocida (Cusco en el ejercicio) → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
       ],
@@ -356,12 +356,12 @@ geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
       },
     },
     {
-      heading: "Calidad de coordenada, Haversine, caching y política",
+      heading: "Calidad de coordenada, Haversine, caché y política",
       subtopicId: "S12-T4-B",
       paragraphs: [
-        "Tienes coords del mock; antes de medir, valida **lat ∈ [-90, 90]** y **lon ∈ [-180, 180]**. Coordenadas inválidas (91°, NaN, strings) no entran al mapa ni al score de relación. Fail-closed: rechaza el par, no “corrige” a 0,0 (Golfo de Guinea) — ese “arreglo” ha generado mapas absurdos en producción real.",
+        "Tienes coords (coordenadas) del mock; antes de medir, valida **lat ∈ [-90, 90]** y **lon ∈ [-180, 180]**. Coordenadas inválidas (91°, NaN, strings) no entran al mapa ni al score de relación. Fail-closed: rechaza el par, no lo “corrige” a 0,0 (punto del Golfo de Guinea, frente a África, que los mapas usan como origen) — ese “arreglo” ha generado mapas absurdos en producción real.",
         "**Haversine** estima km entre dos puntos WGS84 con radio R=6371 km en este curso; sirve como **geoseñal de relación** en el score de matching, no como veredicto de parentesco o fraude. Empaqueta el resultado como `{\"type\": \"geo_distance_km\", \"value\": km, \"kinship_verdict\": None}` (o `verdict: None`). Documenta unidades (km) y el radio usado.",
-        "Cachea geocodes bajo TTL/política del proveedor para no quemar cuota (misma idea de caché GET de T2-A). Distancia es **señal**, no kinship. Caso sintético: Lima–Callao ≈ **8.95 km** → alimenta `relationship_signal_score` en S13, jamás `is_family=True` automático. **Qué observar:** `valid True` / `invalid False` para (91, 0); el disclaimer `signal != kinship` no es adorno — es la línea ética del capstone."
+        "Cachea geocodes bajo TTL (tiempo de vida del caché) o política del proveedor para no quemar cuota (misma idea de caché GET de T2-A). Distancia es **señal**, no kinship. Caso sintético: Lima–Callao ≈ **8.95 km** → alimenta `relationship_signal_score` (el score de relación de S13), jamás `is_family=True` automático. **Qué observar:** `valid True` / `invalid False` para (91, 0); el disclaimer `signal != kinship` no es adorno — es la línea ética del capstone."
       ],
       code: {
         language: 'python',
@@ -400,7 +400,7 @@ signal_only relationship_signal not kinship`,
     },
   ],
   iDo: {
-    intro: "Ocho demos locales del hilo CP-N1-C en orden de pipeline: (1) mock HTTP status→JSON, (2) paginación con rate-limit conceptual, (3) provenance sin token, (4) contract/fallback offline, (5) join de caso SQLite, (6) batch atómico con rollback, (7) MockGeocoder fail-closed, (8) Haversine Lima–Callao como geoseñal (no parentesco). Lee description y why de cada demo: modelan el razonamiento del experto (status antes que body, traza honesta, atomicidad, ética geo) antes de los micro-defectos del We Do.",
+    intro: "Ocho demos locales del hilo CP-N1-C (la historia del capstone) en orden de pipeline (la cadena de pasos). El recorrido cubre:\n\n1. mock HTTP status→JSON\n2. paginación con rate-limit conceptual\n3. provenance sin token\n4. contract/fallback offline\n5. join de caso SQLite\n6. batch atómico con rollback\n7. MockGeocoder fail-closed\n8. Haversine Lima–Callao como geoseñal (no parentesco).\n\nLee `description` y `why` de cada demo: modelan el razonamiento del experto (status antes que body, traza honesta, atomicidad, ética geo) antes de los micro-defectos del We Do.",
     steps: [
       {
         demoId: "S12-T1-A-DEMO",
@@ -408,7 +408,7 @@ signal_only relationship_signal not kinship`,
         environment: "local-python",
         description: "Piensa en voz alta: el adaptador pide señales, mira el status primero y solo entonces parsea el JSON. Si el status no es 2xx, no confíes en el body. Observa count=2 y kinds shared_phone/geo — el mock fija el contrato sin red.",
         preamble:
-          "Antes de tocar red real, el adaptador de señales del caso sintético `CASO-LIM-012` debe **leer el status y solo entonces** confiar en el JSON. En esta demo un `MockResponse` devuelve 200 con dos señales (`shared_phone`, `geo`) sin internet. No escribas aún: predice `status`, `count` y la lista de `kinds`, luego compara con la salida. Si el status no fuera 2xx, el body no sería «la verdad del caso».",
+          "Antes de tocar red real, el adaptador de señales del caso sintético `CASO-LIM-012` debe **leer el status y solo entonces** confiar en el JSON. En esta demo un `MockResponse` (un objeto que simula la respuesta HTTP sin internet) devuelve 200 con dos señales (`shared_phone`, `geo`) sin internet. No escribas aún: predice `status`, `count` y la lista de `kinds` (los tipos de señal), luego compara con la salida. Si el status no fuera 2xx, el body no sería «la verdad del caso».",
         code: {
           language: 'python',
           title: "list_signals_demo.py",
@@ -484,7 +484,7 @@ pages_fetched 3 rate_limit_pauses 2`,
         demoId: "S12-T2-A-DEMO",
         subtopicId: "S12-T2-A",
         environment: "local-python",
-        description: "Tras un fetch: arma provenance (url, timestamp, status, hash del body, auth_scheme, token_present). El valor del token nunca entra al log — solo token_present=true y token_logged False al final.",
+        description: "Tras un fetch (un pedido al servidor): arma la provenance (url, timestamp, status, hash del body, auth_scheme, token_present). El hash del body (su huella digital corta) prueba integridad sin volcar PII; `auth_scheme` es el esquema de autenticación (bearer, basic). El valor del token nunca entra al log — solo `token_present=true` y `token_logged False` al final.",
         preamble:
           "Tras un fetch de señales, el auditor necesita **traza de origen** (url, timestamp, status, hash del body, esquema de auth) sin el valor del secreto. Observa el demo: `token_present` es booleano; al final `token_logged False`. El token vive en env (`SIG_API_TOKEN`), no en el JSON impreso. No reescribas: predice las claves del manifest y si el string del token aparece.",
         code: {
@@ -523,7 +523,7 @@ token_logged False`,
         environment: "local-python",
         description: "Contract test del geocoder mock + fallback a coordenadas precalculadas. Observa mode=online vs. mode=offline_fallback: mismo lat/lon de Lima, traza distinta — el auditor ve la verdad.",
         preamble:
-          "Cuando el geocoder online cae, el pipeline puede usar precalculados locales **sin mentir**. Observa: `mode=online` vs `mode=offline_fallback`, mismas lat/lon de Lima, traza distinta. El contract exige `lat`/`lon`/`provider`. No escribas: predice las tres líneas de salida y el valor de `contract_precalc`.",
+          "Cuando el geocoder online cae, el pipeline puede usar precalculados locales (coords guardadas de antes) **sin mentir**. Observa: `mode=online` (datos frescos del proveedor) vs `mode=offline_fallback` (coords locales de respaldo), mismas lat/lon de Lima, traza distinta. El contract (contrato de claves) exige `lat`/`lon`/`provider`. No escribas: predice las tres líneas de salida y el valor de `contract_precalc`.",
         code: {
           language: 'python',
           title: "geocoder_contract_demo.py",
@@ -558,7 +558,7 @@ contract_precalc True`,
         environment: "local-python",
         description: "Tablas clients, transactions, evidence: une nombre + monto + kind de evidencia en una sola fila de caso. Observa case_row ('Ana', 120.5, 'geo') — ficha mínima para el dashboard de S13.",
         preamble:
-          "Las señales del adaptador se **persisten** para el caso: tres tablas locales y un JOIN arman la ficha mínima (nombre, monto, kind de evidencia). Observa el demo en `:memory:` sin servidor. Predice la tupla `case_row` y nota que `geo` llega por `entity_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá.",
+          "Las señales del adaptador se **persisten** (se guardan en disco) para el caso: tres tablas locales y un JOIN (la operación SQL que combina filas de dos tablas) arman la ficha mínima (nombre, monto, kind de evidencia). Observa el demo en `:memory:` (base en RAM) sin servidor. Predice la tupla `case_row` y nota que `geo` llega por `entity_id=C001`, no por magia. Ese join es lo que el dashboard de S13 consumirá.",
         code: {
           language: 'python',
           title: "case_join_demo.py",
@@ -586,7 +586,7 @@ print("case_row", case_join())`,
           output: `case_row ('Ana', 120.5, 'geo')`,
         },
         why:
-          "La ficha de caso no es un string suelto: es una tupla de columnas unidas por `client_id` y `entity_id`. Aunque los valores del demo estén fijos, el hábito de placeholders `?` empieza en el INSERT del We Do. Ese join es el almacén local que el dashboard de S13 leerá para armar la vista del caso.",
+          "La ficha de caso no es un string suelto: es una tupla de columnas unidas por `client_id` y `entity_id`. Aunque los valores del demo estén fijos, el hábito de parametrizar empieza en el INSERT del We Do. Ese join es el almacén local que el dashboard de S13 leerá para armar la vista del caso.",
         retrospective:
           "Si puedes dibujar las tres FKs lógicas (`client_id`, `entity_id`) sin mirar el SQL, ya tienes el modelo del almacén. We Do: esquema evidence, CRUD de client y join solo de C001.",
       },
@@ -596,7 +596,7 @@ print("case_row", case_join())`,
         environment: "local-python",
         description: "Batch atómico: BEGIN → varios INSERT → si UNIQUE rompe (DOC1 duplicado en C003), ROLLBACK y COUNT(*) vuelve a 0. Observa atomic_rollback + count 0: nada a medias.",
         preamble:
-          "Un batch de clientes con `document_id` UNIQUE no puede quedar «a medias» si el tercer insert choca. Sigue el demo: BEGIN → tres INSERT → IntegrityError en DOC1 duplicado → ROLLBACK → `count 0`. Predice `atomic_rollback` y el count. En compliance, dos filas huérfanas son peor que un fallo ruidoso.",
+          "Un batch (lote) de clientes con `document_id` UNIQUE (único, sin repetidos) no puede quedar «a medias» si el tercer insert choca. Sigue el demo: BEGIN (abrir transacción) → tres INSERT → IntegrityError (la excepción que lanza SQLite al romper UNIQUE) en DOC1 duplicado → ROLLBACK (deshacer todo) → `count 0`. Predice `atomic_rollback` y el count. En compliance, dos filas huérfanas son peor que un fallo ruidoso.",
         code: {
           language: 'python',
           title: "atomic_batch_demo.py",
@@ -633,7 +633,7 @@ count 0`,
         environment: "local-python",
         description: "MockGeocoder autorizado: Lima y Arequipa devuelven lat/lon fijos; Iquitos → None (fail-closed, no inventa punto). Observa provider=authorized_mock y la ausencia de PII en el payload.",
         preamble:
-          "La geoevidencia del caso usa un geocoder **autorizado/mock**, offline y sin PII bancaria. Observa: Lima y Arequipa devuelven lat/lon fijos; Iquitos → `None` (fail-closed). No se inventa un pin en el mapa. Predice las tres líneas y nota `provider=authorized_mock`. Datos de demo únicamente.",
+          "La geoevidencia del caso usa un geocoder **autorizado/mock** (un proveedor simulado, no uno público real), offline y sin PII bancaria. Observa: Lima y Arequipa devuelven lat/lon fijos; Iquitos → `None` (fail-closed, no se inventa un pin). No se inventa un pin en el mapa. Predice las tres líneas y nota `provider=authorized_mock`. Datos de demo únicamente.",
         code: {
           language: 'python',
           title: "mock_cities_demo.py",
@@ -663,7 +663,7 @@ Iquitos None`,
         environment: "local-python",
         description: "Calcula ~8.95 km Lima–Callao y empaquétalos como geoseñal (type/value/verdict=None). Nunca autoetiquetes parentesco o fraude: el disclaimer signal != kinship es parte del entregable.",
         preamble:
-          "La distancia entre Lima y Callao alimenta un **score de relación**, no un veredicto de parentesco o fraude. Observa el demo: `haversine_km` ≈ 8.95, el dict lleva `type`/`value`/`verdict: None` y el disclaimer `signal != kinship`. No escribas: predice el dict y el texto del disclaimer. Juicio humano intacto.",
+          "La distancia entre Lima y Callao alimenta un **score de relación** (un número que alimenta el matching), no un veredicto de parentesco o fraude. Observa el demo: `haversine_km` (la fórmula esférica) ≈ 8.95, el dict lleva `type`/`value`/`verdict: None` y el disclaimer `signal != kinship` (señal no es parentesco). No escribas: predice el dict y el texto del disclaimer. Juicio humano intacto.",
         code: {
           language: 'python',
           title: "lima_callao_demo.py",
@@ -694,7 +694,7 @@ disclaimer signal != kinship`,
     ],
   },
   weDo: {
-    intro: "24 ejercicios (E1 guiado / E2 independiente / E3 transferencia) por los 8 subtemas, en el mismo orden del I Do. Alcance de S12: mocks HTTP conceptuales + `sqlite3` + Haversine (`math`); datos sintéticos (`CASO-LIM-012`, ids `C00x`). No RPA ni dashboard de S13; no NumPy de S14. Conserva asserts y fixtures del starter — cada starter trae **un defecto claro** (DEFECT). Dos pistas por ejercicio. Política N1 de retry: solo 429 y 503; normalize de dirección = espacios, sin `.title()`.",
+    intro: "24 ejercicios (E1 guiado con pistas / E2 independiente / E3 de transferencia, que aplica el concepto a un caso nuevo) por los 8 subtemas, en el mismo orden del I Do. Alcance de S12: mocks HTTP conceptuales (simulaciones del proveedor) + `sqlite3` + Haversine (`math`); datos sintéticos (`CASO-LIM-012`, ids `C00x`). No RPA ni dashboard de S13; no NumPy de S14. Conserva asserts (comprobaciones) y fixtures (datos de prueba) del starter — cada starter trae **un defecto claro** marcado como DEFECT para que lo repares. Dos pistas por ejercicio. Política N1 de retry: solo 429 y 503; normalize de dirección = espacios, sin `.title()`.",
     steps: [
       {
         id: "S12-T1-A-E1",
@@ -702,7 +702,7 @@ disclaimer signal != kinship`,
         kind: "guided",
         title: "Status 200 o 404 sin excepción",
         preamble:
-          "- **Contexto:** el adaptador de entidades del caso sintético debe devolver status explícito, no tumbar el pipeline con `KeyError`.\n- **Meta:** implementar `get_entity(store, entity_id)` que devuelva `(status, body)`.\n- **Éxito:** `C001` → `(200, {'id': 'C001', 'region': 'Lima'})`; `C999` → `(404, {'error': 'not_found'})`.\n- **Límites:** no lances excepción en 404; no uses red real; solo el `store` del fixture.",
+          "- **Contexto:** el adaptador de entidades del caso sintético debe devolver status explícito (un código HTTP, no un crash).\n- **Meta:** implementar `get_entity(store, entity_id)` que devuelva `(status, body)`.\n- **Éxito:** `C001` → `(200, {'id': 'C001', 'region': 'Lima'})`; `C999` → `(404, {'error': 'not_found'})`.\n- **Límites:** no lances excepción en 404; no uses red real; solo el `store` (el diccionario) del fixture.",
         instruction:
           "1. Abre el starter: siempre devuelve `200` y `{}` (DEFECT).\n2. Si `entity_id` no está en `store`, devuelve `404` y el body de error.\n3. Si existe, devuelve `200` y el dict del store.\n4. Imprime ambos casos del fixture (sin texto extra).",
         hint: "Devuelve una tupla (status_code, dict).",
@@ -797,9 +797,9 @@ None`,
           "- **Contexto:** el adaptador no «reintenta a ciegas»; traduce cada status a una acción de runbook.\n- **Meta:** implementar `status_action(code)` según política N1 del curso.\n- **Éxito:** líneas `200 use_body`, `404 missing`, `429 retry`, `400 fix_client`, `500 fail_server`, `503 retry`.\n- **Límites:** 500 **no** es retry en N1 (contrato de ejercicios); códigos no listados → `unknown`.",
         instruction:
           "1. Lee el DEFECT: 429 y 500 caen en `fail_client`; 503 no está.\n2. Corrige el mapa: 429/503 → `retry`; 500 → `fail_server`; 400 → `fix_client`.\n3. Recorre `[200, 404, 429, 400, 500, 503]` e imprime código y acción.\n4. No inventes acciones fuera de la política N1.",
-        hint: "if/elif o dict; 500 no es retry en N1",
+        hint: "if/elif o dict; en N1, 500 no es retry.",
         hints: [
-          "if/elif o dict; 500 no es retry en N1",
+          "if/elif o dict; en N1, 500 no es retry.",
           "429 y 503 sí reintentan; 400 es fix_client.",
         ],
         edgeCases: ["400 no retry", "500 fail_server"],
@@ -866,7 +866,7 @@ for code in [200, 404, 429, 400, 500, 503]:
           "Si cost_s es mayor que timeout_s, devuelve 'timeout'.",
           "No uses red real; compara números.",
         ],
-        edgeCases: ["cost == timeout cuenta ok o timeout según tu política; aquí > es timeout"],
+        edgeCases: ["cost == timeout cuenta ok o timeout según tu política; aquí > es timeout."],
         tests: "ok y timeout",
         feedback:
           "Sin timeout, un request colgado bloquea workers y demos. Aquí no hay red: solo comparas costos. El mismo hábito se traduce a `urlopen(..., timeout=5)` o al SDK del proveedor.",
@@ -1296,16 +1296,16 @@ False local_file`,
         preamble:
           "- **Contexto:** el almacén local del caso necesita evidencias enlazadas a entidad antes del join.\n- **Meta:** crear `evidence` con PK y NOT NULL, insertar `E1/C001/geo` y contar.\n- **Éxito:** `COUNT(*)` imprime `1`.\n- **Límites:** SQLite `:memory:`; usa placeholders `?` en el INSERT; no dejes la tabla vacía.",
         instruction:
-          "1. El starter crea tabla débil y no inserta.\n2. Añade `PRIMARY KEY` y `NOT NULL` en `entity_id` y `kind`.\n3. Inserta `('E1', 'C001', 'geo')` con `?`.\n4. Imprime solo el count (un entero).",
+          "1. El starter crea tabla débil y no inserta.\n2. Añade `PRIMARY KEY` y `NOT NULL` en `entity_id` y `kind`.\n3. Inserta `('E1', 'C001', 'geo')` con marcador parametrizado.\n4. Imprime solo el count (un entero).",
         hint: "CREATE TABLE con PK y NOT NULL, luego INSERT.",
         hints: [
           "Define evidence con PRIMARY KEY y NOT NULL en entity_id/kind.",
-          "INSERT con placeholders y SELECT COUNT(*).",
+          "INSERT parametrizado y SELECT COUNT(*).",
         ],
         edgeCases: ["NOT NULL en entity_id"],
         tests: "count 1",
         feedback:
-          "Esquema mínimo de evidencias para el join de caso. El CREATE documenta el modelo aunque aún no actives FOREIGN KEY de SQLite; el INSERT con `?` fija el hábito parametrizado.",
+          "Esquema mínimo de evidencias para el join de caso. El CREATE documenta el modelo aunque aún no actives FOREIGN KEY de SQLite; el INSERT parametrizado fija el hábito.",
         retrospective:
           "El esquema documenta el modelo aunque aún no actives FOREIGN KEY de SQLite. Siguiente: ciclo UPDATE/DELETE de un client (E2).",
         starterCode: {
@@ -1347,7 +1347,7 @@ con.close()`,
           "1. El starter inserta e imprime el name original y un count sin borrar.\n2. Haz `UPDATE ... SET name=? WHERE id=?` a `'Ana Q'`.\n3. Imprime el name; borra por id; imprime count.\n4. Cierra la conexión al final.",
         hint: "UPDATE parametrizado, luego DELETE y COUNT.",
         hints: [
-          "Actualiza name con ? y filtra por id=?.",
+          "Actualiza `name` con marcador y filtra por `id` con marcador.",
           "Orden: insert → update → select → delete → count.",
         ],
         edgeCases: ["update parametrizado"],
@@ -1398,7 +1398,7 @@ con.close()`,
         hint: "JOIN clients con evidence y filtra por id.",
         hints: [
           "Une por c.id = e.entity_id.",
-          "Filtra C001 con placeholder y ORDER BY kind.",
+          "Filtra `C001` con marcador y `ORDER BY kind`.",
         ],
         edgeCases: ["no mezclar C002"],
         tests: "['geo','phone']",
@@ -1452,20 +1452,20 @@ con.close()`,
         id: "S12-T3-B-E1",
         subtopicId: "S12-T3-B",
         kind: "guided",
-        title: "SELECT seguro con placeholder ?",
+        title: "SELECT seguro con marcador parametrizado",
         preamble:
-          "- **Contexto:** un id sintético malicioso no debe devolver filas ajenas; en banca esto es falla de control.\n- **Meta:** reescribir el SELECT con `?` y tupla de params.\n- **Éxito:** el input `C001' OR '1'='1` imprime `None` (sin match literal).\n- **Límites:** **prohibido** f-string / concat con `user_id`; solo placeholder.",
+          "- **Contexto:** un id sintético malicioso (un texto construido para engañar al SQL) no debe devolver filas ajenas; en banca esto es falla de control.\n- **Meta:** reescribir el SELECT con `?` y una tupla de params.\n- **Éxito:** el input `C001' OR '1'='1` imprime `None` (sin match literal).\n- **Límites:** **prohibido** f-string (string formateado con `f\"...\"`) o concat con `user_id`; solo placeholder.",
         instruction:
           "1. El starter interpola `user_id` en el SQL (vulnerable).\n2. Cambia a `WHERE id = ?` y pasa `(user_id,)`.\n3. Imprime el `fetchone()` (debe ser `None`).\n4. No «sanitices» a mano con replace de comillas.",
-        hint: "Placeholder ? y tupla de params, sin f-string.",
+        hint: "Marcador positional y tupla de params, sin f-string.",
         hints: [
-          "WHERE id = ? con la tupla (user_id,).",
+          "Pasa `(user_id,)` como parámetro al `WHERE id` (con marcador SQL, sin f-string).",
           "No interpoles user_id en el string SQL.",
         ],
         edgeCases: ["inyección neutralizada"],
         tests: "None (no match literal)",
         feedback:
-          "Con f-string, el OR abre todas las filas. El placeholder trata el input como **dato**, no como SQL. Ese hábito vale más que cualquier checklist verbal de «no confíes en el usuario».",
+          "Con f-string, el OR abre todas las filas. El marcador trata el input como **dato**, no como SQL. Ese hábito vale más que cualquier checklist verbal de «no confíes en el usuario».",
         retrospective:
           "Placeholders matan la inyección clásica aunque el id «parezca sintético». Pregunta: ¿qué imprime el starter vulnerable vs la solución? Siguiente: rollback tras IntegrityError (E2).",
         starterCode: {
@@ -1697,7 +1697,7 @@ None`,
         kind: "transfer",
         title: "Allowlist de egress al geocoder público",
         preamble:
-          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` solo si **todas** las claves están en `{address, city, country}`.\n- **Éxito:** payload limpio → `True`; con `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
+          "- **Contexto:** mandar `document_id` bancario a un geocoder gratis es falla de egress (de salida de datos) y de cumplimiento.\n- **Meta:** `allowed_for_public_geocoder(payload)` devuelve True solo si **todas** las claves del payload están en `{address, city, country}`.\n- **Éxito:** payload limpio → `True`; con `document_id` → `False`.\n- **Límites:** no envíes montos, cuentas ni nombres si la política lo prohíbe; datos sintéticos únicamente.",
         instruction:
           "1. El starter siempre devuelve True.\n2. Usa inclusión de conjuntos: las claves del payload deben estar contenidas en ALLOWED.\n3. Imprime ambos casos del starter.\n4. No «filtres» solo document_id a mano con un if suelto si el set basta.",
         hint: "Todas las claves del payload deben estar en la allowlist.",
@@ -1883,7 +1883,7 @@ print(as_relationship_signal(1.2))`,
   youDo: {
     title: "Adaptadores HTTP + SQLite + geoevidencia (CP-N1-C)",
     context:
-      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env, caché GET y provenance sin tokens. Persiste en SQLite parametrizado (`clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (sin PII bancaria). Solo datos sintéticos Lima/Arequipa e ids `C00x`. El `main()` del starter es un smoke path: al implementar cada stub, debe imprimir token_len, retry, entity, cache_hits, provenance, normalize, egress ok/bad, geo, km y case_row. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard. Antes de marcar listo, responde las tres preguntas de la retrospectiva y alinea las capturas del portfolioNote.",
+      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock (simulación del proveedor) con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env (variables de entorno), caché GET y provenance sin tokens. Persiste en SQLite parametrizado (tablas `clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (lista de campos permitidos para salir al proveedor; sin PII bancaria). Solo datos sintéticos Lima/Arequipa e ids `C00x`. El `main()` del starter es un smoke path (un recorrido que verifica que todo cablea): al implementar cada stub (cada función con `NotImplementedError`), debe imprimir `token_len`, `retry`, `entity`, `cache_hits`, `provenance`, `normalize`, `egress ok/bad`, `geo`, `km` y `case_row`. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard. Antes de marcar listo, responde las tres preguntas de la retrospectiva y alinea las capturas del portfolioNote.",
     objectives: [
       "Cliente get_entity + should_retry N1 (429/503) y timeout en la interfaz",
       "Caché GET + min_provenance sin secretos",
@@ -2011,7 +2011,7 @@ if __name__ == "__main__":
     main()
 `,
     portfolioNote:
-      "En el README del portafolio muestra tres capturas o bloques: (1) manifest de provenance sin token (`token_logged` / sin Authorization), (2) join de caso SQLite con name/amount/kind, (3) distancia Lima–Callao (~8.95 km) como geoseñal con disclaimer `signal != kinship`. Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
+      "En el README del portafolio muestra tres capturas o bloques: (1) el manifest de provenance (el diccionario con la traza de origen) sin token (`token_logged` / sin Authorization), (2) el join de caso SQLite con name/amount/kind, (3) la distancia Lima–Callao (~8.95 km) como geoseñal con el disclaimer `signal != kinship` (aviso de que la distancia es señal, no parentesco). Eso evidencia el incremento CP-N1-C de S12 y se enlaza limpio al dashboard de S13.",
     rubric: [
       { criterion: "HTTP status/JSON/timeout/retry selectivo", weight: "20%" },
       { criterion: "Auth env + caché + provenance sin secretos", weight: "15%" },
@@ -2020,7 +2020,7 @@ if __name__ == "__main__":
       { criterion: "Haversine como señal (no veredicto) + demo offline", weight: "20%" },
     ],
     retrospective:
-      "Antes de marcar listo: (1) ¿qué status de la política N1 demuestras con un print o test (`should_retry` / `get_entity`)? (2) ¿el manifest de provenance puede pegarse en un README sin filtrar secreto? (3) Escribe una frase de impacto medible (p. ej. «join C001 + 8.95 km como señal, sin kinship») que puedas defender en 30 segundos frente a S13. Datos solo sintéticos; egress sin PII bancaria.",
+      "Antes de marcar listo: (1) ¿qué status de la política N1 (429/503/400/500/404) demuestras con un print o test (`should_retry` / `get_entity`)? (2) ¿el manifest de provenance puede pegarse en un README sin filtrar secreto? (3) Escribe una frase de impacto medible (p. ej. «join C001 + 8.95 km como señal, sin kinship») que puedas defender en 30 segundos frente a S13. Datos solo sintéticos; egress sin PII bancaria.",
   },
   selfCheck: {
     questions: [
@@ -2043,21 +2043,21 @@ if __name__ == "__main__":
         options: ["La forma recomendada en SQLite", "Obligatorio para índices", "Inyección / inseguro; usar placeholders `?`", "Necesario para JOIN"],
         correctIndex: 2,
         explanation:
-          "Placeholders parametrizados previenen inyección.",
+          "Placeholders parametrizados (los signos `?` de SQL) previenen la inyección, porque el input se trata como dato, no como código.",
       },
       {
         question: "Enviar document_id bancario a un geocoder público…",
         options: ["Viola la política de egress de CP-N1-C", "Está permitido si hay timeout", "Mejora el Haversine", "Es requerido por SQLite"],
         correctIndex: 0,
         explanation:
-          "Solo dirección/ciudad sintética autorizada; sin PII bancaria.",
+          "La política de egress (qué sale al proveedor) permite solo dirección/ciudad sintética; nunca PII bancaria como `document_id`.",
       },
       {
         question: "1.2 km entre dos entidades sintéticas implica…",
         options: ["Parentesco automático", "Fraude confirmado", "Borrar el ER score", "Una geoseñal de relación, no un veredicto"],
         correctIndex: 3,
         explanation:
-          "Haversine alimenta relationship_signal_score; no kinship/fraude auto.",
+          "Haversine alimenta `relationship_signal_score` (el score de relación); no es kinship (parentesco) ni fraude automático.",
       },
       {
         question: "Al paginar una API con `next`, ¿cuándo dejas de pedir la siguiente página?",
@@ -2071,7 +2071,7 @@ if __name__ == "__main__":
         options: ["Las filas insertadas antes del error", "Solo la última fila ofensora", "COUNT(*) == 0 (estado atómico revertido)", "La base en modo offline"],
         correctIndex: 2,
         explanation:
-          "ROLLBACK deshace todo el batch: no quedan inserts huérfanos a medias.",
+          "ROLLBACK deshace todo el batch (el lote de inserts): no quedan filas huérfanas a medias.",
       },
     ],
   },
