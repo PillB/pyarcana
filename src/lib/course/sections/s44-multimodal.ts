@@ -12,7 +12,7 @@ export const section44: CourseSection = {
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto en Perú y LatAm, **CI/CD y seguridad de la cadena de suministro** es lo que separa un deploy “que funcionó anoche” de un release **defendible ante auditoría**. El servicio contenedorizado de S43 solo vale en producción si el pipeline entrega un artefacto verificable (digest, SBOM, provenance), exige aprobación independiente y demuestra rollback en staging dentro del RTO. Cuando un lead de ops en Piura (caso sintético `CASO-PIU-044`) pregunta “¿podemos promover?”, la respuesta correcta no es “el README dice OK”: es “mismo digest testeado, attestation válida, canary bajo umbral o rollback ensayado”. En el lab modelamos contratos al estilo GitHub Actions/SLSA con **stdlib** (dicts y predicados), sin registry remoto obligatorio ni secretos reales.",
+    "En equipos de plataforma y producto en Perú y LatAm, CI/CD y seguridad de la cadena de suministro es lo que separa un deploy “que funcionó anoche” de un release defendible ante auditoría. El servicio contenedorizado de S43 solo vale en producción si el pipeline entrega un artefacto verificable (digest o hash del binario, SBOM o inventario de componentes, provenance o trazabilidad de quién construyó qué), exige aprobación independiente y demuestra rollback (reversión al digest previo) en staging dentro del RTO (objetivo de tiempo de recuperación). Cuando un lead de ops en Piura (caso sintético `CASO-PIU-044`) pregunta “¿podemos promover?”, la respuesta correcta no es “el README dice OK”: es “mismo digest testeado, attestation válida (atestación firmada del build), canary bajo umbral (despliegue gradual de tráfico) o rollback ensayado”. En el lab modelamos contratos al estilo GitHub Actions/SLSA con stdlib (biblioteca estándar de Python: dicts y predicados), sin registry remoto obligatorio ni secretos reales.",
   learningOutcomes: [
     { text: "Diseñar una matriz CI (lint → types → tests) sobre runtimes soportados y fallar cerrado si un check crítico queda rojo." },
     { text: "Tratar caches como optimización y artifacts (con digest/retención) como evidencia verificable del build." },
@@ -535,7 +535,7 @@ print("failed", canary_decision(0.08, 0.05, 120, 75))`,
 healthy hold_healthy
 failed rollback`,
         },
-        why: "Contrato dual: PASS cuando canary sano (error ≤ umbral + rollback listo ≤ RTO) vs incidente (error sobre umbral → rollback). Sin `rto_seconds` no se mide el ensayo. En We Do el starter marca PASS si error alto o rollback no tested.",
+        why: "Contrato dual: PASS cuando canary sano (error ≤ umbral + rollback listo ≤ RTO) vs. incidente (error sobre umbral → rollback). Sin `rto_seconds` no se mide el ensayo. En We Do el starter marca PASS si error alto o rollback no tested.",
         retrospective:
           "Canary sano = hold; canary roto = rollback al digest previo dentro del RTO. El error clásico es ampliar tráfico con error alto «para ver si se estabiliza». Pregunta: con 8% de error y rollback 75 s ≤ RTO 120, ¿por qué la decisión es `rollback` y no hold? We Do: `ROLLBACK_RELEASE` y `PAUSE_CANARY`.",
       },
@@ -819,7 +819,7 @@ assert meets_contract is True` ,
         feedback:
           "El adverso falla por contenido (global/latest/retención 0), no por schema. Mezclar «falta el campo» con «el campo está mal» es el error que este assess separa.",
         retrospective:
-          "Schema y breach no se mezclan: falta `conditions_cover_tags` no es lo mismo que tags en False con cache `global` y digest `latest`. El error clásico es devolver DISCARD cuando falta el campo o inventar `True` para «cerrar el job». Pregunta: ¿qué evidencia mínima retiene el artifact si el cache miss pasó? Luego: CONTINUE vs INSPECT_WORKFLOW_CONDITION.",
+          "Schema y breach no se mezclan: falta `conditions_cover_tags` no es lo mismo que tags en False con cache `global` y digest `latest`. El error clásico es devolver DISCARD cuando falta el campo o inventar `True` para «cerrar el job». Pregunta: ¿qué evidencia mínima retiene el artifact si el cache miss pasó? Luego: CONTINUE vs. INSPECT_WORKFLOW_CONDITION.",
         starterCode: {
           language: 'python',
           title: "s44-t1-b-e2.py",

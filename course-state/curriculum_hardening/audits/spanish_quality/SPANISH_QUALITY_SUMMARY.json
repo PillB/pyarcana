@@ -12,63 +12,83 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 467,
+  "total_sentences": 458,
   "total_paragraphs": 314,
-  "total_findings": 94,
+  "total_findings": 96,
   "severity": {
-    "low": 94
+    "low": 96
   },
-  "mean_quality_score": 9.6,
-  "min_quality_score": 9.6,
-  "mean_fernandez_huerta": 84.3,
+  "mean_quality_score": 9.57,
+  "min_quality_score": 9.57,
+  "mean_fernandez_huerta": 82.7,
   "mean_fh_label": "fácil",
-  "mean_wps": 10.72,
+  "mean_wps": 10.36,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      84
+      85
     ],
     [
       "lowercase_after_period",
-      7
+      8
     ],
     [
-      "possible_plural_det_singular_noun",
-      3
+      "missing_inverted_exclamation",
+      1
+    ],
+    [
+      "space_before_punct",
+      1
+    ],
+    [
+      "comma_density",
+      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 84,
+      "count": 85,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 7,
+      "count": 8,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 3,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
+      "rule": "missing_inverted_exclamation",
+      "count": 1,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 1,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
     }
   ],
   "sections_ranked": [
     {
-      "section": 43,
-      "file": "s43-llmops.ts",
-      "quality_score_0_10": 9.6,
-      "fernandez_huerta": 84.3,
-      "avg_words_per_sentence": 10.72,
+      "section": 44,
+      "file": "s44-multimodal.ts",
+      "quality_score_0_10": 9.57,
+      "fernandez_huerta": 82.7,
+      "avg_words_per_sentence": 10.36,
       "findings_by_severity": {
-        "low": 94
+        "low": 96
       },
-      "findings_total": 94
+      "findings_total": 96
     }
   ]
 }
