@@ -3138,7 +3138,7 @@ for metric, value in metrics.items():
       hint: 'Cambia las probabilidades de fallo a 0.0 y observa si el pipeline siempre pasa',
     },
     // === Phase 3 demos (S40-S52) ===
-    'agentic-architecture': {
+    'architecture-ddd-decisions': {
       title: 'Practica multi-agent (simulado)',
       code: `# Simulacion de sistema multi-agente
 # Cada agente tiene un rol especifico

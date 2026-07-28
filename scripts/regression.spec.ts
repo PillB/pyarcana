@@ -30,7 +30,7 @@ const ALL_SECTION_IDS = [
   'microservices', 'advanced-models', 'cv-ai-integration', 'system-design',
   'ai-apis-advanced', 'dbt-bigquery', 'performance-extreme', 'integrator-phase2',
   // Phase 3 (S40-S52)
-  'agentic-architecture', 'llm-finetuning', 'graph-rag', 'llmops', 'multimodal',
+  'architecture-ddd-decisions', 'llm-finetuning', 'graph-rag', 'llmops', 'multimodal',
   'iac', 'gpu-computing', 'opensource', 'ai-governance', 'data-contracts',
   'tech-leadership', 'integrator-final', 'career-strategy',
 ]

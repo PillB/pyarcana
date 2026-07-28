@@ -21,7 +21,7 @@ SECTION_IDS = {
     31: 'streaming-data', 32: 'microservices', 33: 'advanced-models',
     34: 'cv-ai-integration', 35: 'system-design', 36: 'ai-apis-advanced',
     37: 'dbt-bigquery', 38: 'performance-extreme', 39: 'integrator-phase2',
-    40: 'agentic-architecture', 41: 'llm-finetuning', 42: 'graph-rag',
+    40: 'architecture-ddd-decisions', 41: 'llm-finetuning', 42: 'graph-rag',
     43: 'llmops', 44: 'multimodal', 45: 'iac', 46: 'gpu-computing',
     47: 'opensource', 48: 'ai-governance', 49: 'data-contracts',
     50: 'tech-leadership', 51: 'integrator-final', 52: 'career-strategy',

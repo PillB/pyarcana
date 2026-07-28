@@ -1,7 +1,7 @@
 import type { CourseSection } from '../../types'
 
 export const section40: CourseSection = {
-  id: "agentic-architecture",
+  id: "architecture-ddd-decisions",
   index: 40,
   title: "Arquitectura, DDD y decisiones técnicas",
   shortTitle: "Arquitectura y DDD",
@@ -176,7 +176,7 @@ domain_pure True`,
       heading: "Ports/adapters y dependencia hacia el dominio",
       subtopicId: "S40-T2-B",
       paragraphs: [
-        "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura.",
+        "Un **port** es el contrato que el dominio necesita (p. ej. «dame el caso por id»). Un **adapter** traduce HTTP, SQL o colas a ese contrato. Las flechas de importación apuntan hacia políticas estables: el dominio no importa FastAPI ni SQLAlchemy; el adapter implementa el port y vive en infraestructura. Este principio se conoce como **DIP** (Dependency Inversion Principle, inversión de dependencias): las dependencias apuntan hacia el dominio, no hacia los frameworks.",
         "Contrato hexagonal S40-T2-B. Entrada: nombre de port, adapter que lo implementa, lista de imports del dominio y conteo de contract tests. Salida: dominio testeable con adapter en memoria (`implements_port=True`, `domain_imports=[]`, `contract_tests ≥ 3`). Error: imports de infra en dominio → `INVERT_DEPENDENCY`. Sin tests de contrato → `DEFINE_PORT_CONTRACT`. El flag `implements_port` es un **checklist de lab**; en producción la evidencia real es sustituir el adapter (memoria ↔ SQL) sin reescribir la regla de negocio.",
         "En `CASO-LIM-040`, `MemoryCaseRepository` implementa `CaseRepository` sin red ni SQL. Puedes sustituir el adapter por uno SQL en producción sin reescribir la regla de negocio de triage. Si el dominio importa `sqlalchemy` o FastAPI, invierte la dependencia (`INVERT_DEPENDENCY`) antes de promover.",
       ],
@@ -313,7 +313,7 @@ status accepted`,
         type: "tip",
         title: "Contrato local + rúbrica ADR",
         content:
-          "Cierre de S40-T4-A: C4 con context y container, más ADR accepted con alternatives, consequences y rollback operable. Documenta también el riesgo residual y los límites del lab stdlib.",
+          "Cierre de S40-T4-A: C4 con context y container, más ADR accepted con alternatives, consequences y rollback operable. Documenta también el riesgo residual y los límites del laboratorio con stdlib.",
       },
     },
     {
@@ -383,7 +383,7 @@ print("owner", qa["owner"])`,
 attr latency_p95_ms
 owner platform`,
         },
-        why: "Un QA medible exige fuente, estímulo, entorno, respuesta, observed vs target y dueño contactable. «Rápido» o «escalable» no son contratos: sin umbral numérico el escenario no es auditable. El gate de S40-T1-A rechaza escenarios incompletos; el caso es sintético (Red Andina, Lima) sin PII real. En We Do corregirás la comparación invertida observed ≥ target.",
+        why: "Un QA medible exige fuente, estímulo, entorno, respuesta, observed vs. target y dueño contactable. «Rápido» o «escalable» no son contratos: sin umbral numérico el escenario no es auditable. El gate de S40-T1-A rechaza escenarios incompletos; el caso es sintético (Red Andina, Lima) sin PII real. En We Do corregirás la comparación invertida observed ≥ target.",
         retrospective:
           "Si puedes explicar por qué un escenario sin dueño no es auditable sin mirar el código, ya tienes el hábito de medida + dueño. El error clásico es prometer «bajo latencia» sin umbral numérico. En We Do practicarás el predicado observed ≤ target y el rechazo del adverso.",
       },
@@ -619,9 +619,9 @@ retire_on 2026-12-01`,
           "- **Contexto:** en CASO-LIM-040-1A el dossier de Red Andina exige un escenario QA con latencia p95 bajo umbral y dueño de plataforma.\n- **Meta:** corregir el predicado de contrato (observed ≤ target y owner truthy).\n- **Éxito:** una línea `S40-T1-A PASS`.\n- **Límites:** no mutes el fixture; no inventes PII; el DEFECT está en la comparación, no en los datos.",
         instruction:
           "1. Abre el starter: `meets_contract` usa `observed_ms >= target_ms` (DEFECT).\n2. Cámbialo a `observed_ms <= target_ms` y exige `bool(owner)`.\n3. Conserva el print de status.\n4. Debe imprimir `S40-T1-A PASS`.",
-        hint: "El DEFECT está en la dirección de la comparación (`>=` vs `<=`); no en los números del fixture.",
+        hint: "El DEFECT está en la dirección de la comparación (`>=` vs. `<=`); no en los números del fixture.",
         hints: [
-          "El DEFECT está en la dirección de la comparación (`>=` vs `<=`); no en los números del fixture.",
+          "El DEFECT está en la dirección de la comparación (`>=` vs. `<=`); no en los números del fixture.",
           "El predicado correcto exige observed ≤ target y owner truthy; con 280 y 300 el happy path debe ser PASS.",
         ],
         edgeCases: ["falta owner", "fixture adverso: observed_ms > target_ms", "CASO-LIM-040-1A es sintético"],
@@ -629,7 +629,7 @@ retire_on 2026-12-01`,
         feedback:
           "Con observed 280 y target 300 el contrato es True solo si la comparación es ≤. Si invertiste a ≥, el happy path falla y el adverso de E2 «parece» válido: el gate de QA se vuelve inútil en el dossier de Lima.",
         retrospective:
-          "Umbral medible + dueño contactable es el mínimo de un QA auditable. Invertir observed/target no «arregla» el adverso de E2: lo disfraza de válido. Pregunta: con 280 vs 300, ¿qué imprime el gate si usas `>=` y por qué el happy path miente? Siguiente (E2): tres rutas schema / contenido / missing.",
+          "Umbral medible + dueño contactable es el mínimo de un QA auditable. Invertir observed/target no «arregla» el adverso de E2: lo disfraza de válido. Pregunta: con 280 vs. 300, ¿qué imprime el gate si usas `>=` y por qué el happy path miente? Siguiente (E2): tres rutas schema / contenido / missing.",
         starterCode: {
           language: 'python',
           title: "s40-t1-a-e1.py",
@@ -782,7 +782,7 @@ assert results == ["CONTINUE", "REJECT_QA_SCENARIO", "REQUEST_QA_OWNER"]` ,
         kind: "guided",
         title: "Elegir por min_score y residual",
         preamble:
-          "- **Contexto:** en CASO-LIM-040-1B el dueño `arquitectura` debe firmar un residual ≤ 2 al elegir async vs sync.\n- **Meta:** corregir la selección (min de scores, no max) y exigir residual_risk ≤ 2.\n- **Éxito:** `S40-T1-B PASS`.\n- **Límites:** no mutes scores ni selected; no inventes residual; solo corrige el predicado.",
+          "- **Contexto:** en CASO-LIM-040-1B el dueño `arquitectura` debe firmar un residual ≤ 2 al elegir async vs. sync.\n- **Meta:** corregir la selección (min de scores, no max) y exigir residual_risk ≤ 2.\n- **Éxito:** `S40-T1-B PASS`.\n- **Límites:** no mutes scores ni selected; no inventes residual; solo corrige el predicado.",
         instruction:
           "1. Abre el starter: compara `selected` con `max(...)` (DEFECT).\n2. Cámbialo a `min(record[\"scores\"], key=...)` y añade residual ≤ 2.\n3. Imprime `S40-T1-B` y el status.\n4. Debe ser PASS con selected async.",
         hint: "score = costo → min(scores); residual_risk ≤ 2; risk_owner debe existir en el fixture.",
@@ -1531,7 +1531,7 @@ assert results == ["CONTINUE", "SPLIT_CONTEXTS", "WORKSHOP_UBIQUITOUS_LANGUAGE"]
         edgeCases: ["falta service_stateless", "fixture adverso: currency ≠ PEN, vo_frozen False o entity_id sin prefijo CASE-", "CASO-LIM-040-3B es sintético"],
         tests: "El modelo táctico de `CASO-LIM-040-3B` prueba identidad, VO PEN y servicio sin estado; imprime `S40-T3-B PASS`.",
         feedback:
-          "Mezclar moneda con id rompe el modelo táctico de Red Andina. El artefacto es el contraste identidad vs valor + servicio stateless, no un flag suelto.",
+          "Mezclar moneda con id rompe el modelo táctico de Red Andina. El artefacto es el contraste identidad vs. valor + servicio stateless, no un flag suelto.",
         retrospective:
           "Entity por id, VO por valor, servicio sin sesión. El starter «pasa» si currency==entity_id — un PASS imposible en el happy path real. Pregunta: ¿qué partes del predicado completo fallarían si solo arreglas el booleano y dejas merge sin calcular? Siguiente (E2): PASS / REJECT / MISSING service_stateless.",
         starterCode: {
@@ -1681,7 +1681,7 @@ print(*results)
         feedback:
           "CONTINUE con modelo táctico sano; breach → REJECT_DOMAIN_MODEL; bandera de servicio ausente → CLARIFY_INVARIANT. Incertidumbre de invariante no es modelo roto demostrado.",
         retrospective:
-          "Incertidumbre de invariante ≠ modelo roto demostrado: no inventes service_stateless=True para desbloquear el gate del dossier táctico. El error clásico es CONTINUE sin la bandera. Pregunta: ¿qué inmutabilizarías de verdad en producción (NamedTuple o dataclass congelada vs flag de lab)?",
+          "Incertidumbre de invariante ≠ modelo roto demostrado: no inventes service_stateless=True para desbloquear el gate del dossier táctico. El error clásico es CONTINUE sin la bandera. Pregunta: ¿qué inmutabilizarías de verdad en producción (NamedTuple o dataclass congelada vs. flag de lab)?",
         starterCode: {
           language: 'python',
           title: "s40-t3-b-e3.py",

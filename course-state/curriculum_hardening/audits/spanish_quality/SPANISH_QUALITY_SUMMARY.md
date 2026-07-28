@@ -18,44 +18,32 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **419** | Paragraphs: **269**
-- Findings: **111** (high=0, medium=0, low=111)
-- Mean quality score (0–10): **9.21**
-- Mean Fernández-Huerta: **86.3** (fácil)
-- Mean words/sentence: **9.38**
+- Sentences: **459** | Paragraphs: **307**
+- Findings: **109** (high=0, medium=2, low=107)
+- Mean quality score (0–10): **9.45**
+- Mean Fernández-Huerta: **81.8** (fácil)
+- Mean words/sentence: **10.45**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S39 | 9.21 | 86.3 | 9.38 | 0/0/111 | `s39-integrator-phase2.ts` |
+| S40 | 9.45 | 81.8 | 10.45 | 0/2/107 | `s40-architecture-ddd.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=92)
+### `fragment` (n=88)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `possible_plural_det_singular_noun` (n=6)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
-
-### `lowercase_after_period` (n=5)
+### `lowercase_after_period` (n=18)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=3)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `missing_inverted_exclamation` (n=2)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `space_before_punct` (n=2)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+### `repeated_word` (n=2)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ### `comma_density` (n=1)
 - **Cause:** Subordinación excesiva.

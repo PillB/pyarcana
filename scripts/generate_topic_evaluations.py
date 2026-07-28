@@ -64,7 +64,7 @@ SECTION_IDS: dict[int, str] = {
     37: "dbt-bigquery",
     38: "performance-extreme",
     39: "integrator-phase2",
-    40: "agentic-architecture",
+    40: "architecture-ddd-decisions",
     41: "llm-finetuning",
     42: "graph-rag",
     43: "llmops",

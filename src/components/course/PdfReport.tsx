@@ -77,7 +77,7 @@ const SECTION_NAMES: Record<string, string> = {
   "dbt-bigquery": '37. dbt/BQ',
   "performance-extreme": '38. Concurrencia',
   "integrator-phase2": '39. Capstone P2',
-  "agentic-architecture": '40. Agentic',
+  "architecture-ddd-decisions": '40. Arq/DDD',
   "llm-finetuning": '41. FineTune',
   "graph-rag": '42. GraphRAG',
   llmops: '43. LLMOps',
