@@ -12,7 +12,7 @@ export const section43: CourseSection = {
   icon: "Package",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **contenedores y reproducibilidad operativa** empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root, health/readiness y shutdown limpio. Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados, los límites de recursos están acotados y el inventario no deja CVE crítico abierto. Esta sección no cubre pipelines de fine-tuning de modelos: el foco es empaquetar y operar el servicio Python de forma reproducible.",
+    "En equipos de plataforma y producto, contenedores y reproducibilidad operativa empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root (UID de aplicación sin privilegios de root), health/readiness (chequeos de salud y de disponibilidad) y shutdown limpio. Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados, los límites de recursos están acotados y el inventario no deja CVE crítico (vulnerabilidad catalogada) abierto. Esta sección no cubre pipelines de fine-tuning de modelos (flujos de afinamiento de pesos): el foco es empaquetar y operar el servicio Python de forma reproducible.",
   learningOutcomes: [
     { text: "Ordenar layers de un Dockerfile (base → deps/lock → app → USER/CMD) y explicar cuándo se invalida el caché." },
     { text: "Elegir base parchable con digest, ejecutar como UID ≥1000 sin capabilities extras y acotar tamaño runtime." },
@@ -210,7 +210,7 @@ sigterm {'graceful': True, 'grace_seconds': 30}`,
       },
     },
     {
-      heading: "API/worker/DB/cache",
+      heading: "API/worker/DB/caché",
       subtopicId: "S43-T3-A",
       paragraphs: [
         "Con probes y shutdown claros (T2-B), Compose declara el **stack local** de la plataforma: servicios `api`, `worker`, `db`, `cache`, redes (`front`/`back`) y healthchecks por servicio. El fragmento de abajo muestra la forma mínima: cuatro servicios y redes segmentadas. **`depends_on` no reemplaza retries de aplicación**: la API debe reintentar conexión a DB con backoff (`DB_MAX_ATTEMPTS` o equivalente); un simple «arranqué después» no basta si DB reinicia a mitad de tráfico.",
@@ -485,7 +485,7 @@ db_durable True
 ok True`,
         },
         why:
-          "Un secret horneado se detecta por substring en capas (`SECRET=`/`PASSWORD=`). Durable vs efímero no se improvisa en prod: rotar una clave no debe exigir rebuild de app. La DB en volume durable y el caché en efímero son el contrato de recovery de Trujillo.",
+          "Un secret horneado se detecta por substring en capas (`SECRET=`/`PASSWORD=`). Durable vs. efímero no se improvisa en prod: rotar una clave no debe exigir rebuild de app. La DB en volume durable y el caché en efímero son el contrato de recovery de Trujillo.",
         retrospective:
           "Imagen limpia + mounts clasificados = rotación y recovery posibles sin rebuild de app. El error clásico es copiar `.env` al build o montar la DB como tmp “para ir más rápido”. Pregunta: si rotas la clave de DB, ¿qué falla si el valor quedó en una capa de history? We Do: gate `REMOVE_BAKED_SECRET`.",
       },
@@ -524,7 +524,7 @@ sigterm {'graceful': True, 'grace_seconds': 30}`,
         demoId: "S43-T3-A-DEMO",
         subtopicId: "S43-T3-A",
         environment: "local-python",
-        description: "Demo: API/worker/DB/cache",
+        description: "Demo: API/worker/DB/caché",
         preamble:
           "Con probes claros, Compose declara el stack local de Trujillo: cuatro servicios, redes segmentadas y retries de aplicación a DB. Esta demo valida conjuntos healthy==services, retries True y redes front/back. No escribas: predice `api_deps`, `stack_healthy` y `retries`. Observa por qué solo listar servicios en YAML no demuestra un stack sano.",
         code: {
@@ -556,7 +556,7 @@ retries True`,
         why:
           "`depends_on` ordena el arranque, no reintentos: los retries de aplicación son código de la API. Redes front/back acotan la exposición de la DB. `healthy` debe igualar `services`; un stack “half healthy” no es un comando limpio.",
         retrospective:
-          "Stack sano = healthy == services + retries de app + redes segmentadas, no “compose up sin error en la consola”. El error clásico es confiar solo en `depends_on` cuando DB reinicia a mitad de tráfico. Pregunta: si api y cache están healthy pero worker no, ¿es stack limpio? We Do: `STOP_UNHEALTHY_STACK`.",
+          "Stack sano = healthy == services + retries de app + redes segmentadas, no “compose up sin error en la consola”. El error clásico es confiar solo en `depends_on` cuando DB reinicia a mitad de tráfico. Pregunta: si api y caché están healthy pero worker no, ¿es stack limpio? We Do: `STOP_UNHEALTHY_STACK`.",
       },
       {
         demoId: "S43-T3-B-DEMO",
@@ -586,7 +586,7 @@ data ephemeral_ok
 ok True`,
         },
         why:
-          "Expand primero y solo contract cuando el código viejo ya no lo necesita. El restore drill es evidencia, no un checkbox. tmp/cache se recrean; la DB no. Un contract sin compat bloquea el release con `ROLL_BACK_MIGRATION`.",
+          "Expand primero y solo contract cuando el código viejo ya no lo necesita. El restore drill es evidencia, no un checkbox. tmp/caché se recrean; la DB no. Un contract sin compat bloquea el release con `ROLL_BACK_MIGRATION`.",
         retrospective:
           "Migración sin restore drill es fe en el vacío: el rollback no se ha ensayado. El error clásico es tratar la DB como efímero o hacer contract con código viejo vivo. Pregunta: si el backup nunca se restauró en lab, ¿qué afirmas en el release notes? We Do: `ROLL_BACK_MIGRATION`.",
       },
@@ -633,7 +633,7 @@ lock pinned`,
         why:
           "El pin `sha256:` congela la resolución de deps. El builder no viaja a prod: `COPY --from=builder` es el puente. Un lock `latest` o gcc en runtime fallan `BLOCK_UNPINNED_BUILD`. Evidencia de imagen reducida reproducible, no solo un set de nombres de stage.",
         retrospective:
-          "Runtime mínimo + lock hasheado = build repetible entre máquinas y días. El error clásico es tag `latest` en deps o dejar `gcc` “por si depuramos” en la imagen final. Pregunta: si el lock flota, ¿qué garantiza el digest de mañana vs hoy? We Do: `BLOCK_UNPINNED_BUILD`.",
+          "Runtime mínimo + lock hasheado = build repetible entre máquinas y días. El error clásico es tag `latest` en deps o dejar `gcc` “por si depuramos” en la imagen final. Pregunta: si el lock flota, ¿qué garantiza el digest de mañana vs. hoy? We Do: `BLOCK_UNPINNED_BUILD`.",
       },
       {
         demoId: "S43-T4-B-DEMO",
@@ -1060,7 +1060,7 @@ assert results == ["CONTINUE", "REBUILD_NONROOT", "SELECT_PATCHABLE_BASE"]` ,
         kind: "guided",
         title: "Secretos solo en runtime",
         preamble:
-          "- **Contexto:** CASO-TRU-043-2A exige imagen e inspección sin secreto y DB fuera del efímero.\n- **Meta:** corregir predicado (no baked, runtime_secret, config declarada, db durable, cache efímero).\n- **Éxito:** `S43-T2-A PASS`.\n- **Límites:** no mutes fixtures; no pongas PII/secretos reales en el código.",
+          "- **Contexto:** CASO-TRU-043-2A exige imagen e inspección sin secreto y DB fuera del efímero.\n- **Meta:** corregir predicado (no baked, runtime_secret, config declarada, db durable, caché efímero).\n- **Éxito:** `S43-T2-A PASS`.\n- **Límites:** no mutes fixtures; no pongas PII/secretos reales en el código.",
         instruction:
           "1. El DEFECT premia `secret_baked` o `\"db\" in ephemeral`.\n2. Invierte a no baked + runtime_secret + config_declared + mounts correctos.\n3. Conserva print y status.\n4. `S43-T2-A PASS`.",
         hint: "Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.",
@@ -1106,7 +1106,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin clasificación de efímeros no se sabe qué se puede borrar al redeploy.\n- **Meta:** assess válido, adverso (secret horneado, db en ephemeral) e incomplete.\n- **Éxito:** `PASS REMOVE_BAKED_SECRET MISSING:ephemeral_volumes`.\n- **Límites:** missing primero; no inventes mounts; sintético.",
         instruction:
-          "1. Corrige el predicado invertido del starter.\n2. Exige no baked + runtime + config + db durable + cache efímero.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "1. Corrige el predicado invertido del starter.\n2. Exige no baked + runtime + config + db durable + caché efímero.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
@@ -1167,11 +1167,11 @@ print(*results)
         preamble:
           "- **Contexto:** el portfolio pedirá evidencia de history sin secretos, no un dict de lab.\n- **Meta:** CONTINUE / REMOVE_BAKED_SECRET / CLASSIFY_VOLUME.\n- **Éxito:** `CONTINUE REMOVE_BAKED_SECRET CLASSIFY_VOLUME`.\n- **Límites:** ephemeral None → CLASSIFY; busca SECRET=/PASSWORD=; db no puede ser efímero.",
         instruction:
-          "1. None de ephemeral → CLASSIFY_VOLUME.\n2. ok = no baked + db durable + cache ephemeral + db no en ephemeral.\n3. BAD layers/mounts → REMOVE.\n4. Imprime las tres decisiones.",
+          "1. None de ephemeral → CLASSIFY_VOLUME.\n2. ok = no baked + db durable + caché efímero + db no en efímero.\n3. BAD layers/mounts → REMOVE.\n4. Imprime las tres decisiones.",
         hint: "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
         hints: [
           "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
-          "Busca `SECRET=` o `PASSWORD=` en cada capa; exige `db` en durable y `cache` en ephemeral.",
+          "Busca `SECRET=` o `PASSWORD=` en cada capa; exige `db` en durable y `cache` en efímero.",
         ],
         edgeCases: ["ephemeral None → CLASSIFY_VOLUME", "adverso: SECRET= en capa o db en ephemeral → REMOVE_BAKED_SECRET", "CASO-TRU-043-2A es sintético"],
         tests: "Capas limpias, capas con secret y mounts ausentes prueban CONTINUE / REMOVE_BAKED_SECRET / CLASSIFY_VOLUME.",
@@ -1438,7 +1438,7 @@ assert results == ["CONTINUE", "DRAIN_AND_ISOLATE", "DIAGNOSE_HEALTH_SIGNAL"]` ,
         kind: "guided",
         title: "Stack sano con retries de app",
         preamble:
-          "- **Contexto:** CASO-TRU-043-3A exige api/worker/db/cache healthy, retries a DB y redes front/back.\n- **Meta:** corregir predicado de stack.\n- **Éxito:** `S43-T3-A PASS`.\n- **Límites:** no mutes sets del fixture; no sustituyas retries por depends_on en la cabeza del learner.",
+          "- **Contexto:** CASO-TRU-043-3A exige api/worker/db/caché healthy, retries a DB y redes front/back.\n- **Meta:** corregir predicado de stack.\n- **Éxito:** `S43-T3-A PASS`.\n- **Límites:** no mutes sets del fixture; no sustituyas retries por depends_on en la cabeza del learner.",
         instruction:
           "1. DEFECT: PASS cuando el stack está roto.\n2. Exige REQUIRED ⊆ services, healthy==services, api_retries_db, front/back ⊆ networks.\n3. Conserva print.\n4. `S43-T3-A PASS`.",
         hint: "Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.",
@@ -1545,7 +1545,7 @@ print(*results)
         preamble:
           "- **Contexto:** el artefacto del portfolio es el YAML (texto sintético), no el set de Python.\n- **Meta:** CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.\n- **Éxito:** `CONTINUE STOP_UNHEALTHY_STACK WAIT_FOR_DEPENDENCY`.\n- **Límites:** compose vacío → WAIT; retries de app (`DB_MAX_ATTEMPTS` o `retries`), no solo depends_on.",
         instruction:
-          "1. None/vacío → WAIT_FOR_DEPENDENCY.\n2. Exige api/worker/db/cache + front/back + token de retries de app.\n3. BAD_COMPOSE → STOP.\n4. Imprime las tres decisiones.",
+          "1. None/vacío → WAIT_FOR_DEPENDENCY.\n2. Exige api/worker/db/caché + front/back + token de retries de app.\n3. BAD_COMPOSE → STOP.\n4. Imprime las tres decisiones.",
         hint: "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
         hints: [
           "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
@@ -1554,7 +1554,7 @@ print(*results)
         edgeCases: ["compose None/vacío → WAIT_FOR_DEPENDENCY", "adverso: falta worker o redes front/back o DB_MAX_ATTEMPTS → STOP_UNHEALTHY_STACK", "CASO-TRU-043-3A es sintético"],
         tests: "Compose bueno, incompleto y ausente prueban CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.",
         feedback:
-          "depends_on no sustituye backoff de la app. Aprobar YAML con solo api deja worker/DB/cache fuera del “un comando limpio” de CP-N4-A.",
+          "depends_on no sustituye backoff de la app. Aprobar YAML con solo api deja worker/DB/caché fuera del “un comando limpio” de CP-N4-A.",
         retrospective:
           "El YAML del portfolio es el artefacto auditado, no el set de Python del lab: `DB_MAX_ATTEMPTS` debe verse en el texto. El error clásico es confiar en `depends_on` o en `restart_policy` del orquestador como si reintentaran la conexión a DB. Pregunta: ¿por qué un stack con solo `api:` y red `default` no es un comando limpio de CP-N4-A?",
         starterCode: {
@@ -1842,9 +1842,9 @@ assert results == ["CONTINUE", "ROLL_BACK_MIGRATION", "RUN_RESTORE_DRILL"]` ,
           "- **Contexto:** CASO-TRU-043-4A exige lock `sha256:…`, stages builder+runtime, sin compiler en runtime y deps locked.\n- **Meta:** corregir predicado multi-stage.\n- **Éxito:** `S43-T4-A PASS`.\n- **Límites:** no mutes fixture; no aceptes lock `latest` como pin.",
         instruction:
           "1. DEFECT premia unlock o compiler en runtime.\n2. Exige startswith sha256, stages ⊇ {builder,runtime}, not compiler, runtime_deps_locked.\n3. Conserva print.\n4. `S43-T4-A PASS`.",
-        hint: "Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.",
+        hint: "Relaciona los campos `lock_hash`, `stages`, `runtime_deps_locked`, `compiler_in_runtime` con la regla explicada en S43-T4-A.",
         hints: [
-          "Relaciona los campos `lock_hash`, `stages`, `compiler_in_runtime`, `runtime_deps_locked` con la regla explicada en S43-T4-A.",
+          "Relaciona los campos `lock_hash`, `stages`, `runtime_deps_locked`, `compiler_in_runtime` con la regla explicada en S43-T4-A.",
           "El predicado correcto debe ser verdadero porque el fixture conserva lock verificado e imagen runtime reducida; revisa dirección de comparación, conjuntos y negaciones.",
         ],
         edgeCases: ["falta runtime_deps_locked → REGENERATE_LOCK", "adverso: lock flotante / compiler en runtime / sin builder → BLOCK_UNPINNED_BUILD", "CASO-TRU-043-4A es sintético"],
