@@ -18,36 +18,48 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **471** | Paragraphs: **319**
-- Findings: **102** (high=0, medium=0, low=102)
-- Mean quality score (0–10): **9.35**
-- Mean Fernández-Huerta: **88.7** (fácil)
-- Mean words/sentence: **10.52**
+- Sentences: **461** | Paragraphs: **315**
+- Findings: **112** (high=0, medium=0, low=112)
+- Mean quality score (0–10): **9.27**
+- Mean Fernández-Huerta: **86.5** (fácil)
+- Mean words/sentence: **10.97**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S49 | 9.35 | 88.7 | 10.52 | 0/0/102 | `s49-data-contracts.ts` |
+| S50 | 9.27 | 86.5 | 10.97 | 0/0/112 | `s50-tech-leadership.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=94)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=3)
+### `lowercase_after_period` (n=5)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=2)
+### `missing_inverted_exclamation` (n=4)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `comma_density` (n=3)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
 
-### `possible_plural_det_singular_noun` (n=1)
+### `long_sentence` (n=2)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+
+### `possible_plural_det_singular_noun` (n=2)
 - **Cause:** Posible desacuerdo de número (heurística).
 - **Improvement:** Verificar concordancia determinante–sustantivo.
+
+### `space_before_punct` (n=2)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ## How to use
 

@@ -12,73 +12,103 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 471,
-  "total_paragraphs": 319,
-  "total_findings": 102,
+  "total_sentences": 461,
+  "total_paragraphs": 315,
+  "total_findings": 112,
   "severity": {
-    "low": 102
+    "low": 112
   },
-  "mean_quality_score": 9.35,
-  "min_quality_score": 9.35,
-  "mean_fernandez_huerta": 88.7,
+  "mean_quality_score": 9.27,
+  "min_quality_score": 9.27,
+  "mean_fernandez_huerta": 86.5,
   "mean_fh_label": "fácil",
-  "mean_wps": 10.52,
+  "mean_wps": 10.97,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
+      94
     ],
     [
       "lowercase_after_period",
-      3
+      5
+    ],
+    [
+      "missing_inverted_exclamation",
+      4
     ],
     [
       "comma_density",
+      3
+    ],
+    [
+      "long_sentence",
       2
     ],
     [
       "possible_plural_det_singular_noun",
-      1
+      2
+    ],
+    [
+      "space_before_punct",
+      2
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 94,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 3,
+      "count": 5,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "missing_inverted_exclamation",
+      "count": 4,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "comma_density",
-      "count": 2,
+      "count": 3,
       "cause": "Subordinación excesiva.",
       "fix": "Listas o frases independientes."
     },
     {
+      "rule": "long_sentence",
+      "count": 2,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
       "rule": "possible_plural_det_singular_noun",
-      "count": 1,
+      "count": 2,
       "cause": "Posible desacuerdo de número (heurística).",
       "fix": "Verificar concordancia determinante–sustantivo."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 2,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     }
   ],
   "sections_ranked": [
     {
-      "section": 49,
-      "file": "s49-data-contracts.ts",
-      "quality_score_0_10": 9.35,
-      "fernandez_huerta": 88.7,
-      "avg_words_per_sentence": 10.52,
+      "section": 50,
+      "file": "s50-tech-leadership.ts",
+      "quality_score_0_10": 9.27,
+      "fernandez_huerta": 86.5,
+      "avg_words_per_sentence": 10.97,
       "findings_by_severity": {
-        "low": 102
+        "low": 112
       },
-      "findings_total": 102
+      "findings_total": 112
     }
   ]
 }
