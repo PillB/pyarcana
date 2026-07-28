@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.kaggle.com/code/alexisbcook/data-leakage",
+    "name": "Data Leakage",
+    "snippet": "Data leakage (or leakage ) happens when your training data contains information about the target, This is sometimes called train - test contamination .\nData leakage (or leakage) happens when your training data contains information about the target, This is sometimes called train-test contamination.",
+    "host_name": "www.kaggle.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/data-leakage-machine-learning",
+    "name": "What is Data Leakage in Machine Learning?",
+    "snippet": "Train - test contamination : When both training and validation data are used to create a model, often due to improper splitting or preprocessing.\nTrain-test contamination: When both training and validation data are used to create a model, often due to improper splitting or preprocessing.",
+    "host_name": "www.ibm.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://towardsdatascience.com/the-dreaded-antagonist-data-leakage-in-machine-learning-5f08679852cc",
+    "name": "The Dreaded Antagonist: Data Leakage in Machine Learning",
+    "snippet": "May 19, 2023 — Data leakage occurs when information from the test dataset is mistakenly included in the training dataset.",
+    "host_name": "towardsdatascience.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@arpipal2/interview-questions-on-data-leakage-2589a90c8ab7",
+    "name": "Interview Questions On Data Leakage | by Arpita Pal",
+    "snippet": "Why is data leakage a problem? Train-test contamination : Test data influences training (e.g., scaling data before splitting).",
+    "host_name": "medium.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stats.stackexchange.com/questions/20010/how-can-i-help-ensure-testing-data-does-not-leak-into-training-data",
+    "name": "How can I help ensure testing data does not leak into",
+    "snippet": "Dec 19, 2011 — Suppose we have someone building a predictive model, but that someone is not necessarily well-versed in proper statistical or machine learning principles. ...",
+    "host_name": "stats.stackexchange.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.alteryx.com/discussion/827583/dealing-with-data-leakage",
+    "name": "Dealing with Data Leakage",
+    "snippet": "Sep 30, 2021 — A common way train-test contamination occurs is preprocessing your dataset in its entirety before splitting it into training and test sets or ...",
+    "host_name": "community.alteryx.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/MachineLearning/comments/1bca8h7/discussion_is_this_an_example_of_data_leakage",
+    "name": "[Discussion] Is this an example of data leakage?",
+    "snippet": "I’m working on a research project using machine learning to try to discover patterns in gene promoters. I’m concerned about data leakage in our model, ...",
+    "host_name": "www.reddit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.geeksforgeeks.org/machine-learning/data-leakage",
+    "name": "Data Leakage",
+    "snippet": "May 1, 2026 — Train-Test Contamination : Occurs when information from the test dataset is unintentionally used during training. This makes the model appear ...",
+    "host_name": "www.geeksforgeeks.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/MachineLearning/comments/965zgf/d_tell_me_about_how_you_were_a_victim_of_data",
+    "name": "[D] Tell me about how you were a victim of data leakage in your ML",
+    "snippet": "The leakage occurred because one observation could be in the training set and the next in the test set. True, they would be slightly different ...",
+    "host_name": "www.reddit.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=NIhevWtCmXc&vl=en",
+    "name": "How to Detect Data Leakage in Machine Learning - YouTube",
+    "snippet": "... leakage and train-test contamination in Python, and how to ace this common ML engineer interview problem. Essential for Python developers, Data ...",
+    "host_name": "www.youtube.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://forum.uipath.com/t/reframework-unattended-bot-best-practices/2857082",
+    "name": "REFramework - Unattended Bot Best Practices",
+    "snippet": "Jun 16, 2025 — Use Orchestrator queues for input if possible . Avoid UI prompts like Message Box. Handle all exceptions with proper Try-Catch. Use Retry ...",
+    "host_name": "forum.uipath.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.uipath.com/t/how-to-add-queue-item-in-process-state-in-reframe-work/560983",
+    "name": "How to add queue item in process state in Reframe work",
+    "snippet": "Jul 6, 2023 — You have to add the queues to orchestrator only in Initialization state and in first run sequence. If do adding the Queues in Process ...",
+    "host_name": "forum.uipath.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=Pym8Gne9MeQ",
+    "name": "UiPath REFramework Tutorial: Dispatcher & Performer Using",
+    "snippet": "REFramework best practices for exception handling and reliable automation How to monitor and manage automation using UiPath Orchestrator Queues",
+    "host_name": "www.youtube.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.uipath.com/t/best-pratices-for-reframework-without-queues/212307",
+    "name": "Best Pratices for REFramework without queues",
+    "snippet": "Apr 15, 2020 — For most cases, letting the applications restart in the event of an error is advisable. You would only want to start the application once if ...",
+    "host_name": "forum.uipath.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ashling.ai/resources/the-uipath-reframework-the-what-how-and-why-of-leveraging-this-framework-for-your-automations",
+    "name": "Utilizing the UiPath ReFramework for Your Automations",
+    "snippet": "Oct 30, 2019 — ReFramework is a template within UiPath Studio built using State Machine layout . At a high level, it provides an excellent Exception Handling mechanism.",
+    "host_name": "ashling.ai",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hashstudioz.medium.com/a-complete-guide-to-uipath-reframework-f76bbac04f86",
+    "name": "A Complete Guide To Uipath ReFramework - Medium",
+    "snippet": "This Uipath framework is generally built on state machines . our 5 Step guide to successfully implement RPA in 2020 to be helpful. ReFramework ...",
+    "host_name": "hashstudioz.medium.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=iJtjZoiU4nQ",
+    "name": "What is State Machine in UiPath with Example",
+    "snippet": "Super easy explanation of State Machine if you are learning UiPath . Link to UiPath Orchestrator . State Machine Tutorial | Basics of ReFramework ...",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.uipath.com/t/using-more-states-in-a-queue-item/319861",
+    "name": "Using more states in a queue item - Orchestrator",
+    "snippet": "Jun 2, 2021 — In the Queues page, create a queue .In ・ drag an Add Queue ・ utilizing the built-in state machine , to handle various states , instead ・ how to ...",
+    "host_name": "forum.uipath.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

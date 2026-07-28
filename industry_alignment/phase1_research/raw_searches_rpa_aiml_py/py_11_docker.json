@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.boot.dev/paths/devops?tech=python-golang",
+    "name": "DevOps Engineer Path",
+    "snippet": "Become a DevOps engineer with Python, Go, Linux, Docker, AWS, CI/CD, observability, and Kubernetes . Build practical platform skills.\nIn this complete learning path you'll start with programming and command-line fundamentals, then move into platform engineering skills like cloud computing, observability, containers, CI/CD, Docker and Kubernetes.",
+    "host_name": "www.boot.dev",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/devops/comments/1s11kz4/backend_dev_devops_what_skills_to_focus_on_for",
+    "name": "Backend dev → DevOps: what skills to focus on for long",
+    "snippet": "I moved to a DevOps team in January after a reorg. I have roughly 2 YOE backend + some Python scripting, but limited DevOps experience beyond Docker ...",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/selftaughtprogrammers/posts/1723414041355656",
+    "name": "DevOps skills to focus on for job applications",
+    "snippet": "I'm Familiar with: - Python - some Linux/bash network commands - Docker - Kubernetes (almost finished with CKA exam) - GitHub Actions - Deployed ... Read more",
+    "host_name": "www.facebook.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/helenchukwukelu_devopsengineer-sre-devops-activity-7429471341055021056-87qP",
+    "name": "Learn DevOps in 9 Key Skills | Helen Chukwukelu posted",
+    "snippet": "So you want to become a DevOps Engineer? It's very simple. You only need to learn • Networking • Linux • Cloud computing • Git • Docker ...",
+    "host_name": "www.linkedin.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.quora.com/Is-it-a-must-to-learn-DevOps-skills-such-as-Kubernetes-and-CI-CD-if-I-want-to-become-a-backend-developer",
+    "name": "Is it a must to learn DevOps skills such as Kubernetes and",
+    "snippet": "Is it a must to learn DevOps skills such as Kubernetes and CI/CD if I want to become a backend developer?",
+    "host_name": "www.quora.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=Tq0vZU7Hp_M",
+    "name": "DevOps Full Course for Beginners 2025 | Git, Docker, CI/CD",
+    "snippet": "In this particular video we are going to cover each and everything that you need to know to start your journey as a DevOps engineer.",
+    "host_name": "www.youtube.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://nareshit.com/blogs/what-is-a-devops-ci-cd-job-description-2025-complete-career-guide",
+    "name": "What Is a DevOps CI/CD Job Description? | Roles, Skills &",
+    "snippet": "Proficiency in scripting (Bash, Python ). Hands-on experience with CI / CD tools. Familiarity with cloud platforms and containerization. Strong troubleshooting ...",
+    "host_name": "nareshit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://roadmap.sh/devops",
+    "name": "Learn to become a DevOps Engineer or SRE",
+    "snippet": "Technical skills include knowledge of programming languages, automation tools, containerization, cloud platforms, CI / CD pipelines, configuration management ... Read more",
+    "host_name": "roadmap.sh",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

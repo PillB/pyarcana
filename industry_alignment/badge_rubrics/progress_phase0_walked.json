@@ -1,0 +1,35 @@
+{
+  "badge_id": "progress_phase0_walked",
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T22:08:04Z",
+  "generated_by": "badge_architect node (Phase 6)",
+  "provisional_floors": {
+    "self_check_pct": 85,
+    "you_do_pct": 80,
+    "section_exam_pct": 85,
+    "integrator_project_pct": 85,
+    "critical_competency_pct": 100,
+    "minimum_overall_pct": 85
+  },
+  "components": [
+    {
+      "component_id": "section_completion",
+      "description": "Each required section is marked completed when its You Do project is submitted and its self-check is answered. No score threshold applies; this is a walk-through marker, not a proficiency assessment.",
+      "required_score_pct": 0,
+      "weight": 1.0,
+      "evidence_source": "progress store (localStorage + server mirror)",
+      "critical_competency": false
+    }
+  ],
+  "scoring_rules": {
+    "aggregation_method": "all_or_nothing",
+    "minimum_overall_score": 0,
+    "critical_competency_floor": 0,
+    "non_compensatory": false,
+    "rounding": "n/a",
+    "notes": "Progress badges do not use a numeric floor. They are issued when every required activity is marked completed in the progress store."
+  },
+  "integrator_spec": null,
+  "critical_competency_rubrics": {},
+  "gap_closure_exercises": {}
+}

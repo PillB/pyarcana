@@ -11739,8 +11739,8 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
 
-  // === Section 40: Arquitectura, DDD y decisiones técnicas (agentic-architecture) ===
-  'agentic-architecture': [
+  // === Section 40: Arquitectura, DDD y decisiones técnicas (architecture-ddd-decisions) ===
+  'architecture-ddd-decisions': [
     {
       concept: "functional-quality-attrs",
       question: "En un mapa de arquitectura (intake→ER→relación→triage→reporting), un quality attribute es:",

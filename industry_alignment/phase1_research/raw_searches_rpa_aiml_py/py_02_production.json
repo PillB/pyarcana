@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://stackoverflow.blog/2022/07/18/how-observability-is-redefining-the-roles-of-developers",
+    "name": "How observability is redefining the roles of developers",
+    "snippet": "Jul 18, 2022 — Developer observability is a new pillar of observability adapted for the needs of developers. Unlike typical observability solutions, it's aimed directly at ...",
+    "host_name": "stackoverflow.blog",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://fahadahammed.medium.com/4-important-development-practice-to-make-your-python-application-production-ready-f74bdb5bce11",
+    "name": "4 Important Development Practice to Make Your Python",
+    "snippet": "4. Observability: Knowing When Things Go Wrong . You worked hard with your team, and finally application is deployed for production traffic. It ...",
+    "host_name": "fahadahammed.medium.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=Nmu4URA7pSM",
+    "name": "Improving Observability and Testing In Production",
+    "snippet": "Observability , Monitoring, Testing in Production, SRE - what do these ideas mean and how are they related to one another?",
+    "host_name": "www.youtube.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/ExperiencedDevs/comments/1eooa00/best_way_to_introduce_monitoring_and_observability",
+    "name": "Best way to introduce monitoring and observability?",
+    "snippet": "Hey fellows,\n\nI'm trying to make a series of guides about building monitoring and observability as a developer for gathering app and business insights. ...",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://help.splunk.com/en/splunk-observability-cloud/manage-data/instrument-back-end-services/instrument-back-end-applications-to-send-spans-to-splunk-apm/instrument-a-python-application/instrument-your-python-application",
+    "name": "Instrument your Python application | Observability Cloud",
+    "snippet": "Jun 24, 2026 — The Splunk OpenTelemetry Python agent can automatically instrument your Python application or service. Follow these steps to get started.",
+    "host_name": "help.splunk.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ultratendency.academy/operations-driven-python",
+    "name": "Operations Driven Python Training",
+    "snippet": "Feb 17, 2026 — Learn how to build robust Python interfaces like CLIs and APIs , while managing observability and log management efficiently. Implement automated ...",
+    "host_name": "ultratendency.academy",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/wso2_python-makes-it-easy-to-get-startedbut-deploying-activity-7384536170442985472-utK7",
+    "name": "How to deploy and manage Python apps in production",
+    "snippet": "Practice your Python project step by step:1) define goals and requirements , 2) set up a virtual environment, 3) outline architecture with ...",
+    "host_name": "www.linkedin.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.ibm.com/articles/observability-driven-development",
+    "name": "Observability-driven development with Instana, a full-stack",
+    "snippet": "In this article, I explore observability from an application developer perspective, focusing on what challenges developers might be facing.",
+    "host_name": "developer.ibm.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

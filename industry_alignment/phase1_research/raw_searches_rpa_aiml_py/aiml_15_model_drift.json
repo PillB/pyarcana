@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://aerospike.com/blog/model-drift-machine-learning",
+    "name": "Mitigating model drift in machine learning",
+    "snippet": "What model drift is, how data and concept drift arise, how to detect drift, and how monitoring and retraining keep production models accurate in",
+    "host_name": "aerospike.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://techcommunity.microsoft.com/blog/fasttrackforazureblog/identifying-drift-in-ml-models-best-practices-for-generating-consistent-reliable/4040531",
+    "name": "Identifying drift in ML models: Best practices for generating",
+    "snippet": "Retraining models with fresh, relevant data is essential for preventing and mitigating model drift. Continuous retraining ensures that the ...",
+    "host_name": "techcommunity.microsoft.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/395703466_Model_Monitoring_Data_Drift_Detection_and_Efficient_Model_Retraining_A_Review",
+    "name": "(PDF) Model Monitoring, Data Drift Detection, and Efficient",
+    "snippet": "This review paper explores the critical role of model monitoring systems in detecting such drifts and initiating efficient retraining workflows.\nData drift, or sudden changes in data distributions, is a common cause of degradation for models trained on static datasets. This review paper explores the critical role of model monitoring...",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.evidentlyai.com/ml-in-production/concept-drift",
+    "name": "What is concept drift in ML, and how to detect and address it",
+    "snippet": "You can analyze target drift (change in the distribution of the model target values) as one of the techniques in production ML model monitoring.",
+    "host_name": "www.evidentlyai.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@bhatadithya54764118/day-69-monitoring-models-in-production-concept-drift-and-retraining-70833a35df16",
+    "name": "Day 69: Monitoring Models in Production — Concept Drift",
+    "snippet": "Steps to Build a Retraining Pipeline: · 1. Detect Drift · 2. Collect Data · 3. Retrain the Model · 4. Validate the Model · 5. Deploy the Model ...",
+    "host_name": "medium.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://fulcrumdigital.com/blogs/ai-model-drift-in-production-what-enterprises-must-monitor",
+    "name": "AI Model Drift in Production: What Enterprises Must Monitor",
+    "snippet": "ML model monitoring is continuous, standardized, and tied to retraining workflows MLflow, SageMaker, Evidently AI, and Arize AI are key drift ...",
+    "host_name": "fulcrumdigital.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datadoghq.com/blog/ml-model-monitoring-in-production-best-practices",
+    "name": "Machine learning model monitoring: Best practices",
+    "snippet": "To cope with drift, ML models generally have to be retrained at a set cadence. There are a few different kinds of drift that can occur. Data ...",
+    "host_name": "www.datadoghq.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mlflow.org/articles/why-monitor-model-drift-production",
+    "name": "Why Monitor Model Drift in Production: A Practical Guide",
+    "snippet": "Drift monitoring works best when it is wired directly into your MLOps pipeline rather than bolted on as an afterthought. The key architectural ...",
+    "host_name": "mlflow.org",
+    "rank": 7,
+    "date": "Jul 21, 2026",
+    "favicon": ""
+  }
+]

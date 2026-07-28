@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://hdsr.mitpress.mit.edu/pub/bfeyfx22",
+    "name": "When Translation Problems Arise Between Data Scientists",
+    "snippet": "by K Malone · 2020 · Cited by 8 — Business stakeholders bear responsibility for the communication impasse as well, which similarly goes deeper than whether they're willing and ...\nColumn Editor’s Note: For the inaugural column in the Industrial Active Learning series, we focus on how communication challenges arise between data scientists and business stakeholders. We argue that the metrics that quantify outcomes are generally very different for data scientists and business stakeholders, making it likely that each side struggles to understand and speak in terms that ...",
+    "host_name": "hdsr.mitpress.mit.edu",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/daniellegifford_i-often-talk-about-this-in-my-mba-class-activity-7374079766938726402-lEv0",
+    "name": "The Role of the Translator in Business and Technology",
+    "snippet": "It's not just communication. It's credibility, empathy, and influence. Translators connect what's possible with what's actually valuable.",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "Oct 1, 2025",
+    "favicon": ""
+  },
+  {
+    "url": "https://towardsdatascience.com/how-to-translate-machine-learning-results-into-business-impact-d0b323112e87",
+    "name": "How to Translate Machine Learning Results Into Business",
+    "snippet": "How to Translate Machine Learning Results Into Business Impact · 1. Show improvement relative to company KPIs · 2. Show incremental revenue impact.",
+    "host_name": "towardsdatascience.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@julietarubis/understanding-business-stakeholders-for-machine-learning-engineers-1eca041003e5",
+    "name": "Understanding Business Stakeholders for Machine",
+    "snippet": "Machine Learning Engineers (MLEs) don't work in isolation — they collaborate with various business roles to align models with business goals.",
+    "host_name": "medium.com",
+    "rank": 3,
+    "date": "Jul 28, 2025",
+    "favicon": ""
+  },
+  {
+    "url": "https://careers.fitch.group/job/Toronto-Lead-Machine-Learning-Engineer-AI-Innovation-Teams-ON/1283156201",
+    "name": "Lead Machine Learning Engineer - AI Innovation Teams",
+    "snippet": "ML engineers while partnering with product squads, business stakeholders, and cross-functional teams to translate ambitious AI ideas",
+    "host_name": "careers.fitch.group",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/AskStatistics/comments/1ev3he2/translating_mldm_results_in_business",
+    "name": "Translating ML/DM results in Business : r/AskStatistics",
+    "snippet": "I am in the middle of my master of data science degree and have learned plenty. I have an undergraduate degree in mathematics and have taken appropriate ...",
+    "host_name": "www.reddit.com",
+    "rank": 5,
+    "date": "Jul 28, 2025",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tryexponent.com/courses/technical-basics-pm/pm-engineering-stakeholders",
+    "name": "Product Managers, Engineering, and Stakeholder",
+    "snippet": "The technical decisions made about your product can have implications for all stakeholders. Marketing may want the ability to target certain users, or Policy ...",
+    "host_name": "www.tryexponent.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ziprecruiter.com/e/ai-data-translator-how-does-an-ai-data-translator-typically-bridge-communication-between-technical-data-teams-and-business-stakeholders",
+    "name": "How does an AI Data Translator typically bridge",
+    "snippet": "They often interpret complex technical findings, translate them into business-friendly language, and help define project requirements based on organizational ...",
+    "host_name": "www.ziprecruiter.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

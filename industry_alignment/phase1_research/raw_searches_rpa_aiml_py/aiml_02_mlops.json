@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://ml-ops.org",
+    "name": "ML Ops: Machine Learning Operations",
+    "snippet": "MLOps aims to unify the release cycle for machine learning and software application release. MLOps enables automated testing of machine learning artifacts",
+    "host_name": "ml-ops.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aws.amazon.com/what-is/mlops",
+    "name": "What is MLOps? - Machine Learning Operations Explained",
+    "snippet": "Machine learning operations (MLOps) are a set of practices that automate and simplify machine learning (ML) workflows and deployments .",
+    "host_name": "aws.amazon.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning",
+    "name": "MLOps: Continuous delivery and automation pipelines in",
+    "snippet": "Aug 28, 2024 — MLOps is an ML engineering culture and practice that aims at unifying ML system development (Dev) and ML system operation (Ops).",
+    "host_name": "docs.cloud.google.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/blog/what-is-mlops",
+    "name": "What is MLOps?",
+    "snippet": "MLOps is a set of engineering practices specific to machine learning projects that borrow from the more widely-adopted DevOps principles in software engineering ... Read more",
+    "host_name": "www.databricks.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/mlops",
+    "name": "machine learning operations (MLOps)",
+    "snippet": "MLOps , short for Machine Learning Operations, is a set of practices designed to create an assembly line for building and running machine learning models. Read more",
+    "host_name": "www.ibm.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.geeksforgeeks.org/machine-learning/what-is-mlops",
+    "name": "What is MLOps?",
+    "snippet": "Mar 14, 2026 — MLOps is a set of practices that combines machine learning, software engineering, and DevOps to manage the entire lifecycle of ML models—from ...",
+    "host_name": "www.geeksforgeeks.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/dataengineering/comments/11wg1la/can_you_guys_explain_to_me_what_mlops_is",
+    "name": "Can you guys explain to me what MLOps is?",
+    "snippet": "Never got the actual definition and work that goes into it...\n\nIs this position more on the management/critical thinking/ taking decisions side or more ...",
+    "host_name": "www.reddit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/training/paths/introduction-machine-learn-operations",
+    "name": "Introduction to machine learning operations (MLOps)",
+    "snippet": "Machine learning operations (MLOps) applies DevOps principles to machine learning projects . Learn about which DevOps principles help in scaling a machine ... Read more",
+    "host_name": "learn.microsoft.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

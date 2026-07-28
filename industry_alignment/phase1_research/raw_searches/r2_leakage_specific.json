@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://medium.com/@arpipal2/interview-questions-on-data-leakage-2589a90c8ab7",
+    "name": "Interview Questions On Data Leakage | by Arpita Pal",
+    "snippet": "Why is data leakage a problem? ➡ It gives a false sense of accuracy, causing the model to fail on unseen data because it learned patterns\nWhy is data leakage a problem? ➡ It gives a false sense of accuracy, causing the model to fail on unseen data because it learned patterns that ... Read more",
+    "host_name": "medium.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/data-leakage-machine-learning",
+    "name": "What is Data Leakage in Machine Learning?",
+    "snippet": "Data leakage in machine learning occurs when a model uses information during training that wouldn't be available at the time of prediction. Read more",
+    "host_name": "www.ibm.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://susanshu.substack.com/p/common-mistakes-in-ml-take-home-assignment",
+    "name": "Common mistakes in ML take-home assignment interviews",
+    "snippet": "One of the mistakes they make is not explaining acronyms, you can talk about project ABC all day to your teammates, but to another company's DS ...\nOne thing I do is really think about who's on the other side of the table: are they PMs (project/product managers)? fellow data scientists? Read more",
+    "host_name": "susanshu.substack.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/mhvr1h/just_failed_an_interview_but_i_have_a_feeling",
+    "name": "Just failed an interview but I have a feeling that the",
+    "snippet": "So I had a technical take - home challenge . Due to having to do machine learning on a laptop and having 100 million records, I took a random ... Read more",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://h2o.ai/wiki/target-leakage",
+    "name": "What is Target Leakage and how can you Stop it?",
+    "snippet": "Target Leakage Examples ... Try to think about target leakage occurring over time when new data becomes available and changes existing data used in the model. Read more\nTarget leakage ( data leakage ) occurs when information available during model training causes predictive scores to overestimate the model's utility at ...",
+    "host_name": "h2o.ai",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/developerkaki/posts/1434271763585399",
+    "name": "Typical \"Cracking the Coding Interview\" for Data Scientist",
+    "snippet": "Take home assignments. Here are some examples of what we have noticed about some companies data science interviews . tons of behavioral  ...",
+    "host_name": "www.facebook.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.alteryx.com/discussion/827583/dealing-with-data-leakage",
+    "name": "Dealing with Data Leakage",
+    "snippet": "Sep 30, 2021 — Here are some scenarios that represent target leakage : Including the outcome to be predicted as a feature in the dataset used to train the model\nSep 30, 2021 — Target leakage occurs when a model is trained with data that it will not have available at the time of prediction.",
+    "host_name": "community.alteryx.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.kaggle.com/code/alexisbcook/data-leakage",
+    "name": "Data Leakage",
+    "snippet": "There are two main types of leakage : target leakage and train- test contamination. ... In this example , you will learn one way to detect and remove target leakage . Read more",
+    "host_name": "www.kaggle.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/shorts/BPZnEFUbxao",
+    "name": "Target or Data Leakage",
+    "snippet": "In machine learning this is called Data or Target leakage and it's when we train the model with the same information that we're going to validate it.",
+    "host_name": "www.youtube.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/datascience/comments/1tgnuqk/the_most_insane_interviewstakehomes_ive_ever",
+    "name": "The most insane interviews/take-homes I've ever gotten",
+    "snippet": "Interviews have gotten so much more difficult than they were about 1-2 years ago. The take homes are also very intense. I just got a take home ... Read more",
+    "host_name": "www.reddit.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

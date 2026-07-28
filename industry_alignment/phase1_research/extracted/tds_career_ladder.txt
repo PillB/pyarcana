@@ -1,0 +1,533 @@
+URL: https://towardsdatascience.com/the-hidden-career-ladder-of-data-science
+TITLE: How to Climb the Hidden Career Ladder of Data Science
+PUBLISHED: 2025-12-07T16:00:00+00:00
+
+How to Climb the Hidden Career Ladder of Data Science | Towards Data Science 
+
+ We value your privacy
+
+ We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking "Accept All", you consent to our use of cookies.
+
+ Customise Reject All Accept All Customise Consent Preferences We use cookies to help you navigate efficiently and perform certain functions. You will find detailed information about all cookies under each consent category below.
+
+ The cookies that are categorised as "Necessary" are stored on your browser as they are essential for enabling the basic functionalities of the site. ... Show more 
+
+ Necessary Always Active Necessary cookies are required to enable the basic features of this site, such as providing secure log-in or adjusting your consent preferences. These cookies do not store any personally identifiable data.
+
+ Cookie BCTempID 
+ Duration 10 minutes 
+ Description No description available.
+
+ Cookie __cf_bm 
+ Duration 1 hour 
+ Description This cookie, set by Cloudflare, is used to support Cloudflare Bot Management. 
+ Cookie AWSALBCORS 
+ Duration 7 days 
+ Description Amazon Web Services set this cookie for load balancing. 
+ Cookie _cfuvid 
+ Duration session 
+ Description Cloudflare sets this cookie to track users across sessions to optimize user experience by maintaining session consistency and providing personalized services 
+ Cookie li_gc 
+ Duration 6 months 
+ Description Linkedin set this cookie for storing visitor's consent regarding using cookies for non-essential purposes. 
+ Cookie __hssrc 
+ Duration session 
+ Description This cookie is set by Hubspot whenever it changes the session cookie. The __hssrc cookie set to 1 indicates that the user has restarted the browser, and if the cookie does not exist, it is assumed to be a new session. 
+ Cookie __hssc 
+ Duration 1 hour 
+ Description HubSpot sets this cookie to keep track of sessions and to determine if HubSpot should increment the session number and timestamps in the __hstc cookie. 
+ Cookie wpEmojiSettingsSupports 
+ Duration session 
+ Description WordPress sets this cookie when a user interacts with emojis on a WordPress site. It helps determine if the user's browser can display emojis properly. 
+ Cookie BCSessionID 
+ Duration 1 year 1 month 4 days 
+ Description Blueconic sets this cookie as a unique identifier for the BlueConic profile.
+
+ Cookie _octo 
+ Duration 1 year 
+ Description No description available. 
+ Cookie logged_in 
+ Duration 1 year 
+ Description No description available. 
+ Cookie __Secure-YEC 
+ Duration past 
+ Description YouTube sets this cookie to stores the user's video player preferences using embedded YouTube video 
+ Cookie __eoi 
+ Duration 6 months 
+ Description Description is currently not available. 
+ Cookie AWSALBTGCORS 
+ Duration 7 days 
+ Description No description available. 
+ Cookie login-status-p 
+ Duration past 
+ Description Description is currently not available. 
+ Cookie AWSALBTG 
+ Duration 7 days 
+ Description No description available. 
+ Cookie csrf_token 
+ Duration session 
+ Description No description available. 
+ Cookie token_v2 
+ Duration 1 day 
+ Description Description is currently not available. 
+ Cookie D 
+ Duration 1 year 
+ Description Description is currently not available. 
+ Cookie PHPSESSID 
+ Duration session 
+ Description This cookie is native to PHP applications. The cookie stores and identifies a user's unique session ID to manage user sessions on the website. The cookie is a session cookie and will be deleted when all the browser windows are closed. 
+ Cookie VISITOR_PRIVACY_METADATA 
+ Duration 6 months 
+ Description YouTube sets this cookie to store the user's cookie consent state for the current domain. 
+ Cookie cookietest 
+ Duration session 
+ Description The cookietest cookie is typically used to determine whether the user's browser accepts cookies, essential for website functionality and user experience. 
+ Cookie __Host-airtable-session 
+ Duration 1 year 
+ Description This cookie is used to enable us to integrate the services of Airtable. 
+ Cookie __Host-airtable-session.sig 
+ Duration 1 year 
+ Description This cookie is used to enable us to integrate the services of Airtable. 
+ Cookie m 
+ Duration 1 year 1 month 4 days 
+ Description Stripe sets this cookie for fraud prevention purposes. It identifies the device used to access the website, allowing the website to be formatted accordingly. 
+ Cookie BIGipServer* 
+ Duration session 
+ Description Marketo sets this cookie to collect information about the user's online activity and build a profile about their interests to provide advertisements relevant to the user. 
+ Cookie __cfruid 
+ Duration session 
+ Description Cloudflare sets this cookie to identify trusted web traffic. 
+ Cookie _GRECAPTCHA 
+ Duration 6 months 
+ Description Google Recaptcha service sets this cookie to identify bots to protect the website against malicious spam attacks. 
+ Cookie __Secure-YNID 
+ Duration 6 months 
+ Description Google cookie used to protect user security and prevent fraud, especially during the login process. 
+ Cookie cookieyes-consent 
+ Duration 1 year 
+ Description CookieYes sets this cookie to remember users' consent preferences so that their preferences are respected on subsequent visits to this site. It does not collect or store any personal information about the site visitors. 
+ Functional Functional cookies help perform certain functionalities like sharing the content of the website on social media platforms, collecting feedback, and other third-party features.
+
+ Cookie lidc 
+ Duration 1 day 
+ Description LinkedIn sets the lidc cookie to facilitate data center selection. 
+ Cookie brw 
+ Duration 1 year 
+ Description No description available. 
+ Cookie brwConsent 
+ Duration 5 minutes 
+ Description Description is currently not available. 
+ Cookie WMF-Uniq 
+ Duration 1 year 
+ Description Description is currently not available. 
+ Cookie loom_anon_comment 
+ Duration 1 year 
+ Description No description available. 
+ Cookie loom_referral_video 
+ Duration session 
+ Description Description is currently not available. 
+ Cookie VISITOR_INFO1_LIVE 
+ Duration 6 months 
+ Description A cookie set by YouTube to measure bandwidth that determines whether the user gets the new or old player interface. 
+ Cookie yt-remote-connected-devices 
+ Duration Never Expires 
+ Description YouTube sets this cookie to store the user's video preferences using embedded YouTube videos. 
+ Cookie ytidb::LAST_RESULT_ENTRY_KEY 
+ Duration Never Expires 
+ Description The cookie ytidb::LAST_RESULT_ENTRY_KEY is used by YouTube to store the last search result entry that was clicked by the user. This information is used to improve the user experience by providing more relevant search results in the future. 
+ Cookie yt-remote-device-id 
+ Duration Never Expires 
+ Description YouTube sets this cookie to store the user's video preferences using embedded YouTube videos. 
+ Cookie yt-remote-session-name 
+ Duration session 
+ Description The yt-remote-session-name cookie is used by YouTube to store the user's video player preferences using embedded YouTube video. 
+ Cookie yt-remote-fast-check-period 
+ Duration session 
+ Description The yt-remote-fast-check-period cookie is used by YouTube to store the user's video player preferences for embedded YouTube videos. 
+ Cookie yt-remote-session-app 
+ Duration session 
+ Description The yt-remote-session-app cookie is used by YouTube to store user preferences and information about the interface of the embedded YouTube video player. 
+ Cookie yt-remote-cast-available 
+ Duration session 
+ Description The yt-remote-cast-available cookie is used to store the user's preferences regarding whether casting is available on their YouTube video player. 
+ Cookie yt-remote-cast-installed 
+ Duration session 
+ Description The yt-remote-cast-installed cookie is used to store the user's video player preferences using embedded YouTube video. 
+ Cookie cp_session 
+ Duration 3 months 
+ Description Codepen sets this cookie for Help systems found in the website. 
+ Cookie loid 
+ Duration 1 year 1 month 4 days 
+ Description This cookie is set by the Reddit. The cookie enables the sharing of content from the website onto the social media platform. 
+ Analytics Analytical cookies are used to understand how visitors interact with the website. These cookies help provide information on metrics such as the number of visitors, bounce rate, traffic source, etc.
+
+ Cookie __hstc 
+ Duration 6 months 
+ Description Hubspot set this main cookie for tracking visitors. It contains the domain, initial timestamp (first visit), last timestamp (last visit), current timestamp (this visit), and session number (increments for each subsequent session). 
+ Cookie hubspotutk 
+ Duration 6 months 
+ Description HubSpot sets this cookie to keep track of the visitors to the website. This cookie is passed to HubSpot on form submission and used when deduplicating contacts. 
+ Cookie _ga 
+ Duration 1 year 1 month 4 days 
+ Description Google Analytics sets this cookie to calculate visitor, session and campaign data and track site usage for the site's analytics report. The cookie stores information anonymously and assigns a randomly generated number to recognise unique visitors. 
+ Cookie _ga_* 
+ Duration 1 year 1 month 4 days 
+ Description Google Analytics sets this cookie to store and count page views. 
+ Cookie __Host-psifi.analyticsTrace 
+ Duration 6 hours 
+ Description Description is currently not available. 
+ Cookie __Host-psifi.analyticsTraceV2 
+ Duration 6 hours 
+ Description Description is currently not available. 
+ Cookie _gh_sess 
+ Duration session 
+ Description GitHub sets this cookie for temporary application and framework state between pages like what step the user is on in a multiple step form. 
+ Cookie YSC 
+ Duration session 
+ Description YSC cookie is set by Youtube and is used to track the views of embedded videos on Youtube pages. 
+ Cookie ajs_anonymous_id 
+ Duration 1 year 
+ Description This cookie is set by Segment to count the number of people who visit a certain site by tracking if they have visited before. 
+ Cookie vuid 
+ Duration 1 year 1 month 4 days 
+ Description Vimeo installs this cookie to collect tracking information by setting a unique ID to embed videos on the website. 
+ Performance Performance cookies are used to understand and analyse the key performance indexes of the website which helps in delivering a better user experience for the visitors.
+
+ Cookie AWSALB 
+ Duration 7 days 
+ Description AWSALB is an application load balancer cookie set by Amazon Web Services to map the session to the target. 
+ Cookie acq 
+ Duration past 
+ Description Description is currently not available. 
+ Cookie acq.sig 
+ Duration past 
+ Description Description is currently not available. 
+ Cookie ptc 
+ Duration 2 years 
+ Description No description available. 
+ Advertisement Advertisement cookies are used to provide visitors with customised advertisements based on the pages you visited previously and to analyse the effectiveness of the ad campaigns.
+
+ Cookie muc_ads 
+ Duration 1 year 1 month 4 days 
+ Description Twitter sets this cookie to collect user behaviour and interaction data to optimize the website. 
+ Cookie guest_id_marketing 
+ Duration 1 year 1 month 4 days 
+ Description Twitter sets this cookie to identify and track the website visitor. 
+ Cookie guest_id_ads 
+ Duration 1 year 1 month 4 days 
+ Description Twitter sets this cookie to identify and track the website visitor. 
+ Cookie personalization_id 
+ Duration 1 year 1 month 4 days 
+ Description Twitter sets this cookie to integrate and share features for social media and also store information about how the user uses the website, for tracking and targeting. 
+ Cookie guest_id 
+ Duration 1 year 1 month 4 days 
+ Description Twitter sets this cookie to identify and track the website visitor. It registers if a user is signed in to the Twitter platform and collects information about ad preferences. 
+ Cookie bcookie 
+ Duration 1 year 
+ Description LinkedIn sets this cookie from LinkedIn share buttons and ad tags to recognize browser IDs. 
+ Cookie __Secure-ROLLOUT_TOKEN 
+ Duration 6 months 
+ Description YouTube sets this cookie to manage feature rollout and experimentation. It helps Google control which new features or interface changes are shown to users as part of testing and staged rollouts, ensuring consistent experience for a given user during an experiment. 
+ Cookie yt.innertube::nextId 
+ Duration Never Expires 
+ Description YouTube sets this cookie to register a unique ID to store data on what videos from YouTube the user has seen. 
+ Cookie yt.innertube::requests 
+ Duration Never Expires 
+ Description YouTube sets this cookie to register a unique ID to store data on what videos from YouTube the user has seen. 
+ Cookie session_tracker 
+ Duration session 
+ Description This cookie is set by the Reddit. This cookie is used to identify trusted web traffic. It also helps in adverstising on the website. 
+ Cookie edgebucket 
+ Duration session 
+ Description Reddit sets this cookie to save the information about a log-on Reddit user, for the purpose of advertisement recommendations and updating the content. 
+ Cookie did 
+ Duration 1 year 
+ Description Arbor sets this cookie to show targeted ads to site visitors.This cookie expires after 2 months or 1 year. 
+ Uncategorised Other uncategorised cookies are those that are being analysed and have not been classified into a category as yet.
+
+ No cookies to display.
+
+ Reject All Save My Preferences Accept All 
+
+ Skip to content 
+
+ Publish AI, ML & data-science insights to a global community of data professionals.
+
+ Sign in 
+
+ Submit an Article 
+
+ Latest 
+ Editor’s Picks 
+ Deep Dives 
+ Newsletter 
+
+ Write For TDS 
+
+ Toggle Mobile Navigation 
+
+ LinkedIn 
+
+ X 
+
+ Toggle Search 
+
+ Search 
+
+ Data Science 
+
+ How to Climb the Hidden Career Ladder of Data Science
+
+ The behaviors that get you promoted 
+
+ Greg Rafferty 
+
+ Dec 7, 2025 
+
+ 14 min read 
+
+ Share 
+
+ Photo by Tom Brunberg on Unsplash 
+
+ You’ve mastered SQL. You can build models in your sleep. You’ve run dozens of A/B tests. So why aren’t you getting promoted?
+
+ The truth is, most data scientists plateau not because they lack technical skills, but because they don’t understand what actually changes between levels. Companies hand you a ladder with vague rungs labeled “impact,” “scope,” and “strategic thinking” and then expect you to figure out what those words mean in practice.
+
+ Many brilliant and skilled data scientists get stuck at L4 for years, grinding on harder technical problems, while their peers leap to L5 by shifting how they think about their work. The career ladder in data science isn’t a straight line of accumulating more tools and techniques. It’s a series of fundamental shifts in how you define problems, create value, and influence decisions. Each promotion requires you to play a different game and it isn’t always clear exactly when the rules have changed.
+
+ In this post, I’ll break down what changes at L3, L4, L5, and L6; not in terms of abstract competencies, but in concrete behaviors and mindset shifts. These are the patterns I’ve observed across dozens of promotions (and seemingly high-performing but stagnant careers) at major tech companies. Let’s decode the hidden ladder together.
+
+ L3 → L4: Becoming Reliable
+
+ The jump from L3 to L4 is deceptively simple to describe but surprisingly hard to execute: you must shift from being an executor to being an owner. 
+
+ At L3, you’re given well-defined tasks. A PM or senior data scientist scopes the work, breaks it into steps, and checks in frequently. You write the SQL query. You build the dashboard. You run the experiment. Someone else worries about whether you’re solving the right problem, whether the metric makes sense, or what happens after you ship.
+
+ At L4, you own the outcome. The difference shows up in dozens of small behaviors that compound into a completely different working style.
+
+ Finishing cleanly becomes non-negotiable. L3s can get away with “I built the model, here’s the notebook.” L4s ship: documentation that others can use, code that passes review on the first try, results presented in a way that leads to clear decisions. When you hand off work, nothing comes back to you with “wait, what does this column mean?” or “can you rerun this with the corrected data?”
+
+ Building trust means your manager stops checking your work. They know that when you say the analysis is done, it’s actually done: edge cases handled, data quality verified, results sanity-checked against intuition. Early-career data scientists often underestimate how much of L4 is simply proving you won’t create surprises. Reliability isn’t glamorous, but it’s the foundation of everything that comes after.
+
+ Asking better questions separates L4s from people stuck at L3. When a PM asks for “conversion rate by segment,” an L3 builds the query and returns the numbers. An L4 asks: “Are we trying to identify which segment to target, or validate an existing hypothesis? Because that changes whether we should look at conversion rate or incremental lift.” You start seeing the why behind requests, which means you can often solve the actual problem rather than just the stated question.
+
+ Seeing the next step before being told might be the most important L4 behavior. You finish analyzing experiment results, and instead of waiting for someone to ask, you’ve already drafted three follow-up experiment ideas with rough scopes. You spot a data quality issue and file the ticket to fix it before anyone notices the bug in their dashboard. You ship the quarterly metric review and proactively flag the one metric that’s trending in a concerning direction.
+
+ Here’s what this looks like in practice: You ship your first project end-to-end without PM handholding. Maybe it’s redesigning the user onboarding flow. You don’t just run the experiment, you write the one-pager proposing it, define the metrics with the PM, implement the logging with the engineers, analyze the results, present to leadership, and coordinate the full rollout. Six months earlier, five different people would have driven those steps. Now it’s you. That’s the L4 transition.
+
+ The L3 → L4 jump is about proving you can be trusted with bigger problems . Once your manager knows you’ll finish what you start, see around corners, and deliver quality work without supervision, they can give you ambiguous projects. Which brings us to L5.
+
+ L4 → L5: Becoming Strategic
+
+ If L3 → L4 is about reliable execution, L4 → L5 is about becoming the person who defines what problems are worth solving in the first place. 
+
+ This is where most data scientists get stuck. They keep perfecting their execution—running cleaner experiments, building more sophisticated models, mastering new tools—while missing the fundamental shift their company expects. L5 isn’t about doing the work better. It’s about deciding what work should exist.
+
+ Scoping ambiguous problems becomes your core skill. At L4, a PM hands you a question: “Why did engagement drop last month?” You investigate and return an answer. At L5, leadership says “growth is slowing” and you turn that into five concrete hypotheses, a prioritized investigation plan, and a timeline for decision-making. You’re comfortable with ambiguity because your job is to resolve it for others.
+
+ This shows up in how you approach new initiatives. A product team says “we need to improve retention.” An L4 asks: “What analysis do you want?” An L5 pushes back with structure: “Let’s define what retention success looks like first. Are we optimizing day-7, day-30, or long-term engagement? What’s the business case? Are we trying to hit an org-level KPI or validate a product bet? That changes everything about how we should approach this.” At L5, you’re doing the strategic thinking that nobody else has time for.
+
+ Designing metrics separates L5s from L4s more than any other skill. At L4, you measure what you’re told to measure. At L5, you understand that metric choice is strategy. When your company debates whether to optimize for daily active users or time spent per session, you’re the person who can articulate the tradeoffs: DAU optimization might juice short-term engagement through notifications while degrading long-term user experience; time-per-session could reward addictive features over valuable ones. L5s don’t just calculate metrics, instead they consider whether they’ll drive the right behavior. It’s understanding that you can optimize the wrong metric perfectly and still harm the business.
+
+ Influencing PMs becomes a core part of your job. At L4, you’re responsive: PMs set priorities and you execute. At L5, you’re proactive: you spot opportunities in the data and convince PMs to bet on them. This might be analyzing user behavior data, noticing that a small segment has 10x higher lifetime value, building a business case for why the product team should focus their next quarter on expanding that segment, and driving the conversation in planning meetings until it’s on the roadmap.
+
+ This influence requires a completely different communication style. You stop answering questions and start shaping which questions matter. You write strategy memos, not analysis reports. You present recommendations, not findings. The analysis is still rigorous, but it’s in service of driving decisions, not documenting what you did.
+
+ Thinking in tradeoffs might be the deepest L5 mindset shift. L4s seek the “right answer.” L5s understand that most product decisions involve competing values with no clear winner. And your job is to make those tradeoffs explicit so leaders can decide. Should we launch the feature with known bugs to hit a deadline, or delay for quality? There’s no purely data-driven answer, but you can quantify the tradeoffs: “Launching now reaches 2M users during peak season but historically our buggy launches see 40% higher support costs and 15% higher churn. Here’s what that looks like in dollar terms.”
+
+ Here’s what L5 looks like in practice: You lead a new experiment strategy that changes the product roadmap. Maybe growth has stalled and the team is running disconnected tests. You propose a systematic testing framework: define a coherent user journey to optimize, map out the highest-leverage points to test, create a shared metric tree so teams aren’t optimizing conflicting goals, and establish a six-month roadmap of experiments sequenced by dependency and learning value. This isn’t analysis, it’s strategy. You’ve shaped how your entire product org thinks about growth for the next two quarters. That’s the L5 transition.
+
+ The L4 → L5 jump is about expanding from executing solutions to defining problems . Once you’ve proven you can take ambiguous situations and turn them into clear paths forward, you’re ready to scale your impact beyond your own work.
+
+ L5 → L6: Becoming a Multiplier
+
+ The L5 → L6 transition is the hardest to make, and the easiest to misunderstand. It’s not about being a more strategic individual contributor. It’s about becoming a force multiplier: someone whose impact scales through others. This can be as both an IC or as a manager.
+
+ At L6, your value isn’t measured by the quality of your own analyses. It’s measured by how much better you make everyone else’s work. This is a brutal psychological shift for high-performing individual contributors who built their careers on personal excellence.
+
+ Setting frameworks others use becomes your primary output. An L5 might run the best experiment in company history. An L6 creates the experimentation framework that makes every team’s experiments better. This could be a decision tree for statistical test selection, a template for experiment one-pagers that forces teams to think through success metrics upfront, or a standardized approach to measuring incremental lift that becomes the company default.
+
+ Often an L6’s output appears to be nothing groundbreaking individually but optimizes work across the org. For example, a fairly basic “metrics review checklist” that prevents dozens of teams from making metric-selection mistakes that would waste quarters of work.
+
+ Mentoring matters more than you’d expect. At L6, you’re accountable for developing L4s and L5s across the organization, not just your immediate team. This goes beyond code reviews. You’re teaching people how to think strategically. When an L4 brings you a thorny analysis problem, you don’t solve it for them—you ask the questions that help them solve it themselves: “What decision does this analysis need to support? Who’s the audience and what do they already believe? What would make you confident enough in the result to bet your credibility on it?”
+
+ The multiplier effect shows up here: one hour of your time teaching an L4 how to scope problems properly might save them dozens of hours over the next year, and improve every project they touch. Your impact-per-hour through mentoring often exceeds your impact from doing the work yourself.
+
+ Driving alignment across teams becomes critical at L6 because you’re working on problems too big for any single team to own. Maybe data quality issues are hurting three different product areas, but nobody owns the underlying instrumentation. An L5 might document the problem and escalate. An L6 convenes the stakeholders, builds consensus on severity, proposes a solution that works across all teams’ constraints, and drives it to completion despite crossing organizational boundaries.
+
+ This requires a completely different influencing toolkit than L5. You’re not convincing one PM to prioritize your project, you’re aligning multiple teams around a shared problem when each team has competing priorities. You get comfortable with statements like: “I know this creates extra work for your team this quarter, but here’s why it unblocks three other teams and saves us all six months of pain later.” You make invisible problems visible, and you make coordination problems tractable.
+
+ Spotting systemic data issues before they become crises is classic L6 work. You notice that experiment results have been inconsistent lately, dig in, and discover that a recent instrumentation change broke randomization for 5% of users in a subtle way that nobody caught. An L5 would file a bug. An L6 sees the pattern: this is the third instrumentation issue this year, which means the problem isn’t individual bugs, it’s that we lack a testing and review process for instrumentation changes. You propose the process, get buy-in from engineering leadership, and implement it. Six months later, instrumentation quality has improved across the company, and most people never know you’re the reason why.
+
+ Here’s what L6 looks like in practice: You create an experimentation review process that improves quality org-wide. It’s not just better documentation, it’s the implementation of a lightweight peer review system where any experiment over a certain size gets reviewed by a data scientist from another team before launch. You write the rubric, train the reviewers, run the first 20 reviews yourself to calibrate standards, and establish a feedback loop to improve the process. Within two quarters, experiment quality has measurably improved (fewer invalid tests, better metric selection, clearer documentation), and teams across the company are making better product decisions because their experiments are more trustworthy. You personally reviewed 5% of the experiments, but your framework improved 100% of them. That’s the L6 transition.
+
+ The L5 → L6 jump is about scaling yourself through systems, people, and processes . Your work becomes more abstract: you’re optimizing how the organization works, not solving individual problems. It may feel less satisfying in some ways (nobody celebrates a good framework launch), but the leverage is extraordinary.
+
+ The Pattern Across Levels
+
+ Looking across these transitions, a clear pattern emerges: growth isn’t about learning more techniques; it’s about expanding how you see and shape the work. 
+
+ L3 → L4: You expand from task completion to problem ownership. The question changes from “Did I do what I was asked?” to “Did I solve the problem completely?”
+
+ L4 → L5: You expand from problem solving to problem definition. The question changes from “How do I solve this?” to “What problem should we be solving?”
+
+ L5 → L6: You expand from defining problems to building the systems that help others define and solve problems. The question changes from “What should our team work on?” to “How do we make the entire organization more effective?”
+
+ Each level requires you to zoom out. Each level requires you to let go of the satisfaction of hands-on work and embrace more abstract, more leveraged contributions. Each level requires different skills—but more importantly, different ways of thinking about what your job actually is.
+
+ The hardest part? Nobody tells you this explicitly. You have to decode it from vague feedback about “impact” and “strategic thinking” and “scope.” Companies expect you to figure out that promotion isn’t about getting better at your current level’s game, it’s about noticing the new game and starting to play it before anyone asks you to.
+
+ So here’s my challenge to you: Reflect on which mindset you’re currently embodying, and which one you want to grow into. 
+
+ Are you executing reliably but still waiting for others to scope your work? You’re ready to start acting like an L5: propose the problem definition instead of waiting for it. Are you already scoping problems but only for your own projects? You’re ready to start acting like an L6: look for the frameworks and systems that would make everyone’s work better.
+
+ Don’t wait for a promotion to change how you work. Start playing the next level’s game now. Your promotion is the company recognizing that you’ve already made the shift—not permitting you to start.
+
+ The ideas in this post come from my new book, The Strategic Data Scientist: Level Up and Thrive in the Age of AI (Amazon affiliate link). 
+
+ The book provides actionable frameworks, detailed plans, and real-world examples for applying these ideas immediately in your day-to-day work—including specific exercises for making each level transition, templates for the documents you should be writing at each stage, and strategies for working with AI tools while building the strategic skills that keep you ahead of automation. 
+
+ If this post resonated with you, buy the book now to learn much more. 
+
+ Written By
+
+ Greg Rafferty 
+
+ See all from Greg Rafferty 
+
+ Career Advancement , Career Advice , Deep Dives , Leadership , Strategic Thinking 
+
+ Share This Article
+
+ Share on Facebook 
+
+ Share on LinkedIn 
+
+ Share on X 
+
+ Towards Data Science is a community publication. Submit your insights to
+ reach our global audience and earn through the TDS Author Payment
+ Program.
+
+ Write for TDS 
+
+ Related Articles
+
+ Solving a Constrained Project Scheduling Problem with Quantum Annealing 
+
+ Data Science 
+
+ Solving the resource constrained project scheduling problem (RCPSP) with D-Wave’s hybrid constrained quadratic model (CQM) 
+
+ Luis Fernando Pérez Armas 
+
+ August 20, 2024 
+
+ 29 min read 
+
+ Towards Generalization on Graphs: From Invariance to Causality 
+
+ Data Science 
+
+ This blog post shares recent papers on out-of-distribution generalization on graph-structured data 
+
+ Qitian Wu 
+
+ July 18, 2024 
+
+ 19 min read 
+
+ Evaluating Cinematic Dialogue - Which syntactic and semantic features are predictive of genre? 
+
+ Cinema 
+
+ This article explores the relationship between a movie’s dialogue and its genre, leveraging domain-driven data… 
+
+ Christabelle Pabalan 
+
+ January 20, 2024 
+
+ 18 min read 
+
+ Does Your Company Have a Data Strategy? 
+
+ Artificial Intelligence 
+
+ This sophistication matrix can show you where you need to go 
+
+ Kate Minogue 
+
+ April 8, 2024 
+
+ 9 min read 
+
+ Quantization, Linear Regression, and Hardware for AI: Our Best Recent Deep Dives 
+
+ Data Science 
+
+ Our weekly selection of must-read Editors’ Picks and original features 
+
+ TDS Editors 
+
+ April 18, 2024 
+
+ 3 min read 
+
+ Introducing a Very High-Resolution Dataset of Landfills and Waste Dumps 
+
+ Data Science 
+
+ A novel dataset consisting of very high resolution multi-spectral satellite images of landfills from Germany,… 
+
+ Anupama Rajkumar 
+
+ November 14, 2021 
+
+ 14 min read 
+
+ Mastering Dynamic Programming 
+
+ Artificial Intelligence 
+
+ Understanding the fundamentals and knowing when and how to apply this optimization technique 
+
+ Peggy Chang 
+
+ February 28, 2022 
+
+ 19 min read 
+
+ YouTube 
+
+ X 
+
+ LinkedIn 
+
+ Threads 
+
+ Bluesky 
+
+ Your home for data science and Al. The world’s leading publication for
+ data science, data analytics, data engineering, machine learning, and
+ artificial intelligence professionals.
+
+ ©
+
+ Insight Media Group, LLC 
+
+ 2026 
+
+ Subscribe to Our Newsletter 
+
+ Write For TDS 
+ About 
+ Advertise 
+ Privacy Policy 
+ Terms of Use 
+
+ Some areas of this page may shift around if you resize the browser window. Be sure to check heading and document order. 
+
+ Recommended Articles 
+
+ Close
