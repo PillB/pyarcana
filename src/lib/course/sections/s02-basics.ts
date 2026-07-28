@@ -29,7 +29,7 @@ export const section02: CourseSection = {
       paragraphs: [
         'En S01 preparaste el taller: intérprete, entorno virtual y repositorio. Ahora llega la primera pieza que merece entrar en él. Un formulario puede mostrar `42` y `"42"` como si fueran gemelos; para Python son habitantes de mundos distintos, y esa diferencia decide si una comparación funciona o engaña.',
         '**Antes de T1, tres ideas base** —sin memorizar todavía todo el mapa—. Un **literal** es un valor escrito en el código (`34`, `"Quispe"`, `True`). Un **tipo** explica qué operaciones tienen sentido para ese valor (`int`, `float`, `str`, `bool`, `NoneType`). Con **`=`** le das un nombre; con **`==`** preguntas si dos valores son iguales. Piensa en esta secuencia: **valor → significado → operación permitida**. Cada idea volverá con demo, predicción y práctica.',
-        'Más adelante en la sección verás identidad (`is` vs. `==`), `Decimal` para soles (no `float` para montos), I/O con `input`/`print` y f-strings. También verás el contrato **raw/clean**: conservas el original para auditoría y limpias una copia. **PII** real (información personal identificable) está prohibida en el laboratorio; usa solo datos sintéticos. Si el mapa se siente denso, avanza T1→T4 en ese orden: no hace falta dominar `Decimal` el primer día.',
+        'Más adelante en la sección verás identidad (`is` vs. `==`), `Decimal` para soles (no `float` para montos), I/O (entrada y salida de texto, con `input`/`print` y f-strings, que son cadenas con variables incrustadas). También verás el contrato **raw/clean**: conservas el original para auditoría y limpias una copia. **PII** real (información personal identificable) está prohibida en el laboratorio; usa solo datos sintéticos. Si el mapa se siente denso, avanza T1→T4 en ese orden: no hace falta dominar `Decimal` el primer día.',
         'En esta sección dominas lo que un parser de intake necesita primero: **qué es un valor**, **qué tipo tiene**, **cómo se nombra**, **cómo se opera** y **cómo entra/sale texto** sin perder el original. Verás `if` y `for` solo como **sintaxis de apoyo** en demos y prácticas (no son el tema a dominar aún): el control de flujo profundo y la iteración llegan en secciones siguientes.',
         'El hilo conductor es un **registro sintético de cliente** (nombres, dos apellidos, contacto, dirección y a veces edad o monto). Todo el material usa datos ficticios (`example.com`, teléfonos inventados). Nunca subas PII real al repo. Caso de laboratorio: `CASO-LIM-002`.',
         'Orden pedagógico: **T1 Valores** (literales → inspección/conversión), **T2 Nombres** (asignación/PEP 8 → identidad y copias), **T3 Operadores** (precedencia → Decimal para dinero), **T4 I/O** (f-strings → parse con errores). En cada subtema harás teoría, una demo I Do y tres prácticas We Do (guiada, independiente y de transferencia). Ritmo sugerido (~18 h): sesiones 1–2 solo T1; 3–4 T2; 5–6 T3; 7–8 T4 + You Do + self-check y evaluaciones formativas por tema.',
@@ -390,7 +390,7 @@ raw '  Ñahui  ' clean 'Ñahui'`,
   ],
   iDo: {
     intro:
-      'Partimos del taller que preparaste en S01 (`.venv` activo o sandbox del navegador) y seguimos un registro sintético desde su apariencia en pantalla hasta un resultado auditable. En cada demo aplica el mismo ritual: **predice una línea**, **sigue el código**, **comprueba la salida** y **explica la diferencia**. Recorrerás literales, conversión, nombres, identidad, operadores, `Decimal`, f-strings y el parser final. Copiar y ejecutar confirma que Python hizo algo; explicar por qué hizo *eso* confirma que aprendiste. Solo datos ficticios, nunca PII real.',
+      'Partimos del taller que preparaste en S01 (`.venv` activo o sandbox del navegador) y seguimos un registro sintético desde su apariencia en pantalla hasta un resultado auditable. En cada demo aplica el mismo ritual: **predice una línea**, **sigue el código**, **comprueba la salida** y **explica la diferencia**. Recorrerás literales, conversión, nombres, identidad, operadores, `Decimal`, f-strings y el parser final (el programa que descompone el texto de entrada en datos estructurados). Copiar y ejecutar confirma que Python hizo algo; explicar por qué hizo *eso* confirma que aprendiste. Solo datos ficticios, nunca PII real.',
     steps: [
       {
         demoId: 'S02-T1-A-DEMO',
@@ -1840,7 +1840,7 @@ monto: S/ 99.50`,
           'Construye types a mano: "nombres": type(nombres).__name__, etc. (sin comprehensions).',
         ],
         edgeCases: ['todo str', 'testeable sin consola interactiva'],
-        tests: 'function takes values params; all types str',
+        tests: 'la función recibe parámetros con valores; todos los tipos son str.',
         feedback:
           'Si el intake es una función pura de str→dict, los tests del parser (T4-B) son triviales de automatizar. `types["edad"] == "str"` aunque el usuario “escribió un número”.',
         retrospective:
@@ -2181,7 +2181,7 @@ def parse_client(
 
 
 def mostrar_resumen(resultado: dict) -> None:
-    """Imprime un resumen legible con f-strings (raw + clean + errors)."""
+    """Imprime un resumen legible con f-strings (raw/clean/errors)."""
     # Ejemplo de forma (ajusta etiquetas): print(f"nombres: {resultado['nombres']}")
     # Incluye apellidos, contacto, direccion, edad y la lista errors.
     raise NotImplementedError

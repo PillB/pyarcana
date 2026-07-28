@@ -12,73 +12,133 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 493,
-  "total_paragraphs": 324,
-  "total_findings": 114,
+  "total_sentences": 425,
+  "total_paragraphs": 259,
+  "total_findings": 112,
   "severity": {
-    "low": 114
+    "low": 112
   },
-  "mean_quality_score": 9.51,
-  "min_quality_score": 9.51,
-  "mean_fernandez_huerta": 79.9,
-  "mean_fh_label": "bastante fácil",
-  "mean_wps": 11.25,
+  "mean_quality_score": 9.21,
+  "min_quality_score": 9.21,
+  "mean_fernandez_huerta": 85.7,
+  "mean_fh_label": "fácil",
+  "mean_wps": 11.51,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      93
-    ],
-    [
-      "comma_density",
-      12
+      73
     ],
     [
       "lowercase_after_period",
-      7
+      9
+    ],
+    [
+      "space_before_punct",
+      9
+    ],
+    [
+      "possible_plural_det_singular_noun",
+      8
+    ],
+    [
+      "missing_inverted_exclamation",
+      5
     ],
     [
       "long_sentence",
+      3
+    ],
+    [
+      "unbalanced_quotes",
       2
+    ],
+    [
+      "choppy_paragraph",
+      1
+    ],
+    [
+      "comma_density",
+      1
+    ],
+    [
+      "double_space",
+      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 93,
+      "count": 73,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "comma_density",
-      "count": 12,
-      "cause": "Subordinación excesiva.",
-      "fix": "Listas o frases independientes."
+      "rule": "lowercase_after_period",
+      "count": 9,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "lowercase_after_period",
-      "count": 7,
+      "rule": "space_before_punct",
+      "count": 9,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
+      "rule": "possible_plural_det_singular_noun",
+      "count": 8,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
+    },
+    {
+      "rule": "missing_inverted_exclamation",
+      "count": 5,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "long_sentence",
-      "count": 2,
+      "count": 3,
       "cause": "Explicaciones densas sin cortes.",
       "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
+    },
+    {
+      "rule": "unbalanced_quotes",
+      "count": 2,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "choppy_paragraph",
+      "count": 1,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "double_space",
+      "count": 1,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
     }
   ],
   "sections_ranked": [
     {
-      "section": 52,
-      "file": "s52-career-strategy.ts",
-      "quality_score_0_10": 9.51,
-      "fernandez_huerta": 79.9,
-      "avg_words_per_sentence": 11.25,
+      "section": 2,
+      "file": "s02-basics.ts",
+      "quality_score_0_10": 9.21,
+      "fernandez_huerta": 85.7,
+      "avg_words_per_sentence": 11.51,
       "findings_by_severity": {
-        "low": 114
+        "low": 112
       },
-      "findings_total": 114
+      "findings_total": 112
     }
   ]
 }
