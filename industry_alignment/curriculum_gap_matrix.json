@@ -1,0 +1,826 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T22:30:00Z",
+  "generated_by": "curriculum_gap_auditor node (Phase 4 + 5)",
+  "inputs": {
+    "industry_skill_graph": "industry_alignment/industry_skill_graph.json (62 skill nodes, 5 roles, 4 levels, 8 critical competencies)",
+    "curriculum_skill_graph": "industry_alignment/curriculum_skill_graph.json (52 sections, 2,320 activities, 4,372 edges)",
+    "role_skill_taxonomy": "industry_alignment/role_skill_taxonomy.json (437 role-level-skill assignments; note: stats label says 447, raw count is 437)",
+    "industry_reality_brief": "industry_alignment/industry_reality_brief.md (2,279 lines, §0–§32)",
+    "expert_audit_reports": "expert_audit/S01_report.md … S52_report.md (52 prior per-section audits)"
+  },
+  "severity_legend": {
+    "P0": "Credential integrity — a critical competency or required skill has zero credential-eligible evidence; badge cannot be honestly issued",
+    "P1": "Major gap — industry-required skill at one or more in-scope role/levels is not taught at all",
+    "P2": "Significant improvement — skill is taught but with insufficient depth, isolation, timing, or independence",
+    "P3": "Enrichment — would improve market readiness but not block credential issuance",
+    "P4": "Polish — style/consistency, or deliberate out-of-scope items requiring an explicit decision record"
+  },
+  "summary_counts": {
+    "total_gaps": 41,
+    "P0": 6,
+    "P1": 7,
+    "P2": 15,
+    "P3": 5,
+    "P4": 8,
+    "uncovered_industry_skills": 16,
+    "uncovered_critical_skills": 4,
+    "deliberate_omissions": 7,
+    "genuine_curriculum_gaps": 9
+  },
+  "note_on_gap_id_numbering": "Gap IDs were assigned in drafting order; the ID prefix reflects the original severity intent at the time the gap was first named. Some gaps were re-classified during drafting (e.g., GAP-P1-005 causal_inference and GAP-P1-006 orchestrator_operations were downgraded P1->P2; GAP-P1-009 ambiguity and GAP-P1-011 communication-timing were downgraded P1->P2; GAP-P2-012 CONTINUE-pattern and GAP-P2-013 TE-external were downgraded P2->P3). Always consult the 'severity' field for the authoritative classification. summary_counts reflects the authoritative severity field.",
+  "uncovered_industry_skills": {
+    "deliberate_omissions_python_first_scope": [
+      {"skill_id": "r_language", "category": "programming_language", "rationale": "PyArcana is Python-only by design; R is the alternative-stats language. Out of scope but should be acknowledged on the DS badge as 'not covered'."},
+      {"skill_id": "excel_spreadsheets", "category": "data_query", "rationale": "PyArcana uses pandas + openpyxl instead of in-Excel pivot/INDEX-MATCH. S20 covers Excel automation via openpyxl. The DA badge should disclose 'Excel-as-analyst-tool not covered; Excel-as-automation-target covered in S20'."},
+      {"skill_id": "uipath_studio", "category": "automation_tooling", "rationale": "PyArcana uses Playwright/Selenium (python_rpa_browser) instead of UiPath Studio. Durable principles (selectors, exception handling, state machines, dispatcher/performer) ARE in scope; vendor UI is not."},
+      {"skill_id": "vbdotnet_csharp", "category": "programming_language", "rationale": "VB.NET/C# is the UiPath coded-automation language. PyArcana's RPA track is Python-only. Out of scope."},
+      {"skill_id": "power_automate", "category": "automation_tooling", "rationale": "Microsoft Power Automate is a separate vendor platform. PyArcana covers the durable patterns (Python + browser automation); the Microsoft stack is out of scope."},
+      {"skill_id": "automation_anywhere", "category": "automation_tooling", "rationale": "Automation Anywhere A360 is a separate vendor platform. Out of scope for the same reason as Power Automate."}
+    ],
+    "genuine_curriculum_gaps": [
+      {"skill_id": "leakage_prevention", "category": "machine_learning", "critical_competency": "leakage_prevention", "severity": "P0"},
+      {"skill_id": "python_type_safety", "category": "programming_language", "critical_competency": "type_safety_production_hardening", "severity": "P0"},
+      {"skill_id": "sql_performance_tuning", "category": "data_query", "critical_competency": "sql_competency", "severity": "P0"},
+      {"skill_id": "reframework", "category": "automation_tooling", "critical_competency": "selector_resilience", "severity": "P0"},
+      {"skill_id": "hypothesis_testing", "category": "statistics", "critical_competency": null, "severity": "P1"},
+      {"skill_id": "regression", "category": "statistics", "critical_competency": null, "severity": "P1"},
+      {"skill_id": "feature_engineering", "category": "machine_learning", "critical_competency": null, "severity": "P1"},
+      {"skill_id": "experimental_design", "category": "statistics", "critical_competency": null, "severity": "P1"},
+      {"skill_id": "causal_inference", "category": "statistics", "critical_competency": null, "severity": "P2"},
+      {"skill_id": "orchestrator_operations", "category": "automation_tooling", "critical_competency": null, "severity": "P2"}
+    ]
+  },
+  "gaps": [
+    {
+      "gap_id": "GAP-P0-001",
+      "title": "leakage_prevention never taught as a named, assessed skill",
+      "category": "absent_skill",
+      "severity": "P0",
+      "market_evidence": [
+        "industry_reality_brief.md §3.5 — 'Data leakage and invalid evaluation' (HIGH confidence; IBM Think, H2O Wiki, Kaggle Alexis Cook, O*NET 15-2051 Tasks 5 & 15)",
+        "industry_skill_graph.json critical_competency 'leakage_prevention' — non-compensatory for DS and AIML",
+        "role_skill_taxonomy.json: required at data_scientist/independent+, ai_ml_engineer/independent+"
+      ],
+      "affected_role_and_level": ["data_scientist/independent", "data_scientist/advanced", "data_scientist/leadership", "ai_ml_engineer/independent", "ai_ml_engineer/advanced", "ai_ml_engineer/leadership"],
+      "current_pyarcana_coverage": "Implicit only — S10 (sklearn) teaches train/test split mechanics; S33 (advanced-models) teaches cross-validation; S39 integrator touches 'features sin leakage de labels futuros' in one sentence. No section names leakage as a concept, no activity requires the learner to identify or prevent target/train-test/time/group/label leakage.",
+      "exact_section_and_insertion_point": "S10 (sklearn) — add a new theory block 'T5-A Leakage taxonomy' + I Do demo + We Do E1/E2/E3. Reinforce in S33 (advanced-models) with a 'leakage hunt' exercise and in S39 integrator-phase2 with an independent 'audit this pipeline for leakage' You Do sub-task.",
+      "proposed_content_type": "New theory block + 3 new We Do exercises (E1 guided leakage-hunt, E2 independent fix, E3 transfer to a new dataset) + You Do extension in S39 that requires the learner to identify and patch a planted leakage bug.",
+      "learner_outcome": "Learner can name the 5 leakage modes (target, train-test contamination, time-series, group, label), identify them in a foreign pipeline, and write a leakage-prevention test that fails on contamination.",
+      "assessment_method": "Independent performance task: given a pre-written pipeline with planted leakage, learner must (a) identify the leakage mode, (b) write a regression test that reproduces it, (c) patch the pipeline so the test passes. Server-graded via test runner (not MCQ).",
+      "backward_compatibility_impact": "Additive — new theory block + new exercises inserted under existing S10 subtopic structure; does not renumber or rename any existing activity. S39 You Do gains an optional 4th objective; existing 5 objectives remain.",
+      "credential_impact": "Without this gap closed, the DS Independent, DS Advanced, DS Leadership, AIML Independent, AIML Advanced, AIML Leadership badges cannot be honestly issued — leakage_prevention is non-compensatory."
+    },
+    {
+      "gap_id": "GAP-P0-002",
+      "title": "python_type_safety (mypy/Pyright discipline) never taught as a named, assessed skill",
+      "category": "absent_skill",
+      "severity": "P0",
+      "market_evidence": [
+        "industry_reality_brief.md §25.2 — 'Missing type-safety discipline (mypy / Pyright)' (HIGH confidence; JobDescription.org 2025–2026, OpenPython, HackerRank 2026)",
+        "industry_skill_graph.json critical_competency 'type_safety_production_hardening' — non-compensatory for PySE",
+        "role_skill_taxonomy.json: required at production_python_engineer/independent+, ai_ml_engineer/independent+",
+        "JobDescription.org quote: 'Type annotations and mypy/Pyright type checking are now baseline expectations in professional codebases'"
+      ],
+      "affected_role_and_level": ["production_python_engineer/independent", "production_python_engineer/advanced", "production_python_engineer/leadership", "ai_ml_engineer/independent", "ai_ml_engineer/advanced", "ai_ml_engineer/leadership"],
+      "current_pyarcana_coverage": "None as a named skill. S05 (oop) and S15 (stdlib-deep) hint at type hints in code blocks but never teach mypy/Pyright as a discipline. S17 (packaging) mentions pyproject.toml but not mypy config. No CI-gating exercise for type errors.",
+      "exact_section_and_insertion_point": "S15 (stdlib-deep) — add T5-A 'Type annotations as contracts' + I Do demo running mypy on the section's existing code + We Do E1 (annotate a stub) / E2 (fix mypy errors) / E3 (add mypy to CI). Reinforce in S17 (packaging) by adding mypy to the pyproject.toml + CI config. Reinforce in S43 (containers) by adding mypy gate to the container build.",
+      "proposed_content_type": "New theory block + 3 new We Do exercises + You Do extension in S17 that requires mypy --strict to pass before pyproject build. CI-gated.",
+      "learner_outcome": "Learner can annotate a 200-line module, configure mypy in pyproject.toml, gate CI on mypy --strict, and diagnose the 5 most common mypy error classes (return-type, attribute, call-arg, index, union-attr).",
+      "assessment_method": "Independent performance task: given an untyped Python package (the S15 demo code, stripped of annotations), learner must add annotations, configure mypy in pyproject.toml, and submit a passing CI run. Server-graded via test runner + mypy exit code.",
+      "backward_compatibility_impact": "Additive — new theory block + new exercises under S15; S17 You Do gains an optional 'mypy --strict passes' requirement. Existing objectives preserved.",
+      "credential_impact": "Without this gap closed, the PySE Independent+ and AIML Independent+ badges cannot be honestly issued."
+    },
+    {
+      "gap_id": "GAP-P0-003",
+      "title": "sql_performance_tuning never taught; SQL critical competency is partial",
+      "category": "absent_skill",
+      "severity": "P0",
+      "market_evidence": [
+        "industry_reality_brief.md §3.3 — 'Weak SQL' (HIGH confidence; Jobright Jan 2026, LinkedIn 200-post analysis, 365DataScience, Jess Ramos LinkedIn Jul 2025)",
+        "industry_skill_graph.json critical_competency 'sql_competency' — non-compensatory for DA and DS; requires all 3 of {sql_fundamentals, sql_window_ctes, sql_performance_tuning}",
+        "role_skill_taxonomy.json: sql_performance_tuning required at data_analyst/advanced+, data_scientist/advanced+, production_python_engineer/advanced+"
+      ],
+      "affected_role_and_level": ["data_analyst/advanced", "data_analyst/leadership", "data_scientist/advanced", "data_scientist/leadership", "production_python_engineer/advanced", "production_python_engineer/leadership"],
+      "current_pyarcana_coverage": "sql_fundamentals is taught in S19 (databases-orm) and S37 (dbt-bigquery); sql_window_ctes is taught in S37 only. sql_performance_tuning has ZERO activities. EXPLAIN, index strategy, N+1 detection, query-plan analysis, and materialized-view design are not taught.",
+      "exact_section_and_insertion_point": "S37 (dbt-bigquery) — extend with a new theory block 'T5-A Query plans and EXPLAIN' + 'T5-B Indexes, N+1, and materialized views' + 3 We Do exercises (read a query plan, identify N+1, propose an index). Add a You Do extension in S37 that requires the learner to take a slow query, EXPLAIN it, and propose a fix that reduces cost ≥10x.",
+      "proposed_content_type": "New theory blocks + 3 new We Do exercises + You Do extension. Performance-target exercise with measurable cost-reduction target.",
+      "learner_outcome": "Learner can read an EXPLAIN (BigQuery slot / Postgres EXPLAIN ANALYZE), identify N+1 and missing-index patterns, propose an index or materialized view, and measure the cost reduction.",
+      "assessment_method": "Independent performance task: given a slow query and a dataset, learner must EXPLAIN, diagnose, propose a fix, and demonstrate ≥10x cost reduction in a reproducible script. Server-graded via a timing/assertion harness.",
+      "backward_compatibility_impact": "Additive — extends S37 which currently has no T5; existing T1–T4 subtopics preserved. S37 You Do gains an optional 5th objective.",
+      "credential_impact": "Without this gap closed, the DA Advanced/Leadership and DS Advanced/Leadership and PySE Advanced/Leadership badges cannot be honestly issued for sql_competency."
+    },
+    {
+      "gap_id": "GAP-P0-004",
+      "title": "reframework (state-machine + dispatcher/performer pattern) never taught; RPA selector_resilience competency is partial",
+      "category": "absent_skill",
+      "severity": "P0",
+      "market_evidence": [
+        "industry_reality_brief.md §19.2 — 'Missing exception-handling discipline' (HIGH confidence; UiPath Forum REFramework best practices, Ashling.ai)",
+        "industry_reality_brief.md §19.3 — 'Missing queue / dispatcher-performer pattern' (MEDIUM confidence)",
+        "industry_skill_graph.json critical_competency 'selector_resilience' — non-compensatory for RPA; requires all 3 of {selector_design, exception_handling_rpa, reframework}",
+        "industry_reality_brief.md §20.3 — REFramework listed as durable (state-machine design, dispatcher/performer, exception taxonomies) — survives vendor churn"
+      ],
+      "affected_role_and_level": ["rpa_automation_developer/independent", "rpa_automation_developer/advanced", "rpa_automation_developer/leadership"],
+      "current_pyarcana_coverage": "selector_design is taught in S24 (44 acts). exception_handling_rpa is taught in S13 + S24 (88 acts). reframework has ZERO activities — the durable concepts (state-machine workflow, dispatcher/performer split, retry scope, business-rule vs system exception taxonomy) are not taught even in Python-RPA form. S13 + S24 teach browser automation but not the state-machine lifecycle.",
+      "exact_section_and_insertion_point": "S24 (rpa-advanced) — add T5-A 'State-machine workflow: init/get-transaction/process/end-process' + T5-B 'Dispatcher/performer with a durable queue' + 3 We Do exercises (refactor a linear script into a state machine, split into dispatcher/performer, add retry scope with business-rule vs system-exception branching).",
+      "proposed_content_type": "New theory blocks + 3 new We Do exercises + You Do extension in S24 that requires the learner to deliver a state-machine bot with a durable queue, retry scope, and an exception taxonomy log.",
+      "learner_outcome": "Learner can refactor a linear automation script into a 4-state state machine, implement a dispatcher/performer split with a durable queue (SQLite or Redis), distinguish business-rule from system exceptions, and write a retry scope.",
+      "assessment_method": "Independent performance task: given a linear Playwright bot, learner must (a) refactor into a state machine, (b) add a dispatcher/performer split, (c) add retry scope + exception taxonomy, (d) demonstrate the bot survives a planted UI change. Server-graded via a test harness that mutates a selector and checks the bot still completes.",
+      "backward_compatibility_impact": "Additive — extends S24 which currently has no T5; existing T1–T4 preserved.",
+      "credential_impact": "Without this gap closed, the RPA Independent+ badge cannot be honestly issued for selector_resilience."
+    },
+    {
+      "gap_id": "GAP-P0-005",
+      "title": "DIV-001 unresolved: section 40 ID mismatch silently breaks the S40 exam activity on the dynamic LMS",
+      "category": "credential_integrity_blocker",
+      "severity": "P0",
+      "market_evidence": [
+        "industry_alignment/phase0_bootstrap_report.md §10 — DIV-001: prisma/seed.ts line 11743 stores 'agentic-architecture' but the section source file is s40-architecture-ddd-decisions.ts with id 'architecture-ddd-decisions'",
+        "course-state/exam lookups against the dynamic LMS use the prisma-seed id; learners completing S40 You Do cannot trigger exam credit on the live site"
+      ],
+      "affected_role_and_level": ["all Phase-3 (Master) badge candidates pursuing CP-N4-A"],
+      "current_pyarcana_coverage": "S40 (architecture-ddd-decisions) has 9 theory + 8 I Do + 24 We Do + 1 You Do + 1 exam activity in the curriculum graph; the exam activity is server-graded and credential-eligible but unattainable on the live LMS until DIV-001 is fixed.",
+      "exact_section_and_insertion_point": "prisma/seed.ts line 11743 — change 'agentic-architecture' to 'architecture-ddd-decisions' (single-line edit).",
+      "proposed_content_type": "One-line schema-seed fix + regression test asserting that the seed id matches the section source id for all 52 sections.",
+      "learner_outcome": "S40 exam becomes attainable; CP-N4-A capstone completion can be evidenced on the live LMS.",
+      "assessment_method": "Regression test: for each of 52 sections, assert prisma seed id === section source id. Add to the test suite.",
+      "backward_compatibility_impact": "Forward-fix only. Any learner who previously 'completed' S40 on the static site will still see their progress; the dynamic LMS simply becomes correct.",
+      "credential_impact": "Without this fix, no badge that requires CP-N4-A completion with exam evidence can be honestly issued."
+    },
+    {
+      "gap_id": "GAP-P0-006",
+      "title": "Critical-competency credential-eligible evidence count is dangerously thin for several competencies",
+      "category": "capabilities_overclaimed",
+      "severity": "P0",
+      "market_evidence": [
+        "curriculum_skill_graph.json#summary.credential_eligible_activities = 104 (49 you_do + 3 capstone + 52 exam) across 52 sections",
+        "Per competency: leakage_prevention=2 (both from model_evaluation in S10; leakage_prevention itself has 0), selector_resilience=6, sql_competency=6 (none from sql_performance_tuning), type_safety_production_hardening=20 (none from python_type_safety)"
+      ],
+      "affected_role_and_level": ["all roles at independent+ — every badge depends on at least one critical competency"],
+      "current_pyarcana_coverage": "Critical-competency credential-eligible activities per competency range from 2 to 24. With the per-section exam being the same exam activity re-used across the competency's skills, the evidence is concentrated in 1–3 sections per competency.",
+      "exact_section_and_insertion_point": "Cross-cutting — see GAP-P0-001 to GAP-P0-004 for the per-competency insertions. Additionally, ensure each critical competency has ≥2 distinct credential-eligible activities from ≥2 distinct sections before any badge rubric cites it.",
+      "proposed_content_type": "For each critical competency, ensure ≥2 sections contribute ≥1 credential-eligible activity each. Currently mlops_fluency, communication, reproducibility, business_framing meet this bar; sql_competency, leakage_prevention, selector_resilience, type_safety do not.",
+      "learner_outcome": "Each critical competency is evidenced by performance across at least 2 distinct contexts, reducing the risk that a single accidentally-easy activity inflates a badge.",
+      "assessment_method": "Static check on the curriculum graph: for each critical competency, assert |{sections contributing cred-eligible activities}| ≥ 2.",
+      "backward_compatibility_impact": "Additive — only adds activities; never removes.",
+      "credential_impact": "Without the ≥2-section bar, badge issuance is one-section-deep for 4 of 8 critical competencies."
+    },
+    {
+      "gap_id": "GAP-P1-001",
+      "title": "hypothesis_testing never taught — required at DA L2+, DS L1+, AIML L1+",
+      "category": "absent_skill",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §3.5 — leakage/evaluation failure mode (HIGH confidence) and §6 DS role-specific — 'hypothesis testing' as required",
+        "role_skill_taxonomy.json: hypothesis_testing required at data_analyst/independent+, data_scientist/foundation+, ai_ml_engineer/foundation+"
+      ],
+      "affected_role_and_level": ["data_analyst/independent", "data_analyst/advanced", "data_analyst/leadership", "data_scientist/foundation", "data_scientist/independent", "data_scientist/advanced", "data_scientist/leadership", "ai_ml_engineer/foundation", "ai_ml_engineer/independent", "ai_ml_engineer/advanced", "ai_ml_engineer/leadership"],
+      "current_pyarcana_coverage": "descriptive_stats is taught in S06 (44 acts) but no section teaches null/alternative hypotheses, p-values, CIs, t-test/chi-square/ANOVA, multiple-testing correction. S10 (sklearn) uses train/test splits but never frames a hypothesis test.",
+      "exact_section_and_insertion_point": "S06 (numpy) currently teaches descriptive_stats. Add T5-A 'Hypothesis testing & confidence intervals' + 3 We Do exercises. Reinforce in S10 (sklearn) by adding a 'compare two models with a paired t-test' exercise.",
+      "proposed_content_type": "New theory block + 3 We Do exercises + 1 You Do extension in S06.",
+      "learner_outcome": "Learner can frame a null/alternative hypothesis, compute a CI, run a t-test/chi-square in Python (scipy.stats), interpret p-values, and apply Bonferroni correction.",
+      "assessment_method": "Independent performance task: given two model configurations and a held-out score vector, learner must run the correct test, report the p-value and CI, and state the decision.",
+      "backward_compatibility_impact": "Additive — extends S06; no existing activity renumbered.",
+      "credential_impact": "DS foundation badge (and higher) cannot be honestly issued without hypothesis_testing evidence."
+    },
+    {
+      "gap_id": "GAP-P1-002",
+      "title": "regression (linear/logistic/regularization) never taught — required at DS L2+, AIML L2+",
+      "category": "absent_skill",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §23.1 — 'Classical ML (classification, regression, clustering, dimensionality reduction, model selection)' Required HIGH confidence",
+        "role_skill_taxonomy.json: regression required at data_scientist/independent+, ai_ml_engineer/independent+"
+      ],
+      "affected_role_and_level": ["data_scientist/independent", "data_scientist/advanced", "data_scientist/leadership", "ai_ml_engineer/independent", "ai_ml_engineer/advanced"],
+      "current_pyarcana_coverage": "classical_ml is taught in S10 (sklearn), S23 (computer-vision), S33 (advanced-models), S34 (cv-ai-integration) — 176 acts. But the focus is classification/clustering. No section explicitly teaches linear regression, logistic regression, ridge/lasso regularization, coefficient interpretation, or feature scaling/standardization as named subtopics.",
+      "exact_section_and_insertion_point": "S10 (sklearn) — add T5-A 'Linear & logistic regression' + T5-B 'Regularization (ridge/lasso/elastic net)' + 3 We Do exercises. Reinforce in S33 with a 'compare OLS vs ridge with leakage-aware CV' exercise.",
+      "proposed_content_type": "New theory blocks + 3 We Do exercises + You Do extension.",
+      "learner_outcome": "Learner can fit linear/logistic regression with sklearn, interpret coefficients, apply ridge/lasso with cross-validated hyperparameter selection, and explain the bias-variance tradeoff.",
+      "assessment_method": "Independent performance task: given a dataset, learner must fit OLS + ridge + lasso, report CV MSE, identify the best model, and interpret the coefficients.",
+      "backward_compatibility_impact": "Additive — extends S10.",
+      "credential_impact": "DS Independent+ and AIML Independent+ badges need regression evidence."
+    },
+    {
+      "gap_id": "GAP-P1-003",
+      "title": "feature_engineering never taught — required at DS L2+, AIML L2+",
+      "category": "absent_skill",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §23.1 — 'feature stores' as part of ML system design (HIGH confidence)",
+        "role_skill_taxonomy.json: feature_engineering required at data_scientist/independent+, ai_ml_engineer/independent+"
+      ],
+      "affected_role_and_level": ["data_scientist/independent", "data_scientist/advanced", "data_scientist/leadership", "ai_ml_engineer/independent", "ai_ml_engineer/advanced", "ai_ml_engineer/leadership"],
+      "current_pyarcana_coverage": "None as a named skill. S22 (rapidfuzz-entity), S23 (computer-vision), S33 (advanced-models) construct features ad-hoc but no section teaches feature stores, feature hashing, target encoding, interaction features, or leakage-safe feature engineering.",
+      "exact_section_and_insertion_point": "S33 (advanced-models) — add T5-A 'Feature engineering: encodings, interactions, leakage-safe transforms' + T5-B 'Feature stores: offline/online skew' + 3 We Do exercises. Reinforce in S29 (mlops) with a 'feature store + offline/online consistency' exercise.",
+      "proposed_content_type": "New theory blocks + 3 We Do exercises + You Do extension.",
+      "learner_outcome": "Learner can engineer features with leakage-safe transforms (fit on train only), explain the offline/online skew problem, and use a feature store pattern (Feast or a simple parquet+SQLite equivalent).",
+      "assessment_method": "Independent performance task: given a raw dataset + a serving constraint, learner must build a feature pipeline that produces identical offline and online features.",
+      "backward_compatibility_impact": "Additive — extends S33 and S29.",
+      "credential_impact": "DS Independent+ and AIML Independent+ badges need feature_engineering evidence."
+    },
+    {
+      "gap_id": "GAP-P1-004",
+      "title": "experimental_design (A/B testing) never taught — required at DA L3+, DS L3+, AIML L3+",
+      "category": "absent_skill",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §22 — AIML frequently-missing capabilities; experimental design is a durable ML-system design skill (HIGH confidence per §23.3)",
+        "role_skill_taxonomy.json: experimental_design required at data_analyst/advanced+, data_scientist/independent+, ai_ml_engineer/advanced+"
+      ],
+      "affected_role_and_level": ["data_analyst/advanced", "data_analyst/leadership", "data_scientist/independent", "data_scientist/advanced", "data_scientist/leadership", "ai_ml_engineer/advanced", "ai_ml_engineer/leadership"],
+      "current_pyarcana_coverage": "None. No section teaches hypothesis → metric → power analysis → randomization → decision rule. S39 integrator mentions 'seed 42' and reproducibility but never frames an experiment.",
+      "exact_section_and_insertion_point": "S39 (integrator-phase2) — add T5-A 'A/B testing: metric, power, decision rule' + 3 We Do exercises. Reinforce in S52 (career-strategy final capstone) by requiring an experimental-design section in the defense bundle.",
+      "proposed_content_type": "New theory block + 3 We Do exercises + You Do extension in S39.",
+      "learner_outcome": "Learner can design an A/B test (sample size, randomization, decision rule, guardrail metrics), analyze the result with a proper hypothesis test, and write a decision memo.",
+      "assessment_method": "Independent performance task: given a metric and a baseline, learner must compute the required sample size, design the randomization, run a simulated A/B test, and write a 1-page decision memo.",
+      "backward_compatibility_impact": "Additive — extends S39.",
+      "credential_impact": "DS Advanced+ and AIML Advanced+ badges need experimental_design evidence."
+    },
+    {
+      "gap_id": "GAP-P1-005",
+      "title": "causal_inference never taught — required at DS L3+, AIML L3+",
+      "category": "absent_skill",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §23.3 — 'Causal inference' as a durable ML capability (MEDIUM-HIGH confidence)",
+        "role_skill_taxonomy.json: causal_inference required at data_scientist/advanced+, ai_ml_engineer/advanced+"
+      ],
+      "affected_role_and_level": ["data_scientist/advanced", "data_scientist/leadership", "ai_ml_engineer/advanced", "ai_ml_engineer/leadership"],
+      "current_pyarcana_coverage": "None. No section teaches DAGs, confounding, IV, difference-in-differences, propensity score matching, or do-calculus.",
+      "exact_section_and_insertion_point": "S39 (integrator-phase2) — add T6-A 'Causal inference: DAGs, confounding, do-calculus' + 2 We Do exercises. Alternatively, create a Phase-3 micro-section if scope allows.",
+      "proposed_content_type": "New theory block + 2 We Do exercises.",
+      "learner_outcome": "Learner can draw a DAG, identify confounders, choose between regression adjustment / IV / DiD / propensity score, and state the identifying assumptions.",
+      "assessment_method": "Independent performance task: given a causal question and a dataset, learner must draw the DAG, justify the identification strategy, and estimate the causal effect with bootstrapped CIs.",
+      "backward_compatibility_impact": "Additive — extends S39.",
+      "credential_impact": "DS Advanced+ and AIML Advanced+ badges need causal_inference evidence (or an explicit deferral)."
+    },
+    {
+      "gap_id": "GAP-P1-006",
+      "title": "orchestrator_operations (queue/dispatcher-performer pattern) never taught in durable form — required at RPA L2+",
+      "category": "absent_skill",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §19.3 — 'Missing queue / dispatcher-performer pattern' (MEDIUM confidence)",
+        "industry_reality_brief.md §20.3 — 'Queue-based decoupling of producer/consumer' as durable",
+        "role_skill_taxonomy.json: orchestrator_operations required at rpa_automation_developer/independent+"
+      ],
+      "affected_role_and_level": ["rpa_automation_developer/independent", "rpa_automation_developer/advanced", "rpa_automation_developer/leadership"],
+      "current_pyarcana_coverage": "None in the durable Python-RPA form. S13 (rpa-automation) and S24 (rpa-advanced) teach Playwright bots but no durable queue, scheduling, or dispatcher/performer split. (The UiPath vendor UI is out of scope; the durable pattern is not.)",
+      "exact_section_and_insertion_point": "S24 (rpa-advanced) — co-located with GAP-P0-004 reframework insertion. Add a We Do exercise for queue-backed dispatcher/performer with SQLite or Redis.",
+      "proposed_content_type": "Part of the S24 T5 expansion proposed in GAP-P0-004.",
+      "learner_outcome": "Learner can implement a dispatcher/performer split with a durable queue, schedule jobs, and reason about retry/idempotency.",
+      "assessment_method": "Subsumed by the GAP-P0-004 S24 You Do extension.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "RPA Independent+ badge benefits from this evidence."
+    },
+    {
+      "gap_id": "GAP-P1-007",
+      "title": "Self-check questions and exams are predominantly MCQ (recall); only 12% of assessment edges are performance-based",
+      "category": "recall_vs_performance",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §3.1 — 'Tutorial dependence' (HIGH confidence; LinkedIn, Reddit, Soltech, Jobright)",
+        "industry_reality_brief.md §25.6 — 'Bootcamp-portfolio inflation' (HIGH confidence)",
+        "curriculum_skill_graph.json#summary.edge_type_counts.assessment = 832 (theory→self_check/exam); credential_eligible_activities = 104 (12% of activity count)"
+      ],
+      "affected_role_and_level": ["all roles at all levels — every badge rubric depends on assessment evidence"],
+      "current_pyarcana_coverage": "All 52 sections have a self_check with 5–11 MCQs (389 questions total). All 52 sections have an exam that is server-graded MCQ pass@70. Only you_do (49) and capstones (3) are performance-graded. Of 4,372 edges, 832 are 'assessment' edges from theory to MCQ-style evidence; 0 are 'assessment' edges from theory to performance evidence. Self-check MCQs can be memorized or guessed (25% baseline on a 4-option MCQ).",
+      "exact_section_and_insertion_point": "Cross-cutting — for each of 52 sections, add ONE additional We Do E3 (transfer) exercise that is auto-graded via a test runner rather than via MCQ. The exercise contributes a 'performance_evidence' edge to the curriculum graph.",
+      "proposed_content_type": "One auto-graded performance exercise per section, in addition to the existing MCQ self-check and exam. Server-graded via pytest/exit-code.",
+      "learner_outcome": "Each section has at least one performance-graded artifact that cannot be passed by recall alone.",
+      "assessment_method": "Server-side test runner; learner submits code; CI asserts pass/fail.",
+      "backward_compatibility_impact": "Additive — new exercises; existing self_check and exam remain.",
+      "credential_impact": "Critical for tutorial-dependence mitigation (§3.1)."
+    },
+    {
+      "gap_id": "GAP-P1-008",
+      "title": "No named debugging activity — 'inability to debug' is a HIGH-confidence recruiter complaint",
+      "category": "missing_practice_dimension",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §3.2 — 'Inability to debug' (MEDIUM confidence per brief, but the arXiv SOK paper provides quantitative evidence that AI-coding tools fail at debugging)",
+        "industry_reality_brief.md §25.6 — recruiters flag 'how candidates evaluate solutions' not just 'how they generate code'",
+        "industry_skill_graph.json has no 'debugging' skill node — the durable skill is implicit in observability + testing_discipline but never surfaced"
+      ],
+      "affected_role_and_level": ["all roles at independent+ — debugging is the universal mid-career gate"],
+      "current_pyarcana_coverage": "S27 (async-concurrency) has the closest analog: 'De bug_repro a regression_test' (its title). The transfer exercise converts a bug repro into a regression test. But no section teaches the debugging SKILL — reading a stack trace, bisecting with git, hypothesis-driven debugging, forming a fault hypothesis, isolating with a minimal repro, reading observability signals.",
+      "exact_section_and_insertion_point": "S27 (async-concurrency) — promote the existing 'bug_repro → regression_test' pattern into a named T5 'Debugging discipline: stack traces, bisect, hypothesis-driven debugging' with 3 We Do exercises that hand the learner a broken artifact and require diagnosis + fix + regression test. Reinforce in S30 (security-infra, 'error slices de mayor conteo') and S43 (containers) with bug-hunt exercises.",
+      "proposed_content_type": "New theory block + 3 We Do debugging exercises per reinforcing section.",
+      "learner_outcome": "Learner can read a Python stack trace, form a fault hypothesis, bisect with git, isolate a minimal repro, and write a regression test.",
+      "assessment_method": "Independent performance task: given a broken artifact + a stack trace, learner must diagnose, fix, and add a regression test that would have caught the bug.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Mitigates the §3.2 hiring-manager complaint."
+    },
+    {
+      "gap_id": "GAP-P1-009",
+      "title": "Ambiguity ramp is missing — every You Do project is pre-scoped (4–11 requirements); no exercise raises ambiguity above L1",
+      "category": "missing_practice_dimension",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §10 DA levels and §11 DS levels — 'Ambiguity: Low' at L1 → 'High' at L4 is a defining level differential",
+        "industry_reality_brief.md §4 — 'Business framing of every project' is the top market differentiator",
+        "role_skill_taxonomy.json verb_matrix: applying_independently → diagnosing → designing → evaluating → advising → leading (the autonomy/ambiguity ramp)"
+      ],
+      "affected_role_and_level": ["all roles at advanced+ — where ambiguity rises to Medium/High"],
+      "current_pyarcana_coverage": "Every You Do project (49) provides 4–11 explicit requirements, a starterCode skeleton, and a rubric. None of them asks the learner to first scope the problem, identify the metric, or define the deliverable. The 'fail-closed CONTINUE or X' decision pattern in S30–S52 is the closest analog but it's binary, not open-ended.",
+      "exact_section_and_insertion_point": "S39 (integrator-phase2) — add an open-ended 'scope the problem' sub-task to the You Do project: learner receives a vague stakeholder email and must write a 1-page scoping memo before any code. S52 (career-strategy final capstone) — already 80h with 10 requirements; add a 'define your own metric' objective.",
+      "proposed_content_type": "Open-ended scoping sub-task + rubric criterion for 'scoping quality'.",
+      "learner_outcome": "Learner can take a vague stakeholder request, write a scoping memo with a metric + decision rule + risks, and execute against it.",
+      "assessment_method": "Rubric-graded scoping memo + the existing performance task.",
+      "backward_compatibility_impact": "Additive — adds an objective + a rubric criterion; existing objectives preserved.",
+      "credential_impact": "Mitigates the §4 'business framing' market differentiator gap."
+    },
+    {
+      "gap_id": "GAP-P1-010",
+      "title": "ai_code_review_literacy taught in only 1 section (S48) — required at all 5 roles at L2+",
+      "category": "weakly_taught",
+      "severity": "P1",
+      "market_evidence": [
+        "industry_reality_brief.md §3.7 — 'Uncritical use of AI-generated code' (HIGH confidence; arXiv SOK paper, Soltech, LinkedIn 84% adoption stat)",
+        "industry_reality_brief.md §25.6 — 'AI-generated code, and review fatigue' as a 2026 driver (GitKraken)",
+        "role_skill_taxonomy.json: ai_code_review_literacy required at all 5 roles at independent+"
+      ],
+      "affected_role_and_level": ["all roles at independent+"],
+      "current_pyarcana_coverage": "44 activities in S48 (ai-governance) only. S48 teaches RAG with evidence but the AI-code-review lens (reviewing Copilot/Cursor output for hallucination, dead code, security issues) is concentrated in one late-phase section. Learners in Phase 0–2 who encounter AI tools have no framework for reviewing AI output.",
+      "exact_section_and_insertion_point": "S11 (testing) — add a We Do exercise 'review this AI-generated test suite for hallucination and missing edge cases'. S21 (fastapi) — add 'review this AI-generated endpoint for security issues'. S40 (architecture-ddd-decisions) — add 'review this AI-generated architecture for missing bounded contexts'.",
+      "proposed_content_type": "3 new We Do exercises in earlier sections, each reviewing an AI-generated artifact.",
+      "learner_outcome": "Learner can identify hallucinated APIs, dead code, missing error handling, and security issues in AI-generated Python.",
+      "assessment_method": "Performance: learner submits a code-review diff against a planted-bug AI-generated artifact; rubric-graded.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Mitigates §3.7 complaint."
+    },
+    {
+      "gap_id": "GAP-P1-011",
+      "title": "Stakeholder communication skills (written, oral, translation) clustered in Phase 3 only — too late in the ramp",
+      "category": "timing_issue",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §3 — 'communication' as the O*NET top task for DA/DS",
+        "industry_skill_graph.json critical_competency 'communication_audience_tuned' — non-compensatory at all roles all levels",
+        "role_skill_taxonomy.json: written_communication required at foundation level for ALL 5 roles — but PyArcana only teaches it in S50 + S52 (Phase 3)"
+      ],
+      "affected_role_and_level": ["all roles at all levels — communication is a foundation requirement"],
+      "current_pyarcana_coverage": "written_communication (88 acts, S50 + S52). oral_communication (88 acts, S50 + S52). stakeholder_translation (176 acts, S26 + S39 + S49 + S51). All clustered in Phase 1–3. Phase 0 (foundation) has zero communication-skill activities despite the industry reality brief listing communication as a foundation-level requirement.",
+      "exact_section_and_insertion_point": "S02 (basics) — add a We Do exercise 'write a 200-word commit message explaining a refactor'. S07 (data-acquisition) — add 'write a stakeholder note explaining a data-quality finding'. S13 (rpa-automation) — add 'write a handoff note for a bot you built'. S25 (streamlit-dashboards) — add 'write a 1-paragraph stakeholder translation for a dashboard metric'.",
+      "proposed_content_type": "4 new We Do 'communication' exercises distributed across Phase 0–1.",
+      "learner_outcome": "Learner writes a stakeholder-grade artifact in Phase 0 already; skill is reinforced throughout.",
+      "assessment_method": "Rubric-graded written artifact; optional LLM-judge for tone + clarity.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Mitigates §3 communication gap at foundation."
+    },
+    {
+      "gap_id": "GAP-P2-001",
+      "title": "model_evaluation taught in only S10 — critical for leakage_prevention competency",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §3.5 — leakage/evaluation failure mode",
+        "industry_skill_graph.json critical_competency 'leakage_prevention' requires model_evaluation + leakage_prevention"
+      ],
+      "affected_role_and_level": ["data_scientist/independent+", "ai_ml_engineer/independent+"],
+      "current_pyarcana_coverage": "44 acts in S10 (sklearn) only. The 'error analysis by slice' and 'calibrated probabilities' patterns from the brief (§23.2) are not reinforced.",
+      "exact_section_and_insertion_point": "S33 (advanced-models) — add a We Do 'error analysis by slice' exercise. S43 (containers) — add a 'model card with metrics + slices' deliverable.",
+      "proposed_content_type": "2 new We Do exercises.",
+      "learner_outcome": "Learner can produce an error-by-slice analysis and a model card.",
+      "assessment_method": "Performance: server-graded script that outputs the slice table.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens leakage_prevention competency evidence."
+    },
+    {
+      "gap_id": "GAP-P2-002",
+      "title": "async_testing taught in only S27 — required at PySE/AIML independent+",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §25.4 — 'Missing async-testing skill (FastAPI / pytest-asyncio)' (MEDIUM confidence; FastAPI docs, TestDriven.io, WeirdSheepLabs)",
+        "role_skill_taxonomy.json: async_testing required at production_python_engineer/independent+, ai_ml_engineer/independent+"
+      ],
+      "affected_role_and_level": ["production_python_engineer/independent+", "ai_ml_engineer/independent+"],
+      "current_pyarcana_coverage": "44 acts in S27 only. S28 (llm-agents), S31 (streaming-data), S32 (microservices), S36 (ai-apis-advanced), S38 (performance-extreme) all use async patterns but never teach pytest-asyncio / TestClient as a named skill.",
+      "exact_section_and_insertion_point": "S28 (llm-agents) — add a We Do 'async test with pytest-asyncio'. S32 (microservices) — add 'TestClient against an async FastAPI service'. S38 (performance-extreme) — add 'async load test'.",
+      "proposed_content_type": "3 new We Do exercises across the async-using sections.",
+      "learner_outcome": "Learner can write async tests with pytest-asyncio, use TestClient against FastAPI, and run async load tests.",
+      "assessment_method": "Performance: server-graded pytest run.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens type_safety_production_hardening competency."
+    },
+    {
+      "gap_id": "GAP-P2-003",
+      "title": "docker and kubernetes both taught in only S45 — required at PySE/AIML independent+",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §26.1 — 'Containerization + orchestration (Docker; Kubernetes at senior+)' Required at mid+ HIGH confidence",
+        "role_skill_taxonomy.json: docker required at PySE/AIML/RPA-advanced; kubernetes required at PySE/AIML-advanced+"
+      ],
+      "affected_role_and_level": ["production_python_engineer/independent+", "ai_ml_engineer/independent+", "rpa_automation_developer/advanced", "production_python_engineer/advanced+", "ai_ml_engineer/advanced+"],
+      "current_pyarcana_coverage": "docker (44 acts, S45 only). kubernetes (44 acts, S45 only). S43 (containers) is actually about containers per the audit report — but it teaches reproducibility, not Docker/Kubernetes as named skills (per the activity-to-skill map, S43 maps to packaging_reproducibility + observability + ci_cd, not docker).",
+      "exact_section_and_insertion_point": "S43 (containers) — add explicit docker exercises (build, run, multistage, non-root). S45 (iac) — add kubernetes deployment exercises (manifest, rollout, rollback).",
+      "proposed_content_type": "4 new We Do exercises (2 docker in S43, 2 k8s in S45).",
+      "learner_outcome": "Learner can write a multistage Dockerfile, run as non-root, write a k8s manifest, and trigger a rollback.",
+      "assessment_method": "Performance: server-graded build + deploy harness.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens type_safety_production_hardening competency."
+    },
+    {
+      "gap_id": "GAP-P2-004",
+      "title": "sql_window_ctes taught in only S37 — required at DA/DS independent+ as part of sql_competency",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §3.3 — SQL is the hard filter at entry level",
+        "industry_skill_graph.json critical_competency 'sql_competency' requires sql_window_ctes"
+      ],
+      "affected_role_and_level": ["data_analyst/independent+", "data_scientist/independent+"],
+      "current_pyarcana_coverage": "44 acts in S37 only. Window functions (ROW_NUMBER, LAG, LEAD, SUM OVER, PARTITION BY) and CTEs (WITH, recursive CTEs) are taught in one section. S19 (databases-orm) covers SQL fundamentals but stops short of window/CTE depth.",
+      "exact_section_and_insertion_point": "S19 (databases-orm) — add 2 We Do exercises on window functions and CTEs that connect to the ORM context. S37 (dbt-bigquery) — add an advanced recursive-CTE exercise.",
+      "proposed_content_type": "3 new We Do exercises.",
+      "learner_outcome": "Learner can write window functions and CTEs fluently in two SQL dialects.",
+      "assessment_method": "Performance: server-graded SQL runner.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens sql_competency."
+    },
+    {
+      "gap_id": "GAP-P2-005",
+      "title": "metric_design taught in only S39 — required at DA/DS/AIML/PySE advanced+ as part of business_framing_judgment",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §4 — 'Business framing of every project' as the top market differentiator",
+        "industry_skill_graph.json critical_competency 'business_framing_judgment' requires metric_design"
+      ],
+      "affected_role_and_level": ["data_analyst/advanced+", "data_scientist/advanced+", "ai_ml_engineer/advanced+", "production_python_engineer/advanced+", "rpa_automation_developer/advanced+"],
+      "current_pyarcana_coverage": "44 acts in S39 only. Metric design (goodhart's law, leading vs lagging, vanity vs actionable, proxy metrics) is taught in one section.",
+      "exact_section_and_insertion_point": "S25 (streamlit-dashboards) — add 'design a metric for this dashboard' We Do. S36 (ai-apis-advanced) — add 'design an offline/online metric pair' We Do. S52 (final capstone) — already includes 'decide bundle'; add 'metric design' as a defense artifact.",
+      "proposed_content_type": "3 new We Do exercises.",
+      "learner_outcome": "Learner can design a metric, identify vanity metrics, and propose a leading/lagging pair.",
+      "assessment_method": "Rubric-graded metric-design memo.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens business_framing_judgment."
+    },
+    {
+      "gap_id": "GAP-P2-006",
+      "title": "descriptive_stats taught in only S06 — required at DA/DS/AIML foundation+",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §6 — DS role-specific descriptive stats as required",
+        "role_skill_taxonomy.json: descriptive_stats required at data_analyst/foundation+, data_scientist/foundation+, ai_ml_engineer/foundation+"
+      ],
+      "affected_role_and_level": ["data_analyst/foundation+", "data_scientist/foundation+", "ai_ml_engineer/foundation+"],
+      "current_pyarcana_coverage": "44 acts in S06 (numpy) only. S08 (pandas) describes data but doesn't name descriptive_stats as a skill. S18 (data-engineering) uses stats but doesn't teach them.",
+      "exact_section_and_insertion_point": "S08 (pandas) — add 'describe, value_counts, quantile, groupby summary' We Do. S18 (data-engineering) — add 'outlier detection with IQR + z-score' We Do.",
+      "proposed_content_type": "2 new We Do exercises.",
+      "learner_outcome": "Learner can produce a 5-number summary, identify outliers, and choose mean vs median appropriately.",
+      "assessment_method": "Performance: server-graded pandas script.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens foundation-level badges."
+    },
+    {
+      "gap_id": "GAP-P2-007",
+      "title": "uncertainty_quantification taught in only S33 — required at AIML advanced+",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §22.4 — 'Missing uncertainty quantification / abstention' (HIGH confidence; PMC, AAAI 2025, ICML 2025, ScienceDirect, NITMB)",
+        "role_skill_taxonomy.json: uncertainty_quantification required at ai_ml_engineer/advanced+"
+      ],
+      "affected_role_and_level": ["ai_ml_engineer/advanced+"],
+      "current_pyarcana_coverage": "44 acts in S33 (advanced-models) only. The abstention pattern is reinforced in S34 (cv-ai-integration, 'REQUEST_ABSTAIN_BAND') but as a fail-closed decision, not as a model-level uncertainty skill.",
+      "exact_section_and_insertion_point": "S34 (cv-ai-integration) — add 'conformal prediction' We Do. S43 (containers) — add 'selective prediction gate in serving' We Do.",
+      "proposed_content_type": "2 new We Do exercises.",
+      "learner_outcome": "Learner can compute conformal prediction intervals and gate a model on uncertainty.",
+      "assessment_method": "Performance: server-graded script that produces calibrated intervals.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens AIML Advanced+ badge."
+    },
+    {
+      "gap_id": "GAP-P2-008",
+      "title": "model_deployment taught in only S29 — required at AIML independent+ as part of mlops_fluency",
+      "category": "weakly_taught",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §22.1 — 'Production / deployment / monitoring naivety' (HIGH confidence)",
+        "industry_skill_graph.json critical_competency 'mlops_fluency' requires model_deployment"
+      ],
+      "affected_role_and_level": ["ai_ml_engineer/independent+"],
+      "current_pyarcana_coverage": "44 acts in S29 (mlops) only. S21 (fastapi) teaches API serving but is mapped to system_design, not model_deployment. S41 (llm-finetuning) is actually about FastAPI per the expert audit, but the activity map says it touches mlops_pipelines, not model_deployment.",
+      "exact_section_and_insertion_point": "S41 (llm-finetuning / FastAPI per audit) — add 'serve a model with FastAPI + health check + latency budget' We Do. S43 (containers) — add 'containerized model server' We Do.",
+      "proposed_content_type": "2 new We Do exercises.",
+      "learner_outcome": "Learner can deploy a model behind a FastAPI endpoint with health checks and latency budgets.",
+      "assessment_method": "Performance: server-graded curl + assert response time + correctness.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens mlops_fluency."
+    },
+    {
+      "gap_id": "GAP-P2-009",
+      "title": "10 of 13 capstones have no dedicated integrator activity — only S26/S39/S51 have capstone_integration edges",
+      "category": "isolated_concept",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §4 — 'End-to-end ownership' as a market differentiator",
+        "curriculum_skill_graph.json#summary.edge_type_counts.capstone_integration = 36 (3 integrators × 12 contributing sections each)"
+      ],
+      "affected_role_and_level": ["all roles — every phase has capstone-level evidence requirements"],
+      "current_pyarcana_coverage": "13 capstones are referenced (CP-N1-A through CP-N4-C + CP-FINAL). Only 3 have integrator sections (S26, S39, S51). The other 10 (CP-N1-A, CP-N1-B, CP-N1-C, CP-N2-A, CP-N2-B, CP-N2-C, CP-N3-A, CP-N3-B, CP-N3-C, CP-N4-A, CP-N4-B, CP-N4-C) rely on cumulative You Do evidence from their contributing sections, with no single integrator activity.",
+      "exact_section_and_insertion_point": "For each of the 10 capstones without an integrator, designate one of the contributing sections as the 'capstone-closing' section and add a 'capstone_integration' You Do sub-task. E.g., CP-N1-A closes at S04; CP-N1-B closes at S08 (already has 10 requirements); CP-N1-C closes at S13; CP-N2-A closes at S18; CP-N2-B closes at S21; CP-N2-C closes at S25; CP-N3-A closes at S30; CP-N3-B closes at S34; CP-N3-C closes at S38; CP-N4-A closes at S43; CP-N4-B closes at S47; CP-N4-C closes at S51 (already integrator).",
+      "proposed_content_type": "For each designated closer, add a 'capstone_integration' You Do sub-task that pulls evidence from prior sections in the capstone.",
+      "learner_outcome": "Each capstone has a single integrator activity that exercises the cumulative skill set.",
+      "assessment_method": "Performance + rubric.",
+      "backward_compatibility_impact": "Additive — adds sub-tasks; does not renumber.",
+      "credential_impact": "Each capstone-level badge becomes evidenced by a single integrator artifact, not just by summing section exams."
+    },
+    {
+      "gap_id": "GAP-P2-010",
+      "title": "Every You Do project provides starterCode — no 'blank page' exercise in the entire curriculum",
+      "category": "overscaffolded_project",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §3.1 — 'Tutorial dependence' / 'tutorial hell' (HIGH confidence)",
+        "industry_reality_brief.md §4 — 'End-to-end ownership' market differentiator",
+        "industry_reality_brief.md §25.7 — 'Missing end-to-end ownership signal' (HIGH confidence)"
+      ],
+      "affected_role_and_level": ["all roles at advanced+ — where 'from scratch' becomes the differentiator"],
+      "current_pyarcana_coverage": "All 49 You Do projects (excluding S52 capstone) provide starterCode with NotImplementedError or TODO markers. S52 provides a defense bundle structure but no starterCode. There is no exercise in the entire 52-section curriculum that requires the learner to start from a blank file.",
+      "exact_section_and_insertion_point": "S39 (integrator-phase2) — add a 'from blank' sub-task: 'without using the starterCode, scaffold a 3-module Python package for this problem'. S52 (final capstone) — already 80h; add a 'from scratch' option for the second half.",
+      "proposed_content_type": "2 'blank page' sub-tasks.",
+      "learner_outcome": "Learner can scaffold a Python package from a blank file.",
+      "assessment_method": "Performance: server-graded pytest against a fresh repo.",
+      "backward_compatibility_impact": "Additive — adds optional sub-tasks.",
+      "credential_impact": "Mitigates tutorial-dependence complaint."
+    },
+    {
+      "gap_id": "GAP-P2-011",
+      "title": "No named security/privacy judgment exercise — security_mindset is taught but PII/incident-response judgment is concentrated in S13 + S30 + S48 only",
+      "category": "missing_practice_dimension",
+      "severity": "P2",
+      "market_evidence": [
+        "industry_reality_brief.md §25.5 — 'Missing security mindset (OWASP)' (MEDIUM confidence)",
+        "industry_reality_brief.md §3.5 — PII leakage as a failure mode"
+      ],
+      "affected_role_and_level": ["all roles at independent+"],
+      "current_pyarcana_coverage": "security_mindset (196 acts, S01/S14/S30/S48). S13 (rpa-automation) has 'Incidente PII' in its title. S48 (ai-governance) covers AI security. But the security judgment is taught in 4 sections, not reinforced across the data-handling sections (S07, S08, S18, S22, S31) where PII exposure actually happens.",
+      "exact_section_and_insertion_point": "S07 (data-acquisition) — add 'identify PII columns + apply redaction' We Do. S18 (data-engineering) — add 'column-level access control' We Do. S22 (rapidfuzz-entity) — add 'PII minimization in ER' We Do. S31 (streaming-data) — add 'PII in stream + ACL' We Do.",
+      "proposed_content_type": "4 new We Do exercises in data-handling sections.",
+      "learner_outcome": "Learner can identify PII, apply minimization/redaction, and reason about column-level access control.",
+      "assessment_method": "Performance + rubric.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Strengthens security_mindset evidence across multiple sections."
+    },
+    {
+      "gap_id": "GAP-P2-012",
+      "title": "Duplicated 'CONTINUE or X' fail-closed decision pattern across 15 sections — high reinforcement value but risk of fatigue",
+      "category": "duplicated_low_value",
+      "severity": "P3",
+      "market_evidence": [
+        "industry_reality_brief.md §22.6 — stakeholder translation as the durable skill",
+        "curriculum_skill_graph.json: 15 of 52 section titles (S30, S32, S33, S34, S35, S38, S40, S41, S42, S44, S45, S46, S47, S48, S49, S50, S51, S52) contain 'CONTINUE or X' or 'Decide X: CONTINUE or Y'"
+      ],
+      "affected_role_and_level": ["all Phase-2 and Phase-3 learners"],
+      "current_pyarcana_coverage": "15 sections use the same decision-pattern title structure. Reinforcement is intentional (the pattern is the unifying through-line of Phase 2–3). But the regularity can become predictable — a learner who has seen the pattern once can pattern-match without reasoning about the actual decision.",
+      "exact_section_and_insertion_point": "Cross-cutting — vary the decision pattern in 3–4 sections: e.g., S36 uses 'Elegir P@k con labels ralos' (already different); make S42 use a 3-way decision; make S47 use a sequential decision (rollback → verify → close).",
+      "proposed_content_type": "Title + decision-pattern variety in 3–4 sections.",
+      "learner_outcome": "Learner must reason about the specific decision, not pattern-match.",
+      "assessment_method": "Existing rubrics remain valid.",
+      "backward_compatibility_impact": "Cosmetic title change only; no activity renumbered.",
+      "credential_impact": "None — polish only."
+    },
+    {
+      "gap_id": "GAP-P2-013",
+      "title": "Topic evaluations (TE) are external to the curriculum graph for 49 of 52 sections — evidence layer is split",
+      "category": "theory_without_independent_application",
+      "severity": "P3",
+      "market_evidence": [
+        "curriculum_skill_graph.json#summary.activities_by_type.topic_evaluation = 24 (only 12 sections × 2 TEs each, inlined)",
+        "course-state/topic_evaluations/ holds the external TE bank for the remaining 40 sections"
+      ],
+      "affected_role_and_level": ["all — TEs are the formative-assessment layer"],
+      "current_pyarcana_coverage": "3 sections have inline TEs (16 in Phase 0, 8 in Phase 2 = 24 TE activities total). 40 sections rely on course-state/topic_evaluations/ — the curriculum graph cannot reason about TE evidence for those 40.",
+      "exact_section_and_insertion_point": "Phase 6 (badge design) should decide whether to (a) merge the external TEs into the curriculum graph or (b) treat them as a separate evidence layer. Recommend (b) for backward-compat.",
+      "proposed_content_type": "Decision record, not content.",
+      "learner_outcome": "Badge design has a clear contract for TE evidence.",
+      "assessment_method": "N/A.",
+      "backward_compatibility_impact": "None — decision only.",
+      "credential_impact": "None."
+    },
+    {
+      "gap_id": "GAP-P3-001",
+      "title": "mentoring taught in only S47 + S50 — required at DS/AIML/RPA/PySE advanced+",
+      "category": "weakly_taught",
+      "severity": "P3",
+      "market_evidence": [
+        "industry_reality_brief.md §11 DS level differentials — Mentoring & Coaching at L3+",
+        "role_skill_taxonomy.json: mentoring required at all roles at advanced+ except DA"
+      ],
+      "affected_role_and_level": ["data_scientist/advanced+", "ai_ml_engineer/advanced+", "rpa_automation_developer/advanced+", "production_python_engineer/advanced+"],
+      "current_pyarcana_coverage": "88 acts in S47 (opensource) + S50 (tech-leadership). S50 audit confirms 'Mentoring & Coaching' is touched. S47 covers OSS mentorship. No exercise requires the learner to actually mentor (e.g., review a junior's PR, write a teaching doc).",
+      "exact_section_and_insertion_point": "S47 — add a 'review a junior PR' We Do with a planted-buggy PR. S50 — add a 'write a teaching doc for a junior' We Do.",
+      "proposed_content_type": "2 new We Do exercises.",
+      "learner_outcome": "Learner can review a junior PR constructively and write a teaching doc.",
+      "assessment_method": "Rubric-graded review/doc.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Enrichment."
+    },
+    {
+      "gap_id": "GAP-P3-002",
+      "title": "bi_tools taught in only S09 + S25 — required at DA/DS foundation+",
+      "category": "weakly_taught",
+      "severity": "P3",
+      "market_evidence": [
+        "industry_reality_brief.md §20 — BI tool (Tableau / Power BI / Looker) as required for DA foundation+",
+        "role_skill_taxonomy.json: bi_tools required at data_analyst/foundation+, data_scientist/foundation+"
+      ],
+      "affected_role_and_level": ["data_analyst/foundation+", "data_scientist/foundation+"],
+      "current_pyarcana_coverage": "88 acts in S09 (visualization) + S25 (streamlit-dashboards). S09 teaches matplotlib/seaborn (python_visualization). S25 teaches Streamlit (Python web app, not Tableau/Power BI/Looker). The actual BI-tool skill (drag-and-drop dashboards in Tableau/Power BI/Looker) is not taught; Streamlit is the substitute.",
+      "exact_section_and_insertion_point": "S25 — add a 'connect Streamlit to a real BI export (CSV/parquet from Tableau Public)' We Do. Add a note in the badge that 'Tableau/Power BI/Looker UI is not covered; Streamlit is the Python equivalent'.",
+      "proposed_content_type": "1 We Do + 1 explicit out-of-scope note on the badge.",
+      "learner_outcome": "Learner can build a dashboard in Streamlit and export data consumable by a BI tool.",
+      "assessment_method": "Performance.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Enrichment — explicit disclosure on badge."
+    },
+    {
+      "gap_id": "GAP-P3-003",
+      "title": "process_analysis taught in only S13 + S26 — required at DA/RPA/AIML/PySE advanced+",
+      "category": "weakly_taught",
+      "severity": "P3",
+      "market_evidence": [
+        "industry_reality_brief.md §20.1 — 'Process analysis / process discovery / process identification' Required HIGH confidence for RPA",
+        "role_skill_taxonomy.json: process_analysis required at data_analyst/advanced+, rpa_automation_developer/advanced+, ai_ml_engineer/advanced+, production_python_engineer/advanced+"
+      ],
+      "affected_role_and_level": ["data_analyst/advanced+", "rpa_automation_developer/advanced+", "ai_ml_engineer/advanced+", "production_python_engineer/advanced+"],
+      "current_pyarcana_coverage": "88 acts in S13 (rpa-automation) + S26 (integrator-phase1). The skill is process discovery (identify automation candidates, decompose workflows).",
+      "exact_section_and_insertion_point": "S26 — add 'process analysis: identify the 3 highest-leverage automation candidates in a fictional org' We Do.",
+      "proposed_content_type": "1 We Do.",
+      "learner_outcome": "Learner can score and rank automation candidates.",
+      "assessment_method": "Rubric-graded memo.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "Enrichment."
+    },
+    {
+      "gap_id": "GAP-P3-004",
+      "title": "r_language out of scope — DS badge should disclose",
+      "category": "deliberate_omission",
+      "severity": "P4",
+      "market_evidence": [
+        "industry_reality_brief.md §6 — R listed as required for DS foundation+ (alongside Python)",
+        "PyArcana scope is Python-only by design (course README + learning_roadmap)"
+      ],
+      "affected_role_and_level": ["data_scientist at all levels"],
+      "current_pyarcana_coverage": "None. Python-only.",
+      "exact_section_and_insertion_point": "Decision record in industry_alignment/decisions/ + a disclosure line on the DS badge rubric.",
+      "proposed_content_type": "Decision record + disclosure text.",
+      "learner_outcome": "DS badge candidates know R is not covered and can plan accordingly.",
+      "assessment_method": "N/A.",
+      "backward_compatibility_impact": "None.",
+      "credential_impact": "None — disclosure only."
+    },
+    {
+      "gap_id": "GAP-P3-005",
+      "title": "excel_spreadsheets out of scope — DA badge should disclose (with note that S20 covers Excel automation via openpyxl)",
+      "category": "deliberate_omission",
+      "severity": "P4",
+      "market_evidence": [
+        "industry_reality_brief.md §3.3 — Excel as a 70%+ DA skill",
+        "PyArcana uses pandas/openpyxl instead"
+      ],
+      "affected_role_and_level": ["data_analyst at all levels"],
+      "current_pyarcana_coverage": "S20 (rag → actually 'Excel factory' per expert audit) teaches openpyxl-based Excel automation. In-Excel pivot/INDEX-MATCH/XLOOKUP not taught.",
+      "exact_section_and_insertion_point": "Decision record + disclosure text on DA badge.",
+      "proposed_content_type": "Decision record + disclosure.",
+      "learner_outcome": "DA badge candidates know in-Excel skills are not covered.",
+      "assessment_method": "N/A.",
+      "backward_compatibility_impact": "None.",
+      "credential_impact": "None."
+    },
+    {
+      "gap_id": "GAP-P4-001",
+      "title": "uipath_studio, vbdotnet_csharp, power_automate, automation_anywhere — vendor RPA stack out of scope",
+      "category": "deliberate_omission",
+      "severity": "P4",
+      "market_evidence": [
+        "industry_reality_brief.md §20.3 — durable principles (selectors, exception handling, state machines) listed as transferable; vendor UIs as perishable",
+        "PyArcana's RPA track is Python + Playwright/Selenium"
+      ],
+      "affected_role_and_level": ["rpa_automation_developer at all levels"],
+      "current_pyarcana_coverage": "Durable principles ARE covered (python_rpa_browser in S13/S24/S26; selector_design in S24; exception_handling_rpa in S13/S24; once GAP-P0-004 closes, reframework in durable form). Vendor UIs are not.",
+      "exact_section_and_insertion_point": "Decision record + disclosure text on RPA badge.",
+      "proposed_content_type": "Decision record + disclosure.",
+      "learner_outcome": "RPA badge candidates know vendor tools are not covered but durable principles are.",
+      "assessment_method": "N/A.",
+      "backward_compatibility_impact": "None.",
+      "credential_impact": "None."
+    },
+    {
+      "gap_id": "GAP-P4-002",
+      "title": "Stale section-id slugs in 8+ section files (e.g., S05 'oop' for functions, S14 'security' for NumPy, S20 'rag' for Excel, S27 'async-concurrency' for pytest, S41 'llm-finetuning' for FastAPI, S43 'llmops' for containers, S48 'ai-governance' for RAG, S50 'tech-leadership' for Evals)",
+      "category": "polish",
+      "severity": "P4",
+      "market_evidence": [
+        "expert_audit/S05_report.md §4 — Meta-Leak (id mismatched with content)",
+        "expert_audit/S14_report.md §1 — id 'security' on a NumPy section",
+        "expert_audit/S20_report.md §1 — id 'rag' on an Excel-automation section",
+        "expert_audit/S27_report.md §1 — id 'async-concurrency' on a pytest section",
+        "expert_audit/S41_report.md §1 — id 'llm-finetuning' on a FastAPI section",
+        "expert_audit/S43_report.md §1 — id 'llmops' on a containers section",
+        "expert_audit/S48_report.md §1 — id 'ai-governance' on a RAG section",
+        "expert_audit/S50_report.md §1 — id 'tech-leadership' on an Evals section"
+      ],
+      "affected_role_and_level": ["all — discoverability + persistence"],
+      "current_pyarcana_coverage": "Stale slugs live in src/lib/course/sections/sNN-*.ts files. Live URL fragments use these stale ids. PDF report labels (PdfReport.tsx) use a different label map. The result is that a learner who bookmarks #rag lands on an Excel-automation page; a recruiter who searches #tech-leadership finds Evals content.",
+      "exact_section_and_insertion_point": "Per-section id rename + index.ts + PdfReport.tsx + bookmark redirect. Phased rollout (one section per cycle).",
+      "proposed_content_type": "Renaming PRs (one per section) + redirect map.",
+      "learner_outcome": "Section ids match content; URL fragments are stable; PDF labels match.",
+      "assessment_method": "Static check + redirect test.",
+      "backward_compatibility_impact": "URLs change — require redirect map. Persistence keys (course-state) may need migration. Recommend doing one section at a time with a fallback redirect.",
+      "credential_impact": "None directly; reduces learner confusion."
+    },
+    {
+      "gap_id": "GAP-P4-003",
+      "title": "Phase-2 sections S27–S39 declare level 'Competente' but Phase 2 is 'Senior' per index.ts",
+      "category": "polish",
+      "severity": "P4",
+      "market_evidence": [
+        "expert_audit/S27_report.md §1 — level inconsistency ('Competente' vs Phase-2 'Senior')",
+        "src/lib/course/index.ts PHASES[2].level === 'Senior'"
+      ],
+      "affected_role_and_level": ["all Phase-2 learners"],
+      "current_pyarcana_coverage": "Phase-2 sections declare level='Competente' in their source files but the phase label is 'Senior'.",
+      "exact_section_and_insertion_point": "Per-section metadata update (one-line change each, 13 sections).",
+      "proposed_content_type": "Metadata fix.",
+      "learner_outcome": "Consistent level labels across the curriculum.",
+      "assessment_method": "Static check.",
+      "backward_compatibility_impact": "Display-only — no progress data affected.",
+      "credential_impact": "None."
+    },
+    {
+      "gap_id": "GAP-P4-004",
+      "title": "S27 declares 'async-concurrency' but content is pytest — same legacy-id drift class as S05/S14/S20/S41/S43/S48/S50",
+      "category": "polish",
+      "severity": "P4",
+      "market_evidence": ["expert_audit/S27_report.md §1"],
+      "current_pyarcana_coverage": "Same as GAP-P4-002 — subsumed under the broader id-drift fix.",
+      "exact_section_and_insertion_point": "Subsumed by GAP-P4-002.",
+      "proposed_content_type": "Subsumed.",
+      "learner_outcome": "Subsumed.",
+      "assessment_method": "Subsumed.",
+      "backward_compatibility_impact": "Subsumed.",
+      "credential_impact": "None."
+    },
+    {
+      "gap_id": "GAP-P4-005",
+      "title": "Self-check question count below V3 spec (5 questions min) in some Phase-0 sections",
+      "category": "polish",
+      "severity": "P4",
+      "market_evidence": [
+        "curriculum_graph_summary.md §11.5 — 'Flag sections whose selfCheck.questionCount < 5 (V3 spec calls for 5 questions) — recorded but not gated here'",
+        "Phase 3 handoff note"
+      ],
+      "affected_role_and_level": ["Phase-0 learners"],
+      "current_pyarcana_coverage": "Most sections meet the 5-question minimum (median 8). The V3 spec mandates ≥5; the few below-min sections should be reviewed.",
+      "exact_section_and_insertion_point": "Per-section self-check expansion to ≥5 questions.",
+      "proposed_content_type": "Add 1–3 MCQs per below-min section.",
+      "learner_outcome": "All sections meet the V3 spec.",
+      "assessment_method": "Static check.",
+      "backward_compatibility_impact": "Additive.",
+      "credential_impact": "None."
+    },
+    {
+      "gap_id": "GAP-P4-006",
+      "title": "Legacy section source files present but not imported by index.ts (e.g., s08-visualization.ts is inactive while s08-pandas.ts is active)",
+      "category": "polish",
+      "severity": "P4",
+      "market_evidence": ["expert_audit/S08_report.md §1.2 — 'inactive s08-visualization.ts that is NOT imported by index.ts'"],
+      "current_pyarcana_coverage": "Inactive files in src/lib/course/sections/ confuse diff/blame and bloat the search space.",
+      "exact_section_and_insertion_point": "Delete or move to a legacy/ folder.",
+      "proposed_content_type": "File move.",
+      "learner_outcome": "Cleaner repo.",
+      "assessment_method": "Repo audit.",
+      "backward_compatibility_impact": "None — files are not imported.",
+      "credential_impact": "None."
+    }
+  ],
+  "critical_competency_status": [
+    {"competency_id": "sql_competency", "status": "PARTIAL — sql_fundamentals ✓ (S19/S37), sql_window_ctes ✓ (S37, thin), sql_performance_tuning ✗ (UNCOVERED — see GAP-P0-003). 6 credential-eligible activities but uneven across the 3 skills.", "blocking_badges": ["DA Advanced", "DA Leadership", "DS Advanced", "DS Leadership", "PySE Advanced", "PySE Leadership"]},
+    {"competency_id": "leakage_prevention", "status": "FAIL — leakage_prevention ✗ (UNCOVERED — see GAP-P0-001). 2 credential-eligible activities come only from model_evaluation (S10), not from the leakage_prevention skill itself.", "blocking_badges": ["DS Independent", "DS Advanced", "DS Leadership", "AIML Independent", "AIML Advanced", "AIML Leadership"]},
+    {"competency_id": "selector_resilience", "status": "PARTIAL — selector_design ✓ (S24, thin), exception_handling_rpa ✓ (S13/S24), reframework ✗ (UNCOVERED — see GAP-P0-004). 6 credential-eligible activities but the durable state-machine pattern is missing.", "blocking_badges": ["RPA Independent", "RPA Advanced", "RPA Leadership"]},
+    {"competency_id": "type_safety_production_hardening", "status": "PARTIAL — python_type_safety ✗ (UNCOVERED — see GAP-P0-002), observability ✓ (5 sections), ci_cd ✓ (S17/S45), packaging_reproducibility ✓ (S01/S15/S17). 20 credential-eligible activities but the type-safety skill itself is missing.", "blocking_badges": ["PySE Independent", "PySE Advanced", "PySE Leadership", "AIML Independent", "AIML Advanced", "AIML Leadership"]},
+    {"competency_id": "mlops_fluency", "status": "PASS — model_deployment ✓ (S29, thin), mlops_pipelines ✓ (S29/S41/S43), drift_monitoring ✓ (S29/S43), system_design ✓ (6 sections). 24 credential-eligible activities. Recommend GAP-P2-008 to strengthen model_deployment depth.", "blocking_badges": []},
+    {"competency_id": "business_framing_judgment", "status": "PASS — business_framing ✓ (S26/S39/S52), metric_design ✓ (S39, thin — see GAP-P2-005), tradeoff_articulation ✓ (S35/S51). 12 credential-eligible activities.", "blocking_badges": []},
+    {"competency_id": "communication_audience_tuned", "status": "PASS — written_communication ✓ (S50/S52, late — see GAP-P1-011), oral_communication ✓ (S50/S52, late), stakeholder_translation ✓ (S26/S39/S49/S51). 16 credential-eligible activities. Timing risk: clustered in Phase 3.", "blocking_badges": []},
+    {"competency_id": "reproducibility_determinism", "status": "PASS — packaging_reproducibility ✓ (S01/S15/S17), git_workflow ✓ (S01/S47), testing_discipline ✓ (S04/S11/S21). 16 credential-eligible activities.", "blocking_badges": []}
+  ],
+  "handoff_to_phase_6": {
+    "badge_design_constraints": [
+      "Do not issue badges that cite leakage_prevention, python_type_safety, sql_performance_tuning, or reframework until GAP-P0-001 through GAP-P0-004 are closed or the badge explicitly excludes the affected level.",
+      "All badges must include the disclosure text for the relevant deliberate omissions (R, Excel, vendor RPA tools) per GAP-P3-004, GAP-P3-005, GAP-P4-001.",
+      "Badges that depend on CP-N4-A completion with exam evidence must wait for GAP-P0-005 (DIV-001 fix).",
+      "Each badge rubric must verify ≥2 distinct sections contribute credential-eligible evidence per critical competency cited (per GAP-P0-006).",
+      "Badge rubrics should reference the new performance exercises proposed in GAP-P1-007 (one per section) as the primary credential-eligible evidence, with the existing MCQ exam as a secondary gate."
+    ],
+    "phase_5_per_section_audits": "See industry_alignment/section_audits/S01.md … S52.md (52 files).",
+    "implementation_roadmap": "See industry_alignment/implementation_roadmap.md (P0 → P4 sequenced)."
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "badge_id": "integrated_ml_engineering_practice",
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T22:08:04Z",
+  "generated_by": "badge_architect node (Phase 6)",
+  "provisional_floors": {
+    "self_check_pct": 85,
+    "you_do_pct": 80,
+    "section_exam_pct": 85,
+    "integrator_project_pct": 85,
+    "critical_competency_pct": 100,
+    "minimum_overall_pct": 85
+  },
+  "components": [
+    {
+      "component_id": "self_check",
+      "description": "Aggregate of section self-check questions across required sections. Self-checks are MCQ-only and low-authenticity; they are weighted lightly and used as a participation/engagement signal, not as a proficiency signal.",
+      "required_score_pct": 85,
+      "weight": 0.15,
+      "evidence_source": "self_check activities",
+      "critical_competency": false
+    },
+    {
+      "component_id": "you_do_projects",
+      "description": "Aggregate of section You Do project rubric scores across required sections. You Do projects are independent (no step-by-step guidance) and high-authenticity; they are the primary evidence of independent capability.",
+      "required_score_pct": 80,
+      "weight": 0.4,
+      "evidence_source": "you_do activities + section rubric",
+      "critical_competency": false
+    },
+    {
+      "component_id": "section_exams",
+      "description": "Aggregate of section exam scores across required sections. Exams are server-graded MCQs (pass@70 baseline); the badge floor is stricter at 85%.",
+      "required_score_pct": 85,
+      "weight": 0.2,
+      "evidence_source": "exam activities (server-graded)",
+      "critical_competency": false
+    },
+    {
+      "component_id": "integrator_project",
+      "description": "Badge-specific integrator project (independent exercise specified in the badge rubric). For applied-skill badges, this is a bounded exercise that ties together the required sections' skills. For cross-section badges, this is a synthesis project. For capstone credentials, this is the phase capstone defense plus a synthesis writeup.",
+      "required_score_pct": 85,
+      "weight": 0.25,
+      "evidence_source": "badge rubric evaluation (server-verified)",
+      "critical_competency": false
+    }
+  ],
+  "scoring_rules": {
+    "aggregation_method": "weighted_average_with_non_compensatory_gates",
+    "minimum_overall_score": 85,
+    "critical_competency_floor": 100,
+    "non_compensatory": true,
+    "rounding": "down",
+    "gates": [
+      {
+        "gate_id": "per_component_floor",
+        "description": "Each scored component must meet its own required_score_pct. A single component below floor blocks the badge, regardless of the weighted average."
+      },
+      {
+        "gate_id": "critical_competency_floor",
+        "description": "Each critical_competency in the badge must be individually scored at 100% (full rubric credit). Critical competencies are non-compensatory: strength elsewhere cannot offset a critical-competency gap."
+      },
+      {
+        "gate_id": "overall_floor",
+        "description": "Even when every component and every critical competency passes its floor, the weighted average must still meet the minimum_overall_score."
+      }
+    ]
+  },
+  "integrator_spec": {
+    "project_id": "BADGE:integrated_ml_engineering_practice:integrator",
+    "project_type": "independent_synthesis",
+    "estimated_hours": 20,
+    "deliverables": [
+      "Single end-to-end artifact (notebook, repo, or deployed service)",
+      "Project README with business framing, design decisions, tradeoffs",
+      "Reproducibility instructions (requirements + seed + make/just)",
+      "Audience-tuned 1-pager for a non-technical PM"
+    ],
+    "rubric_criteria": [
+      {
+        "criterion_id": "scope_breadth",
+        "description": "Artifact exercises every required skill_node.",
+        "weight": 0.2,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "independence",
+        "description": "No tutorial-clone; learner-built from a blank slate.",
+        "weight": 0.15,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "business_framing",
+        "description": "Business question and stakeholder explicit.",
+        "weight": 0.15,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "tradeoff_articulation",
+        "description": ">=2 documented options per major decision.",
+        "weight": 0.1,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "reproducibility",
+        "description": "Pipeline runs end-to-end from a single command on a clean machine.",
+        "weight": 0.15,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "audience_tuning",
+        "description": "1-pager is action-ready for a non-technical PM.",
+        "weight": 0.1,
+        "floor_pct": 85
+      },
+      {
+        "criterion_id": "critical_competency_pass",
+        "description": "Every critical competency passes its 100% floor.",
+        "weight": 0.15,
+        "floor_pct": 100
+      }
+    ],
+    "minimum_overall_pct": 85,
+    "non_compensatory": true
+  },
+  "critical_competency_rubrics": {
+    "leakage_prevention": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "leakage_prevention_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "leakage_prevention_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "leakage_prevention_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "leakage_prevention_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "mlops_fluency": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "mlops_fluency_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "mlops_fluency_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "mlops_fluency_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "mlops_fluency_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "reproducibility_determinism": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "reproducibility_determinism_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "reproducibility_determinism_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "communication_audience_tuned": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "communication_audience_tuned_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "communication_audience_tuned_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "communication_audience_tuned_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "communication_audience_tuned_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    },
+    "business_framing_judgment": {
+      "floor_pct": 100,
+      "non_compensatory": true,
+      "criteria": [
+        {
+          "criterion_id": "business_framing_judgment_criterion_1",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "business_framing_judgment_criterion_2",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "business_framing_judgment_criterion_3",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        },
+        {
+          "criterion_id": "business_framing_judgment_criterion_4",
+          "description": "See badge_requirements/<id>.md for full text.",
+          "weight": 0.25,
+          "floor_pct": 100
+        }
+      ]
+    }
+  },
+  "gap_closure_exercises": {
+    "leakage_prevention": {
+      "gap_skill_node": "leakage_prevention",
+      "gap_source": "curriculum_skill_graph.json#summary.skill_node_coverage.uncovered_skills",
+      "supplementary_exercise_id": "gap_closure_leakage_prevention",
+      "exercise_prompt": "Identify a public ML tutorial notebook (Kaggle, GitHub, Medium). Audit it for data leakage: target leakage, train-test contamination, group leakage, time-series leakage, label leakage. Write a 500-word memo naming each leak found, the fix, and re-running the evaluation with the fix applied. Submit the original notebook, your fork with fixes, and the memo.",
+      "estimated_hours": 6,
+      "rubric_floor_pct": 100
+    }
+  }
+}

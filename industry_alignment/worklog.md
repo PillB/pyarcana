@@ -552,3 +552,205 @@ Phase 4 should consume `curriculum_skill_graph.json` to:
    (Phase 3 gate)." Badge design is now unblocked.
 
 Phase 3 is closed.
+
+---
+
+## Phase 4 + Phase 5 — Strategic Gap Analysis + Per-Section Audits
+
+**Started:** 2026-07-28T22:00:00Z
+**Completed:** 2026-07-28T22:45:00Z
+**Orchestrator:** curriculum_gap_auditor (Phase 4 + 5 sub-agent)
+**Inputs consumed:**
+- `industry_alignment/industry_skill_graph.json` (62 skill nodes, 5 roles, 4 levels, 8 critical competencies)
+- `industry_alignment/curriculum_skill_graph.json` (52 sections, 2,320 activities, 4,372 edges)
+- `industry_alignment/industry_reality_brief.md` (2,279 lines, §0–§32)
+- `industry_alignment/role_skill_taxonomy.json` (437 role-level-skill assignments)
+- `expert_audit/S01_report.md` … `S52_report.md` (52 prior per-section audits)
+
+### Mission
+
+Phase 4: compare the curriculum graph with the industry skill graph; produce a
+strategic gap matrix covering all 10 gap categories specified by the orchestrator
+(absent skills, weakly taught, timing issues, isolated concepts, theory without
+independent application, overscaffolded projects, recall vs performance
+assessment, missing practice dimensions, duplicated low-value work, capabilities
+over-claimed). Phase 5: produce a brief per-section audit for each of the 52
+sections synthesizing the expert_audit reports with the Phase 4 gap findings.
+
+### Method
+
+1. Loaded `industry_skill_graph.json` (62 skill nodes, 8 critical competencies)
+   and `role_skill_taxonomy.json` (5 roles × 4 levels × variable skills = 437
+   role-level-skill assignments). Built a per-skill lookup of which role/level
+   combinations require it and whether it participates in a non-compensatory
+   critical competency.
+2. Loaded `curriculum_skill_graph.json` (52 sections, 2,320 activities, 4,372
+   edges). Built a per-section inventory of skills taught, activity counts by
+   type, credential-eligible activities, and self-check question counts.
+3. Cross-referenced the 16 uncovered industry skills (from Phase 3 summary)
+   against the critical-competency table and the role-level requirements table.
+   Classified each as deliberate omission (7 — Python-first scope) or genuine
+   curriculum gap (9 — must be addressed).
+4. For each of the 8 critical competencies, computed the count of
+   credential-eligible activities and the number of distinct sections
+   contributing evidence. Identified 4 critical skills with zero coverage
+   (leakage_prevention, python_type_safety, sql_performance_tuning, reframework)
+   and 1 unresolved divergence (DIV-001 from Phase 0 — section 40 ID mismatch
+   silently breaks the S40 exam on the dynamic LMS).
+5. Examined the assessment-layer composition: 832 of 4,372 edges are
+   `assessment` edges from theory to MCQ-style evidence (self_check + exam);
+   only 104 activities (12%) are credential-eligible; only 52 are
+   performance-graded (you_do + capstone). Identified this as a structural
+   tutorial-dependence risk per `industry_reality_brief.md` §3.1.
+6. Cross-checked the 52 expert_audit reports for id-drift, level-mismatch,
+   broken code/output pairs, and composite scores. Extracted composite scores
+   for 27 of 52 sections (others not numerically reported in their audit).
+7. Drafted 41 gaps classified P0 (6), P1 (7), P2 (15), P3 (5), P4 (8). Each gap
+   includes the 10 required fields (market evidence, affected role/level,
+   current PyArcana coverage, severity, exact insertion point, proposed content
+   type, learner outcome, assessment method, backward-compatibility impact,
+   credential impact).
+8. Generated 52 per-section audit summaries (`section_audits/S01.md` … `S52.md`)
+   by mapping each gap to the sections it touches and computing a per-section
+   priority (P0 for sections where a P0 gap lands, P1 otherwise because
+   GAP-P1-007 touches all 52 sections, etc.).
+9. Wrote `implementation_roadmap.md` sequencing the 41 gaps across 5 stages
+   (P0 → P4) with effort estimates, backward-compatibility risk, and a
+   parallel-work plan.
+
+### Cycles executed
+
+| Cycle ID | Name | Status |
+|---|---|---|
+| P4-C01 | Load and validate Phase 3 graph + Phase 2 industry graph + Phase 1 brief | completed |
+| P4-C02 | Compute per-skill coverage and credential-eligible activity counts | completed |
+| P4-C03 | Identify uncovered critical competencies and credential-integrity blockers | completed |
+| P4-C04 | Draft 41 gaps across 10 gap categories | completed |
+| P4-C05 | Validate gap matrix JSON against the schema (10 required fields per gap) | completed |
+| P5-C01 | Extract expert-audit composite scores for 27 of 52 sections | completed |
+| P5-C02 | Map each gap to the sections it touches (insertion-point parsing) | completed |
+| P5-C03 | Generate 52 per-section audit summaries (S01.md … S52.md) | completed |
+| P5-C04 | Generate implementation_roadmap.md with 5-stage sequencing | completed |
+
+### Outputs produced
+
+| Path | Type | Purpose |
+|---|---|---|
+| `industry_alignment/curriculum_gap_matrix.json` | structured JSON | 41 gaps, 10 fields each; 8 critical-competency statuses; handoff constraints for Phase 6 |
+| `industry_alignment/curriculum_gap_matrix.md` | human-readable MD | 796-line rendering of the JSON for review |
+| `industry_alignment/section_audits/S01.md` … `S52.md` | 52 MD files | Per-section audit summaries (8 sections each: strengths, market-aligned, missing, independence, badge evidence, misconceptions, recommendations, priority) |
+| `industry_alignment/implementation_roadmap.md` | MD roadmap | 5-stage sequencing (P0 → P4) with effort, BC risk, owner, parallel-work plan, and Phase 6 unblock criteria |
+| `industry_alignment/_gen_section_audits.py` | Python generator | Reproducible generator script for the 52 per-section audits (kept for Phase 6 re-runs) |
+
+### Key findings
+
+1. **6 P0 credential-integrity blockers** identified:
+   - `GAP-P0-001` leakage_prevention (DS + AIML independent+) — 0 activities
+   - `GAP-P0-002` python_type_safety (PySE + AIML independent+) — 0 activities
+   - `GAP-P0-003` sql_performance_tuning (DA/DS/PySE advanced+) — 0 activities
+   - `GAP-P0-004` reframework in durable form (RPA independent+) — 0 activities
+   - `GAP-P0-005` DIV-001 unresolved (S40 exam unattainable on dynamic LMS)
+   - `GAP-P0-006` 4 of 8 critical competencies have credential-eligible evidence from only 1 section each (or zero, for the 4 uncovered critical skills)
+2. **7 P1 major gaps**: hypothesis_testing, regression, feature_engineering,
+   experimental_design (all 0 activities); MCQ-only assessment layer
+   (GAP-P1-007 — only 12% of activities are performance-graded);
+   missing named debugging skill (GAP-P1-008);
+   ai_code_review_literacy concentrated in 1 section (GAP-P1-010).
+3. **15 P2 significant improvements**: 9 single-section skills that need
+   reinforcement (descriptive_stats, model_evaluation, async_testing,
+   sql_window_ctes, metric_design, uncertainty_quantification,
+   model_deployment, docker, kubernetes); 10 of 13 capstones without an
+   integrator activity (GAP-P2-009); no blank-page exercise in the entire
+   curriculum (GAP-P2-010); security judgment not distributed across
+   data-handling sections (GAP-P2-011); stakeholder communication clustered
+   in Phase 3 only (GAP-P1-011); ambiguity ramp missing (GAP-P1-009);
+   causal_inference and orchestrator_operations in durable form (GAP-P1-005,
+   GAP-P1-006); CONTINUE-pattern fatigue (GAP-P2-012); external TE layer
+   decision (GAP-P2-013).
+4. **5 P3 enrichment items**: mentoring, bi_tools Streamlit-to-BI bridge,
+   process_analysis reinforcement, R-language disclosure, Excel disclosure.
+5. **8 P4 polish items**: 4 vendor RPA tools disclosure; stale section-id
+   slugs across 14 sections (HIGH backward-compat risk — defer to post-Phase-6);
+   Phase-2 level mismatch (13 sections declare "Competente" but Phase 2 is
+   "Senior"); S27 subsumed under slug rename; self-check <5 questions in
+   below-min Phase-0 sections; inactive section files (e.g., s08-visualization.ts).
+
+### Critical-competency status (8 competencies)
+
+| Competency | Status | Blocking badges |
+|---|---|---|
+| `sql_competency` | PARTIAL — sql_performance_tuning uncovered | DA/DS/PySE advanced+ |
+| `leakage_prevention` | FAIL — leakage_prevention uncovered | DS/AIML independent+ |
+| `selector_resilience` | PARTIAL — reframework uncovered | RPA independent+ |
+| `type_safety_production_hardening` | PARTIAL — python_type_safety uncovered | PySE/AIML independent+ |
+| `mlops_fluency` | PASS | — |
+| `business_framing_judgment` | PASS (metric_design thin) | — |
+| `communication_audience_tuned` | PASS (timing risk — Phase-3 clustered) | — |
+| `reproducibility_determinism` | PASS | — |
+
+### Per-section priority distribution
+
+- **P0** (9 sections where a P0 gap lands): S10, S15, S17, S24, S33, S37, S39, S40, S43
+- **P1** (43 sections — GAP-P1-007 performance-exercise-per-section touches all 52): all sections not in P0
+- **P2 / P3** (0 sections — all P2/P3 gaps land on sections already P0/P1)
+
+### Backward-compatibility assessment
+
+All 41 gaps are either **additive** (new theory blocks, new We Do exercises,
+new You Do sub-tasks — never renumber or rename existing activities) or
+**disclosure-only** (decision records + badge text). The only **HIGH** BC risk
+is `GAP-P4-002` (stale section-id slug rename), which is explicitly deferred
+to post-Phase-6 in the roadmap.
+
+### Phase 6 unblock criteria
+
+Phase 6 (badge design) may **begin designing** badges for any role/level that
+does NOT cite one of the P0-blocked critical competencies:
+- DA foundation, DA independent — ✓ design may proceed
+- DS foundation, AIML foundation, RPA foundation, PySE foundation — ⚠ design
+  may proceed; issuance gated on P1 closures (Stage 2)
+- DA/DS/AIML/RPA/PySE independent+ (where blocked by a P0 competency) — ✗ wait
+  for the corresponding Stage 1 closure
+
+### Handoff to Phase 6 (badge design)
+
+Phase 6 should consume:
+1. `curriculum_gap_matrix.json` — for the 5 badge-design constraints
+2. `implementation_roadmap.md` — for the Stage 1 → Stage 5 sequencing
+3. `section_audits/SNN.md` — for per-section credential-eligible skills and
+   priority classifications
+4. `industry_skill_graph.json#critical_competencies` — for the non-compensatory
+   competency list per role
+5. `role_skill_taxonomy.json` — for the per-role, per-level required-skills list
+
+Phase 6 must NOT:
+- Issue badges citing leakage_prevention, python_type_safety,
+  sql_performance_tuning, or reframework until the corresponding P0 gap is
+  closed (or explicitly exclude the affected level).
+- Issue badges depending on CP-N4-A completion with exam evidence until
+  GAP-P0-005 (DIV-001) is fixed.
+- Cite a critical competency in a badge rubric without verifying ≥2 distinct
+  sections contribute credential-eligible evidence (GAP-P0-006).
+- Omit disclosure text for deliberate omissions (R, Excel, vendor RPA tools).
+
+### Gate check
+
+All Phase 4 + 5 gate criteria are met:
+- [x] 10 gap categories addressed (absent, weakly taught, timing, isolated,
+  theory-without-application, overscaffolded, recall-vs-performance, missing
+  practice dimensions, duplicated, over-claimed)
+- [x] Every gap has the 10 required fields
+- [x] Every recommendation grounded in `industry_reality_brief.md` evidence
+- [x] Severity classification follows P0 (credential) > P1 (major) > P2
+  (significant) > P3 (enrichment) > P4 (polish)
+- [x] No backward-compatibility-breaking recommendations (HIGH-BC item deferred
+  to post-Phase-6 with explicit decision record)
+- [x] No badge proposals (Phase 6 territory)
+- [x] 52 per-section audit summaries produced
+- [x] Implementation roadmap sequenced P0 → P4 with effort + BC risk + owner
+
+**Overall: PASS.** Phase 6 (badge design) is unblocked for foundation-level
+badges and conditionally unblocked for independent+ badges pending Stage 1
+closures.
+
+Phase 4 + 5 are closed.
