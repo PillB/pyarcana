@@ -18,34 +18,42 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **435** | Paragraphs: **302**
-- Findings: **109** (high=0, medium=0, low=109)
-- Mean quality score (0–10): **9.25**
-- Mean Fernández-Huerta: **93.2** (muy fácil)
-- Mean words/sentence: **11.65**
+- Sentences: **401** | Paragraphs: **255**
+- Findings: **106** (high=0, medium=0, low=106)
+- Mean quality score (0–10): **9.01**
+- Mean Fernández-Huerta: **96.1** (muy fácil)
+- Mean words/sentence: **10.02**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S35 | 9.25 | 93.2 | 11.65 | 0/0/109 | `s35-system-design.ts` |
+| S36 | 9.01 | 96.1 | 10.02 | 0/0/106 | `s36-ai-apis-advanced.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=85)
+### `fragment` (n=93)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=16)
+### `lowercase_after_period` (n=6)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=5)
+### `long_sentence` (n=3)
 - **Cause:** Explicaciones densas sin cortes.
 - **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `possible_plural_det_singular_noun` (n=3)
+### `missing_inverted_exclamation` (n=2)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `possible_plural_det_singular_noun` (n=1)
 - **Cause:** Posible desacuerdo de número (heurística).
 - **Improvement:** Verificar concordancia determinante–sustantivo.
 

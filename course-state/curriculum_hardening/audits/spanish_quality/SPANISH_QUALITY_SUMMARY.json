@@ -12,73 +12,93 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 435,
-  "total_paragraphs": 302,
-  "total_findings": 109,
+  "total_sentences": 401,
+  "total_paragraphs": 255,
+  "total_findings": 106,
   "severity": {
-    "low": 109
+    "low": 106
   },
-  "mean_quality_score": 9.25,
-  "min_quality_score": 9.25,
-  "mean_fernandez_huerta": 93.2,
+  "mean_quality_score": 9.01,
+  "min_quality_score": 9.01,
+  "mean_fernandez_huerta": 96.1,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 11.65,
+  "mean_wps": 10.02,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      85
+      93
     ],
     [
       "lowercase_after_period",
-      16
+      6
     ],
     [
       "long_sentence",
-      5
+      3
+    ],
+    [
+      "missing_inverted_exclamation",
+      2
+    ],
+    [
+      "space_before_punct",
+      1
     ],
     [
       "possible_plural_det_singular_noun",
-      3
+      1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 85,
+      "count": 93,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 16,
+      "count": 6,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "long_sentence",
-      "count": 5,
+      "count": 3,
       "cause": "Explicaciones densas sin cortes.",
       "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     },
     {
+      "rule": "missing_inverted_exclamation",
+      "count": 2,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 1,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
+    },
+    {
       "rule": "possible_plural_det_singular_noun",
-      "count": 3,
+      "count": 1,
       "cause": "Posible desacuerdo de número (heurística).",
       "fix": "Verificar concordancia determinante–sustantivo."
     }
   ],
   "sections_ranked": [
     {
-      "section": 35,
-      "file": "s35-system-design.ts",
-      "quality_score_0_10": 9.25,
-      "fernandez_huerta": 93.2,
-      "avg_words_per_sentence": 11.65,
+      "section": 36,
+      "file": "s36-ai-apis-advanced.ts",
+      "quality_score_0_10": 9.01,
+      "fernandez_huerta": 96.1,
+      "avg_words_per_sentence": 10.02,
       "findings_by_severity": {
-        "low": 109
+        "low": 106
       },
-      "findings_total": 109
+      "findings_total": 106
     }
   ]
 }

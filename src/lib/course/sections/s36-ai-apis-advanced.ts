@@ -12,7 +12,7 @@ export const section36: CourseSection = {
  icon: "ScanSearch",
  accentColor: "bg-gradient-to-br from-indigo-400 to-violet-900",
  jobRelevance:
- "En un workbench de riesgo operativo en Lima (colas sintéticas tipo banca de procesos, fintech o retail), el analista recibe cientos de eventos al día y necesita **señales auxiliares** que acorten la cola de revisión. Estas señales son apoyo, no un juez automático. Clustering, rareza y backtests temporales alimentan el triage CP-N3-C: priorizan qué mirar primero y miden si la señal ahorra tiempo al revisor (P@k + HITL). Si falta revisor o contrato, el sistema aplica *fail-closed* (cierra el flujo y no emite decisión automática). Un flag de rareza mal comunicado se convierte en daño reputacional y operativo. Anomalía ≠ conducta indebida ni fraude. Caso sintético CASO-LIM-036 (Red Andina ficticia).",
+ "En un workbench (mesa de trabajo) de riesgo operativo en Lima (colas sintéticas tipo banca de procesos, fintech o retail), el analista recibe cientos de eventos al día y necesita señales auxiliares que acorten la cola de revisión. Estas señales son apoyo, no un juez automático. Clustering, rareza y backtests temporales alimentan el triage CP-N3-C: priorizan qué mirar primero y miden si la señal ahorra tiempo al revisor (P@k: precisión en los k primeros del ranking; HITL: revisión humana obligatoria en el bucle). Si falta revisor o contrato, el sistema aplica fail-closed (cierra el flujo y no emite decisión automática). Un flag de rareza mal comunicado se convierte en daño reputacional y operativo. Anomalía ≠ conducta indebida ni fraude. Caso sintético CASO-LIM-036 (Red Andina ficticia).",
  learningOutcomes: [
  { text: "Escalar features, ejecutar un micro-paso assign–update de centroides 1D (núcleo de k-means) y marcar núcleos density (eps/min_samples) sin tratar el cluster como culpa." },
  { text: "Elegir k comparando seeds y reportar límites de métricas internas (no sancionar por silhouette)." },
@@ -510,7 +510,7 @@ scaled True`,
  },
  why: "El z-score pone features en escala comparable antes de distancias. Assign etiqueta cada punto al centroide más cercano y update recalcula medias: ese ciclo es el núcleo de k-means 1D. Density marca densidad local con la convención sklearn de DBSCAN (min_samples cuenta el propio punto). Ningún print es veredicto moral: solo geometría para priorizar la cola. En We Do repararás media, z-score con `sd=0` y el ciclo assign–update+density con `verdict False`.",
  retrospective:
-  "Si puedes explicar por qué el centroide y el núcleo density son resúmenes geométricos y no «prueba de fraude», ya tienes el hábito de señales auxiliares. El error clásico es publicar el id de cluster como sanción. En We Do practicarás media, scale y un ciclo assign–update con defecto ético deliberado.",
+  "Si puedes explicar por qué el centroide y el núcleo density son resúmenes geométricos y no «prueba de fraude», ya tienes el hábito de señales auxiliares. El error clásico es publicar el ID de cluster como sanción. En We Do practicarás media, scale y un ciclo assign–update con defecto ético deliberado.",
  },
  {
  demoId: "S36-T1-B-DEMO",
@@ -568,9 +568,9 @@ print("exploratory", True)
 scaled True
 exploratory True`,
  },
- why: "Scale por coordenada evita que un eje en soles aplaste a otro en conteos. La proyección lineal `w0*x+w1*y` es didáctica: pesos fijos documentados, no autovectores de producción. `decision_model` / `exploratory` dejan claro que el scatter no dispara autorrechazo. En We Do practicarás pesos, batch de pc y weight_share sin auto-reject.",
+ why: "Scale por coordenada evita que un eje en soles aplaste a otro en conteos. La proyección lineal `w0*x+w1*y` es didáctica: pesos fijos documentados, no autovectores de producción. `decision_model` / `exploratory` dejan claro que el scatter no dispara autorrechazo. En We Do practicarás pesos, batch de pc y weight_share sin autorrechazo.",
  retrospective:
-  "Pesos fijos ≠ PCA de producción (sklearn aprende autovectores); scale por eje evita que soles aplasten conteos. El error clásico es narrar «eje de riesgo moral» en el scatter. Pregunta: ¿por qué `exploratory True` debe convivir con `decision_model False`? We Do: pc, batch de proyecciones y weight_share sin auto-reject.",
+  "Pesos fijos ≠ PCA de producción (sklearn aprende autovectores); scale por eje evita que soles aplasten conteos. El error clásico es narrar «eje de riesgo moral» en el scatter. Pregunta: ¿por qué `exploratory True` debe convivir con `decision_model False`? We Do: pc, batch de proyecciones y weight_share sin autorrechazo.",
  },
  {
  demoId: "S36-T2-B-DEMO",
@@ -670,7 +670,7 @@ overflow True
 action lower_contamination
 is_fraud_rate False`,
  },
- why: "`int(n*contamination)` estima la carga de la cola; overflow frente a capacity fuerza recalibrar (bajar contamination o priorizar), nunca «descubrir más fraude». `is_fraud_rate` queda False a propósito: el parámetro no es prevalencia de ilícitos. En We Do: producto n×contamination, overflow y novelty vs ref.",
+ why: "`int(n*contamination)` estima la carga de la cola; overflow frente a capacity fuerza recalibrar (bajar contamination o priorizar), nunca «descubrir más fraude». `is_fraud_rate` queda False a propósito: el parámetro no es prevalencia de ilícitos. En We Do: producto n×contamination, overflow y novelty vs. ref.",
  retrospective:
   "Contamination calibra rareza y carga de revisores, no la tasa de ilícitos del negocio. El error clásico es vender «contamination=0.05 ⇒ 5% de fraude». Pregunta: con overflow, ¿subes contamination «para cazar más»? (no — bajas o priorizas.) We Do: expected_flags, overflow y kind novelty.",
  },
@@ -1061,7 +1061,7 @@ ok True`,
  kind: "guided",
  title: "Proyección ponderada exploratoria",
  preamble:
-  "- **Contexto:** en CASO-LIM-036-2A comprimes un punto sintético a un eje con pesos documentados solo para explorar.\n- **Meta:** `pc = w0*x + w1*y` con `decision_model False`.\n- **Éxito:** con `(4,6)` y pesos `0.5,0.5` imprimes `5.0`, `exploratory True`, `decision_model False`.\n- **Límites:** no ignores los pesos; no uses el pc como auto-rechazo.",
+  "- **Contexto:** en CASO-LIM-036-2A comprimes un punto sintético a un eje con pesos documentados solo para explorar.\n- **Meta:** `pc = w0*x + w1*y` con `decision_model False`.\n- **Éxito:** con `(4,6)` y pesos `0.5,0.5` imprimes `5.0`, `exploratory True`, `decision_model False`.\n- **Límites:** no ignores los pesos; no uses el pc como autorrechazo.",
  instruction:
   "1. Abre el starter: `pc = x + y` (bug).\n2. Multiplica cada coordenada por su peso.\n3. Conserva los tres prints.\n4. No normalices pesos salvo que el enunciado lo pida (aquí no).",
  hint: "pc = w0*x + w1*y.",
@@ -1149,13 +1149,13 @@ decision_model False`,
  id: "S36-T2-A-E3",
  subtopicId: "S36-T2-A",
  kind: "transfer",
- title: "Masa del componente sin auto-rechazo",
+ title: "Masa del componente sin autorrechazo",
  preamble:
-  "- **Contexto:** en el toy PCA de Red Andina reportas cuánto «pesa» el primer eje como `|w0|/(|w0|+|w1|)`, no como varianza real de autovalores.\n- **Meta:** calcular weight_share_pc1 y mantener `auto_reject False`.\n- **Éxito:** `use exploratory`, `weight_share_pc1 0.8`, `auto_reject False` con `w=(0.8,0.2)`.\n- **Límites:** no uses `|w1|` en el numerador; no presentes pesos fijos como autovectores; no auto-rechaces.",
+  "- **Contexto:** en el toy PCA de Red Andina reportas cuánto «pesa» el primer eje como `|w0|/(|w0|+|w1|)`, no como varianza real de autovalores.\n- **Meta:** calcular weight_share_pc1 y mantener `auto_reject False`.\n- **Éxito:** `use exploratory`, `weight_share_pc1 0.8`, `auto_reject False` con `w=(0.8,0.2)`.\n- **Límites:** no uses `|w1|` en el numerador; no presentes pesos fijos como autovectores; no autorrechaces.",
  instruction:
   "1. Lee el starter: `share = abs(w1)/mass` (bug).\n2. Usa `abs(w0)/mass`.\n3. Conserva use, share y auto_reject.\n4. No hardcodees 0.8 sin fórmula.",
- hint: "share = abs(w0) / (abs(w0)+abs(w1)); PCA no auto-rechaza.",
- hints: ["share = abs(w0) / (abs(w0)+abs(w1)); PCA no auto-rechaza.", "Pesos fijos ≠ autovectores de producción."],
+ hint: "share = abs(w0) / (abs(w0)+abs(w1)); PCA no autorrechaza.",
+ hints: ["share = abs(w0) / (abs(w0)+abs(w1)); PCA no autorrechaza.", "Pesos fijos ≠ autovectores de producción."],
  edgeCases: ["w=(0,0)", "sintético"],
  tests: "Salida alinea con solution output de S36-T2-A-E3 (CASO-LIM-036).",
  feedback:
@@ -1519,7 +1519,7 @@ auto_sanction False`,
  feedback:
   "El producto n×contamination es control de cola, no prevalencia de ilícitos. Sumar es un bug trivial con impacto de negocio: la capacidad de revisores se planifica mal y la cola se desborda o se subutiliza.",
  retrospective:
-  "El producto `n × contamination` es control de **carga** de cola, no prevalencia de ilícitos. Sumar es un bug trivial con impacto de negocio: planificas mal la capacidad de revisores. Pregunta: con n=200 y contamination=0.1, ¿por qué 20 y no 200.1? Siguiente (E2): overflow vs capacity real de slots.",
+  "El producto `n × contamination` es control de **carga** de cola, no prevalencia de ilícitos. Sumar es un bug trivial con impacto de negocio: planificas mal la capacidad de revisores. Pregunta: con n=200 y contamination=0.1, ¿por qué 20 y no 200.1? Siguiente (E2): overflow vs. capacity real de slots.",
  starterCode: {
  language: 'python',
  title: "s36-t3-b-e1.py",
@@ -1548,7 +1548,7 @@ use capacity_tuning`,
  id: "S36-T3-B-E2",
  subtopicId: "S36-T3-B",
  kind: "independent",
- title: "Overflow de cola vs capacity",
+ title: "Overflow de cola vs. capacity",
  preamble:
   "- **Contexto:** si esperas 10 flags y solo hay 8 slots de revisor, la cola de Red Andina se desborda.\n- **Meta:** `overflow = expected > capacity` y action de bajar contamination.\n- **Éxito:** `overflow True`, `action lower_contamination`, `ok True` con capacity=8, expected=10.\n- **Límites:** no inviertas la desigualdad; no «descubras más fraude» al overflow.",
  instruction:
@@ -1560,7 +1560,7 @@ use capacity_tuning`,
  feedback:
   "Overflow es un problema de **capacidad**, no de «más delincuentes». Invertir la comparación oculta el desborde y deja a los revisores sin cupo real en la cola HITL.",
  retrospective:
-  "Overflow es un problema de **capacidad de revisor**, no de «más delincuentes en el batch». Invertir `>` a `<` oculta el desborde y deja la cola HITL sin cupo real. Pregunta: si expected=10 y capacity=8, ¿la action es «subir contamination»? (no — `lower_contamination` o priorizar.) Luego (E3): novelty calculada vs ref, sin culpa.",
+  "Overflow es un problema de **capacidad de revisor**, no de «más delincuentes en el batch». Invertir `>` a `<` oculta el desborde y deja la cola HITL sin cupo real. Pregunta: si expected=10 y capacity=8, ¿la action es «subir contamination»? (no — `lower_contamination` o priorizar.) Luego (E3): novelty calculada vs. ref, sin culpa.",
  starterCode: {
  language: 'python',
  title: "s36-t3-b-e2.py",
@@ -1612,7 +1612,7 @@ ok True`,
 import statistics
 ref = [10, 11, 10, 12]
 x_new = 50
-print("kind", "outlier_as_guilt") # DEFECT: calcula z vs ref
+print("kind", "outlier_as_guilt") # DEFECT: calcula z vs. ref
 print("misconduct", True)
 print("ok", True)
 `,
