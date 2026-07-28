@@ -18,36 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **427** | Paragraphs: **270**
-- Findings: **108** (high=0, medium=2, low=106)
-- Mean quality score (0–10): **9.0**
-- Mean Fernández-Huerta: **101.1** (muy fácil)
-- Mean words/sentence: **8.89**
+- Sentences: **435** | Paragraphs: **302**
+- Findings: **109** (high=0, medium=0, low=109)
+- Mean quality score (0–10): **9.25**
+- Mean Fernández-Huerta: **93.2** (muy fácil)
+- Mean words/sentence: **11.65**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S34 | 9.0 | 101.1 | 8.89 | 0/2/106 | `s34-cv-ai-integration.ts` |
+| S35 | 9.25 | 93.2 | 11.65 | 0/0/109 | `s35-system-design.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=85)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=9)
+### `lowercase_after_period` (n=16)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_terminal_punct` (n=2)
-- **Cause:** Frases colgadas tras edición o plantillas.
-- **Improvement:** Toda oración asertiva cierra con punto.
+### `long_sentence` (n=5)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
+### `possible_plural_det_singular_noun` (n=3)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ## How to use
 

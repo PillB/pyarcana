@@ -2833,75 +2833,76 @@ Texto extraido: 'Holoa'`,
       hint: 'Anade mas pixeles a texto_como_pixeles y observa el resultado',
     },
     'system-design': {
-      title: 'Practica arquitectura y ADR',
-      code: `# Simulacion de design de sistemas
-# Generar ADR (Architecture Decision Record)
+      title: 'Practica la ficha de caso CP-N3-C',
+      code: `# Ficha de caso CP-N3-C sobre CASO-LIM-035 (sintetico)
+# Construye las 4 capas: evidencia | modelo | incertidumbre | humano
 
-def generate_adr(title, context, decision, alternatives, consequences):
-    """Genera un ADR con formato estandar."""
-    adr = f"# ADR: {title}\\n"
-    adr += f"\\n## Context\\n{context}\\n"
-    adr += f"\\n## Decision\\n{decision}\\n"
-    adr += f"\\n## Alternatives\\n"
-    for alt in alternatives:
-        adr += f"- {alt}\\n"
-    adr += f"\\n## Consequences\\n{consequences}\\n"
-    adr += f"\\n## Status: Proposed\\n"
-    return adr
+# Capa 1: evidencia observada (hechos del caso, no veredicto)
+evidence = ["shared_phone", "amount_z_high"]
 
-# Generar ADR para decision real
-adr = generate_adr(
-    title="Batch vs Real-Time Inference",
-    context="El equipo de riesgo necesita scoring en <100ms para aprobar creditos en tiempo real.",
-    decision="Usar real-time inference con FastAPI + Redis cache + XGBoost model.",
-    alternatives=[
-        "Batch scoring: descartado (necesitan tiempo real)",
-        "Lambda function: descartado (cold start > 100ms)",
-        "gRPC: descartado (clientes usan REST)",
-    ],
-    consequences="Latencia p99 < 100ms. Requiere Redis + monitoring 24/7. Costo ~$500/mes."
-)
+# Capa 2: contribucion local del modelo (value x weight, baseline=0)
+contrib = {"shared_phone": (0.9, 1.0), "amount_z": (0.1, 1.0)}
+score = round(sum(v * w for v, w in contrib.values()), 2)
+means_fraud = False   # False: el score no acusa fraude
+causal = False        # False: contribucion no es causa legal
 
-print(adr)
+# Capa 3: incertidumbre (banda toy p-q / p+q + OOD)
+p, q = 0.6, 0.1
+band = (round(p - q, 2), round(p + q, 2))
+zs = [1.0, 2.0, 3.5]
+ood = max(abs(z) for z in zs) > 3.0
+action = "abstain" if ood else "score"
 
-# Simular feature store
-print("\\n=== Feature Store (simulado) ===")
-features = {
-    "user_123": {"age": 25, "avg_spend": 150.5, "login_count": 30},
-    "user_456": {"age": 35, "avg_spend": 320.0, "login_count": 12},
+# Capa 4: decision humana (audit minimo: case, human, by)
+human = {"case": "CASO-LIM-035", "human": "override_skip", "by": "analyst_7"}
+
+# Model card minima (use, out_of_scope, owner, contestability)
+card = {
+    "use": "queue_rank",
+    "out_of_scope": ["fraud_label"],
+    "owner": "risk_ops",
+    "contestability": True,
 }
 
-def get_features(user_id, source="online"):
-    """Obtiene features (online=Redis <10ms, offline=parquet)."""
-    if source == "online":
-        return features.get(user_id, {})
-    return {"note": "En offline, trae features historicas point-in-time"}
+# Ensamblar ficha de 4 capas
+ficha = {
+    "evidence": evidence,
+    "model": {"score": score, "means_fraud": means_fraud, "causal": causal},
+    "uncertainty": {"band": band, "ood": ood, "action": action},
+    "human": human,
+}
 
-print(f"Online user_123: {get_features('user_123', 'online')}")
-print(f"Online user_999: {get_features('user_999', 'online')}")`,
-      expectedOutput: `# ADR: Batch vs Real-Time Inference
+print("=== Ficha CP-N3-C ===")
+for capa, val in ficha.items():
+    print(f"  {capa}: {val}")
 
-## Context
-El equipo de riesgo necesita scoring en <100ms para aprobar creditos en tiempo real.
+print("\\n=== Model card ===")
+for k, v in card.items():
+    print(f"  {k}: {v}")
 
-## Decision
-Usar real-time inference con FastAPI + Redis cache + XGBoost model.
+# Gate de portfolio: etica + incertidumbre + gobernanza
+ok = (
+    (not means_fraud)
+    and (not causal)
+    and (card["use"] != "fraud_label")
+    and card["contestability"]
+    and bool(human["by"])
+)
+print(f"\\nportfolio_ready: {ok}")`,
+      expectedOutput: `=== Ficha CP-N3-C ===
+  evidence: ['shared_phone', 'amount_z_high']
+  model: {'score': 1.0, 'means_fraud': False, 'causal': False}
+  uncertainty: {'band': (0.5, 0.7), 'ood': True, 'action': 'abstain'}
+  human: {'case': 'CASO-LIM-035', 'human': 'override_skip', 'by': 'analyst_7'}
 
-## Alternatives
-- Batch scoring: descartado (necesitan tiempo real)
-- Lambda function: descartado (cold start > 100ms)
-- gRPC: descartado (clientes usan REST)
+=== Model card ===
+  use: queue_rank
+  out_of_scope: ['fraud_label']
+  owner: risk_ops
+  contestability: True
 
-## Consequences
-Latencia p99 < 100ms. Requiere Redis + monitoring 24/7. Costo ~$500/mes.
-
-## Status: Proposed
-
-
-=== Feature Store (simulado) ===
-Online user_123: {'age': 25, 'avg_spend': 150.5, 'login_count': 30}
-Online user_999: {}`,
-      hint: 'Escribe un ADR para tu propia decision tecnica',
+portfolio_ready: True`,
+      hint: 'Cambia means_fraud a True o by a "" y observa como portfolio_ready pasa a False',
     },
     'ai-apis-advanced': {
       title: 'Practica function calling (simulado)',

@@ -12,75 +12,73 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 427,
-  "total_paragraphs": 270,
-  "total_findings": 108,
+  "total_sentences": 435,
+  "total_paragraphs": 302,
+  "total_findings": 109,
   "severity": {
-    "low": 106,
-    "medium": 2
+    "low": 109
   },
-  "mean_quality_score": 9.0,
-  "min_quality_score": 9.0,
-  "mean_fernandez_huerta": 101.1,
+  "mean_quality_score": 9.25,
+  "min_quality_score": 9.25,
+  "mean_fernandez_huerta": 93.2,
   "mean_fh_label": "muy fácil",
-  "mean_wps": 8.89,
+  "mean_wps": 11.65,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
+      85
     ],
     [
       "lowercase_after_period",
-      9
+      16
     ],
     [
-      "missing_terminal_punct",
-      2
+      "long_sentence",
+      5
     ],
     [
-      "comma_density",
-      1
+      "possible_plural_det_singular_noun",
+      3
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 85,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 9,
+      "count": 16,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "missing_terminal_punct",
-      "count": 2,
-      "cause": "Frases colgadas tras edición o plantillas.",
-      "fix": "Toda oración asertiva cierra con punto."
+      "rule": "long_sentence",
+      "count": 5,
+      "cause": "Explicaciones densas sin cortes.",
+      "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     },
     {
-      "rule": "comma_density",
-      "count": 1,
-      "cause": "Subordinación excesiva.",
-      "fix": "Listas o frases independientes."
+      "rule": "possible_plural_det_singular_noun",
+      "count": 3,
+      "cause": "Posible desacuerdo de número (heurística).",
+      "fix": "Verificar concordancia determinante–sustantivo."
     }
   ],
   "sections_ranked": [
     {
-      "section": 34,
-      "file": "s34-cv-ai-integration.ts",
-      "quality_score_0_10": 9.0,
-      "fernandez_huerta": 101.1,
-      "avg_words_per_sentence": 8.89,
+      "section": 35,
+      "file": "s35-system-design.ts",
+      "quality_score_0_10": 9.25,
+      "fernandez_huerta": 93.2,
+      "avg_words_per_sentence": 11.65,
       "findings_by_severity": {
-        "low": 106,
-        "medium": 2
+        "low": 109
       },
-      "findings_total": 108
+      "findings_total": 109
     }
   ]
 }
