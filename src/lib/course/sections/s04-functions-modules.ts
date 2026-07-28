@@ -12,7 +12,7 @@ export const section04: CourseSection = {
   icon: "Repeat",
   accentColor: "bg-gradient-to-br from-amber-500 to-orange-600",
   jobRelevance:
-    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. En esta sección conviertes el motor de S03 en un **procesador por lotes**: sabes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros. Ese criterio sirve igual para pedidos, sensores, matrículas o transacciones, y cierra el Client Intake CP-N1-A.",
+    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. En esta sección conviertes el motor de S03, que es el validador que decidía accept/reject/review por cada registro, en un procesador por lotes, que es un programa que recorre muchos registros en un solo pase en vez de uno por uno: sabes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros. Ese criterio sirve igual para pedidos, sensores, matrículas o transacciones, y cierra el Client Intake CP-N1-A, que es el primer incremento del capstone de datos del curso.",
   learningOutcomes: [
     { text: "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo" },
     { text: "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake" },
@@ -753,7 +753,7 @@ fila 3: C`,
         kind: "independent",
         title: "Emparejar columnas con zip (y ver el silencio)",
         preamble:
-          "- **Contexto:** nombres y edades de un intake deben ir en paralelo, no en producto cartesiano.\n- **Meta:** emparejar con `zip` y observar el truncamiento silencioso al acortar una columna.\n- **Éxito:** `Ana=30`, `Luis=25`, `María=40` y luego `zip corto [('Ana', 30)]`.\n- **Límites:** un solo for sobre `zip`; no nested loops; aquí solo *observas* el silencio (en código real validarías `len`).",
+          "- **Contexto:** nombres y edades de un intake deben ir en paralelo, no en producto cartesiano.\n- **Meta:** emparejar con `zip` y observar el truncamiento silencioso al acortar una columna.\n- **Éxito:** `Ana=30`, `Luis=25`, `María=40` y luego `zip corto [('Ana', 30)]`.\n- **Límites:** un solo for sobre `zip`; no bucles anidados; aquí solo *observas* el silencio (en código real validarías `len`).",
         id: "S04-T1-B-E2",
         instruction:
           "1. El starter anida dos fors (DEFECT: 9 líneas basura).\n2. Recorre `zip(nombres, edades)` e imprime `nombre=edad`.\n3. Imprime `zip corto` con `list(zip(nombres, edades[:1]))` para ver la pérdida.",
@@ -765,7 +765,7 @@ fila 3: C`,
         edgeCases: ["truncamiento silencioso"],
         tests: "3 pares + 1 par en zip corto",
         feedback:
-          "Nested loops multiplican pares (9 líneas); `zip` alinea en paralelo. Si viste `zip corto` con un solo par, ya sentiste el truncamiento silencioso que miente resúmenes.",
+          "Bucles anidados multiplican pares (9 líneas); `zip` alinea en paralelo. Si viste `zip corto` con un solo par, ya sentiste el truncamiento silencioso que miente resúmenes.",
         retrospective:
           "El doble `for` crea combinaciones; `zip` crea pares posicionales. Sin embargo, un `zip` corto puede ocultar justo la fila problemática y mejorar artificialmente una tasa. Formula el control previo que convertiría esa omisión silenciosa en un error visible.",
         starterCode: {
@@ -803,7 +803,7 @@ zip corto [('Ana', 30)]`,
           "- **Contexto:** en un pipeline de calidad, desalineación de columnas debe ser error ruidoso, no pérdida silenciosa.\n- **Meta:** implementar validación de longitudes (equivalente pedagógico a `zip(..., strict=True)`).\n- **Éxito:** imprime `DESALINEADO` y luego `OK` (en ese orden).\n- **Límites:** lanza `ValueError` si `len(a) != len(b)`; no uses la API `strict=` si tu entorno no es 3.10+ — el helper basta.",
         id: "S04-T1-B-E3",
         instruction:
-          "1. Completa `zip_strict`: si longitudes difieren, `raise ValueError`.\n2. Primer intento con listas 3 vs 2 → captura y `print(\"DESALINEADO\")`.\n3. Segundo intento con listas de longitud 2 → `print(\"OK\")` si no lanza.",
+          "1. Completa `zip_strict`: si longitudes difieren, `raise ValueError`.\n2. Primer intento con listas 3 vs. 2 → captura y `print(\"DESALINEADO\")`.\n3. Segundo intento con listas de longitud 2 → `print(\"OK\")` si no lanza.",
         hint: "Compara len(a) y len(b) antes de zip; si difieren, raise ValueError.",
         hints: [
           "Compara len(a) y len(b) antes de zip; si difieren, raise ValueError.",
@@ -812,7 +812,7 @@ zip corto [('Ana', 30)]`,
         edgeCases: ["strict alignment"],
         tests: "DESALINEADO luego OK",
         feedback:
-          "Si no sale `DESALINEADO` primero, el `raise` no corrió con longitudes 3 vs 2. Si no sale `OK` después, el segundo bloque no validó un par alineado. El silencio de `zip` sin assert es el bug a evitar.",
+          "Si no sale `DESALINEADO` primero, el `raise` no corrió con longitudes 3 vs. 2. Si no sale `OK` después, el segundo bloque no validó un par alineado. El silencio de `zip` sin assert es el bug a evitar.",
         retrospective:
           "Aquí fallar pronto es una forma de cuidar los datos. Si tres ids llegan con dos edades, no existe un emparejamiento total que puedas defender. Explica por qué `ValueError` conserva más verdad que una lista de dos pares aparentemente correctos, y dónde pondrías esta comprobación en una importación real.",
         starterCode: {
@@ -1580,7 +1580,7 @@ FINAL {'accept': 2, 'reject': 1}`,
       {
         subtopicId: "S04-T4-B",
         kind: "guided",
-        title: "Contar pasos O(n) vs O(n²)",
+        title: "Contar pasos O(n) vs. O(n²)",
         preamble:
           "- **Contexto:** con n chico el cuadrático no “se siente”, pero el conteo de pasos sí lo delata.\n- **Meta:** derivar pasos de un for simple y de un doble for con `n=5`.\n- **Éxito:** imprime `5 25`.\n- **Límites:** no inventes los números; cuéntalos con incrementos reales en bucles.",
         id: "S04-T4-B-E1",
@@ -1679,7 +1679,7 @@ r2`,
         hint: "La tasa de reject no necesita combinar pares: basta un conteo O(n).",
         hints: [
           "La tasa de reject no necesita combinar pares: basta un conteo O(n).",
-          "Tras 3 0.6, imprime la nota con el texto exacto del éxito (O(n) vs pares O(n2)).",
+          "Tras 3 0.6, imprime la nota con el texto exacto del éxito (O(n) vs. pares O(n2)).",
         ],
         edgeCases: ["evitar n² innecesario"],
         tests: "3 0.6 + nota",
@@ -1910,7 +1910,7 @@ if __name__ == "__main__":
     books: [
       {
         label: "Python Crash Course (Matthes)",
-        note: "Capítulos de loops; aplicar a lotes de intake del curso.",
+        note: "Capítulos de bucles; aplicar a lotes de intake del curso.",
       },
       {
         label: "Automate the Boring Stuff",
@@ -1936,7 +1936,7 @@ if __name__ == "__main__":
       {
         label: "Kaggle Learn — Python",
         url: "https://www.kaggle.com/learn/python",
-        note: "Micro-práctica de loops",
+        note: "Micro-práctica de bucles",
       },
     ],
   },

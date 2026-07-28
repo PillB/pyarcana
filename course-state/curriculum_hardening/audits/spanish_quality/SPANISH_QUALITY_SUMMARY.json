@@ -12,133 +12,95 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 425,
-  "total_paragraphs": 259,
-  "total_findings": 112,
+  "total_sentences": 358,
+  "total_paragraphs": 212,
+  "total_findings": 103,
   "severity": {
-    "low": 112
+    "low": 102,
+    "medium": 1
   },
-  "mean_quality_score": 9.21,
-  "min_quality_score": 9.21,
-  "mean_fernandez_huerta": 85.7,
+  "mean_quality_score": 9.11,
+  "min_quality_score": 9.11,
+  "mean_fernandez_huerta": 86.7,
   "mean_fh_label": "fácil",
-  "mean_wps": 11.51,
+  "mean_wps": 9.58,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      73
+      94
     ],
     [
       "lowercase_after_period",
-      9
-    ],
-    [
-      "space_before_punct",
-      9
-    ],
-    [
-      "possible_plural_det_singular_noun",
-      8
-    ],
-    [
-      "missing_inverted_exclamation",
-      5
+      4
     ],
     [
       "long_sentence",
-      3
-    ],
-    [
-      "unbalanced_quotes",
       2
     ],
     [
-      "choppy_paragraph",
+      "missing_inverted_exclamation",
       1
     ],
     [
-      "comma_density",
+      "space_before_punct",
       1
     ],
     [
-      "double_space",
+      "repeated_word",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 73,
+      "count": 94,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
-      "count": 9,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "space_before_punct",
-      "count": 9,
-      "cause": "Artefacto de formato.",
-      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
-    },
-    {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 8,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
-    },
-    {
-      "rule": "missing_inverted_exclamation",
-      "count": 5,
+      "count": 4,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "long_sentence",
-      "count": 3,
+      "count": 2,
       "cause": "Explicaciones densas sin cortes.",
       "fix": "Corta en conectores causales/adversativos; mueve ejemplos a código."
     },
     {
-      "rule": "unbalanced_quotes",
-      "count": 2,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "choppy_paragraph",
+      "rule": "missing_inverted_exclamation",
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
-      "rule": "comma_density",
+      "rule": "space_before_punct",
       "count": 1,
-      "cause": "Subordinación excesiva.",
-      "fix": "Listas o frases independientes."
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     },
     {
-      "rule": "double_space",
+      "rule": "repeated_word",
       "count": 1,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
+      "cause": "Typo o pegado doble.",
+      "fix": "Eliminar duplicado."
     }
   ],
   "sections_ranked": [
     {
-      "section": 2,
-      "file": "s02-basics.ts",
-      "quality_score_0_10": 9.21,
-      "fernandez_huerta": 85.7,
-      "avg_words_per_sentence": 11.51,
+      "section": 6,
+      "file": "s06-numpy.ts",
+      "quality_score_0_10": 9.11,
+      "fernandez_huerta": 86.7,
+      "avg_words_per_sentence": 9.58,
       "findings_by_severity": {
-        "low": 112
+        "low": 102,
+        "medium": 1
       },
-      "findings_total": 112
+      "findings_total": 103
     }
   ]
 }

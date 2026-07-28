@@ -18,60 +18,44 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **425** | Paragraphs: **259**
-- Findings: **112** (high=0, medium=0, low=112)
-- Mean quality score (0–10): **9.21**
-- Mean Fernández-Huerta: **85.7** (fácil)
-- Mean words/sentence: **11.51**
+- Sentences: **358** | Paragraphs: **212**
+- Findings: **103** (high=0, medium=1, low=102)
+- Mean quality score (0–10): **9.11**
+- Mean Fernández-Huerta: **86.7** (fácil)
+- Mean words/sentence: **9.58**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S02 | 9.21 | 85.7 | 11.51 | 0/0/112 | `s02-basics.ts` |
+| S06 | 9.11 | 86.7 | 9.58 | 0/1/102 | `s06-numpy.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=73)
+### `fragment` (n=94)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=9)
+### `lowercase_after_period` (n=4)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `space_before_punct` (n=9)
-- **Cause:** Artefacto de formato.
-- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
-
-### `possible_plural_det_singular_noun` (n=8)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
-
-### `missing_inverted_exclamation` (n=5)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `long_sentence` (n=3)
+### `long_sentence` (n=2)
 - **Cause:** Explicaciones densas sin cortes.
 - **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
 
-### `unbalanced_quotes` (n=2)
+### `missing_inverted_exclamation` (n=1)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `choppy_paragraph` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
-
-### `double_space` (n=1)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
+### `repeated_word` (n=1)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ## How to use
 

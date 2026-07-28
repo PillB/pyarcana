@@ -12,7 +12,7 @@ export const section06: CourseSection = {
   icon: "Layers",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Antes de guardar un lote en CSV o enviarlo a una base de datos, un programa necesita una mesa de clasificación en memoria. Allí conserva el orden de llegada, localiza clientes por ID, detecta repeticiones y deja constancia de los desacuerdos. En esta sección conviertes las listas y funciones de S04–S05 en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding, logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
+    "Antes de guardar un lote en CSV o enviarlo a una base de datos, un programa necesita una mesa de clasificación en memoria. Allí conserva el orden de llegada, localiza clientes por ID, detecta repeticiones y deja constancia de los desacuerdos. En esta sección conviertes las listas y funciones de S04–S05 en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding (el alta y verificación de un nuevo cliente o caso), logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
     { text: "Usar list/tuple y slicing para ventanas de registros sin copiar de más" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },
@@ -82,7 +82,7 @@ T2 in slice? True`,
       heading: "Unpacking, aliasing y copia",
       subtopicId: "S06-T1-B",
       paragraphs: [
-        "El desempaquetado convierte la posición en nombres: `id_cliente, region, monto = fila` documenta el shape mejor que tres índices sueltos. Si sobran o faltan valores, Python detiene la operación con `ValueError`. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto. `head, *rest = fila` sirve cuando solo la primera columna es fija y el resto puede variar.",
+        "El desempaquetado convierte la posición en nombres: `id_cliente, region, monto = fila` documenta el shape (la forma de la fila: qué tipo de dato va en cada posición) mejor que tres índices sueltos. Si sobran o faltan valores, Python detiene la operación con `ValueError`. Ese fallo temprano es una alarma útil: impide que una región termine silenciosamente en la variable del monto. `head, *rest = fila` sirve cuando solo la primera columna es fija y el resto puede variar.",
         "Una asignación no fotocopia el objeto; solo añade otra etiqueta. Si dos etiquetas de equipaje apuntan a la misma maleta, abrirla mediante cualquiera revela el mismo contenido. Así funciona `b = a`: `a` y `b` son nombres del mismo contenedor. El error del principiante es interpretar dos variables como dos historias independientes y descubrir la mutación mucho después.",
         "La copia superficial crea un contenedor exterior nuevo, pero conserva referencias a los objetos interiores. Basta si solo reordenas filas; no basta si modificarás `tags`, contactos u otros campos anidados. `deepcopy` separa todo el grafo, aunque consume más memoria y puede ocultar una arquitectura demasiado mutable. Decide el nivel de aislamiento antes de mutar y prueba la identidad que esperas conservar.",
       ],
@@ -174,7 +174,7 @@ merged: {'timeout': 30, 'retry': 3}`,
       heading: "Deduplicación y operaciones de set",
       subtopicId: "S06-T2-B",
       paragraphs: [
-        "Un `set` se parece a una lista de invitados que solo responde pertenencia: un nombre está o no está, sin posición ni payload asociado. Por eso resuelve unión, intersección y diferencia de cohortes con claridad. Sus elementos deben ser hashables; strings y enteros sirven, mientras que listas y diccionarios mutables no pueden convertirse directamente en miembros.",
+        "Un `set` se parece a una lista de invitados que solo responde pertenencia: un nombre está o no está, sin posición ni payload asociado. Por eso resuelve unión, intersección y diferencia de cohortes con claridad. Sus elementos deben ser hashables (que pueden usarse como claves de un `dict` o miembros de un `set`, como strings o enteros); las listas y diccionarios mutables no pueden convertirse directamente en miembros.",
         "La deduplicación de negocio exige una segunda pregunta: «¿la fila repetida cuenta la misma historia?». Dos copias idénticas pueden tratarse como ruido; el mismo ID con otra región o email es un conflicto. Un set de IDs detecta la repetición, pero no conserva suficiente evidencia para compararla. El patrón `unique + conflicts` guarda la primera vista y registra cualquier desacuerdo en vez de decretar en silencio que «la última gana».",
         "Los sets tampoco prometen un orden apto para un informe. Ordena sus elementos al mostrar o serializar: el propósito no es embellecer la salida, sino hacerla reproducible. Si el mismo lote genera distinto texto en dos corridas, un diff no puede distinguir un cambio real de una casualidad de orden. Predice qué información perderías si redujeras todo el registro a `set(ids)`.",
       ],
@@ -526,12 +526,12 @@ rows = [
 unique, conflicts, seen = dedup_with_conflicts(rows)
 print("unique ids:", sorted(seen))
 print("n_conflicts:", len(conflicts))
-print("conflict email pair:", conflicts[0]["a"]["email"], "vs", conflicts[0]["b"]["email"])
+print("conflict email pair:", conflicts[0]["a"]["email"], "vs.", conflicts[0]["b"]["email"])
 lote1, lote2 = {"C001", "C002"}, {"C002", "C003"}
 print("intersección lotes:", sorted(lote1 & lote2))`,
           output: `unique ids: ['C001', 'C002']
 n_conflicts: 1
-conflict email pair: a@ex.com vs otro@ex.com
+conflict email pair: a@ex.com vs. otro@ex.com
 intersección lotes: ['C002']`,
         },
         why: "`seen` guarda la primera evidencia asociada a cada ID. Una fila idéntica no añade información; una distinta se conserva junto a la primera para revisión. Si usáramos solo `set(ids)`, sabríamos que C001 se repitió, pero no cuál campo discrepó. Separar `unique` de `conflicts` permite continuar el proceso sin fingir que la contradicción desapareció.",
@@ -894,7 +894,7 @@ print(cid, region, monto)`,
         kind: "independent",
         title: "Alias versus copy en lista de enteros",
         preamble:
-          "- **Contexto:** al «duplicar» una cola de ids numéricos de demo, `=` no copia.\n- **Meta:** contrastar alias y `list.copy()` con mutaciones `append`.\n- **Éxito:** tras alias append 3 → `xs` y `copia` divergen (`[1,2,3]` vs `[1,2]`); tras append 4 solo a copia → `xs` sin 4.\n- **Límites:** no uses `deepcopy` aquí (ints inmutables; shallow basta).",
+          "- **Contexto:** al «duplicar» una cola de ids numéricos de demo, `=` no copia.\n- **Meta:** contrastar alias y `list.copy()` con mutaciones `append`.\n- **Éxito:** tras alias append 3 → `xs` y `copia` divergen (`[1,2,3]` vs. `[1,2]`); tras append 4 solo a copia → `xs` sin 4.\n- **Límites:** no uses `deepcopy` aquí (ints inmutables; shallow basta).",
         id: "S06-T1-B-E2",
         instruction:
           "1. Parte de `xs = [1, 2]`.\n2. Crea `alias` (mismo objeto) y `copia` (shallow).\n3. Mutar alias, imprimir; mutar copia, imprimir.\n4. Imprime en el orden del starter: tras alias, luego tras mutar la copia.",
@@ -943,7 +943,7 @@ tras copia [1, 2, 3] [1, 2, 4]`,
           "- **Contexto:** clientes con `tags: list` en el store; un helper «copia» el lote y contamina el original.\n- **Meta:** demostrar que `list.copy()` comparte dicts internos y que `deepcopy` aísla.\n- **Éxito:** tras shallow, original tiene `'s'`; tras deep append `'d'`, original queda con `['a','s']` y deep con `['a','s','d']`.\n- **Límites:** `import copy`; no inventes otra estructura.",
         id: "S06-T1-B-E3",
         instruction:
-          "1. Ejecuta el starter y observa la fuga por tags.\n2. Reemplaza la «deep» falsa por `copy.deepcopy`.\n3. Mutar solo el deep e imprime original vs deep.\n4. No «arregles» borrando el experimento shallow: sirve de contraste.",
+          "1. Ejecuta el starter y observa la fuga por tags.\n2. Reemplaza la «deep» falsa por `copy.deepcopy`.\n3. Mutar solo el deep e imprime original vs. deep.\n4. No «arregles» borrando el experimento shallow: sirve de contraste.",
         hint: "import copy; deepcopy",
         hints: [
           "import copy; deepcopy",
@@ -1201,7 +1201,7 @@ symdiff ['a@ex.com', 'd@ex.com']`,
         kind: "transfer",
         title: "dedup_report con unique y conflicts",
         preamble:
-          "- **Contexto:** en CP-N1-B, dos filas con el mismo `id` y datos distintos deben **reportarse**, no silenciarse.\n- **Meta:** devolver `{unique, conflicts}` con política de payload.\n- **Éxito:** unique con primera vista de C001 y C002; un solo conflicto C001 `v:1` vs `v:9`; la fila idéntica no entra a conflicts.\n- **Límites:** no borres filas del reporte; no uses «último gana» sin traza.",
+          "- **Contexto:** en CP-N1-B, dos filas con el mismo `id` y datos distintos deben **reportarse**, no silenciarse.\n- **Meta:** devolver `{unique, conflicts}` con política de payload.\n- **Éxito:** unique con primera vista de C001 y C002; un solo conflicto C001 `v:1` vs. `v:9`; la fila idéntica no entra a conflicts.\n- **Límites:** no borres filas del reporte; no uses «último gana» sin traza.",
         id: "S06-T2-B-E3",
         instruction:
           "1. Cambia `seen` de set a dict id→fila.\n2. Si el id es nuevo, guarda en unique.\n3. Si ya existe y `seen[k] != r`, anexa a conflicts.\n4. Imprime el dict resultado del fixture del starter.",
@@ -1776,7 +1776,7 @@ print(s)`,
       {
         subtopicId: "S06-T4-B",
         kind: "transfer",
-        title: "Membership list vs set y costo de n búsquedas",
+        title: "Membership list vs. set y costo de n búsquedas",
         preamble:
           "- **Contexto:** n búsquedas de un id en cohorte; list recorre, set hashea.\n- **Meta:** comprobar `in` en ambas y **derivar** costos `n*n` y `n` desde `len`.\n- **Éxito:** ambos `in` True; `costo_conceptual_list 25` y `costo_conceptual_set 5` con n=5.\n- **Límites:** no hardcodees 25/5 sin calcular desde `n`; no importes librerías de timing.",
         id: "S06-T4-B-E3",
