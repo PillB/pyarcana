@@ -12,75 +12,115 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 491,
-  "total_paragraphs": 308,
-  "total_findings": 99,
+  "total_sentences": 429,
+  "total_paragraphs": 287,
+  "total_findings": 103,
   "severity": {
-    "low": 98,
-    "medium": 1
+    "low": 100,
+    "medium": 3
   },
-  "mean_quality_score": 9.58,
-  "min_quality_score": 9.58,
-  "mean_fernandez_huerta": 82.9,
-  "mean_fh_label": "fácil",
-  "mean_wps": 9.68,
+  "mean_quality_score": 9.22,
+  "min_quality_score": 9.22,
+  "mean_fernandez_huerta": 91.0,
+  "mean_fh_label": "muy fácil",
+  "mean_wps": 9.98,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      96
+      87
     ],
     [
       "lowercase_after_period",
+      10
+    ],
+    [
+      "comma_density",
+      1
+    ],
+    [
+      "unbalanced_delimiters",
+      1
+    ],
+    [
+      "missing_terminal_punct",
+      1
+    ],
+    [
+      "missing_inverted_exclamation",
+      1
+    ],
+    [
+      "space_before_punct",
       1
     ],
     [
       "repeated_word",
-      1
-    ],
-    [
-      "possible_plural_det_singular_noun",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 96,
+      "count": 87,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
     },
     {
       "rule": "lowercase_after_period",
+      "count": 10,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "comma_density",
+      "count": 1,
+      "cause": "Subordinación excesiva.",
+      "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "unbalanced_delimiters",
+      "count": 1,
+      "cause": "Paréntesis/comillas abiertos en cortes de párrafo.",
+      "fix": "Validar emparejamiento en revisión."
+    },
+    {
+      "rule": "missing_terminal_punct",
+      "count": 1,
+      "cause": "Frases colgadas tras edición o plantillas.",
+      "fix": "Toda oración asertiva cierra con punto."
+    },
+    {
+      "rule": "missing_inverted_exclamation",
       "count": 1,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "space_before_punct",
+      "count": 1,
+      "cause": "Artefacto de formato.",
+      "fix": "Normalizar tipografía española (sin espacio antes de ,.)."
     },
     {
       "rule": "repeated_word",
       "count": 1,
       "cause": "Typo o pegado doble.",
       "fix": "Eliminar duplicado."
-    },
-    {
-      "rule": "possible_plural_det_singular_noun",
-      "count": 1,
-      "cause": "Posible desacuerdo de número (heurística).",
-      "fix": "Verificar concordancia determinante–sustantivo."
     }
   ],
   "sections_ranked": [
     {
-      "section": 45,
-      "file": "s45-iac.ts",
-      "quality_score_0_10": 9.58,
-      "fernandez_huerta": 82.9,
-      "avg_words_per_sentence": 9.68,
+      "section": 46,
+      "file": "s46-gpu-computing.ts",
+      "quality_score_0_10": 9.22,
+      "fernandez_huerta": 91.0,
+      "avg_words_per_sentence": 9.98,
       "findings_by_severity": {
-        "low": 98,
-        "medium": 1
+        "low": 100,
+        "medium": 3
       },
-      "findings_total": 99
+      "findings_total": 103
     }
   ]
 }

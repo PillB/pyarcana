@@ -18,36 +18,52 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **491** | Paragraphs: **308**
-- Findings: **99** (high=0, medium=1, low=98)
-- Mean quality score (0–10): **9.58**
-- Mean Fernández-Huerta: **82.9** (fácil)
-- Mean words/sentence: **9.68**
+- Sentences: **429** | Paragraphs: **287**
+- Findings: **103** (high=0, medium=3, low=100)
+- Mean quality score (0–10): **9.22**
+- Mean Fernández-Huerta: **91.0** (muy fácil)
+- Mean words/sentence: **9.98**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S45 | 9.58 | 82.9 | 9.68 | 0/1/98 | `s45-iac.ts` |
+| S46 | 9.22 | 91.0 | 9.98 | 0/3/100 | `s46-gpu-computing.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=96)
+### `fragment` (n=87)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=1)
+### `lowercase_after_period` (n=10)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
+
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
+
+### `unbalanced_delimiters` (n=1)
+- **Cause:** Paréntesis/comillas abiertos en cortes de párrafo.
+- **Improvement:** Validar emparejamiento en revisión.
+
+### `missing_terminal_punct` (n=1)
+- **Cause:** Frases colgadas tras edición o plantillas.
+- **Improvement:** Toda oración asertiva cierra con punto.
+
+### `missing_inverted_exclamation` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ### `repeated_word` (n=1)
 - **Cause:** Typo o pegado doble.
 - **Improvement:** Eliminar duplicado.
-
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ## How to use
 
