@@ -12,75 +12,73 @@
     ]
   },
   "sections_audited": 1,
-  "total_sentences": 459,
-  "total_paragraphs": 307,
-  "total_findings": 109,
+  "total_sentences": 535,
+  "total_paragraphs": 320,
+  "total_findings": 97,
   "severity": {
-    "medium": 2,
-    "low": 107
+    "low": 97
   },
-  "mean_quality_score": 9.45,
-  "min_quality_score": 9.45,
-  "mean_fernandez_huerta": 81.8,
-  "mean_fh_label": "fácil",
-  "mean_wps": 10.45,
+  "mean_quality_score": 9.46,
+  "min_quality_score": 9.46,
+  "mean_fernandez_huerta": 90.2,
+  "mean_fh_label": "muy fácil",
+  "mean_wps": 9.25,
   "languagetool": false,
   "top_rules": [
     [
       "fragment",
-      88
-    ],
-    [
-      "lowercase_after_period",
-      18
-    ],
-    [
-      "repeated_word",
-      2
+      92
     ],
     [
       "comma_density",
+      2
+    ],
+    [
+      "lowercase_after_period",
+      2
+    ],
+    [
+      "anaphora_monotony",
       1
     ]
   ],
   "improvement_playbook": [
     {
       "rule": "fragment",
-      "count": 88,
+      "count": 92,
       "cause": "Ver categoría de la regla (heurística o LanguageTool).",
       "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "lowercase_after_period",
-      "count": 18,
-      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
-      "fix": "Revisar extractos en el informe por sección."
-    },
-    {
-      "rule": "repeated_word",
-      "count": 2,
-      "cause": "Typo o pegado doble.",
-      "fix": "Eliminar duplicado."
     },
     {
       "rule": "comma_density",
-      "count": 1,
+      "count": 2,
       "cause": "Subordinación excesiva.",
       "fix": "Listas o frases independientes."
+    },
+    {
+      "rule": "lowercase_after_period",
+      "count": 2,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
+    },
+    {
+      "rule": "anaphora_monotony",
+      "count": 1,
+      "cause": "Ver categoría de la regla (heurística o LanguageTool).",
+      "fix": "Revisar extractos en el informe por sección."
     }
   ],
   "sections_ranked": [
     {
-      "section": 40,
-      "file": "s40-architecture-ddd.ts",
-      "quality_score_0_10": 9.45,
-      "fernandez_huerta": 81.8,
-      "avg_words_per_sentence": 10.45,
+      "section": 41,
+      "file": "s41-llm-finetuning.ts",
+      "quality_score_0_10": 9.46,
+      "fernandez_huerta": 90.2,
+      "avg_words_per_sentence": 9.25,
       "findings_by_severity": {
-        "medium": 2,
-        "low": 107
+        "low": 97
       },
-      "findings_total": 109
+      "findings_total": 97
     }
   ]
 }

@@ -18,36 +18,36 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **459** | Paragraphs: **307**
-- Findings: **109** (high=0, medium=2, low=107)
-- Mean quality score (0–10): **9.45**
-- Mean Fernández-Huerta: **81.8** (fácil)
-- Mean words/sentence: **10.45**
+- Sentences: **535** | Paragraphs: **320**
+- Findings: **97** (high=0, medium=0, low=97)
+- Mean quality score (0–10): **9.46**
+- Mean Fernández-Huerta: **90.2** (muy fácil)
+- Mean words/sentence: **9.25**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S40 | 9.45 | 81.8 | 10.45 | 0/2/107 | `s40-architecture-ddd.ts` |
+| S41 | 9.46 | 90.2 | 9.25 | 0/0/97 | `s41-llm-finetuning.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=88)
+### `fragment` (n=92)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=18)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `repeated_word` (n=2)
-- **Cause:** Typo o pegado doble.
-- **Improvement:** Eliminar duplicado.
-
-### `comma_density` (n=1)
+### `comma_density` (n=2)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
+
+### `lowercase_after_period` (n=2)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `anaphora_monotony` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
 
 ## How to use
 
