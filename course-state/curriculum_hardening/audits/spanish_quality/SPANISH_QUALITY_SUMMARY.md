@@ -18,18 +18,18 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **421** | Paragraphs: **265**
-- Findings: **103** (high=0, medium=0, low=103)
-- Mean quality score (0–10): **9.07**
-- Mean Fernández-Huerta: **96.3** (muy fácil)
-- Mean words/sentence: **9.18**
+- Sentences: **419** | Paragraphs: **269**
+- Findings: **111** (high=0, medium=0, low=111)
+- Mean quality score (0–10): **9.21**
+- Mean Fernández-Huerta: **86.3** (fácil)
+- Mean words/sentence: **9.38**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S38 | 9.07 | 96.3 | 9.18 | 0/0/103 | `s38-performance-extreme.ts` |
+| S39 | 9.21 | 86.3 | 9.38 | 0/0/111 | `s39-integrator-phase2.ts` |
 
 ## Top failure rules (causes & improvements)
 
@@ -37,21 +37,29 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=6)
-- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
-- **Improvement:** Revisar extractos en el informe por sección.
-
-### `long_sentence` (n=2)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
-
-### `possible_plural_det_singular_noun` (n=2)
+### `possible_plural_det_singular_noun` (n=6)
 - **Cause:** Posible desacuerdo de número (heurística).
 - **Improvement:** Verificar concordancia determinante–sustantivo.
 
-### `space_before_punct` (n=1)
+### `lowercase_after_period` (n=5)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `long_sentence` (n=3)
+- **Cause:** Explicaciones densas sin cortes.
+- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+
+### `missing_inverted_exclamation` (n=2)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `space_before_punct` (n=2)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
 
 ## How to use
 

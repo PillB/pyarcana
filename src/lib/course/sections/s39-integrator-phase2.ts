@@ -12,7 +12,7 @@ export const section39: CourseSection = {
   icon: "Award",
   accentColor: "bg-gradient-to-br from-violet-500 to-fuchsia-900",
   jobRelevance:
-    "En operaciones de riesgo y calidad de datos en fintech, banca y retail en el Perú, cierras el entregable **CP-N3-C** con **Responsible ML Case Triage**: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. El score solo prioriza revisión; no declara fraude ni parentesco. Para la promoción de nivel documentas CP-N3-A/B/C, un **smoke de regresión S27–S39** y el expediente **CF-3** listo para revisión externa: dejas evidencia reproducible, sin autodeclarar el cierre del nivel.",
+    "En operaciones de riesgo y calidad de datos en fintech, banca y retail en el Perú, cierras el entregable CP-N3-C con Responsible ML Case Triage: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. El score solo prioriza revisión; no declara fraude ni parentesco. Para la promoción de nivel documentas CP-N3-A/B/C, un smoke de regresión S27–S39 y el expediente CF-3 listo para revisión externa: dejas evidencia reproducible, sin autodeclarar el cierre del nivel.",
   learningOutcomes: [
     { text: "Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos versionados" },
     { text: "Registrar ownership, semver y política de compatibilidad por artefacto del triage" },
@@ -432,7 +432,7 @@ print("auto_fraud", run["auto_fraud"])`,
 label_space needs_review
 auto_fraud False`,
         },
-        why: "Cada stage es una frontera de contrato: intake normaliza, ER resuelve identidad, el grafo expone paths, features materializan señales y el score solo ordena trabajo humano en cola. `label_space=needs_review` y `auto_fraud=False` evitan mapear el ranking a veredicto legal o de parentesco. Si saltas una frontera, los features o el packet mienten al revisor. En We Do repararás el predicado de orden y el alcance de ER.",
+        why: "Cada stage es una frontera de contrato: intake normaliza, ER resuelve identidad, el grafo expone paths, features materializan señales y el score solo ordena trabajo humano en cola. Los flags `label_space=needs_review` y `auto_fraud=False` evitan mapear el ranking a veredicto legal o de parentesco. Si saltas una frontera, los features o el packet mienten al revisor. En We Do repararás el predicado de orden y el alcance de ER.",
         retrospective:
           "Si puedes explicar por qué el pipeline termina en cola y no en «fraude detectado», ya tienes el hábito de fronteras. El error clásico es saltar ER o tratar el score como sanción. En We Do practicarás el predicado de orden y el rechazo de parentesco inventado.",
       },
@@ -508,7 +508,7 @@ load {'n_queue_now': 2, 'within_capacity': True}`,
         },
         why: "El umbral calibrado (S34) ordena capacidad de cola sin convertir el score en fraude. Path y evidencia citables son el workbench del revisor: sin ellos el caso es un número huérfano. `score_alone_ok=False` es política del producto, no un detalle de UI. En We Do repararás el predicado «score > 0» y el fail-closed de gaps en el packet.",
         retrospective:
-          "Packet = hechos + path + score (+ incertidumbre). El error clásico es encolar solo con 0.99 y llamar eso workbench. Pregunta: con thr_hi=0.75 y capacity=3, ¿por qué `within_capacity True` con dos `queue_now`? We Do: predicado mínimo, empty vs missing, capas + uncertainty.",
+          "Packet = hechos + path + score (+ incertidumbre). El error clásico es encolar solo con 0.99 y llamar eso workbench. Pregunta: con thr_hi=0.75 y capacity=3, ¿por qué `within_capacity True` con dos `queue_now`? We Do: predicado mínimo, empty vs. missing, capas + uncertainty.",
       },
       {
         demoId: "S39-T2-B-DEMO",
@@ -568,7 +568,7 @@ auto_fraud False`,
         },
         why: "Blockers duros (secretos en repo, autofraude) no se compensan con un buen AUC. Controles positivos (RBAC, minimización de PII) deben estar en verde antes del release. El checklist es el contrato de seguridad del triage hacia CF-3. En We Do practicarás negar secrets, separar missing de reject y fairness por slice.",
         retrospective:
-          "Release del triage es política firmable, no solo métrica de modelo. El error clásico es tratar secrets como «detalle de DevOps» compensable con AUC. Pregunta: si `secrets_in_repo=True` y todo lo demás verde, ¿`risk_release_ok`? We Do: predicado, missing vs reject y fairness por slice.",
+          "Release del triage es política firmable, no solo métrica de modelo. El error clásico es tratar secrets como «detalle de DevOps» compensable con AUC. Pregunta: si `secrets_in_repo=True` y todo lo demás verde, ¿`risk_release_ok`? We Do: predicado, missing vs. reject y fairness por slice.",
       },
       {
         demoId: "S39-T3-B-DEMO",
@@ -744,7 +744,7 @@ assert meets is True
         id: "S39-T1-A-E2",
         subtopicId: "S39-T1-A",
         kind: "independent",
-        title: "Schema incompleto vs orden adverso",
+        title: "Schema incompleto vs. orden adverso",
         preamble:
           "- **Contexto:** en operaciones de Lima, un registro sin `label_space` no se «arregla» inventando fraude; se reporta como missing.\n- **Meta:** implementar `assess` que priorice campos faltantes y luego valide orden + política.\n- **Éxito:** línea exacta `PASS REJECT_STAGE_ORDER MISSING:label_space`.\n- **Límites:** no evalúes stages si falta clave; no uses un solo token genérico para todo fallo.",
         instruction:
@@ -917,7 +917,7 @@ assert results == [
         feedback:
           "Semver major comunica breaking al equipo de investigations y a la regresión S27–S39. Un minor silencioso deja packets huérfanos en cola.",
         retrospective:
-          "Breaking → major + owner contactable. El error clásico es «es solo un campo del grafo» y publicar patch. Pregunta: ¿quién recibe el semver en el on-call de la cola? Siguiente (E2): tres rutas (política vs missing de owner).",
+          "Breaking → major + owner contactable. El error clásico es «es solo un campo del grafo» y publicar patch. Pregunta: ¿quién recibe el semver en el on-call de la cola? Siguiente (E2): tres rutas (política vs. missing de owner).",
         starterCode: {
           language: 'python',
           title: "s39-t1-b-e1.py",
@@ -958,7 +958,7 @@ assert meets is True
         id: "S39-T1-B-E2",
         subtopicId: "S39-T1-B",
         kind: "independent",
-        title: "Owner faltante vs política de bump",
+        title: "Owner faltante vs. política de bump",
         preamble:
           "- **Contexto:** el ranker de `ml-risk` no puede ir a producción sin owner ni con bump incorrecto ante breaking.\n- **Meta:** `assess` con missing-antes-de-contenido y rechazo de política.\n- **Éxito:** `PASS REJECT_BUMP_POLICY MISSING:owner`.\n- **Límites:** no mires bump si falta owner; no inventes owner por defecto.",
         instruction:
@@ -1165,7 +1165,7 @@ assert meets is True
         id: "S39-T2-A-E2",
         subtopicId: "S39-T2-A",
         kind: "independent",
-        title: "Evidence vacía vs path ausente",
+        title: "Evidence vacía vs. path ausente",
         preamble:
           "- **Contexto:** en la cola de Lima, evidence vacía y path omitido se diagnostican distinto: uno es contenido inválido, el otro es schema incompleto.\n- **Meta:** tokens `PASS`, `REJECT_PACKET_INCOMPLETE`, `MISSING:graph_path`.\n- **Éxito:** esa línea exacta de tres tokens.\n- **Límites:** score 0.99 sin path nunca es PASS.",
         instruction:
@@ -1513,7 +1513,7 @@ print(*decide(happy), decide(no_audit)[0], decide(no_fb_id)[0])
         feedback:
           "Secretos en repo invalidan el expediente de seguridad del triage. No se «compensan» con un buen AUC ni con RBAC verde.",
         retrospective:
-          "`not secrets_in_repo` es hábito de release: un True bloquea aunque RBAC y PII estén verdes. El error clásico es leer el flag «en positivo» dentro del `all`. Pregunta: ¿un buen AUC limpia un secreto en el repo? Siguiente: secrets activos vs controles ausentes.",
+          "`not secrets_in_repo` es hábito de release: un True bloquea aunque RBAC y PII estén verdes. El error clásico es leer el flag «en positivo» dentro del `all`. Pregunta: ¿un buen AUC limpia un secreto en el repo? Siguiente: secrets activos vs. controles ausentes.",
         starterCode: {
           language: 'python',
           title: "s39-t3-a-e1.py",
@@ -1566,7 +1566,7 @@ assert meets is True
         id: "S39-T3-A-E2",
         subtopicId: "S39-T3-A",
         kind: "independent",
-        title: "Missing de control vs secrets activos",
+        title: "Missing de control vs. secrets activos",
         preamble:
           "- **Contexto:** falta de RBAC y secrets en repo no se arreglan igual: uno pide el control, el otro rechaza la violación.\n- **Meta:** tres tokens exactos en una línea.\n- **Éxito:** `PASS REJECT_SECRETS MISSING:rbac`.\n- **Límites:** no confundes missing con reject genérico.",
         instruction:
@@ -1783,7 +1783,7 @@ assert meets is True
         feedback:
           "Drift reduce automatización; incident la corta. Invertir los modos deja el runbook mentiroso cuando hay fuego real.",
         retrospective:
-          "La tabla del runbook es el contrato de ops: (F,F) normal, drift abstain_more, incident human_only. El error clásico es intercambiar ramas y mentir cuando hay fuego. Pregunta: con ambos True, ¿qué fila gana y por qué no basta «solo drift»? Luego: rollback versionado vs monitor de drift.",
+          "La tabla del runbook es el contrato de ops: (F,F) normal, drift abstain_more, incident human_only. El error clásico es intercambiar ramas y mentir cuando hay fuego. Pregunta: con ambos True, ¿qué fila gana y por qué no basta «solo drift»? Luego: rollback versionado vs. monitor de drift.",
         starterCode: {
           language: 'python',
           title: "s39-t3-b-e2.py",
