@@ -12,7 +12,7 @@ export const section07: CourseSection = {
   icon: "Languages",
   accentColor: "bg-gradient-to-br from-teal-500 to-cyan-600",
   jobRelevance:
-    "Una cita médica, una entrega o una membresía pueden perderse por un detalle invisible: dos textos que se ven iguales no siempre contienen los mismos *code points* (los números que Unicode asigna a cada carácter). Los normalizadores pensados para ASCII o para un solo apellido fallan con tildes, ñ y partículas; después culpan a la persona por un error del sistema. En esta sección construyes el tramo textual de `CP-N1-B` (la etapa B del capstone *Normalizador de registro* del nivel Intermedio): Unicode NFC, `str` antes que regex, contacto modesto y matching con rastro auditable. Un score es evidencia para una decisión humana, nunca prueba de identidad, parentesco o fraude.",
+    "Una cita médica, una entrega o una membresía pueden perderse por un detalle invisible: dos textos que se ven iguales no siempre contienen los mismos *code points* (los números que Unicode asigna a cada carácter). Los normalizadores pensados para ASCII (el estándar de texto anterior a Unicode, limitado a letras inglesas sin tildes ni ñ) o para un solo apellido fallan con tildes, ñ y partículas. Después culpan a la persona por un error del sistema. En esta sección construyes el tramo textual de `CP-N1-B` (la etapa B del capstone *Normalizador de registro* del nivel Intermedio). Trabajas con Unicode NFC (la forma «compuesta», que une la base y la tilde en un solo *code point*), métodos `str` antes que regex (expresiones regulares, patrones para buscar o validar texto), contacto modesto y matching con rastro auditable. Un score es evidencia para una decisión humana, nunca prueba de identidad, parentesco o fraude.",
   learningOutcomes: [
     { text: "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones" },
     { text: "Modelar nombres latam con dos apellidos y partículas sin forzar formato US" },
@@ -1142,7 +1142,7 @@ política: un @, local/dominio no vacíos, cero espacios; entregabilidad no veri
         edgeCases: ["anclas"],
         tests: "True False",
         feedback:
-          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas (puede matchear `Lim`). `fullmatch` exige que **toda** la cadena cumpla el patrón.",
+          "`search` encuentra un trozo en medio; «Lima» no es un código de tres mayúsculas completas (puede coincidir con `Lim`). `fullmatch` exige que **toda** la cadena cumpla el patrón.",
         retrospective:
           "`fullmatch` rechaza letras minúsculas, guiones y texto alrededor porque el contrato describe el campo entero. Si hubieras usado `search`, una cadena con basura podría parecer válida gracias a un fragmento interno. Transfiere la prueba a un código de pedido: construye un caso feliz, un prefijo extra y un sufijo extra; los dos últimos deben fallar por la misma causa.",
         starterCode: {

@@ -18,32 +18,52 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **310** | Paragraphs: **276**
-- Findings: **10** (high=0, medium=0, low=10)
-- Mean quality score (0–10): **10.0**
-- Mean Fernández-Huerta: **82.9** (fácil)
-- Mean words/sentence: **13.39**
+- Sentences: **344** | Paragraphs: **201**
+- Findings: **104** (high=0, medium=4, low=100)
+- Mean quality score (0–10): **9.19**
+- Mean Fernández-Huerta: **83.5** (fácil)
+- Mean words/sentence: **9.36**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S09 | 10.0 | 82.9 | 13.39 | 0/0/10 | `s09-visualization.ts` |
+| S07 | 9.19 | 83.5 | 9.36 | 0/4/100 | `s07-data-acquisition.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `lowercase_after_period` (n=7)
+### `fragment` (n=90)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=2)
+### `lowercase_after_period` (n=6)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `repeated_word` (n=3)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
+
+### `long_sentence` (n=1)
 - **Cause:** Explicaciones densas sin cortes.
 - **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+
+### `comma_density` (n=1)
+- **Cause:** Subordinación excesiva.
+- **Improvement:** Listas o frases independientes.
+
+### `possible_plural_det_singular_noun` (n=1)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
 
 ### `space_before_punct` (n=1)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `missing_terminal_punct` (n=1)
+- **Cause:** Frases colgadas tras edición o plantillas.
+- **Improvement:** Toda oración asertiva cierra con punto.
 
 ## How to use
 
