@@ -12,7 +12,7 @@ export const section48: CourseSection = {
   icon: "Scale",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, **aplicaciones LLM y RAG con evidencia** entregan respuestas citadas con ACL y groundedness, no alucinaciones operativas. Se promueve solo cuando cada afirmación material está soportada por un fragmento permitido y la inyección de instrucciones en documentos se trata como data hostil, no como instrucción del sistema. Sobre el serving de S47, este asistente es la capa de respuesta con prueba antes de que S49 exponga tools sobre él.",
+    "En equipos de plataforma y producto, las aplicaciones LLM y RAG con evidencia entregan respuestas citadas con ACL y groundedness, no alucinaciones operativas. Se promueve solo cuando cada afirmación material está soportada por un fragmento permitido y la inyección de instrucciones en documentos se trata como data hostil, no como instrucción del sistema. Sobre el serving de S47, este asistente es la capa de respuesta con prueba antes de que S49 exponga tools sobre él.",
   learningOutcomes: [
     { text: "Calcular similitud (cosine/dot) y producir un ranking reproducible con versión de embedding documentada." },
     { text: "Comparar baseline vs. candidato en holdout de retrieval y rechazar regresión o reindexación sin presupuesto." },
@@ -86,7 +86,7 @@ emb_dim 2`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Cambiar de modelo de embedding no es cosmético: exige baseline de recall, presupuesto de reindexación y slices de error antes de aprobar la nueva versión.",
+          "La similitud solo ordena candidatos: un dot product alto no autoriza el claim ni reemplaza la ACL. La versión del embedding (p. ej. `emb-v2`) es parte del contrato del índice; cambiarla sin re-eval rompe el holdout.",
       },
     },
     {
@@ -116,7 +116,7 @@ holdout rag-holdout-v1`,
         type: "tip",
         title: "Contrato local",
         content:
-          "El chunking debe ser fail-closed: si dos secciones colapsan al mismo hash o falta metadata, se re-chunkea antes de indexar.",
+          "Recall@K mide retrieval; faithfulness mide respuesta: son gates separados. Un candidato más caro que no supera al baseline en holdout RAG se descarta, no se «prueba en producción».",
       },
     },
     {
@@ -161,7 +161,7 @@ unique_hashes True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La ACL se aplica antes del ranking: un fragmento denegado o borrado (tombstone) nunca entra a los candidatos, sin importar su score vectorial.",
+          "El chunk es la unidad citable, no una rebanada de caracteres: hash estable y `source_version` permiten dedup y evitan evidencia duplicada o perdida entre versiones del documento.",
       },
     },
     {
@@ -200,7 +200,7 @@ tombstone d3#old`,
         type: "tip",
         title: "Contrato local",
         content:
-          "La fusión híbrida combina scores lexical y vectorial con pesos calibrados, pero solo se declara mejora tras medir Recall@k contra un gold set.",
+          "La ACL filtra antes del ranking y un tombstone (marca de borrado) invalida la caché: un chunk denegado o borrado nunca llega a los candidatos, sin importar su score vectorial.",
       },
     },
     {
@@ -235,7 +235,7 @@ recall@2 1.0`,
         type: "tip",
         title: "Contrato local",
         content:
-          "El contexto del generador incluye solo fragmentos mínimos y citas resolubles: un reclamo sin evidencia permitida se abstiene en lugar de emitirse.",
+          "La fusión híbrida combina scores lexical y vectorial con pesos calibrados, pero la mejora solo se declara tras medir Recall@k contra un gold set, no tras correr la fórmula.",
       },
     },
     {
@@ -263,7 +263,7 @@ False
         type: "tip",
         title: "Contrato local",
         content:
-          "La salida estructurada se valida contra un schema (`answer`, `evidence_ids`): si la lista de evidencia está vacía, un id no está en la allowlist o la inyección del corpus no se ignora, el gate rechaza.",
+          "El contexto del generador incluye solo fragmentos mínimos y citas resolubles: un reclamo sin evidencia permitida se abstiene en lugar de emitirse o inflar el contexto.",
       },
     },
     {
@@ -297,7 +297,7 @@ False`,
         type: "tip",
         title: "Contrato local",
         content:
-          "El texto recuperado —incluso si dice «ignora tus reglas»— es data hostil, no instrucción del sistema: el flag `injected_instruction_ignored` debe ser True y la respuesta no debe basarse en órdenes del corpus.",
+          "Un `evidence_ids=[]` no es grounded: la verdad vacua de subconjuntos no prueba un claim. Exige al menos un id en la allowlist y el flag `injected_instruction_ignored` en True.",
       },
     },
     {
@@ -370,7 +370,7 @@ score_d1 0.8`,
         environment: "local-python",
         description: "Demo: baseline vs. candidato en holdout con costo",
         preamble:
-          "Cambiar el modelo de embedding del reglamento de la cooperativa no es un deploy de etiqueta. En esta demo comparas baseline 0.72 vs candidato 0.81 en `rag-holdout-v1` con tope de costo. No escribas: predice PROMOTE y KEEP antes de mirar la salida. Si reindexas con regresión o sin presupuesto, el holdout miente y el socio recibe peores citas.",
+          "Cambiar el modelo de embedding del reglamento de la cooperativa no es un deploy de etiqueta. En esta demo comparas baseline 0.72 vs. candidato 0.81 en `rag-holdout-v1` con tope de costo. No escribas: predice PROMOTE y KEEP antes de mirar la salida. Si reindexas con regresión o sin presupuesto, el holdout miente y el socio recibe peores citas.",
         code: {
           language: 'python',
           title: "demo_limits_versions_eval.py",
@@ -649,7 +649,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor del índice en Puno no trata igual un ranking limpio, uno con versión rota y uno sin top esperado.\n- **Meta:** implementar `assess` que distinga PASS, REJECT_EMBEDDING_RANK y MISSING:expected_top.\n- **Éxito:** imprime `PASS REJECT_EMBEDDING_RANK MISSING:expected_top` en ese orden.\n- **Límites:** si falta `expected_top`, no rankees; no inventes el campo; missing ≠ «aceptar».",
         instruction:
-          "1. Revisa el starter: `rank_top` usa `min` y assess no exige emb-v2.\n2. Primero: campos required; si falta `expected_top` → `MISSING:expected_top`.\n3. Luego: max(dot) + versión emb-v2 vs expected_top → PASS o REJECT.\n4. Imprime los tres resultados con `print(*results)`.",
+          "1. Revisa el starter: `rank_top` usa `min` y assess no exige emb-v2.\n2. Primero: campos required; si falta `expected_top` → `MISSING:expected_top`.\n3. Luego: max(dot) + versión emb-v2 vs. expected_top → PASS o REJECT.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero valida campos requeridos; solo con schema completo calcula el top por max(dot).",
         hints: [
           "Si falta expected_top → MISSING:expected_top sin tocar docs.",
@@ -660,7 +660,7 @@ assert meets_contract is True` ,
         feedback:
           "Missing es incertidumbre de evidencia de eval; versión vacía o top incorrecto es breach de ranking. El socio no debe ver un top «inventado» cuando falta el gold: nombra qué campo cambió la ruta.",
         retrospective:
-          "Un gold ausente no es un ranking roto: es evidencia de eval incompleta. Versión vacía o top ≠ expected sí es breach. El error clásico es rankear sin gold para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs max(dot), y por qué? Luego (E3): CONTINUE / REJECT / REVIEW_METRIC_VERSION.",
+          "Un gold ausente no es un ranking roto: es evidencia de eval incompleta. Versión vacía o top ≠ expected sí es breach. El error clásico es rankear sin gold para «completar» la tabla. Pregunta: ¿en qué orden evalúas missing vs. max(dot), y por qué? Luego (E3): CONTINUE / REJECT / REVIEW_METRIC_VERSION.",
         starterCode: {
           language: 'python',
           title: "s48-t1-a-e2.py",
@@ -720,7 +720,7 @@ print(*results)
         preamble:
           "- **Contexto:** el pipeline del asistente decide si el ranking **sigue** o se detiene: no hay «seguir con warning de métrica».\n- **Meta:** `decide` → CONTINUE (top emb-v2 correcto), REJECT_EMBEDDING_RANK (ranking roto), REVIEW_METRIC_VERSION (sin expected_top).\n- **Éxito:** `CONTINUE REJECT_EMBEDDING_RANK REVIEW_METRIC_VERSION`.\n- **Límites:** no inventes expected_top; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `expected_top` → `REVIEW_METRIC_VERSION` (no CONTINUE).\n2. Con schema completo, max(dot) + version emb-v2 vs expected.\n3. Solo el válido es CONTINUE; el adverso es REJECT_EMBEDDING_RANK.\n4. Imprime los tres códigos en orden.",
+          "1. Corrige missing: sin `expected_top` → `REVIEW_METRIC_VERSION` (no CONTINUE).\n2. Con schema completo, max(dot) + version emb-v2 vs. expected.\n3. Solo el válido es CONTINUE; el adverso es REJECT_EMBEDDING_RANK.\n4. Imprime los tres códigos en orden.",
         hint: "Campo ausente → REVIEW_METRIC_VERSION; no lo conviertas en CONTINUE ni en REJECT.",
         hints: [
           "missing keys → REVIEW_METRIC_VERSION antes de rankear.",
@@ -832,9 +832,9 @@ assert meets_contract is True` ,
         id: "S48-T1-B-E2",
         subtopicId: "S48-T1-B",
         kind: "independent",
-        title: "Assess promoción: PASS vs KEEP vs MISSING",
+        title: "Assess promoción: PASS vs. KEEP vs. MISSING",
         preamble:
-          "- **Contexto:** el dueño del índice en Puno clasifica cada candidato: promover, conservar baseline o pedir evidencia de costo.\n- **Meta:** `assess` → PASS / KEEP_EMBEDDING_BASELINE / MISSING:reindex_cost_pen.\n- **Éxito:** `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen`.\n- **Límites:** no inventes el costo; no trates missing como KEEP ni como PASS.",
+          "- **Contexto:** quien mantiene el índice en Puno clasifica cada candidato: promover, conservar baseline o pedir evidencia de costo.\n- **Meta:** `assess` → PASS / KEEP_EMBEDDING_BASELINE / MISSING:reindex_cost_pen.\n- **Éxito:** `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen`.\n- **Límites:** no inventes el costo; no trates missing como KEEP ni como PASS.",
         instruction:
           "1. Primero calcula missing de campos required.\n2. Si falta `reindex_cost_pen` → MISSING (no compares recalls).\n3. Si mejora + holdout RAG + costo ≤ 50 → PASS; si no → KEEP.\n4. Imprime la tripleta.",
         hint: "Missing de costo ≠ regresión: devuelve MISSING antes de comparar recalls.",
@@ -845,7 +845,7 @@ assert meets_contract is True` ,
         edgeCases: ["falta reindex_cost_pen", "fixture adverso: recall en regresión, holdout no-RAG o reindex_cost fuera de tope", "CASO-PUN-048-1B es sintético"],
         tests: "La tabla cubre válido/adverso/campo `reindex_cost_pen` ausente y produce exactamente `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen`.",
         feedback:
-          "KEEP es breach de promoción demostrada; MISSING es presupuesto desconocido. Compara candidate vs baseline y min_recall: holdout train o costo 300 fuerzan KEEP, no un PASS optimista.",
+          "KEEP es breach de promoción demostrada; MISSING es presupuesto desconocido. Compara candidate vs. baseline y min_recall: holdout train o costo 300 fuerzan KEEP, no un PASS optimista.",
         retrospective:
           "KEEP es breach de promoción demostrada; MISSING es presupuesto desconocido — no asumas costo cero. El error clásico es inventar 0 PEN para forzar PASS. Pregunta: ¿por qué costo ausente no se trata igual que regresión? Luego (E3): CONTINUE / KEEP / EVALUATE_ERROR_SLICES.",
         starterCode: {
@@ -1011,7 +1011,7 @@ assert meets_contract is True` ,
         id: "S48-T2-A-E2",
         subtopicId: "S48-T2-A",
         kind: "independent",
-        title: "Assess chunks: PASS vs DEDUP vs MISSING",
+        title: "Assess chunks: PASS vs. DEDUP vs. MISSING",
         preamble:
           "- **Contexto:** el pipeline de ingesta en Puno clasifica cada lote: limpio, re-chunk obligatorio o metadata incompleta.\n- **Meta:** `assess` → PASS / DEDUP_AND_RECHUNK / MISSING:source_version.\n- **Éxito:** `PASS DEDUP_AND_RECHUNK MISSING:source_version`.\n- **Límites:** sin source_version no re-chunkes a ciegas; no inventes la versión.",
         instruction:
@@ -1138,7 +1138,7 @@ assert results == ["CONTINUE", "DEDUP_AND_RECHUNK", "RESTORE_CHUNK_METADATA"]
         preamble:
           "- **Contexto:** en `CASO-PUN-048-2B`, un chunk solo es recuperable si hay intersección ACL, no está borrado, tiene provenance `doc-*` y la caché está invalidada.\n- **Meta:** implementar `acl_active_ok` con esas cuatro condiciones.\n- **Éxito:** `S48-T2-B PASS` en el allow path (ops ∩ public).\n- **Límites:** no apruebes deny ni deleted; no ignores `cache_invalidated`.",
         instruction:
-          "1. El starter devuelve True ante deny o deleted (bug invertido).\n2. Cambia a: ACL∩ ≠ ∅ ∧ not deleted ∧ provenance doc-* ∧ cache True.\n3. Conserva print PASS/FILTER_OR_DELETE_CHUNK.",
+          "1. El starter devuelve True ante deny o deleted (bug invertido).\n2. Cambia a: ACL∩ ≠ ∅ ∧ not deleted ∧ provenance doc-* ∧ caché True.\n3. Conserva print PASS/FILTER_OR_DELETE_CHUNK.",
         hint: "Cuatro condiciones AND: intersección ACL, no deleted, provenance doc-* y caché invalidado.",
         hints: [
           "bool(user_acl & chunk_acl) and not deleted and provenance.startswith(\"doc-\").",
@@ -1189,7 +1189,7 @@ assert meets_contract is True` ,
         id: "S48-T2-B-E2",
         subtopicId: "S48-T2-B",
         kind: "independent",
-        title: "Assess ACL: PASS vs FILTER vs MISSING",
+        title: "Assess ACL: PASS vs. FILTER vs. MISSING",
         preamble:
           "- **Contexto:** el revisor de retrieval no confunde «usuario sin permiso» con «no sé si la caché se invalidó tras el delete».\n- **Meta:** `assess` → PASS / FILTER_OR_DELETE_CHUNK / MISSING:cache_invalidated.\n- **Éxito:** `PASS FILTER_OR_DELETE_CHUNK MISSING:cache_invalidated`.\n- **Límites:** missing de caché no es FILTER silencioso; no inventes el flag.",
         instruction:
@@ -1366,9 +1366,9 @@ assert meets_contract is True` ,
         id: "S48-T3-A-E2",
         subtopicId: "S48-T3-A",
         kind: "independent",
-        title: "Assess híbrido: PASS vs RECALIBRATE vs MISSING",
+        title: "Assess híbrido: PASS vs. RECALIBRATE vs. MISSING",
         preamble:
-          "- **Contexto:** el dueño de retrieval calibra pesos solo si el top ponderado cuadra con un gold; si d1 queda débil, no «fuerza» el top.\n- **Meta:** `assess` → PASS / RECALIBRATE_HYBRID_RANK / MISSING:expected_top.\n- **Éxito:** `PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top`.\n- **Límites:** sin expected_top no rankees para PASS; no inventes el gold.",
+          "- **Contexto:** quien mantiene retrieval calibra pesos solo si el top ponderado cuadra con un gold; si d1 queda débil, no «fuerza» el top.\n- **Meta:** `assess` → PASS / RECALIBRATE_HYBRID_RANK / MISSING:expected_top.\n- **Éxito:** `PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top`.\n- **Límites:** sin expected_top no rankees para PASS; no inventes el gold.",
         instruction:
           "1. Repara `hybrid_top` (no puro vector).\n2. Missing de expected_top → MISSING.\n3. top == expected → PASS; si no → RECALIBRATE.\n4. Imprime la tripleta.",
         hint: "Falta expected_top → MISSING; no declares mejora de recall sin gold.",
@@ -1443,7 +1443,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción no calibres pesos sin gold top: o el híbrido cuadra, o se detiene a revisar candidatos.\n- **Meta:** `decide` → CONTINUE / RECALIBRATE_HYBRID_RANK / REVIEW_RERANK_CANDIDATES.\n- **Éxito:** `CONTINUE RECALIBRATE_HYBRID_RANK REVIEW_RERANK_CANDIDATES`.\n- **Límites:** sin expected_top → REVIEW; no uses solo vector.",
         instruction:
-          "1. Missing expected_top → REVIEW_RERANK_CANDIDATES.\n2. Con schema, score híbrido ponderado vs expected.\n3. Imprime los tres tokens.",
+          "1. Missing expected_top → REVIEW_RERANK_CANDIDATES.\n2. Con schema, score híbrido ponderado vs. expected.\n3. Imprime los tres tokens.",
         hint: "Sin gold top no calibres pesos: REVIEW_RERANK_CANDIDATES.",
         hints: [
           "missing expected_top → REVIEW_RERANK_CANDIDATES.",
@@ -1554,7 +1554,7 @@ assert meets_contract is True` ,
         id: "S48-T3-B-E2",
         subtopicId: "S48-T3-B",
         kind: "independent",
-        title: "Assess citas: PASS vs ABSTAIN vs MISSING",
+        title: "Assess citas: PASS vs. ABSTAIN vs. MISSING",
         preamble:
           "- **Contexto:** el revisor de respuesta clasifica: contexto limpio, claim sin soporte, o presupuesto de tokens desconocido.\n- **Meta:** `assess` → PASS / ABSTAIN_UNCITED / MISSING:max_context_tokens.\n- **Éxito:** `PASS ABSTAIN_UNCITED MISSING:max_context_tokens`.\n- **Límites:** sin max no declares PASS; no inventes el tope.",
         instruction:
@@ -1735,7 +1735,7 @@ assert meets_contract is True` ,
         id: "S48-T4-A-E2",
         subtopicId: "S48-T4-A",
         kind: "independent",
-        title: "Assess grounding: PASS vs REJECT vs MISSING",
+        title: "Assess grounding: PASS vs. REJECT vs. MISSING",
         preamble:
           "- **Contexto:** el revisor de salida no confunde «corpus hostil activo» con «no sé si ignoramos la inyección».\n- **Meta:** `assess` → PASS / REJECT_UNGROUNDED_OUTPUT / MISSING:injected_instruction_ignored.\n- **Éxito:** `PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored`.\n- **Límites:** sin flag no asumas True; no inventes evidence_ids.",
         instruction:
@@ -1748,7 +1748,7 @@ assert meets_contract is True` ,
         edgeCases: ["falta injected_instruction_ignored", "fixture adverso: evidence_ids vacío/fuera de allowlist o inyección no ignorada", "CASO-PUN-048-4A es sintético"],
         tests: "La tabla cubre válido/adverso/campo `injected_instruction_ignored` ausente y produce exactamente `PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored`.",
         feedback:
-          "REJECT es breach de evidencia o inyección; MISSING es incertidumbre del flag. Distingue `unknown` vs `d7#2`: missing no es breach silencioso ni PASS optimista.",
+          "REJECT es breach de evidencia o inyección; MISSING es incertidumbre del flag. Distingue `unknown` vs. `d7#2`: missing no es breach silencioso ni PASS optimista.",
         retrospective:
           "REJECT es breach de evidencia o inyección activa; MISSING es no saber si ignoramos el corpus hostil. El error clásico es asumir «siempre ignoramos» y forzar PASS. Pregunta: ¿por qué flag ausente no es lo mismo que flag False? Luego (E3): CONTINUE / REJECT / VALIDATE_OUTPUT_SCHEMA.",
         starterCode: {
@@ -1928,7 +1928,7 @@ assert meets_contract is True` ,
         id: "S48-T4-B-E2",
         subtopicId: "S48-T4-B",
         kind: "independent",
-        title: "Assess eval: PASS vs ABSTAIN vs MISSING",
+        title: "Assess eval: PASS vs. ABSTAIN vs. MISSING",
         preamble:
           "- **Contexto:** el revisor de respuesta no confunde «support medido en False» con «ni siquiera medimos support».\n- **Meta:** `assess` → PASS / ABSTAIN_WITH_REASON / MISSING:support.\n- **Éxito:** `PASS ABSTAIN_WITH_REASON MISSING:support`.\n- **Límites:** sin support no respondas; no inventes el flag.",
         instruction:
@@ -2209,7 +2209,7 @@ assert status in {"READY", "BLOCKED"}
       {
         label: "Stanford CS224N materials (NLP)",
         url: "https://web.stanford.edu/class/cs224n/",
-        note: "Embeddings y similarity formal",
+        note: "Embeddings y similitud formal",
       },
       {
         label: "NIST AI RMF",

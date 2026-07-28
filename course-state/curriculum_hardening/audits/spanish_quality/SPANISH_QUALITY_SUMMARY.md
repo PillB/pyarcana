@@ -18,40 +18,44 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **462** | Paragraphs: **308**
-- Findings: **104** (high=0, medium=4, low=100)
-- Mean quality score (0–10): **9.45**
-- Mean Fernández-Huerta: **81.2** (fácil)
-- Mean words/sentence: **10.56**
+- Sentences: **411** | Paragraphs: **280**
+- Findings: **95** (high=0, medium=1, low=94)
+- Mean quality score (0–10): **9.48**
+- Mean Fernández-Huerta: **84.8** (fácil)
+- Mean words/sentence: **10.46**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S47 | 9.45 | 81.2 | 10.56 | 0/4/100 | `s47-opensource.ts` |
+| S48 | 9.48 | 84.8 | 10.46 | 0/1/94 | `s48-ai-governance.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=93)
+### `fragment` (n=80)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=3)
+### `lowercase_after_period` (n=9)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `missing_terminal_punct` (n=3)
-- **Cause:** Frases colgadas tras edición o plantillas.
-- **Improvement:** Toda oración asertiva cierra con punto.
+### `possible_plural_det_singular_noun` (n=2)
+- **Cause:** Posible desacuerdo de número (heurística).
+- **Improvement:** Verificar concordancia determinante–sustantivo.
 
-### `comma_density` (n=3)
+### `comma_density` (n=1)
 - **Cause:** Subordinación excesiva.
 - **Improvement:** Listas o frases independientes.
 
-### `long_sentence` (n=1)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+### `missing_inverted_exclamation` (n=1)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
+
+### `space_before_punct` (n=1)
+- **Cause:** Artefacto de formato.
+- **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
 
 ### `repeated_word` (n=1)
 - **Cause:** Typo o pegado doble.
