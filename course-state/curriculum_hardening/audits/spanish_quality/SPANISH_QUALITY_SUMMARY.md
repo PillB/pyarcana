@@ -18,44 +18,40 @@ Research-backed audit of learner-facing Spanish prose across active course secti
 - **LanguageTool** public API (`language=es`) for agreement, spelling, style rules when enabled.
 
 - Sections audited: **1**
-- Sentences: **410** | Paragraphs: **269**
-- Findings: **100** (high=0, medium=0, low=100)
-- Mean quality score (0–10): **9.27**
-- Mean Fernández-Huerta: **88.6** (fácil)
-- Mean words/sentence: **11.95**
+- Sentences: **387** | Paragraphs: **219**
+- Findings: **101** (high=0, medium=2, low=99)
+- Mean quality score (0–10): **9.17**
+- Mean Fernández-Huerta: **92.8** (muy fácil)
+- Mean words/sentence: **8.54**
 - LanguageTool enabled: **False**
 
 ## Section ranking (lowest quality first)
 
 | Sec | Score | FH | WPS | Findings (H/M/L) | File |
 |-----|------:|---:|----:|-----------------|------|
-| S30 | 9.27 | 88.6 | 11.95 | 0/0/100 | `s30-security-infra.ts` |
+| S31 | 9.17 | 92.8 | 8.54 | 0/2/99 | `s31-streaming-data.ts` |
 
 ## Top failure rules (causes & improvements)
 
-### `fragment` (n=93)
+### `fragment` (n=91)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `lowercase_after_period` (n=3)
+### `lowercase_after_period` (n=4)
 - **Cause:** Ver categoría de la regla (heurística o LanguageTool).
 - **Improvement:** Revisar extractos en el informe por sección.
 
-### `long_sentence` (n=1)
-- **Cause:** Explicaciones densas sin cortes.
-- **Improvement:** Corta en conectores causales/adversativos; mueve ejemplos a código.
+### `missing_inverted_exclamation` (n=2)
+- **Cause:** Ver categoría de la regla (heurística o LanguageTool).
+- **Improvement:** Revisar extractos en el informe por sección.
 
-### `comma_density` (n=1)
-- **Cause:** Subordinación excesiva.
-- **Improvement:** Listas o frases independientes.
-
-### `possible_plural_det_singular_noun` (n=1)
-- **Cause:** Posible desacuerdo de número (heurística).
-- **Improvement:** Verificar concordancia determinante–sustantivo.
-
-### `space_before_punct` (n=1)
+### `space_before_punct` (n=2)
 - **Cause:** Artefacto de formato.
 - **Improvement:** Normalizar tipografía española (sin espacio antes de ,.).
+
+### `repeated_word` (n=2)
+- **Cause:** Typo o pegado doble.
+- **Improvement:** Eliminar duplicado.
 
 ## How to use
 
