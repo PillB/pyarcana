@@ -151,9 +151,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      {!IS_STATIC_SITE && (
-        <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
-      )}
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
       <Glossary open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
       {!IS_STATIC_SITE && <FeedbackFab sectionId={activeSectionId} />}
       {!IS_STATIC_SITE && <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />}
@@ -242,7 +240,7 @@ export default function Home() {
             )}
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
             <LanguageToggle />
-            {!IS_STATIC_SITE && <UserMenu onOpenAuth={() => handleOpenAuth('login')} />}
+            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
           </div>
         </header>
 
@@ -343,7 +341,7 @@ export default function Home() {
             </a>
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
             <LanguageToggle />
-            {!IS_STATIC_SITE && <UserMenu onOpenAuth={() => handleOpenAuth('login')} />}
+            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
           </div>
         </header>
 

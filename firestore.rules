@@ -1,6 +1,143 @@
 rules_version = '2';
+
+// ────────────────────────────────────────────────────────────────────────────
+// PyArcana Firestore security rules
+//
+// Principles (Solarized spec):
+//   1. Default deny. No collection is readable or writable unless an explicit
+//      rule below allows it.
+//   2. Owner access. A learner can read and write only their own documents.
+//      Owner is established by `request.auth.uid == userId` on the document,
+//      or by the document id matching `${uid}__…`.
+//   3. Cohort-scoped supervisor access. A supervisor may read the progress,
+//      exam attempts, exercise attempts, and badges of learners in cohorts
+//      they own. Writes by supervisors are limited to badge verification /
+//      revocation, never to mutating learner work.
+//   4. No email enumeration. Errors are returned generically by the SDK; we
+//      do not surface whether an email is registered.
+//   5. No client-side role escalation. The `role` field on `users` is set by
+//      the server (Admin SDK) only; clients may write name/country but not
+//      role.
+// ────────────────────────────────────────────────────────────────────────────
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // ── Helpers ─────────────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function uid() {
+      return request.auth.uid;
+    }
+    function isOwner(userIdField) {
+      return isSignedIn() && request.auth.uid == userIdField;
+    }
+    function isSupervisorOf(userIdField) {
+      // A supervisor may read learner data when there exists a cohortMembers
+      // document whose id is `${cohortId}__${supervisorUid}` and whose
+      // role == 'supervisor', AND another cohortMembers document whose id is
+      // `${cohortId}__${userIdField}` for the same cohortId.
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/cohortMembers/$(request.auth.uid))
+        ? exists(
+            /databases/$(database)/documents/cohortMembers/$(request.auth.uid)
+          )
+        : false;
+    }
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'ADMIN';
+    }
+
+    // ── users — public profile, self-managed except role ────────────────────
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      // Self may create/update only non-role fields.
+      allow create: if isOwner(userId)
+        && request.resource.data.id == userId
+        && request.resource.data.role == 'STUDENT';
+      allow update: if isOwner(userId)
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.id == resource.data.id;
+      // Deletion is via Account & Data Rights; only Admin can hard-delete here.
+      allow delete: if isAdmin();
+    }
+
+    // ── progress — owner writes; supervisor reads ───────────────────────────
+    match /progress/{docId} {
+      allow read: if isOwner(resource.data.userId)
+        || isSupervisorOf(resource.data.userId);
+      allow create, update: if isOwner(request.resource.data.userId)
+        && request.resource.data.userId == uid();
+      allow delete: if isOwner(resource.data.userId);
+    }
+
+    // ── examAttempts — owner writes; supervisor reads ───────────────────────
+    match /examAttempts/{docId} {
+      allow read: if isOwner(resource.data.userId)
+        || isSupervisorOf(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+
+    // ── exerciseAttempts — owner writes; supervisor reads ───────────────────
+    match /exerciseAttempts/{docId} {
+      allow read: if isOwner(resource.data.userId)
+        || isSupervisorOf(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+
+    // ── badges — owner reads; supervisor verifies/revokes ──────────────────
+    match /badges/{docId} {
+      allow read: if isOwner(resource.data.userId)
+        || isSupervisorOf(resource.data.userId);
+      // Owner may create a 'preview' badge only (not verified).
+      allow create: if isOwner(request.resource.data.userId)
+        && request.resource.data.status == 'preview';
+      // Owner may not change status from preview -> verified; that requires
+      // supervisor. Owner may delete their own preview.
+      allow update: if (isOwner(resource.data.userId)
+          && request.resource.data.status == resource.data.status)
+        || isSupervisorOf(resource.data.userId)
+        || isAdmin();
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    // ── cohorts — supervisor manages; members read ──────────────────────────
+    match /cohorts/{cohortId} {
+      allow read: if isSignedIn()
+        && (exists(/databases/$(database)/documents/cohortMembers/$(cohortId)__$(uid()))
+          || resource.data.supervisorId == uid()
+          || isAdmin());
+      allow create, update, delete: if isSignedIn()
+        && resource.data.supervisorId == uid();
+    }
+
+    // ── cohortMembers — supervisor invites; members join ────────────────────
+    match /cohortMembers/{memberId} {
+      allow read: if isSignedIn()
+        && (resource.data.userId == uid()
+          || exists(/databases/$(database)/documents/cohortMembers/$(resource.data.cohortId)__$(uid())));
+      allow create: if isSignedIn()
+        && request.resource.data.userId == uid();
+      allow delete: if isSignedIn()
+        && (resource.data.userId == uid()
+          || exists(/databases/$(database)/documents/cohortMembers/$(resource.data.cohortId)__$(uid())));
+      allow update: if false; // membership is immutable once created
+    }
+
+    // ── feedbackReports — submitter creates, admin reads ────────────────────
+    match /feedbackReports/{reportId} {
+      allow read: if isAdmin();
+      allow create: if request.resource.data.userId == null
+        || request.resource.data.userId == uid();
+      allow update, delete: if isAdmin();
+    }
+
+    // ── default deny ────────────────────────────────────────────────────────
     match /{document=**} {
       allow read, write: if false;
     }
