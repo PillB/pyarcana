@@ -1,0 +1,74 @@
+{
+  "version": "1.0.0",
+  "started_at": "2026-07-29T01:16:00Z",
+  "campaign": "product_hardening",
+  "specification": "Solarized (PyArcana)",
+  "phases": [
+    {
+      "phase": 0,
+      "name": "Reality Report",
+      "status": "completed",
+      "started_at": "2026-07-29T01:16:00Z",
+      "completed_at": "2026-07-29T01:35:00Z",
+      "deliverables": [
+        "product_hardening/phase0_reality_report.md",
+        "product_hardening/architecture/ADR-authoritative-data-store.md"
+      ],
+      "evidence_count": 15,
+      "decisions_recorded": 1,
+      "files_read": [
+        "prisma/schema.prisma",
+        "src/lib/auth.ts",
+        "src/lib/firebase/admin.ts",
+        "src/lib/firebase/sync.ts",
+        "firestore.rules",
+        "src/lib/eligibility/badge_catalog.json",
+        "src/lib/eligibility/engine.ts",
+        "src/lib/eligibility/types.ts",
+        "src/lib/runtime-mode.ts",
+        "src/lib/progress-store.ts",
+        "src/lib/admin-analytics.ts",
+        "next.config.ts",
+        "prisma/seed.ts",
+        ".env.example",
+        ".github/workflows/deploy.yml",
+        "scripts/e2e_max/helpers/auth.ts"
+      ]
+    },
+    {
+      "phase": 1,
+      "name": "Badge Market Revalidation",
+      "status": "in_progress",
+      "started_at": "2026-07-29T01:35:00Z",
+      "deliverables_planned": [
+        "product_hardening/badges/badge_claim_matrix.json",
+        "product_hardening/badges/market_requirements.md",
+        "product_hardening/badges/badge_gap_report.md"
+      ],
+      "inputs": [
+        "src/lib/eligibility/badge_catalog.json (31 badges, 4 families)",
+        "industry_alignment/industry_reality_brief.md (2,279 lines)",
+        "industry_alignment/curriculum_gap_matrix.md (796 lines, 41 gaps: 6 P0 + 7 P1 + 15 P2 + 5 P3 + 8 P4)",
+        "industry_alignment/industry_skill_graph.json (62 skill nodes, 5 roles × 4 levels, 8 critical competencies)"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Supervisor & Cohort Product Research",
+      "status": "pending",
+      "deliverables_planned": [
+        "product_hardening/supervisor/benchmark_research.md",
+        "product_hardening/supervisor/complaint_synthesis.md",
+        "product_hardening/supervisor/product_requirements.md",
+        "product_hardening/supervisor/user_flows.md"
+      ]
+    }
+  ],
+  "totals": {
+    "decisions": 1,
+    "evidence_entries": 0,
+    "failures": 0,
+    "rejected_hypotheses": 0,
+    "rejected_edits": 0
+  }
+}

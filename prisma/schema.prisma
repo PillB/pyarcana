@@ -26,6 +26,11 @@ model User {
   subscription         Subscription?
   payments             Payment[]
   feedbackReports      FeedbackReport[]
+  supervisorProfile    SupervisorProfile?
+  ownedCohorts        Cohort[]
+  cohortMemberships   CohortMembership[]
+  notifications       Notification[]
+  notificationPref    NotificationPreference?
 }
 
 // User/guest feedback: bugs, ideas, recommendations
@@ -187,4 +192,178 @@ model Payment {
 
   @@index([userId, status])
   @@index([provider, status])
+}
+
+// ═══════════════════════════════════════════════════════════
+// SUPERVISOR & COHORT SYSTEM — Phase 6 data model
+// Prisma is authoritative. Firebase remains optional mirror.
+// ═══════════════════════════════════════════════════════════
+
+// Supervisor profile and request tracking
+model SupervisorProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  status          String   @default("NOT_REQUESTED") // NOT_REQUESTED | PENDING | APPROVED | SUSPENDED | REJECTED | REVOKED
+  entitlement     String   @default("PRO") // PRO | TEAM
+  useCase         String?
+  organization    String?
+  anticipatedSize Int      @default(10)
+  termsVersion    String   @default("1.0")
+  requestedAt     DateTime?
+  approvedAt      DateTime?
+  approvedBy      String?  // admin userId
+  suspendedAt     DateTime?
+  suspendReason   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
+// Cohort owned by a supervisor
+model Cohort {
+  id              String   @id @default(cuid())
+  ownerId         String   // User who owns this cohort
+  name            String
+  description     String?
+  status          String   @default("ACTIVE") // ACTIVE | ARCHIVED
+  visibilityJSON  String   @default("{}") // privacy settings
+  reportingJSON   String   @default("{}") // reporting settings
+  maxMembers      Int      @default(25)
+  createdAt       DateTime @default(now())
+  archivedAt      DateTime?
+  updatedAt       DateTime @updatedAt
+
+  owner           User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  memberships     CohortMembership[]
+  invitations     CohortInvitation[]
+  auditEvents     CohortAuditEvent[]
+  reports         ReportExport[]
+
+  @@index([ownerId, status])
+}
+
+// Membership linking users to cohorts with scoped roles
+model CohortMembership {
+  id              String   @id @default(cuid())
+  cohortId        String
+  userId          String
+  scopedRole      String   @default("COHORT_LEARNER") // COHORT_OWNER | COHORT_SUPERVISOR | COHORT_REPORTER | COHORT_LEARNER
+  status          String   @default("ACTIVE") // ACTIVE | LEFT | REMOVED
+  consentVersion  String   @default("1.0")
+  invitedBy       String?
+  removedBy       String?
+  removalReason   String?
+  joinedAt        DateTime @default(now())
+  leftAt          DateTime?
+
+  cohort          Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([cohortId, userId])
+  @@index([userId, status])
+  @@index([cohortId, status])
+}
+
+// Invitation with secure token hash
+model CohortInvitation {
+  id              String   @id @default(cuid())
+  cohortId        String
+  invitedBy       String   // supervisor userId
+  intendedUserId  String?  // existing user, if known
+  intendedEmail   String?  // email for new users
+  tokenHash       String   @unique // SHA-256 hash of the invitation token
+  status          String   @default("PENDING") // PENDING | ACCEPTED | DECLINED | CANCELLED | EXPIRED
+  expiresAt       DateTime
+  acceptedAt      DateTime?
+  declinedAt      DateTime?
+  cancelledAt     DateTime?
+  deduplicationKey String? // cohortId + intendedEmail/UserId for preventing duplicates
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  cohort          Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+
+  @@index([cohortId, status])
+  @@index([intendedEmail])
+  @@index([intendedUserId])
+}
+
+// In-app notifications
+model Notification {
+  id              String   @id @default(cuid())
+  recipientId     String   // user who receives the notification
+  type            String   // supervisor_request_approved | invitation_received | etc.
+  title           String
+  body            String   // safe payload (no PII from other users)
+  actionRoute     String?  // e.g. "/cohorts/abc/invitations/xyz"
+  isRead          Boolean  @default(false)
+  isDismissed     Boolean  @default(false)
+  readAt          DateTime?
+  dismissedAt     DateTime?
+  deduplicationKey String? // prevent duplicate notifications
+  expiresAt       DateTime?
+  createdAt       DateTime @default(now())
+
+  @@index([recipientId, isRead, createdAt])
+  @@index([recipientId, type, createdAt])
+
+  recipient       User     @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+}
+
+// Notification preferences per user
+model NotificationPreference {
+  userId          String   @id
+  emailEnabled    Boolean  @default(true)
+  inAppEnabled    Boolean  @default(true)
+  digestFrequency String   @default("WEEKLY") // NONE | DAILY | WEEKLY | MONTHLY
+  quietHoursStart Int      @default(22) // 24h format
+  quietHoursEnd   Int      @default(7)
+  locale          String   @default("es")
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+
+// Audit trail for cohort actions
+model CohortAuditEvent {
+  id              String   @id @default(cuid())
+  cohortId        String
+  actorId         String   // who performed the action
+  action          String   // create_cohort | invite_learner | accept_invitation | etc.
+  targetType      String?  // user | cohort | invitation
+  targetId        String?
+  beforeState     String?  // JSON snapshot
+  afterState      String?  // JSON snapshot
+  reason          String?
+  requestId       String?  // for tracing
+  createdAt       DateTime @default(now())
+
+  cohort          Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+
+  @@index([cohortId, createdAt])
+  @@index([actorId, createdAt])
+}
+
+// Report exports
+model ReportExport {
+  id              String   @id @default(cuid())
+  requesterId     String
+  cohortId        String
+  reportType      String   // progress_summary | badge_report | inactivity_report | etc.
+  filtersJSON     String   @default("{}")
+  status          String   @default("PENDING") // PENDING | COMPLETED | FAILED | EXPIRED
+  artifactPath    String?  // path to generated file
+  rowCount        Int      @default(0)
+  expiresAt       DateTime?
+  failureReason   String?
+  createdAt       DateTime @default(now())
+  completedAt     DateTime?
+
+  cohort          Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+
+  @@index([cohortId, status])
+  @@index([requesterId, createdAt])
 }
