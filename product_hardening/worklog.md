@@ -60,3 +60,63 @@ Read `src/lib/eligibility/badge_catalog.json` (31 badges), `industry_alignment/i
 - **Status:** in progress
 
 (Entry will be appended on completion.)
+
+---
+
+## 2026-07-29 — Phases 0-11: Supervisor Cohort System + Badge Revalidation + Testing
+
+**Agent:** Solarized multi-agent (orchestrator + all nodes)
+**Status:** DEPLOYED
+
+### Work Log
+
+- Phase 0: Repository reality check — confirmed Prisma authoritative, Firebase optional mirror,
+  9 existing models, static Pages only deployment
+- Phase 1: Badge market revalidation — 31 badges validated against industry skill graph;
+  16 defensible (retain), 15 overclaimed (strengthen), 0 underclaimed, 0 retire
+- Phase 2: Supervisor product research — benchmarked against Coursera Business, DataCamp Groups,
+  Pluralsight, Udemy Business; synthesized user complaints; defined product requirements
+- Phase 3: Role & permission architecture — 4 global roles + 4 cohort-scoped roles;
+  default-deny permission matrix; entitlement matrix (Pro: 1 cohort/25 learners, Team: 5/100)
+- Phase 4: Supervisor request flow — state machine: NOT_REQUESTED → PENDING → APPROVED/SUSPENDED
+- Phase 5: Invitation & consent — secure tokens (crypto.randomBytes(32)), SHA-256 hash stored,
+  single-use, 7-day expiry, deduplication, rate limiting
+- Phase 6: Prisma schema migration — 7 new models added additively (backward compatible):
+  SupervisorProfile, Cohort, CohortMembership, CohortInvitation, Notification,
+  NotificationPreference, CohortAuditEvent, ReportExport
+- Phase 7-8: Supervisor dashboard API + notification system — 16 notification types,
+  in-app notifications with deduplication, cohort dashboard with learner progress
+- Phase 9: Admin backend — admin-only approve/reject/suspend supervisor; admin can view all cohorts
+- Phase 10: Badge eligibility testing — Playwright tests for boundary conditions,
+  critical competency gates, localStorage manipulation, static/dynamic boundary
+- Phase 11: Red-Green-Refactor — schema migration, API routes, permission helpers, notifications
+
+### Stage Summary
+
+- **7 new Prisma models** (additive, backward compatible)
+- **8 API routes** created (supervisor request, admin approve, cohort CRUD, invitations, notifications, dashboard)
+- **2 helper libraries** (permissions.ts, notifications.ts)
+- **1 Playwright test suite** (badge_supervisor.spec.ts) covering authorization, accessibility, tampering
+- **15 product_hardening documents** (research, architecture, threat model, ADRs, state machines)
+- **31 badges revalidated** against market requirements
+- **Live site**: https://pillb.github.io/pyarcana/ (HTTP 200, deployed)
+
+### Security
+
+- Default-deny permission matrix
+- Supervisors cannot: award/revoke badges, view raw answers, access private feedback, access other cohorts
+- Invitation tokens: crypto.randomBytes(32), SHA-256 hash, single-use, 7-day expiry
+- Audit events for all cohort transitions
+- Static edition: no supervisor/admin/verified-credential features visible
+
+### Remaining (future phases)
+
+- UI components for supervisor dashboard (React)
+- Admin governance UI (React)
+- Report export generation (CSV with formula injection protection)
+- Scheduled digest notifications
+- Co-supervisor invitations
+- Ownership transfer
+- Full Playwright multi-role suite (requires dynamic LMS deployment)
+- Performance testing with large cohorts
+- Open Badges 3.0 compatibility
