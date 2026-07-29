@@ -12,7 +12,7 @@ export const section25: CourseSection = {
   icon: "Sparkles",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En un desk de riesgos u operaciones en Lima (bancos, fintech, back-office de retail), el analista ya tiene campos OCR de S24 y necesita un asistente de IA que clasifique o redacte borradores sin inventar ni autoetiquetar fraude. En CP-N2-C unificas un endpoint HTTP local o un `transformers.pipeline` bajo el mismo contrato de salida, validas JSON y evalúas con golden sets. El score del modelo es señal de prioridad para revisión humana, nunca veredicto legal ni de parentesco.",
+    "En un desk de riesgos u operaciones en Lima (bancos, fintech, back-office de retail), el analista ya tiene campos OCR y necesita un asistente de IA que clasifique o redacte borradores sin inventar ni autoetiquetar fraude. Aquí aprendes a unificar un endpoint HTTP local o un transformers.pipeline bajo el mismo contrato de salida, validar el JSON y evaluar con golden sets (conjuntos de referencia con respuesta conocida). El score del modelo es señal de prioridad para revisión humana, nunca veredicto legal ni de parentesco.",
   learningOutcomes: [
     { text: "Elegir regla vs. modelo especializado vs. LLM con justificación auditable" },
     { text: "Leer model cards, licencias y decidir despliegue local o cloud" },

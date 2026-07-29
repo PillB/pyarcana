@@ -12,7 +12,7 @@ export const section23: CourseSection = {
   icon: "Monitor",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El adaptador web de CP-N2-C automatiza un sitio local controlado con la mentalidad Playwright: locators de usuario, traces, retries y API primero. No evade CAPTCHA ni términos; el handoff humano es parte del contrato. En operaciones (p. ej. backoffice sintético en Lima) el valor es el dato verificado y auditable, no “haber automatizado el clic”.",
+    "Automatizar un sitio web controlado con Playwright significa elegir locators estables (esto es, selectores que sobreviven a rediseños), dejar traces, reintentar con criterio y preferir la API pública antes que el clic cuando exista. Aquí aprendes a hacerlo sin evadir CAPTCHA ni términos de servicio: el handoff humano es parte del contrato. En operaciones (backoffice, mesas de control) el valor es el dato verificado y auditable, no «haber automatizado el clic».",
   learningOutcomes: [
     { text: "Usar locators orientados a usuario" },
     { text: "Aplicar auto-waiting y assertions fiables" },

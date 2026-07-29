@@ -12,7 +12,7 @@ export const section04: CourseSection = {
   icon: "Repeat",
   accentColor: "bg-gradient-to-br from-amber-500 to-orange-600",
   jobRelevance:
-    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. En esta sección conviertes el motor de S03, que es el validador que decidía accept/reject/review por cada registro, en un procesador por lotes, que es un programa que recorre muchos registros en un solo pase en vez de uno por uno: sabes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros. Ese criterio sirve igual para pedidos, sensores, matrículas o transacciones, y cierra el Client Intake CP-N1-A, que es el primer incremento del capstone de datos del curso.",
+    "Una regla aplicada a una sola fila es una demostración; aplicada con cuidado a miles de filas es un sistema. Aquí conviertes un validador registro por registro en un procesador por lotes (un programa que recorre muchos registros en un solo pase, no uno por uno). Aprendes cuándo seguir, cuándo detenerte, qué contar y cómo demostrar que el resumen no perdió ni duplicó registros — criterio que sirve igual para pedidos, sensores, matrículas o transacciones.",
   learningOutcomes: [
     { text: "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo" },
     { text: "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake" },

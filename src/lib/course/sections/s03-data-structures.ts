@@ -12,7 +12,7 @@ export const section03: CourseSection = {
   icon: 'GitBranch',
   accentColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
   jobRelevance:
-    'Un parser, que es el programa que lee texto y lo convierte en datos con tipo, puede transformar `"0"` en `0` y aun así tomar una decisión equivocada. En sistemas de incorporación de clientes, pedidos, becas o pacientes, la conversión responde a qué dato llegó. El motor de reglas, que es la capa que decide qué hacer con ese dato, responde a qué hacemos con él. Esa diferencia enlaza directamente con S02. Si tratas `None` como si fuera `0`, o usas `if monto:` y rechazas un cero válido, produces falsos positivos y trabajo manual evitable. En esta sección construirás el motor de reglas del proyecto CP-N1-A, que es el primer incremento del capstone de datos. Lo harás con comparaciones, valores verdaderos o falsos, `if/elif/else`, guardas, listas permitidas, tablas de decisión y pruebas de ramas con mensajes accionables.',
+    'Un parser (el programa que lee texto y lo convierte en datos con tipo) puede transformar "0" en 0 y aun así tomar una decisión equivocada. En sistemas de incorporación de clientes, pedidos o pacientes, esa diferencia decide si una fila se aprueba, se rechaza o se revisa a mano. Aquí aprendes a escribir reglas con if/elif/else, listas permitidas y tablas de decisión, probando cada rama con mensajes accionables para que nadie tenga que adivinar por qué algo falló.',
   learningOutcomes: [
     { text: 'Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible' },
     { text: 'Distinguir truthiness de presencia semántica y predecir short-circuit de and/or' },

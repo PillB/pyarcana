@@ -12,7 +12,7 @@ export const section31: CourseSection = {
   icon: "Network",
   accentColor: "bg-gradient-to-br from-violet-500 to-indigo-800",
   jobRelevance:
-    "En investigación de relaciones entre entidades — banca, BPO (tercerización de procesos) y compliance (cumplimiento normativo) en Perú — necesitas un grafo de evidencia. Ese grafo se compone de nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión humana. Tras el ER (entity resolution, motor de S30), el grafo responde cómo están conectadas las entidades — no quién es culpable.",
+    "En investigación de relaciones entre entidades — banca, BPO (tercerización de procesos) y compliance en Perú — necesitas un grafo de evidencia: nodos, aristas tipadas, agregados y caminos explicables para la cola de revisión humana. Aquí aprendes a construir ese grafo sobre el resultado del entity resolution, respondiendo cómo están conectadas las entidades. El grafo describe relaciones, no culpabilidad: esa decisión siempre es humana.",
   learningOutcomes: [
     { text: "Modelar nodos/aristas con peso y dirección" },
     { text: "Representar multigrafo temporal con provenance" },

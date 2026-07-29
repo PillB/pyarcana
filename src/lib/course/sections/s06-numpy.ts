@@ -12,7 +12,7 @@ export const section06: CourseSection = {
   icon: "Layers",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Antes de guardar un lote en CSV o enviarlo a una base de datos, un programa necesita una mesa de clasificación en memoria. Allí conserva el orden de llegada, localiza clientes por ID, detecta repeticiones y deja constancia de los desacuerdos. En esta sección conviertes las listas y funciones de S04–S05 en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding (el alta y verificación de un nuevo cliente o caso), logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
+    "Antes de guardar un lote en CSV o enviarlo a una base de datos, tu programa necesita una mesa de clasificación en memoria: conservar el orden de llegada, localizar clientes por ID, detectar repeticiones y dejar constancia de los desacuerdos. Aquí conviertes tus listas y funciones en ese pequeño almacén confiable. Es una habilidad cotidiana en onboarding (el alta y verificación de un nuevo cliente), logística, comercio y control de calidad: elegir la colección correcta evita datos perdidos, búsquedas lentas y resultados que cambian sin explicación.",
   learningOutcomes: [
     { text: "Usar list/tuple y slicing para ventanas de registros sin copiar de más" },
     { text: "Desempaquetar secuencias y distinguir alias vs. copia superficial/profunda" },

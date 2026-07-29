@@ -12,7 +12,7 @@ export const section40: CourseSection = {
   icon: "Network",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto (banca, fintech y operaciones en LatAm), arquitectura, DDD y decisiones técnicas convierten requisitos en fronteras de código y evidencia revisable. El portfolio de esta sección es un dossier con escenarios de quality attributes, context map, C4 (context/container) y ADRs con alternativas, consecuencias y plan de reversión; se promueve solo cuando cada flujo conserva medida, dueño y consecuencia.",
+    "En equipos de plataforma y producto (banca, fintech y operaciones en LatAm), arquitectura, DDD (Domain-Driven Design: diseñar software a partir del lenguaje del negocio) y decisiones técnicas convierten requisitos en fronteras de código revisables. Aquí aprendes a armar un dossier con escenarios de quality attributes, context map, diagramas C4 y ADRs (Architecture Decision Records) con alternativas, consecuencias y plan de reversión. Es la documentación que un comité técnico acepta antes de aprobar un proyecto serio.",
   learningOutcomes: [
     { text: "Redactar requisitos funcionales y quality-attribute scenarios con fuente, estímulo, entorno, respuesta, umbral y dueño contactable" },
     { text: "Comparar alternativas de diseño con score de costo ponderado (menor es mejor), riesgo residual y dueño que acepta el residual" },

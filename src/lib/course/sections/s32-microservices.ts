@@ -13,7 +13,7 @@ export const section32: CourseSection = {
   icon: "TableProperties",
   accentColor: "bg-gradient-to-br from-indigo-500 to-violet-800",
   jobRelevance:
-    "Features mal hechas filtran el futuro (usan datos que solo existirán después de la decisión) y producen modelos que fallan en producción. En esta sección construyes la tabla de features versionada del workbench de investigación relacional (CP-N3-B, el capstone de nivel Competente): misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Features de grafo o contacto compartido no son etiqueta de fraude ni de parentesco: son señales para el modelo o la cola humana, no veredictos.",
+    "Las features mal hechas filtran el futuro (usan datos que solo existirán después de la decisión) y producen modelos que fallan en producción. Aquí aprendes a construir una tabla de features versionada con la misma lógica en entrenamiento e inferencia, sin timestamps futuros ni labels de decisión. Las features de grafo o contacto compartido son señales para el modelo o la cola humana, no etiquetas de fraude ni de parentesco.",
   learningOutcomes: [
     { text: "Diseñar un feature catalog (numéricas, categóricas y de texto) y validar que las keys del row ⊆ catálogo antes del fit; evidencia: catalog_ok y lista unknown_keys." },
     { text: "Aplicar missing indicators, fill con mediana de train y z-score con μ/σ congelados; demostrar silent_fill=False." },

@@ -12,7 +12,7 @@ export const section02: CourseSection = {
   icon: 'Code2',
   accentColor: 'bg-gradient-to-br from-sky-500 to-cyan-600',
   jobRelevance:
-    'Imagina un formulario internacional: una edad llega como `"42"`, un código postal conserva un cero inicial y un monto exige céntimos exactos. La pantalla los muestra sin protestar; Python, en cambio, necesita saber qué significa cada valor antes de operar con él. En bancos, fintech, salud o retail, ese detalle separa un registro auditable de uno que falla en silencio. Tu primer script “de verdad” no necesita un bucle espectacular: necesita leer campos de un formulario o CSV, distinguir texto de cantidad, convertir sin que el programa se derrumbe y conservar el original para explicar cualquier error. Esta sección construye esa base —valores, nombres, operadores y entrada/salida (I/O)— en el parser de intake del capstone CP-N1-A. Retomas el entorno de S01: activa el `.venv`, crea `parse_client_intake.py` en tu repositorio de práctica y ejecuta las demos en Pyodide o en local con el mismo Python del entorno virtual.',
+    'Imagina un formulario internacional: una edad llega como "42", un código postal conserva un cero inicial y un monto exige céntimos exactos. En bancos, fintech, salud o retail, ese detalle separa un registro auditable de uno que falla en silencio. Aquí aprendes a leer campos de un formulario o CSV, distinguir texto de cantidad, convertir sin que el programa se derrumbe y conservar el original para explicar cualquier error.',
   learningOutcomes: [
     { text: 'Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples' },
     { text: 'Inspeccionar con type/isinstance y convertir/validar valores de forma explícita' },

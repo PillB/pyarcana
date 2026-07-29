@@ -12,7 +12,7 @@ export const section39: CourseSection = {
   icon: "Award",
   accentColor: "bg-gradient-to-br from-violet-500 to-fuchsia-900",
   jobRelevance:
-    "En operaciones de riesgo y calidad de datos en fintech, banca y retail en el Perú, cierras el entregable CP-N3-C con Responsible ML Case Triage: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. El score solo prioriza revisión; no declara fraude ni parentesco. Para la promoción de nivel documentas CP-N3-A/B/C, un smoke de regresión S27–S39 y el expediente CF-3 listo para revisión externa: dejas evidencia reproducible, sin autodeclarar el cierre del nivel.",
+    "En operaciones de riesgo y calidad de datos en fintech, banca y retail en Perú, aquí integras un Responsible ML Case Triage completo: intake → entity resolution → relación → features → modelo → cola humana, con model cards, monitoreo y control humano. El score solo prioriza revisión; no declara fraude ni parentesco. Entregas evidencia reproducible lista para revisión externa, sin autodeclarar el cierre.",
   learningOutcomes: [
     { text: "Ensamblar el flujo canónico intake→ER→grafo→features→score→cola con contratos versionados" },
     { text: "Registrar ownership, semver y política de compatibilidad por artefacto del triage" },

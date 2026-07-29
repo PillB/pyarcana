@@ -12,7 +12,7 @@ export const section38: CourseSection = {
   icon: "Activity",
   accentColor: "bg-gradient-to-br from-fuchsia-400 to-indigo-900",
   jobRelevance:
-    "En operación de triage (fintech, retail, banca de procesos en Perú y la región), un batch de scoring no puede colgarse por un proveedor lento ni duplicar side effects al reiniciar. Esta sección entrena concurrencia correcta, observabilidad (logs, metrics y traces; o11y en jerga de industria) y workflows con checkpoint e idempotencia para el gate CP-N3-C. Logs sin PII real; datos sintéticos CASO-LIM-038.",
+    "En operación de triage (fintech, retail, banca de procesos en Perú y la región), un batch de scoring no puede colgarse por un proveedor lento ni duplicar side effects (efectos sobre el mundo: envío, escritura, gasto) al reiniciar. Aquí aprendes concurrencia correcta, observabilidad (logs, métricas y trazas) y workflows con checkpoint e idempotencia (que un mismo evento procesado dos veces produzca el mismo resultado). Todo con logs sin PII real.",
   learningOutcomes: [
     { text: "Elegir threads, processes o async según bottleneck medido (I/O vs. CPU)" },
     { text: "Razonar GIL, costo de serialización e IPC con payloads compactos" },

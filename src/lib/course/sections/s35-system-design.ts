@@ -12,7 +12,7 @@ export const section35: CourseSection = {
   icon: "Scale",
   accentColor: "bg-gradient-to-br from-violet-400 to-purple-800",
   jobRelevance:
-    "En un workbench de riesgo operativo (entorno de revisión; p. ej. cola de fraude en Lima, datos sintéticos de Red Andina) el analista no solo mira un score: arma una ficha de caso que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana. Inicias CP-N3-C (competencia de explicabilidad responsable): explicar un score no es acusar de fraude ni de parentesco, y sin audit trail (rastro auditable de quién decidió qué) el override (decisión humana que reemplaza al modelo) no es gobernanza.",
+    "En un workbench de riesgo operativo (cola de fraude en Lima, datos sintéticos) el analista no solo mira un score: arma una ficha de caso que separa evidencia observada, contribución del modelo, incertidumbre y decisión humana. Aquí aprendes a explicar un score sin acusar de fraude ni de parentesco, y a dejar un audit trail (rastro de quién decidió qué). Sin ese rastro, el override (decisión humana que reemplaza al modelo) no es gobernanza, es opacidad.",
   learningOutcomes: [
     { text: "Calcular ranking de importancia por permutación (drop de métrica) con means_fraud=False" },
     { text: "Construir explicación local value×weight y ficha de 4 capas con causal=False" },

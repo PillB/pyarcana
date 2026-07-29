@@ -12,7 +12,7 @@ export const section49: CourseSection = {
   icon: "FileCheck",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, los agentes (sistemas que eligen pasos con un LLM), las herramientas (las funciones que esos agentes pueden invocar) y el context engineering (el diseño de qué información entra al modelo en cada paso) orquestan pasos con tools de scope mínimo, presupuestos y checkpoints (puntos de guardado para reanudar sin repetir efectos). Prefiere workflow (una secuencia fija de pasos conocidos) cuando el baseline (la versión de referencia sin agente) determinista iguala o supera al agente; promueve un agente solo si supera ese baseline con plan evaluado, budgets (topes de pasos, tokens y costo) y tools de responsabilidad única (una sola acción cada una). Todo side effect (efecto sobre el mundo: envío, escritura, gasto) sensible exige aprobación humana explícita.",
+    "En equipos de plataforma y producto, los agentes (sistemas que eligen pasos con un LLM), las herramientas (funciones que esos agentes invocan) y el context engineering (qué información entra al modelo en cada paso) orquestan pasos con tools de scope mínimo, presupuestos y checkpoints. Aquí aprendes a preferir un workflow (secuencia fija de pasos) cuando el baseline determinista iguala o supera al agente, y a promover un agente solo si lo supera con plan evaluado, budgets y tools de responsabilidad única. Todo side effect sensible (envío, escritura, gasto) exige aprobación humana explícita.",
   learningOutcomes: [
     { text: "Elegir workflow vs. agente con baseline documentado y ADR." },
     { text: "Diseñar routing planner/worker/evaluator con máximo de iteraciones." },

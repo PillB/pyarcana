@@ -12,7 +12,7 @@ export const section26: CourseSection = {
   icon: "Award",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Cierras CP-N2-C orquestando el Value Proposition RPA + AI Analyst: Excel/sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo. En un escritorio de operaciones (p. ej. Lima) demuestras evidencia por estado, recuperación ante fallas, regresión N2 reproducible y costo acotado. Sin autofraude ni envío sin approve registrado en audit.",
+    "Aquí orquestas una cadena completa de principio a fin: Excel o sistema → validación → análisis → IA asistida → informe → aprobación humana → borrador de correo. En un escritorio de operaciones en Lima demuestras evidencia por estado, recuperación ante fallas y costo acotado. Sin autofraude ni envío sin aprobación registrada en el audit trail.",
   learningOutcomes: [
     { text: "Modelar tasks/flows/DAG con estados" },
     { text: "Configurar límites, metadata y schedules" },

@@ -12,7 +12,7 @@ export const section20: CourseSection = {
   icon: "FileSpreadsheet",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En finanzas, operaciones y reporting en Perú, **Excel sigue siendo el contrato de entrega**: el VP (vicepresidencia o área de negocio) abre un `.xlsx`, no un notebook. Un analista o data engineer que automatiza plantillas con **openpyxl** — sin dañar el master, con totales que cuadran y un **manifest** (JSON de auditoría de la corrida) — es quien cierra el mes a tiempo en bancos, cajas y retailers. Aquí construyes ese **excel factory**: lees plantillas sintéticas, escribes el workbook de resultados, concilias y dejas rastro auditable, sin PII real. El incremento alimenta el paquete de reporting de CP-N2-B y el empaquetado de S21.",
+    "En finanzas, operaciones y reporting en Perú, Excel sigue siendo el contrato de entrega: el VP (vicepresidencia o área de negocio) abre un .xlsx, no un notebook. Un analista o data engineer que automatiza plantillas con openpyxl — sin dañar el master, con totales que cuadran y un manifest (JSON de auditoría de la corrida) — es quien cierra el mes a tiempo en bancos, cajas y retailers. Aquí aprendes a leer plantillas, escribir el workbook de resultados, conciliar y dejar rastro auditable, sin PII real.",
   learningOutcomes: [
     { text: "Manipular sheets, celdas y encabezados estables con openpyxl" },
     { text: "Distinguir fórmulas de valores cacheados y materializar KPIs en Python" },

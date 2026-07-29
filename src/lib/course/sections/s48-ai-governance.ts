@@ -12,7 +12,7 @@ export const section48: CourseSection = {
   icon: "Scale",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, las aplicaciones LLM y RAG con evidencia entregan respuestas citadas con ACL y groundedness, no alucinaciones operativas. Se promueve solo cuando cada afirmación material está soportada por un fragmento permitido y la inyección de instrucciones en documentos se trata como data hostil, no como instrucción del sistema. Sobre el serving de S47, este asistente es la capa de respuesta con prueba antes de que S49 exponga tools sobre él.",
+    "En equipos de plataforma y producto, las aplicaciones LLM y RAG con evidencia entregan respuestas citadas con ACL (Access Control List: quién puede ver qué) y groundedness (anclaje en una fuente verificable), no alucinaciones operativas. Aquí aprendes a garantizar que cada afirmación esté soportada por un fragmento permitido y que la inyección de instrucciones en documentos se trate como data hostil, no como instrucción del sistema. Es la capa de respuesta con prueba antes de exponer herramientas sobre el modelo.",
   learningOutcomes: [
     { text: "Calcular similitud (cosine/dot) y producir un ranking reproducible con versión de embedding documentada." },
     { text: "Comparar baseline vs. candidato en holdout de retrieval y rechazar regresión o reindexación sin presupuesto." },

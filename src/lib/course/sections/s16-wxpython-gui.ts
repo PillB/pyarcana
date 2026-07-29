@@ -12,7 +12,7 @@ export const section16: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Los equipos de datos en banca, fintech y retail en Perú necesitan quality gates (puertas de control de calidad) explicables. Es decir, políticas de null por campo, duplicados con evidencia, normalización con columna raw (valor original) al lado, outliers (valores atípicos) con dominio y cuarentena con audit trail (rastro de auditoría). Aquí construyes el gate de calidad de CP-N2-A (la etapa A del capstone Executive Data Quality & EDA del nivel Competente). El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job (la tarea programada) no aprueba en silencio. Trabajas sin PII (datos personales identificables) reales y sin arreglos silenciosos. El trabajo parte de la ingesta tipada de S15 y deja un conjunto limpio y métricas para S17.",
+    "Los equipos de datos en banca, fintech y retail en Perú necesitan quality gates (puertas de control de calidad) explicables: políticas de nulos por campo, duplicados con evidencia, normalización con la columna raw (valor original) al lado, outliers con dominio y cuarentena con audit trail. Aquí aprendes a construir un gate fail-closed (que falla de forma segura: si el contrato se rompe, el job no aprueba en silencio). Trabajas sin PII real y sin arreglos silenciosos, dejando un conjunto limpio y métricas listas para el siguiente paso.",
   learningOutcomes: [
     { text: "Definir políticas de null required/optional y listar violaciones con conteo verificable (`isna` + mapa de campos)" },
     { text: "Limitar imputación con cap, indicadores de ausencia (`was_null`) y bloqueo si el rate supera el umbral" },

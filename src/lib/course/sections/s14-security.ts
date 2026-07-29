@@ -12,7 +12,7 @@ export const section14: CourseSection = {
   icon: "Binary",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En data quality y analytics de banca, fintech y retail en Perú, el **cómputo vectorizado con NumPy** sostiene las métricas de completitud, unicidad y señales por pares. Aquí abres **CP-N2-A** (la etapa A del capstone *Executive Data Quality & EDA* del nivel Competente). Trabajas con arrays sintéticos, benchmarks honestos y tests de tolerancia numérica — esto es, comparaciones que aceptan una diferencia mínima en vez de exigir igualdad exacta.",
+    "En data quality y analytics de banca, fintech y retail en Perú, el cómputo vectorizado con NumPy sostiene las métricas de completitud, unicidad y señales por pares. Aquí aprendes a operar arrays de miles de filas sin un bucle explícito, con benchmarks honestos y tests de tolerancia numérica (esto es, comparaciones que aceptan una diferencia mínima en vez de exigir igualdad exacta). Es la base para cualquier métrica de calidad de datos que un comité pueda auditar.",
   learningOutcomes: [
     { text: "Construir y validar ndarrays con dtype y shape correctos" },
     { text: "Indexar y filtrar con máscaras booleanas de forma segura" },

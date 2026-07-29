@@ -12,7 +12,7 @@ export const section30: CourseSection = {
   icon: "GitMerge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
   jobRelevance:
-    "Cierras **CP-N3-A** con un **motor de entity resolution testeable**: comparadores, blocking con recall medido, pesos/umbrales y métricas de precisión/recall. Los scores solo priorizan la cola de revisión clerical; nunca etiquetan fraude, parentesco ni colusión. En equipos de datos (bancos, telecom, retail en Perú y LatAm) este motor une contactos sintéticos duplicados antes de alimentar grafos de evidencia (S31) y almacenes SQL (S29).",
+    "Aquí construyes un motor de entity resolution testeable: comparadores, blocking con recall medido (esto es, qué fracción de los pares verdaderos pasan el filtro rápido), pesos y umbrales, y métricas de precisión y recall. Los scores solo priorizan la cola de revisión clerical; nunca etiquetan fraude, parentesco ni colusión. En equipos de datos de bancos, telecom o retail en Perú y LatAm, este motor une contactos duplicados antes de alimentar grafos de evidencia y almacenes SQL.",
   learningOutcomes: [
     { text: "Implementar comparadores exact, edit, token y fecha que devuelven score en [0,1] y registrar el aporte por campo" },
     { text: "Clasificar ausencia de campo como missing (vacío ≠ desacuerdo) y bajar el peso de valores frecuentes en acuerdos" },

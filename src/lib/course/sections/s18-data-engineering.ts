@@ -12,7 +12,7 @@ export const section18: CourseSection = {
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Tras el dataset limpio (el conjunto de datos depurado) y el memo de límites (el memorando que documenta cobertura y exclusiones) de S17 (CP-N2-A), aquí abres CP-N2-B. Practicas resúmenes robustos, sesgo muestral, intervalos básicos, correlación sin causalidad y notas de datos reproducibles — solo datos sintéticos. Ese paquete alimenta el dashboard accesible (el tablero visual) de S19.",
+ "En analytics y data products de banca, fintech y retail en Perú, un EDA honesto (esto es, un análisis exploratorio de datos que declara supuestos e incertidumbre) separa hallazgo, hipótesis y decisión: cada número lleva n, cobertura e incertidumbre. Aquí practicas resúmenes robustos, sesgo muestral, intervalos básicos y correlación sin causalidad, con notas de datos reproducibles. Es la base para construir un dashboard accesible que no mienta con promedios sobre muestras chicas.",
  learningOutcomes: [
  { text: "Resumir distribuciones con centro, dispersión y cuantiles" },
  { text: "Elegir métricas robustas y escalas honestas" },

@@ -12,7 +12,7 @@ export const section21: CourseSection = {
  icon: "FileStack",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
  jobRelevance:
- "En analytics y operaciones en Perú, el comité no acepta un Excel “bonito” si el DOCX dice otro número. Cerrar **CP-N2-B** exige un factory de reportes que una dashboard, Excel y documentos reales con métricas reconciliadas, provenance y aprobación humana.",
+ "En analytics y operaciones en Perú, el comité no acepta un Excel «bonito» si el DOCX dice otro número. Aquí aprendes a construir un factory de reportes que une dashboard, Excel y documentos reales con métricas reconciliadas, provenance (trazabilidad de origen) y aprobación humana. Es lo que separa un informe que pasa auditoría de uno que se desmorona en la primera pregunta.",
  learningOutcomes: [
  { text: "Separar un context versionado de la presentación Jinja y reutilizar el mismo dict en varios artefactos" },
  { text: "Renderizar condiciones y tablas con missing como — (nunca 0 inventado) y formato decimal explícito" },

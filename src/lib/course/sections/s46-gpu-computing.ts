@@ -12,7 +12,7 @@ export const section46: CourseSection = {
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto en LATAM, ingeniería de datos y orquestación de producción convierte el job asíncrono de la sección anterior —object store, colas, DLQ (cola de mensajes muertos: eventos que agotaron reintentos) e idempotency keys (claves que evitan reprocesar el mismo evento)— en pipelines batch/stream con calidad medible y SLA de frescura. Entregas típicas: tablas y contratos versionados, orquestación con checkpoint, lineage y alertas cuando el dato llega tarde o el schema se rompe. Se promociona solo cuando backfills y re-runs no corrompen el sink ni duplican agregados. La siguiente sección (MLOps) consumirá estas tablas versionadas y el lineage como fuente confiable de features y runs.",
+    "En equipos de plataforma y producto en LatAm, ingeniería de datos y orquestación de producción convierten el job asíncrono (object store, colas, DLQ e idempotency keys) en pipelines batch y stream con calidad medible y SLA de frescura. Aquí aprendes a entregar tablas y contratos versionados, orquestación con checkpoint, lineage y alertas cuando el dato llega tarde o el schema se rompe. El objetivo es que backfills y re-runs no corrompan el sink ni dupliquen agregados.",
   learningOutcomes: [
     { text: "Clasificar eventos on-time, allowed-late, late u out-of-window dado event_time, window_end, watermark y allowed_lateness, con política documentada" },
     { text: "Componer exactly-once end-to-end: fuente at-least-once + checkpoint + sink idempotente por clave + política de late data" },

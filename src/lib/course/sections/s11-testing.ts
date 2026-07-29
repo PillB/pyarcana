@@ -12,7 +12,7 @@ export const section11: CourseSection = {
   icon: "Boxes",
   accentColor: "bg-gradient-to-br from-cyan-500 to-blue-600",
   jobRelevance:
-    "Un modelo de dominio claro es la base de productos de matching y familiaridad sin inventar veredictos legales. Aquí construyes el núcleo OOP de **CP-N1-C**: tipos con invariantes, composición y puertos testeables en Python local — listos para el dashboard de evidencia en S13.",
+    "Un modelo de dominio claro es la base de productos de matching y familiaridad sin inventar veredictos legales. Aquí aprendes a construir un núcleo orientado a objetos: tipos con invariantes (esto es, reglas que el objeto siempre cumple, como «un cliente válido tiene email y DNI»), composición y puertos testeables. Es la base sobre la que luego monta cualquier dashboard de evidencia que respete la privacidad de las personas.",
   learningOutcomes: [
     { text: "Modelar entidades con class/dataclass e instancias válidas" },
     { text: "Imponer invariantes en construcción sin side-effects externos" },

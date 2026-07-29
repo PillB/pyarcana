@@ -13,7 +13,7 @@ export const section34: CourseSection = {
   icon: "Gauge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
   jobRelevance:
-    "En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), el baseline de S33 — la línea base determinista que todo modelo debe superar — ya produce scores de priorización. El paso que separa un notebook de un producto operable es convertir esos scores en una cola de revisión humana: métricas honestas bajo desbalance, calibración fuera de muestra y umbrales versionados por costo y capacidad del equipo. Cierras CP-N3-B del Relationship Investigation Workbench — la mesa de trabajo del analista de relaciones — sobre el caso sintético Red Andina: precision/recall de la cola, nunca autoetiqueta de fraude. Entity resolution (resolución de identidad entre registros) o matching de identidad no equivale a parentesco ni a fraude.",
+    "En un equipo de investigación de relaciones (fintech, compliance o riesgo de crédito en LatAm), cuando tu baseline ya produce scores de priorización, el paso que separa un notebook de un producto operable es convertir esos scores en una cola de revisión humana. Aquí aprendes a medir con honestidad bajo desbalance (esto es, cuando una clase es muy minoritaria), a calibrar fuera de muestra y a versionar umbrales por costo y capacidad del equipo. Entregas precision y recall de la cola, no autoetiquetas de fraude: entity resolution o matching de identidad nunca equivale a parentesco ni a fraude.",
   learningOutcomes: [
     {
       text: "Calcular matriz de confusión completa (TP/FP/FN/TN), precision, recall, F1 y average precision de ranking cuando la clase positiva es rara",

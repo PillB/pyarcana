@@ -13,7 +13,7 @@ export const section01: CourseSection = {
   icon: 'Wrench',
   accentColor: 'bg-gradient-to-br from-violet-500 to-violet-700',
   jobRelevance:
-    'Imagina tu primer día en un equipo distribuido: dos colegas en ciudades distintas deben correr el mismo proyecto y obtener el mismo resultado. Esa coincidencia no es suerte, sino entorno: la máquina, el intérprete (el programa que ejecuta tu código Python) y las versiones de los paquetes. Aquí aprenderás a crear un entorno virtual, que es una carpeta aislada con su propio Python y sus propias librerías; a usar Git, que es el sistema que conserva el historial de cambios del proyecto; y a comprobar cada paso desde la terminal. El objetivo no es instalar cosas: es construir una cadena de evidencia que otra persona pueda repetir sin adivinar.',
+    'Imagina tu primer día en un equipo distribuido: dos colegas en ciudades distintas deben correr el mismo proyecto y obtener el mismo resultado. Aquí aprendes a crear un entorno virtual (una carpeta con su propio Python y librerías), a usar Git para conservar el historial de cambios y a comprobar cada paso desde la terminal. El objetivo no es instalar cosas: es construir una cadena de evidencia que otra persona pueda repetir sin adivinar.',
   learningOutcomes: [
     {
       text: 'Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida',

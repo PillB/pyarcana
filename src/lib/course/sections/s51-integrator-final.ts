@@ -12,7 +12,7 @@ export const section51: CourseSection = {
   icon: "Crown",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto (bancos, fintechs y ops digitales en Perú y LATAM), el rol de AI/Platform Engineer no termina al desplegar el copiloto: te piden demostrar qué versión respondió, qué citó, qué tool llamó, quién aprobó el release y cómo hacer rollback. Esta sección entrena dashboard redactado, SLO con owner, audit trail append-only y flujos de corrección/apelación; se promociona solo con evidencia reconstruible.",
+    "En equipos de plataforma y producto (bancos, fintechs y ops digitales en Perú y LatAm), el rol de AI/Platform Engineer no termina al desplegar el copiloto: te piden demostrar qué versión respondió, qué citó, qué tool llamó, quién aprobó el release y cómo hacer rollback. Aquí aprendes a montar un dashboard redactado, SLO con owner, audit trail append-only (que solo se puede agregar, no borrar) y flujos de corrección y apelación. Es lo que convierte un demo en un producto defendible.",
   learningOutcomes: [
     { text: "Construir una traza reconstruible (prompt/retrieval/tool/answer) con `trace_id` y sin PII exportable" },
     { text: "Reconciliar tokens por etapa, validar p95 ≤ SLO y demostrar redacción de atributos sensibles" },

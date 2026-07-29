@@ -12,7 +12,7 @@ export const section43: CourseSection = {
   icon: "Package",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, contenedores y reproducibilidad operativa empaquetan el servicio de S41–S42 en algo que se levanta con un comando: imagen mínima, non-root (UID de aplicación sin privilegios de root), health/readiness (chequeos de salud y de disponibilidad) y shutdown limpio. Se promociona solo cuando el build es repetible en un entorno nuevo, no hay secretos horneados, los límites de recursos están acotados y el inventario no deja CVE crítico (vulnerabilidad catalogada) abierto. Esta sección no cubre pipelines de fine-tuning de modelos (flujos de afinamiento de pesos): el foco es empaquetar y operar el servicio Python de forma reproducible.",
+    "En equipos de plataforma y producto, los contenedores y la reproducibilidad operativa empaquetan tu servicio en algo que se levanta con un comando: imagen mínima, non-root (UID de aplicación sin privilegios de root), health y readiness (chequeos de salud y disponibilidad) y shutdown limpio. Aquí aprendes a garantizar un build repetible en un entorno nuevo, sin secretos horneados, con límites de recursos acotados y sin CVE crítico (vulnerabilidad catalogada) abierto. El foco es empaquetar y operar el servicio Python de forma reproducible, no afinar pesos de modelos.",
   learningOutcomes: [
     { text: "Ordenar layers de un Dockerfile (base → deps/lock → app → USER/CMD) y explicar cuándo se invalida el caché." },
     { text: "Elegir base parchable con digest, ejecutar como UID ≥1000 sin capabilities extras y acotar tamaño runtime." },

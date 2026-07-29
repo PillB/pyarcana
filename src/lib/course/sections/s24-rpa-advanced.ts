@@ -12,7 +12,7 @@ export const section24: CourseSection = {
   icon: "Bot",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En un backoffice de Lima (facturas, boletas y PDFs de proveedores), el cuello de botella no es “leer letras”: es convertir un artefacto (PNG/PDF sintético en el lab) en **campos con evidencia** que un humano pueda auditar en minutos.\n\nEl **document intake** de CP-N2-C modela ese camino: preproceso → OCR con confidence y bbox → schema → validación cross-field → cola HITL y métricas por campo. El OCR se expone con un contrato común `real`/`fake` para tests; abstenerse bajo confidence es control de calidad, no veredicto de fraude.\n\nEl valor profesional es **encolar bien** — no “cerrar” casos por score ni inventar dígitos de RUC.",
+    "En un backoffice de Lima (facturas, boletas y PDFs de proveedores), el cuello de botella no es «leer letras»: es convertir un PDF en campos con evidencia que un humano pueda auditar en minutos. Aquí aprendes a modelar el camino: preproceso → OCR con confidence y bounding box → schema → validación cross-field → cola de revisión humana y métricas por campo. El valor profesional es encolar bien, no cerrar casos por score ni inventar dígitos de RUC.",
   learningOutcomes: [
     { text: "Preprocesar metadatos de imagen sintética (DPI, deskew, crop, contraste) y dejar flags auditables" },
     { text: "Corregir ruido y orientación antes de invocar el motor OCR" },

@@ -12,7 +12,7 @@ export const section19: CourseSection = {
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-teal-500 to-cyan-700",
  jobRelevance:
- "En equipos de analítica y reportes en Perú (banca, retail, e-commerce, gobierno), una visualización accesible y honesta es el puente entre el EDA y las decisiones de un comité. Un dashboard que infla diferencias con el eje recortado, omite unidades o generaliza “Lima lidera el Perú” desde una muestra web no es “bonito”: es un riesgo de reporte. Aquí construyes el incremento CP-N2-B (dashboard): charts con ejes honestos, figuras Matplotlib exportables, tooltips y filtros modelados como especificación de datos, y alternativas no visuales con los mismos números. Queda listo para la factoría Excel (S20) y los reportes (S21).",
+ "En equipos de analítica y reportes en Perú (banca, retail, e-commerce, gobierno), una visualización accesible y honesta es el puente entre el EDA y las decisiones de un comité. Un dashboard que infla diferencias con el eje recortado, omite unidades o generaliza «Lima lidera el Perú» desde una muestra web no es «bonito»: es un riesgo de reporte. Aquí aprendes a hacer charts con ejes honestos, tooltips y filtros modelados como especificación de datos, y alternativas no visuales con los mismos números para quien usa lector de pantalla.",
  learningOutcomes: [
  { text: "Elegir el tipo de chart (bar/line/scatter) según la pregunta analítica y la audiencia (ejecutivo vs. analista), documentando la decisión en un brief de diseño" },
  { text: "Diseñar ejes y encodings honestos: baseline 0 en barras de magnitudes absolutas, unidades visibles y rechazo de dual-axis engañoso sin justificación" },

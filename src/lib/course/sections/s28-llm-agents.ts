@@ -13,7 +13,7 @@ export const section28: CourseSection = {
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El QA del motor de entity resolution (ER), que es el proceso de decidir si dos registros refieren a la misma entidad, exige más que tests unitarios felices. Necesita propiedades que generen bordes, contratos de schema, goldens con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción de revisión. Esta sección te arma la capa de propiedades + datos + dobles + integración que protege el pipeline sintético CP-N3-A.",
+    "El QA del motor de entity resolution (ER), el proceso de decidir si dos registros refieren a la misma entidad, exige más que tests unitarios felices: necesita propiedades que generen bordes, contratos de schema, goldens con revisión humana, dobles de HTTP/DB/reloj e integración determinista en CI. En un desk de datos en Lima (banca, fintech o retail), un flake o un golden actualizado en silencio puede dejar pasar un matching roto hasta producción. Aquí aprendes a montar la capa de propiedades, datos, dobles e integración que protege el pipeline antes de que alguien lo note en la mesa de revisión.",
   learningOutcomes: [
     { text: "Generar casos desde invariantes con seed o tabla exhaustiva" },
     { text: "Aplicar pruebas metamórficas, de simetría e idempotencia" },

@@ -13,7 +13,7 @@ export const section29: CourseSection = {
   icon: "Database",
   accentColor: "bg-gradient-to-br from-sky-500 to-blue-800",
   jobRelevance:
-    "El almacén de verdad del ER (entity resolution: decidir si dos registros refieren a la misma persona o empresa) guarda fuentes, entidades, pares, decisiones y evidencia con historia auditable. En equipos de datos (banca, telecom, retail en Perú y LATAM), un analista o ingeniero que modela PK/FK (claves primaria y foránea), temporalidad y consultas de cola de revisión en SQL reduce reprocesos. También reemplaza discusiones sin evidencia por decisiones trazables. La práctica de esta sección usa SQLite de laboratorio (constraints, joins, ACID, migraciones y repository) como contrato del motor antes de un almacén corporativo (warehouse).",
+    "El almacén de verdad del entity resolution guarda fuentes, entidades, pares, decisiones y evidencia con historia auditable. En equipos de datos (banca, telecom, retail en Perú y LatAm), un analista o ingeniero que modela PK/FK (claves primaria y foránea), temporalidad y consultas de cola de revisión en SQL reduce reprocesos y reemplaza discusiones sin evidencia por decisiones trazables. Aquí practicas con SQLite de laboratorio (constraints, joins, ACID, migraciones y repository) como contrato del motor antes de un almacén corporativo.",
   learningOutcomes: [
     {
       text: "Definir PK/FK/CHECK/UNIQUE en SQLite con `PRAGMA foreign_keys=ON` y demostrar violación con IntegrityError",

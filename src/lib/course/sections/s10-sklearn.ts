@@ -13,7 +13,7 @@ export const section10: CourseSection = {
   icon: "Package",
   accentColor: "bg-gradient-to-br from-red-500 to-rose-600",
   jobRelevance:
-    "Empaquetar un ETL en un CLI instalable es lo que separa un notebook suelto de una herramienta usable por el equipo. Aquí conviertes el pipeline de familiaridad en el paquete **familiarity_core**: módulos limpios, `pyproject.toml`, subcomandos y config por precedencia — cierre de empaquetado de **CP-N1-B** y base de **CP-N1-C**.",
+    "Empaquetar un ETL en un CLI instalable es lo que separa un notebook suelto de una herramienta usable por el equipo. Aquí aprendes a convertir tu pipeline en un paquete propio: módulos limpios, un archivo pyproject.toml, subcomandos y configuración por precedencia (esto es, la opción de línea de comandos pisa a la del archivo y esta a la del entorno). El resultado es algo que un colega puede instalar con un comando y ejecutar sin leer tu código.",
   learningOutcomes: [
     { text: "Organizar imports, evitar ciclos y usar if __name__ == '__main__'" },
     { text: "Definir API pública estable y helpers privados" },

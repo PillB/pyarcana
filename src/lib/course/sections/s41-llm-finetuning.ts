@@ -12,7 +12,7 @@ export const section41: CourseSection = {
   icon: "Server",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "En equipos de plataforma y producto, las API con FastAPI y contratos HTTP convierten las fronteras de S40 en endpoints versionados con evidencia operativa: respuestas OpenAPI sin PII (información personal identificable) y con status, evidencia y errores tipados. Gate de promoción CP-N4-A: la misma Idempotency-Key no duplica side effects (cambios observables del sistema, como crear un job) y la lectura conserva compatibilidad v1. S42 sumará autorización, schemas estrictos y privacidad de servicios sobre este control plane (la capa que orquesta y gobierna los servicios).",
+    "En equipos de plataforma y producto, las API con FastAPI y contratos HTTP convierten decisiones de arquitectura en endpoints versionados con evidencia operativa: respuestas OpenAPI sin PII (información personal identificable), status y errores tipados. Aquí aprendes a garantizar que la misma Idempotency-Key no duplique side effects (cambios observables como crear un job dos veces) y que la lectura conserve compatibilidad con versiones anteriores. Es la base sobre la que luego se monta autorización, schemas estrictos y privacidad por servicio.",
   learningOutcomes: [
     { text: "Diseñar recursos versionados (`/v1/jobs`) con métodos y status semánticos (201/200/4xx/5xx)" },
     { text: "Implementar Idempotency-Key, paginación con cursor estable y compatibilidad de lectura" },

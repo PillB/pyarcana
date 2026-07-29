@@ -12,7 +12,7 @@ export const section33: CourseSection = {
   icon: "LineChart",
   accentColor: "bg-gradient-to-br from-purple-500 to-indigo-800",
   jobRelevance:
-    "En banca, fintech y ops de riesgo en LatAm (p. ej. mesas de revisión de alertas en Lima o Arequipa), un workbench serio —la mesa de trabajo del analista— no reemplaza reglas claras por un modelo opaco sin un baseline, es decir, una línea base determinista que todo modelo debe superar. Primero se documenta ese baseline (dummy majority, «siempre predecir la clase más frecuente», o una regla simple) y los costos de FP/FN (falsos positivos y falsos negativos) de la cola de revisión humana; solo entonces se prueba si un modelo supervisado mejora la prioridad de revisión. Si el modelo no gana al dummy, el experimento se loguea igual y no se promociona complejidad inútil. Predicción de cola ≠ etiqueta de fraude ni de parentesco. Capstone de referencia: workbench CP-N3-B con datos sintéticos.",
+    "En banca, fintech y ops de riesgo en LatAm (mesas de revisión de alertas en Lima o Arequipa), un workbench serio —la mesa de trabajo del analista— no reemplaza reglas claras por un modelo opaco sin un baseline (línea base determinista que todo modelo debe superar). Aquí aprendes a documentar ese baseline, los costos de FP/FN (falsos positivos y falsos negativos) y a probar si un modelo supervisado mejora la prioridad de revisión. Si no gana al dummy, se loguea igual y no se promueve complejidad inútil; la predicción de cola nunca es etiqueta de fraude.",
   learningOutcomes: [
     { text: "Definir unidad de scoring, target observable y horizonte temporal" },
     { text: "Fijar baseline de regla y dummy majority con costo FP/FN" },

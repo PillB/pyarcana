@@ -12,7 +12,7 @@ export const section13: CourseSection = {
   icon: "LayoutDashboard",
   accentColor: "bg-gradient-to-br from-rose-500 to-pink-600",
   jobRelevance:
-    "En equipos de datos de banca, telco o fintech en Perú (créditos, onboarding, compliance), el cuello de botella no es «tener un modelo»: es **saber si dos registros hablan de la misma persona** y, por separado, si hay **señales de familiaridad operativa**. Y todo eso sin inventar parentesco ni fraude. Un analista junior que entrega un **Familiarity Evidence Dashboard** con entity resolution determinista, scores **separados**, fichas pseudonimizadas y cola de revisión humana se vuelve confiable en la mesa de riesgo. Esta sección es la **puerta de salida N1**: cierras **CP-N1-C**, documentas la **regresión de nivel 1 (S01–S13)** y entregas artefactos **CF-1** (privacidad, demo de un comando, runbook) listos para revisión de portfolio.",
+    "En equipos de datos de banca, telco o fintech en Perú, el cuello de botella no es «tener un modelo»: es saber si dos registros hablan de la misma persona y, por separado, si hay señales de familiaridad operativa, todo sin inventar parentesco ni fraude. Aquí aprendes a entregar un dashboard de evidencia con entity resolution determinista, scores separados, fichas pseudonimizadas y cola de revisión humana. Quien logra eso se vuelve confiable en la mesa de riesgo y deja un portfolio defendible.",
   learningOutcomes: [
     { text: "Aplicar normalización y blocking para ER determinista y entity_resolution_score" },
     { text: "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical" },

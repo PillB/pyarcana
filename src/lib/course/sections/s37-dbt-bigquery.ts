@@ -12,7 +12,7 @@ export const section37: CourseSection = {
   icon: "Timer",
   accentColor: "bg-gradient-to-br from-purple-400 to-indigo-900",
   jobRelevance:
-    "Escala el triage midiendo antes/después con el mismo dataset sintético. En data eng y ML ops de la región (matching, features, batch de entidad), un speedup sin `same_result` (el resultado funcional antes y después de optimizar) o sin `budget` (umbral acordado de ms/memoria/pares que el CI light puede romper) en CI light es regresión disfrazada: el PR «se siente» más rápido y, con `n` grande, el wall se duplica. Optimizar no justifica saltarse la privacidad ni los tests. Caso de referencia: `CASO-LIM-037`.",
+    "Escalar el triage significa medir antes y después con el mismo dataset, no declarar victoria porque «se siente más rápido». En data engineering y ML ops de la región, un speedup sin same_result (resultado funcional idéntico antes y después de optimizar) o sin budget (umbral acordado de ms/memoria que el CI puede romper) es una regresión disfrazada: con n grande, el wall time se duplica. Aquí aprendes a optimizar sin saltarte la privacidad ni los tests.",
   learningOutcomes: [
     { text: "Perfilar wall y CPU (`perf_counter` / `process_time`) y anotar memoria con `n` explícito." },
     { text: "Medir con benchmark: warmup, mediana y una nota de variabilidad (rango o IQR simple)." },
