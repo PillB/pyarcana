@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network, CreditCard } from 'lucide-react'
+import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network, CreditCard, Boxes } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useSession } from 'next-auth/react'
@@ -18,12 +18,13 @@ import { PdfReport } from '@/components/course/PdfReport'
 import { LanguageToggle } from '@/components/course/LanguageToggle'
 import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
+import { CapstonesPage } from '@/components/course/CapstonesPage'
 import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 import { t, useI18n } from '@/lib/i18n'
 
-type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing'
+type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing' | 'capstones'
 
 export default function Home() {
   const [view, setView] = useState<View>('home')
@@ -58,6 +59,9 @@ export default function Home() {
       } else if (hash === 'familiarity') {
         setView('familiarity')
         setActiveSectionId(null)
+      } else if (hash === 'capstones') {
+        setView('capstones')
+        setActiveSectionId(null)
       } else if (hash === 'pricing' && !IS_STATIC_SITE) {
         setView('pricing')
         setActiveSectionId(null)
@@ -80,7 +84,7 @@ export default function Home() {
 
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
-    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : id || ''
+    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : newView === 'capstones' ? 'capstones' : id || ''
     const newUrl = hash ? `${window.location.pathname}#${hash}` : window.location.pathname
     window.history.replaceState(null, '', newUrl)
   }
@@ -220,6 +224,17 @@ export default function Home() {
             <Button
               variant="ghost"
               size="icon"
+              onClick={() => { setView('capstones'); updateUrl(null, 'capstones') }}
+              className="h-9 w-9"
+              aria-label={tr('nav.capstones')}
+              data-testid="nav-capstones"
+              title={tr('nav.capstones')}
+            >
+              <Boxes className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setGlossaryOpen(true)}
               className="h-9 w-9"
               aria-label={tr('nav.glossary')}
@@ -256,6 +271,12 @@ export default function Home() {
             <div className="text-sm text-muted-foreground">
               {view === 'home' && tr('nav.home')}
               {view === 'resources' && tr('nav.resources')}
+              {view === 'capstones' && (
+                <span className="flex items-center gap-1">
+                  <Boxes className="h-3.5 w-3.5 text-primary" />
+                  <span className="text-primary font-medium">{tr('nav.capstones')}</span>
+                </span>
+              )}
               {view === 'admin' && (
                 <span className="flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -270,6 +291,18 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Capstones / Projects view */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => { setView('capstones'); updateUrl(null, 'capstones') }}
+              className="gap-1.5"
+              data-testid="nav-capstones"
+              title={tr('nav.capstones')}
+            >
+              <Boxes className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">{tr('nav.capstones')}</span>
+            </Button>
             {/* Familiarity Dashboard — VP feature */}
             <Button
               variant="ghost"
@@ -375,6 +408,9 @@ export default function Home() {
               )}
               {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
               {view === 'familiarity' && <FamiliarityDashboard />}
+              {view === 'capstones' && (
+                <CapstonesPage onOpenSection={handleSelectSection} />
+              )}
               {!IS_STATIC_SITE && view === 'pricing' && (
                 <PricingPage
                   isAuthenticated={!!session?.user}
