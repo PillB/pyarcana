@@ -1,0 +1,34 @@
+{
+  "id": "CP-N3-A",
+  "version": "2.0.0",
+  "name": "Motor de Resolución de Entidades Probable",
+  "level": 3,
+  "gateSection": "S30",
+  "contributingSections": [
+    "S27",
+    "S28",
+    "S29",
+    "S30"
+  ],
+  "dependencies": [
+    "CP-N2-C"
+  ],
+  "prerequisites": [
+    "S27",
+    "S28",
+    "S29"
+  ],
+  "summary": "Motor de Resolución de Entidades Probable",
+  "badgeId": "capstone_advanced_applied",
+  "finalIntegrationInterface": "er.resolve(records) -> ClusterSet",
+  "criticalFailures": [
+    "Infiere relaciones automáticamente",
+    "Sin separación train/dev/test",
+    "Sin baseline determinista",
+    "Sin análisis de falsos positivos"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N3-A/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N3-A/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N3-A/BRIEF.md"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "CP-N3-B",
+  "version": "2.0.0",
+  "name": "Mesa de Trabajo de Investigación de Relaciones",
+  "level": 3,
+  "gateSection": "S34",
+  "contributingSections": [
+    "S31",
+    "S32",
+    "S33",
+    "S34"
+  ],
+  "dependencies": [
+    "CP-N3-A"
+  ],
+  "prerequisites": [
+    "S31",
+    "S32",
+    "S33"
+  ],
+  "summary": "Mesa de Trabajo de Investigación de Relaciones",
+  "badgeId": "capstone_advanced_applied",
+  "finalIntegrationInterface": "graph.investigate(query) -> GraphCase",
+  "criticalFailures": [
+    "Etiquetas automáticas de fraude",
+    "Sin distinción enlace directo/inferido",
+    "Sin control de autorización",
+    "Sin reproducibilidad de caso"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N3-B/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N3-B/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N3-B/BRIEF.md"
+}

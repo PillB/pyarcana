@@ -1,0 +1,34 @@
+{
+  "id": "CP-N2-A",
+  "version": "2.0.0",
+  "name": "Portafolio Ejecutivo de Calidad de Datos y EDA",
+  "level": 2,
+  "gateSection": "S17",
+  "contributingSections": [
+    "S14",
+    "S15",
+    "S16",
+    "S17"
+  ],
+  "dependencies": [
+    "CP-N1-C"
+  ],
+  "prerequisites": [
+    "S14",
+    "S15",
+    "S16"
+  ],
+  "summary": "Portafolio Ejecutivo de Calidad de Datos y EDA",
+  "badgeId": "capstone_independent",
+  "finalIntegrationInterface": "eda.profile(dataset) -> EdaReport",
+  "criticalFailures": [
+    "Interpretación causal no soportada",
+    "Sin reproducibilidad",
+    "Sin memo ejecutivo",
+    "Sin limitaciones"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N2-A/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N2-A/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N2-A/BRIEF.md"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "CP-N1-B",
+  "version": "2.0.0",
+  "name": "Pipeline ETL Reproducible de Clientes y Transacciones",
+  "level": 1,
+  "gateSection": "S08",
+  "contributingSections": [
+    "S05",
+    "S06",
+    "S07",
+    "S08"
+  ],
+  "dependencies": [
+    "CP-N1-A"
+  ],
+  "prerequisites": [
+    "S05",
+    "S06",
+    "S07"
+  ],
+  "summary": "Pipeline ETL Reproducible de Clientes y Transacciones",
+  "badgeId": "capstone_foundations",
+  "finalIntegrationInterface": "etl.run(batch) -> EtlManifest",
+  "criticalFailures": [
+    "Expone secretos",
+    "No es idempotente",
+    "Sin cuarentena",
+    "Pierde proveniencia"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N1-B/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N1-B/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N1-B/BRIEF.md"
+}

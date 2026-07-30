@@ -1,0 +1,52 @@
+{
+  "id": "CP-FINAL",
+  "version": "2.0.0",
+  "name": "Plataforma de Inteligencia de Relaciones y Operaciones",
+  "level": 4,
+  "gateSection": "S52",
+  "contributingSections": [
+    "S52"
+  ],
+  "dependencies": [
+    "CP-N1-A",
+    "CP-N1-B",
+    "CP-N1-C",
+    "CP-N2-A",
+    "CP-N2-B",
+    "CP-N2-C",
+    "CP-N3-A",
+    "CP-N3-B",
+    "CP-N3-C",
+    "CP-N4-A",
+    "CP-N4-B",
+    "CP-N4-C"
+  ],
+  "prerequisites": [
+    "S04",
+    "S08",
+    "S13",
+    "S17",
+    "S21",
+    "S26",
+    "S30",
+    "S34",
+    "S39",
+    "S43",
+    "S47",
+    "S51"
+  ],
+  "summary": "Plataforma de Inteligencia de Relaciones y Operaciones",
+  "badgeId": "capstone_integrated_mastery",
+  "finalIntegrationInterface": "platform.integrate(scenario) -> IntegrationBundle",
+  "criticalFailures": [
+    "Colección de repositorios sin contratos",
+    "Sin pruebas end-to-end",
+    "Sin rollback",
+    "Sin tarjetas (data/model/system)",
+    "Sin runbook operacional"
+  ],
+  "isFinal": true,
+  "datasetPath": "course-state/capstones/CP-FINAL/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-FINAL/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-FINAL/BRIEF.md"
+}

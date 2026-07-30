@@ -1,0 +1,34 @@
+{
+  "id": "CP-N2-B",
+  "version": "2.0.0",
+  "name": "Fábrica de Reportes y Tablero Accesible",
+  "level": 2,
+  "gateSection": "S21",
+  "contributingSections": [
+    "S18",
+    "S19",
+    "S20",
+    "S21"
+  ],
+  "dependencies": [
+    "CP-N2-A"
+  ],
+  "prerequisites": [
+    "S18",
+    "S19",
+    "S20"
+  ],
+  "summary": "Fábrica de Reportes y Tablero Accesible",
+  "badgeId": "capstone_independent",
+  "finalIntegrationInterface": "reports.render(spec) -> ReportBundle",
+  "criticalFailures": [
+    "Ejes engañosos",
+    "Codificación solo por color",
+    "Denominadores ocultos",
+    "Claims ejecutivos no soportados"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N2-B/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N2-B/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N2-B/BRIEF.md"
+}

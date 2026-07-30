@@ -1,0 +1,271 @@
+{
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "CP-N1-A",
+      "level": 1,
+      "gate": "S04",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N1-B",
+      "level": 1,
+      "gate": "S08",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N1-C",
+      "level": 1,
+      "gate": "S13",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N2-A",
+      "level": 2,
+      "gate": "S17",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N2-B",
+      "level": 2,
+      "gate": "S21",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N2-C",
+      "level": 2,
+      "gate": "S26",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N3-A",
+      "level": 3,
+      "gate": "S30",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N3-B",
+      "level": 3,
+      "gate": "S34",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N3-C",
+      "level": 3,
+      "gate": "S39",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N4-A",
+      "level": 4,
+      "gate": "S43",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N4-B",
+      "level": 4,
+      "gate": "S47",
+      "isFinal": false
+    },
+    {
+      "id": "CP-N4-C",
+      "level": 4,
+      "gate": "S51",
+      "isFinal": false
+    },
+    {
+      "id": "CP-FINAL",
+      "level": 4,
+      "gate": "S52",
+      "isFinal": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "CP-N1-A",
+      "to": "CP-N1-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-A",
+      "to": "CP-N1-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-B",
+      "to": "CP-N1-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-C",
+      "to": "CP-N2-A",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-A",
+      "to": "CP-N2-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-B",
+      "to": "CP-N2-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-C",
+      "to": "CP-N3-A",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-A",
+      "to": "CP-N3-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-B",
+      "to": "CP-N3-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-C",
+      "to": "CP-N4-A",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-N4-B",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-N4-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-B",
+      "to": "CP-N4-C",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-A",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-B",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-C",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-A",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-B",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N2-C",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-A",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-B",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N3-C",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-B",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N4-C",
+      "to": "CP-FINAL",
+      "type": "depends_on"
+    },
+    {
+      "from": "CP-N1-A",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N1-B",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N1-C",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N2-A",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N2-B",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N2-C",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N3-A",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N3-B",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N3-C",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N4-B",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    },
+    {
+      "from": "CP-N4-C",
+      "to": "CP-FINAL",
+      "type": "final_integrates"
+    }
+  ],
+  "finalIntegratesCount": 12
+}

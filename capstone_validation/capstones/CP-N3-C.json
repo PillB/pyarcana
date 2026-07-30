@@ -1,0 +1,36 @@
+{
+  "id": "CP-N3-C",
+  "version": "2.0.0",
+  "name": "Triaje Responsable de Casos con ML",
+  "level": 3,
+  "gateSection": "S39",
+  "contributingSections": [
+    "S35",
+    "S36",
+    "S37",
+    "S38",
+    "S39"
+  ],
+  "dependencies": [
+    "CP-N3-B"
+  ],
+  "prerequisites": [
+    "S35",
+    "S36",
+    "S37",
+    "S38"
+  ],
+  "summary": "Triaje Responsable de Casos con ML",
+  "badgeId": "capstone_advanced_applied",
+  "finalIntegrationInterface": "triage.score(case) -> TriageDecision",
+  "criticalFailures": [
+    "Decisión adversa sin revisión",
+    "Fuga de datos",
+    "Sin calibración",
+    "Sin abstención"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N3-C/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N3-C/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N3-C/BRIEF.md"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "CP-N4-B",
+  "version": "2.0.0",
+  "name": "Plataforma de Datos y ML en Producción",
+  "level": 4,
+  "gateSection": "S47",
+  "contributingSections": [
+    "S44",
+    "S45",
+    "S46",
+    "S47"
+  ],
+  "dependencies": [
+    "CP-N4-A"
+  ],
+  "prerequisites": [
+    "S44",
+    "S45",
+    "S46"
+  ],
+  "summary": "Plataforma de Datos y ML en Producción",
+  "badgeId": "capstone_integrated_mastery",
+  "finalIntegrationInterface": "platform.deploy(model) -> DeployRecord",
+  "criticalFailures": [
+    "Sin rollback demostrado",
+    "Sin aprobación",
+    "Sin consistencia train/serve",
+    "Sin SLOs"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N4-B/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N4-B/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N4-B/BRIEF.md"
+}

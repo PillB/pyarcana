@@ -1,0 +1,34 @@
+{
+  "id": "CP-N4-A",
+  "version": "2.0.0",
+  "name": "Plataforma de Servicio Python Gobernada",
+  "level": 4,
+  "gateSection": "S43",
+  "contributingSections": [
+    "S40",
+    "S41",
+    "S42",
+    "S43"
+  ],
+  "dependencies": [
+    "CP-N3-C"
+  ],
+  "prerequisites": [
+    "S40",
+    "S41",
+    "S42"
+  ],
+  "summary": "Plataforma de Servicio Python Gobernada",
+  "badgeId": "capstone_integrated_mastery",
+  "finalIntegrationInterface": "service.serve(request) -> ApiResponse",
+  "criticalFailures": [
+    "Ejecución como root",
+    "Sin health checks",
+    "Secretos embebidos",
+    "Sin migraciones"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N4-A/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N4-A/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N4-A/BRIEF.md"
+}

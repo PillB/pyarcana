@@ -1,0 +1,36 @@
+{
+  "id": "CP-N2-C",
+  "version": "2.0.0",
+  "name": "Flujo RPA y Analista IA con Aprobación Humana",
+  "level": 2,
+  "gateSection": "S26",
+  "contributingSections": [
+    "S22",
+    "S23",
+    "S24",
+    "S25",
+    "S26"
+  ],
+  "dependencies": [
+    "CP-N2-B"
+  ],
+  "prerequisites": [
+    "S22",
+    "S23",
+    "S24",
+    "S25"
+  ],
+  "summary": "Flujo RPA y Analista IA con Aprobación Humana",
+  "badgeId": "capstone_independent",
+  "finalIntegrationInterface": "rpa.run(job) -> RpaAudit",
+  "criticalFailures": [
+    "Envío externo sin aprobación",
+    "Sin idempotencia",
+    "Sin rollback",
+    "Logs con PII"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N2-C/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N2-C/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N2-C/BRIEF.md"
+}

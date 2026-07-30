@@ -1,0 +1,166 @@
+{
+  "version": "1.0.0",
+  "finalCapstone": "CP-FINAL",
+  "upstreamCount": 12,
+  "sharedSyntheticScenario": "shared_scenario_v1",
+  "contracts": [
+    {
+      "capstoneId": "CP-N1-A",
+      "interface": [
+        "Usa PII real",
+        "Calcula denominadores incorrectamente",
+        "No maneja entrada malformada",
+        "Sin tests"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N1-B",
+      "interface": [
+        "Expone secretos",
+        "No es idempotente",
+        "Sin cuarentena",
+        "Pierde proveniencia"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N1-C",
+      "interface": [
+        "Infiere fraude/parentesco automáticamente",
+        "Sin revisión humana",
+        "Sin hoja de privacidad",
+        "Sin mecanismo de corrección"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N2-A",
+      "interface": [
+        "Interpretación causal no soportada",
+        "Sin reproducibilidad",
+        "Sin memo ejecutivo",
+        "Sin limitaciones"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N2-B",
+      "interface": [
+        "Ejes engañosos",
+        "Codificación solo por color",
+        "Denominadores ocultos",
+        "Claims ejecutivos no soportados"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N2-C",
+      "interface": [
+        "Envío externo sin aprobación",
+        "Sin idempotencia",
+        "Sin rollback",
+        "Logs con PII"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N3-A",
+      "interface": [
+        "Infiere relaciones automáticamente",
+        "Sin separación train/dev/test",
+        "Sin baseline determinista",
+        "Sin análisis de falsos positivos"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N3-B",
+      "interface": [
+        "Etiquetas automáticas de fraude",
+        "Sin distinción enlace directo/inferido",
+        "Sin control de autorización",
+        "Sin reproducibilidad de caso"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N3-C",
+      "interface": [
+        "Decisión adversa sin revisión",
+        "Fuga de datos",
+        "Sin calibración",
+        "Sin abstención"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N4-A",
+      "interface": [
+        "Ejecución como root",
+        "Sin health checks",
+        "Secretos embebidos",
+        "Sin migraciones"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N4-B",
+      "interface": [
+        "Sin rollback demostrado",
+        "Sin aprobación",
+        "Sin consistencia train/serve",
+        "Sin SLOs"
+      ],
+      "version": "2.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    },
+    {
+      "capstoneId": "CP-N4-C",
+      "interface": [
+        "Bucles no acotados",
+        "RAG sin citas ni control de acceso",
+        "Contenido web tratado como instrucción",
+        "Sin HITL en efectos sensibles",
+        "Sin redacción de trazas",
+        "Sin rollback"
+      ],
+      "version": "3.0.0",
+      "contractType": "python_module",
+      "syntheticScenario": "shared_scenario_v1",
+      "contractTestsPresent": true
+    }
+  ]
+}

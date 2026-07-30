@@ -1,0 +1,37 @@
+{
+  "id": "CP-N1-C",
+  "version": "2.0.0",
+  "name": "Tablero de Evidencia de Familiaridad",
+  "level": 1,
+  "gateSection": "S13",
+  "contributingSections": [
+    "S09",
+    "S10",
+    "S11",
+    "S12",
+    "S13"
+  ],
+  "dependencies": [
+    "CP-N1-A",
+    "CP-N1-B"
+  ],
+  "prerequisites": [
+    "S09",
+    "S10",
+    "S11",
+    "S12"
+  ],
+  "summary": "Tablero de Evidencia de Familiaridad",
+  "badgeId": "capstone_foundations",
+  "finalIntegrationInterface": "familiarity.review(case) -> ReviewPacket",
+  "criticalFailures": [
+    "Infiere fraude/parentesco automáticamente",
+    "Sin revisión humana",
+    "Sin hoja de privacidad",
+    "Sin mecanismo de corrección"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N1-C/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N1-C/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N1-C/BRIEF.md"
+}

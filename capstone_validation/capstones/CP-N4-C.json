@@ -1,0 +1,37 @@
+{
+  "id": "CP-N4-C",
+  "version": "3.0.0",
+  "name": "Copiloto y Harness Auditable de Operaciones Multi-Agente con IA",
+  "level": 4,
+  "gateSection": "S51",
+  "contributingSections": [
+    "S48",
+    "S49",
+    "S50",
+    "S51"
+  ],
+  "dependencies": [
+    "CP-N4-A",
+    "CP-N4-B"
+  ],
+  "prerequisites": [
+    "S48",
+    "S49",
+    "S50"
+  ],
+  "summary": "Copiloto y Harness Auditable de Operaciones Multi-Agente con IA",
+  "badgeId": "evidence_grounded_ai_systems",
+  "finalIntegrationInterface": "copilot.run(task) -> CopilotRunRecord",
+  "criticalFailures": [
+    "Bucles no acotados",
+    "RAG sin citas ni control de acceso",
+    "Contenido web tratado como instrucción",
+    "Sin HITL en efectos sensibles",
+    "Sin redacción de trazas",
+    "Sin rollback"
+  ],
+  "isFinal": false,
+  "datasetPath": "course-state/capstones/CP-N4-C/data/generate.py",
+  "rubricPath": "course-state/capstones/CP-N4-C/RUBRIC.json",
+  "briefPath": "course-state/capstones/CP-N4-C/BRIEF.md"
+}

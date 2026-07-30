@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "total": 13,
+  "capstones": [
+    {
+      "id": "CP-N1-A",
+      "gate": "S04",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N1-B",
+      "gate": "S08",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N1-C",
+      "gate": "S13",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N2-A",
+      "gate": "S17",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N2-B",
+      "gate": "S21",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N2-C",
+      "gate": "S26",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N3-A",
+      "gate": "S30",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N3-B",
+      "gate": "S34",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N3-C",
+      "gate": "S39",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N4-A",
+      "gate": "S43",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N4-B",
+      "gate": "S47",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-N4-C",
+      "gate": "S51",
+      "state": "named-only",
+      "requiredPresent": []
+    },
+    {
+      "id": "CP-FINAL",
+      "gate": "S52",
+      "state": "named-only",
+      "requiredPresent": []
+    }
+  ]
+}

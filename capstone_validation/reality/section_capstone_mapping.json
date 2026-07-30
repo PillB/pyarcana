@@ -1,0 +1,525 @@
+{
+  "version": "1.0.0",
+  "sections": [
+    {
+      "section": "S01",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S02",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S03",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S04",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-A"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N1-A",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S05",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S06",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S07",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S08",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-B"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N1-B",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S09",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S10",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S11",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S12",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S13",
+      "level": 1,
+      "contributesToCapstones": [
+        "CP-N1-C"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N1-C",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S14",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S15",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S16",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S17",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-A"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N2-A",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S18",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S19",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S20",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S21",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-B"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N2-B",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S22",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S23",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S24",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S25",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S26",
+      "level": 2,
+      "contributesToCapstones": [
+        "CP-N2-C"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N2-C",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S27",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S28",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S29",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S30",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-A"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N3-A",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S31",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S32",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S33",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S34",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-B"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N3-B",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S35",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S36",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S37",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S38",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S39",
+      "level": 3,
+      "contributesToCapstones": [
+        "CP-N3-C"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N3-C",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S40",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S41",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S42",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-A"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S43",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-A"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N4-A",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S44",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S45",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S46",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-B"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S47",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-B"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N4-B",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S48",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S49",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S50",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-C"
+      ],
+      "isGate": false,
+      "gatesCapstone": null,
+      "artifactRole": "project_increment"
+    },
+    {
+      "section": "S51",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-N4-C"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-N4-C",
+      "artifactRole": "gate_assessment"
+    },
+    {
+      "section": "S52",
+      "level": 4,
+      "contributesToCapstones": [
+        "CP-FINAL"
+      ],
+      "isGate": true,
+      "gatesCapstone": "CP-FINAL",
+      "artifactRole": "gate_assessment"
+    }
+  ]
+}
