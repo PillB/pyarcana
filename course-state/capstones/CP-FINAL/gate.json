@@ -4,11 +4,20 @@
   "name": "Enterprise Relationship & Operations Intelligence Platform",
   "level": "FINAL",
   "acceptance_criteria": [
-    "Checklist conceptual de los 12 capstones de nivel presentes como paquetes.",
-    "Smoke: execution.json de cada uno de los 12 con status==pass.",
-    "Métricas de integración y arquitectura de alto nivel en salida JSON.",
-    "System card de la plataforma enterprise y límites éticos.",
-    "Demo exit 0 solo si 12/12 packages pasaron."
+    "platform.integrate(scenario) -> IntegrationBundle definido e implementado.",
+    "12 dependencias presentes en el bundle (contract_id + contract_version).",
+    "Cada subsistema devuelve su contrato declarado (contract tests).",
+    "Pruebas end-to-end presentes y pasan.",
+    "AST guard: ningún subsistema importa a otro (comunican vía contratos).",
+    "Backup + restore del integration state funcionan.",
+    "Rollback demostrado (restaura snapshot previo).",
+    "No-go dispara si un subsistema crítico falla.",
+    "Traza end-to-end presente y ordenada topológicamente.",
+    "Evidence bundle con contratos + traza + grafo + tarjetas.",
+    "Reproducible (misma semilla -> mismo bundle).",
+    "Tarjetas data/model/system presentes.",
+    "Runbook operacional presente (ARCHITECTURE.md).",
+    "Demo exit 0 solo si la integración es GO (no_go=False)."
   ],
   "rubric_0_3": {
     "correctness": {
@@ -20,7 +29,7 @@
         "2": "Cumple casos normales; bordes incompletos.",
         "3": "Correcto en normal, borde y error documentado."
       },
-      "focus": "12/12 execution.json status=pass requeridos."
+      "focus": "12/12 subsistemas devuelven su contrato declarado; IntegrationBundle bien formado."
     },
     "robustness": {
       "weight_hint": 0.2,
@@ -31,7 +40,7 @@
         "2": "Bordes y errores no críticos manejados.",
         "3": "Resiliente y con mensajes accionables."
       },
-      "focus": "Falla clara si falta un package o status != pass."
+      "focus": "No-go claro si un subsistema crítico falla; entradas imperfectas no rompen el orquestador."
     },
     "maintainability": {
       "weight_hint": 0.25,
@@ -42,7 +51,7 @@
         "2": "Módulos/funciones claros y legibles.",
         "3": "Diseño limpio, testeable y documentado."
       },
-      "focus": "Orquestador legible y paths estables."
+      "focus": "Un módulo por subsistema; contratos tipados; AST guard impide acoplamiento."
     },
     "responsible_use": {
       "weight_hint": 0.2,
@@ -53,7 +62,7 @@
         "2": "Controles y límites presentes.",
         "3": "Controles, límites y comunicación impecables."
       },
-      "focus": "Integra controles de privacidad/ética de todos los niveles."
+      "focus": "Sin PII real; sin inferencia automática de fraude/parentesco; tarjetas + runbook + rollback demostrado."
     },
     "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
   },
@@ -72,7 +81,7 @@
     "CP-N4-C",
     "S52"
   ],
-  "wow_factor_definition": "Integración reproducible de los 12 capstones con smoke de evidencia, arquitectura, métricas y system card para portfolio máster.",
+  "wow_factor_definition": "Integración reproducible de los 12 capstones mediante interfaces versionadas y contratos, con AST guard anti-acoplamiento, no-go condition, rollback demostrado, backup/restore, tarjetas data/model/system y runbook operacional para portfolio máster.",
   "scoring_weights_reference": {
     "correctness": 0.35,
     "edge_cases_data": 0.2,
@@ -86,8 +95,12 @@
     "No real PII",
     "No fraud inference as automatic decision",
     "No hardcoded production secrets",
-    "Synthetic or legally reusable data only"
+    "Synthetic or legally reusable data only",
+    "No CP-N4-D reference",
+    "No real network",
+    "No coupling between subsystems (must communicate via contracts)"
   ],
-  "package_version": "1.0.0",
+  "package_version": "2.0.0",
+  "final_integration_interface": "platform.integrate(scenario) -> IntegrationBundle",
   "generated_at": "2026-07-20T14:53:43Z"
 }

@@ -79,6 +79,6 @@
     "No hardcoded production secrets",
     "Synthetic or legally reusable data only"
   ],
-  "package_version": "1.0.0",
+  "package_version": "2.0.0",
   "generated_at": "2026-07-20T14:53:43Z"
 }

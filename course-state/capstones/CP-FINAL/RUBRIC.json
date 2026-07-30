@@ -1,0 +1,60 @@
+{
+  "id": "CP-FINAL",
+  "version": "2.0.0",
+  "name": "Plataforma de Inteligencia de Relaciones y Operaciones",
+  "level": 4,
+  "gate_section": "S52",
+  "is_final": true,
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "platform.integrate(scenario) devuelve IntegrationBundle con los 12 contratos presentes y compatibles; traza end-to-end ordenada."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja subsistemas que fallan: no-go en lugar de éxito parcial; entradas imperfectas del escenario no rompen el orquestador."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Un módulo por subsistema; contratos tipados versionados; AST guard impide acoplamiento directo entre subsistemas."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Sin PII real, sin inferencia automática de fraude/parentesco, con tarjetas (data/model/system), runbook y rollback demostrado."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference.",
+  "critical_failures": [
+    "Colección de repositorios sin contratos",
+    "Sin pruebas end-to-end",
+    "Sin rollback",
+    "Sin tarjetas (data/model/system)",
+    "Sin runbook operacional"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference",
+    "No CP-N4-D reference",
+    "No real network",
+    "No coupling between subsystems (must communicate via contracts)"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "platform.integrate(scenario) -> IntegrationBundle",
+    "12 dependencies present in bundle",
+    "contract compatibility (each subsystem returns its declared type)",
+    "synthetic end-to-end scenario runs",
+    "no direct shared-database coupling (AST guard: subsystems do not import each other)",
+    "backup + restore works",
+    "rollback restores prior state (proven)",
+    "no-go condition triggers when a critical subsystem fails",
+    "end-to-end trace present",
+    "evidence bundle present",
+    "reproducible (deterministic given same scenario seed)"
+  ],
+  "final_integration_interface": "platform.integrate(scenario) -> IntegrationBundle",
+  "upstream_count": 12
+}

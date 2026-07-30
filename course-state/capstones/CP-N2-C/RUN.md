@@ -1,26 +1,9 @@
-# RUN — CP-N2-C (S26)
-
-## Qué es
-Paquete formal del gate **VP RPA + AI Analyst**. Demo sintética, sin PII real ni inferencia de fraude.
-
-## Requisitos
-- Python 3.10+ (stdlib).
-- Opcional: `numpy` / `pandas` si están instalados (el demo cae a stdlib si faltan).
-
-## Cómo correr
+# Cómo ejecutar
 
 ```bash
-cd course-state/capstones/CP-N2-C
-python3 demo.py
+python3 data/generate.py  # dataset sintético
+python3 demo.py            # debe imprimir METRICS_JSON y salir 0
+python3 tests/test_demo.py # tests
 ```
 
-Esperado: exit code `0` y una línea JSON de métricas (prefijo `METRICS_JSON:`).
-
-## Evidencia
-Ver `evidence_manifest.json` y `execution.json` (generado al ejecutar el gate formal).
-
-## Notas
-- Datos 100% sintéticos (IDs ficticios, nombres inventados).
-- No envía red ni guarda secretos.
-- Rúbrica y criterios: `gate.json`.
-- Ficha: `system_or_data_card.md`.
+Requisitos: Python 3.10+. Solo stdlib. Sin claves, sin red, sin PII real.

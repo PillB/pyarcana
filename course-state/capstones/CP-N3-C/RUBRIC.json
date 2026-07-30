@@ -1,0 +1,50 @@
+{
+  "id": "CP-N3-C",
+  "version": "2.0.0",
+  "name": "Triaje Responsable de Casos con ML",
+  "level": 3,
+  "gate_section": "S39",
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Diseño limpio, modular, testeable y documentado."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
+  "critical_failures": [
+    "Decisión adversa sin revisión",
+    "Fuga de datos",
+    "Sin calibración",
+    "Sin abstención"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "triage produce score + decisión de apoyo",
+    "umbral por costo → revisión humana",
+    "no decisión adversa sin revisión",
+    "no fuga de datos",
+    "calibración reportada",
+    "abstención soportada",
+    "desempeño por subgrupo",
+    "tarjeta de modelo presente"
+  ]
+}

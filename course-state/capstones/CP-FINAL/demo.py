@@ -1,84 +1,82 @@
 #!/usr/bin/env python3
-"""CP-FINAL — Enterprise integration smoke over 12 capstone packages."""
+"""CP-FINAL — Enterprise integration over 12 capstone packages.
+
+This is the EXPANDED integration: instead of a 12-package smoke, it now
+calls `platform.integrate(scenario) -> IntegrationBundle` (the FINAL
+interface declared in `src/lib/capstones/catalog.ts`), runs all 12 upstream
+subsystems in dependency order over the shared synthetic scenario, and
+prints `METRICS_JSON: {...}` with `subsystem_count=12` and `status`.
+
+Exit 0 on success; non-zero only if the platform returns NO-GO.
+"""
 from __future__ import annotations
+import dataclasses
 import json
+import os
 import sys
 from pathlib import Path
 
 CAPSTONE_ID = "CP-FINAL"
-REQUIRED = [
-    "CP-N1-A", "CP-N1-B", "CP-N1-C",
-    "CP-N2-A", "CP-N2-B", "CP-N2-C",
-    "CP-N3-A", "CP-N3-B", "CP-N3-C",
-    "CP-N4-A", "CP-N4-B", "CP-N4-C",
-]
+PACKAGE_VERSION = "2.0.0"
 
-PACKAGE_FILES = [
-    "gate.json",
-    "demo.py",
-    "evidence_manifest.json",
-    "RUN.md",
-    "system_or_data_card.md",
-]
+# Make the local `integration/` package importable when running from the
+# capstone directory or from the repo root.
+_HERE = Path(__file__).resolve().parent
+if str(_HERE) not in sys.path:
+    sys.path.insert(0, str(_HERE))
+
+from integration import platform as platform_module  # noqa: E402
+from integration import backup_restore  # noqa: E402
+from integration import shared_scenario  # noqa: E402
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parent.parent
-    checklist = []
-    all_pass = True
-    for cid in REQUIRED:
-        pkg = root / cid
-        entry = {
-            "id": cid,
-            "package_dir_exists": pkg.is_dir(),
-            "files_ok": False,
-            "execution_status": None,
-            "pass": False,
-        }
-        if not pkg.is_dir():
-            all_pass = False
-            checklist.append(entry)
-            continue
-        files_ok = all((pkg / f).is_file() for f in PACKAGE_FILES)
-        entry["files_ok"] = files_ok
-        exec_path = pkg / "execution.json"
-        status = None
-        if exec_path.is_file():
-            try:
-                data = json.loads(exec_path.read_text(encoding="utf-8"))
-                status = data.get("status")
-            except json.JSONDecodeError:
-                status = "invalid_json"
-        entry["execution_status"] = status
-        entry["pass"] = bool(files_ok and status == "pass")
-        if not entry["pass"]:
-            all_pass = False
-        checklist.append(entry)
+    scenario = shared_scenario.shared_scenario_v1
+    bundle = platform_module.integrate(scenario)
 
-    n_pass = sum(1 for c in checklist if c["pass"])
-    architecture = {
-        "layers": [
-            "N1 intake/ETL/familiarity",
-            "N2 EDA/reporting/RPA",
-            "N3 ER/graph/triage",
-            "N4 services/MLOps/copilot",
-        ],
-        "integration": "Contractual smoke via execution.json status==pass",
-        "data_policy": "synthetic_only",
-    }
+    # Take a backup so the integration is reproducible/auditable.
+    backup_dir = os.path.join(_HERE, "evidence_backups")
+    backup_path = backup_restore.backup(bundle, backup_dir)
+    bundle = dataclasses.replace(bundle, backup_path=backup_path)
+
+    subsystem_count = len(bundle.subsystem_results)
+    status = "no_go" if bundle.no_go else "pass"
+
     metrics = {
         "capstone_id": CAPSTONE_ID,
-        "status": "pass" if all_pass else "fail",
-        "n_required": len(REQUIRED),
-        "n_pass": n_pass,
-        "checklist": checklist,
-        "architecture": architecture,
+        "package_version": PACKAGE_VERSION,
+        "status": status,
+        "subsystem_count": subsystem_count,
+        "scenario_id": bundle.scenario_id,
+        "scenario_version": shared_scenario.SCENARIO_VERSION,
+        "no_go": bundle.no_go,
+        "no_go_reason": bundle.no_go_reason,
+        "reproducible": bundle.reproducible,
+        "end_to_end_trace_len": len(bundle.end_to_end_trace),
+        "evidence_bundle_keys": sorted(bundle.evidence_bundle.keys()),
+        "dependency_graph_upstream_count": bundle.dependency_graph.get("upstream_count"),
+        "topological_order": bundle.dependency_graph.get("topological_order"),
+        "subsystem_results": {
+            cid: {
+                "contract_id": payload.get("contract_id"),
+                "contract_version": payload.get("contract_version"),
+            }
+            for cid, payload in bundle.subsystem_results.items()
+        },
+        "backup_path": bundle.backup_path,
+        "critical_failures_checked": [
+            "no_collection_of_repos_without_contracts",
+            "e2e_tests_present",
+            "rollback_demonstrated",
+            "cards_present_data_model_system",
+            "operational_runbook_present",
+        ],
     }
     print(f"METRICS_JSON: {json.dumps(metrics, ensure_ascii=False)}")
-    if not all_pass:
-        print(f"{CAPSTONE_ID} FAIL — {n_pass}/{len(REQUIRED)} packages green", file=sys.stderr)
-        return 1
-    print(f"{CAPSTONE_ID} Integration OK — {n_pass}/{len(REQUIRED)}")
+    if bundle.no_go:
+        print(f"{CAPSTONE_ID} NO-GO — {bundle.no_go_reason}", file=sys.stderr)
+        return 2
+    print(f"{CAPSTONE_ID} Integration OK — {subsystem_count}/12 subsystems green")
     return 0
 
 

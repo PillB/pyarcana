@@ -1,0 +1,1779 @@
+{
+  "bundle": {
+    "backup_path": null,
+    "contract_id": "CP-FINAL",
+    "contract_version": "2.0.0",
+    "dependency_graph": {
+      "edges": [
+        {
+          "from": "CP-N1-A",
+          "to": "CP-N1-B",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N1-A",
+          "to": "CP-N1-C",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N1-B",
+          "to": "CP-N1-C",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N1-C",
+          "to": "CP-N2-A",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N2-A",
+          "to": "CP-N2-B",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N2-B",
+          "to": "CP-N2-C",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N2-C",
+          "to": "CP-N3-A",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N3-A",
+          "to": "CP-N3-B",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N3-B",
+          "to": "CP-N3-C",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N3-C",
+          "to": "CP-N4-A",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N4-A",
+          "to": "CP-N4-B",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N4-A",
+          "to": "CP-N4-C",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N4-B",
+          "to": "CP-N4-C",
+          "type": "depends_on"
+        },
+        {
+          "from": "CP-N1-A",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N1-B",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N1-C",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N2-A",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N2-B",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N2-C",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N3-A",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N3-B",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N3-C",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N4-A",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N4-B",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        },
+        {
+          "from": "CP-N4-C",
+          "to": "CP-FINAL",
+          "type": "final_integrates"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "CP-N1-A",
+          "is_final": false,
+          "level": 1
+        },
+        {
+          "id": "CP-N1-B",
+          "is_final": false,
+          "level": 1
+        },
+        {
+          "id": "CP-N1-C",
+          "is_final": false,
+          "level": 1
+        },
+        {
+          "id": "CP-N2-A",
+          "is_final": false,
+          "level": 2
+        },
+        {
+          "id": "CP-N2-B",
+          "is_final": false,
+          "level": 2
+        },
+        {
+          "id": "CP-N2-C",
+          "is_final": false,
+          "level": 2
+        },
+        {
+          "id": "CP-N3-A",
+          "is_final": false,
+          "level": 3
+        },
+        {
+          "id": "CP-N3-B",
+          "is_final": false,
+          "level": 3
+        },
+        {
+          "id": "CP-N3-C",
+          "is_final": false,
+          "level": 3
+        },
+        {
+          "id": "CP-N4-A",
+          "is_final": false,
+          "level": 4
+        },
+        {
+          "id": "CP-N4-B",
+          "is_final": false,
+          "level": 4
+        },
+        {
+          "id": "CP-N4-C",
+          "is_final": false,
+          "level": 4
+        },
+        {
+          "id": "CP-FINAL",
+          "is_final": true,
+          "level": 4
+        }
+      ],
+      "topological_order": [
+        "CP-N1-A",
+        "CP-N1-B",
+        "CP-N1-C",
+        "CP-N2-A",
+        "CP-N2-B",
+        "CP-N2-C",
+        "CP-N3-A",
+        "CP-N3-B",
+        "CP-N3-C",
+        "CP-N4-A",
+        "CP-N4-B",
+        "CP-N4-C",
+        "CP-FINAL"
+      ],
+      "upstream_count": 12,
+      "version": "1.0.0"
+    },
+    "end_to_end_trace": [
+      {
+        "contract_id": "CP-N1-A",
+        "contract_version": "2.0.0",
+        "duration_ms": 1.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N1-A"
+      },
+      {
+        "contract_id": "CP-N1-B",
+        "contract_version": "2.0.0",
+        "duration_ms": 2.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N1-B"
+      },
+      {
+        "contract_id": "CP-N1-C",
+        "contract_version": "2.0.0",
+        "duration_ms": 3.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N1-C"
+      },
+      {
+        "contract_id": "CP-N2-A",
+        "contract_version": "2.0.0",
+        "duration_ms": 4.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N2-A"
+      },
+      {
+        "contract_id": "CP-N2-B",
+        "contract_version": "2.0.0",
+        "duration_ms": 5.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N2-B"
+      },
+      {
+        "contract_id": "CP-N2-C",
+        "contract_version": "2.0.0",
+        "duration_ms": 6.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N2-C"
+      },
+      {
+        "contract_id": "CP-N3-A",
+        "contract_version": "2.0.0",
+        "duration_ms": 7.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N3-A"
+      },
+      {
+        "contract_id": "CP-N3-B",
+        "contract_version": "2.0.0",
+        "duration_ms": 8.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N3-B"
+      },
+      {
+        "contract_id": "CP-N3-C",
+        "contract_version": "2.0.0",
+        "duration_ms": 9.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N3-C"
+      },
+      {
+        "contract_id": "CP-N4-A",
+        "contract_version": "2.0.0",
+        "duration_ms": 10.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N4-A"
+      },
+      {
+        "contract_id": "CP-N4-B",
+        "contract_version": "2.0.0",
+        "duration_ms": 11.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N4-B"
+      },
+      {
+        "contract_id": "CP-N4-C",
+        "contract_version": "3.0.0",
+        "duration_ms": 12.0,
+        "note": "",
+        "ok": true,
+        "run_id": "cp-final-seed-4252",
+        "subsystem": "CP-N4-C"
+      }
+    ],
+    "evidence_bundle": {
+      "cards": {
+        "data_card": "see ../system_or_data_card.md",
+        "model_card": "see ../system_or_data_card.md (triage)",
+        "system_card": "see ../system_or_data_card.md"
+      },
+      "contracts": {
+        "CP-N1-A": {
+          "contract_id": "CP-N1-A",
+          "contract_version": "2.0.0",
+          "malformed_handled": true,
+          "n_error": 1,
+          "n_ok": 8,
+          "n_total": 10,
+          "n_warn": 1,
+          "rows": [
+            {
+              "id": "SYN-CLI-001",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-002",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-003",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-004",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-005",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-006",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-007",
+              "status": "ok"
+            },
+            {
+              "id": "SYN-CLI-008",
+              "status": "ok"
+            },
+            {
+              "id": null,
+              "status": "error"
+            },
+            {
+              "id": "SYN-CLI-EDGE",
+              "status": "warn"
+            }
+          ]
+        },
+        "CP-N1-B": {
+          "accepted": [
+            {
+              "amount": 870.01,
+              "email": "ana.sintetico@example.test",
+              "id": "SYN-CLI-001",
+              "name": "Ana Sintetico",
+              "status": "review"
+            },
+            {
+              "amount": 994.27,
+              "email": "bruno.capstone@example.test",
+              "id": "SYN-CLI-002",
+              "name": "Bruno Capstone",
+              "status": "ok"
+            },
+            {
+              "amount": 683.8,
+              "email": "carla.sintetico@example.test",
+              "id": "SYN-CLI-003",
+              "name": "Carla Sintetico",
+              "status": "review"
+            },
+            {
+              "amount": 538.5,
+              "email": "diego.capstone@example.test",
+              "id": "SYN-CLI-004",
+              "name": "Diego Capstone",
+              "status": "ok"
+            },
+            {
+              "amount": 209.7,
+              "email": "eva.sintetico@example.test",
+              "id": "SYN-CLI-005",
+              "name": "Eva Sintetico",
+              "status": "ok"
+            },
+            {
+              "amount": 702.46,
+              "email": "franco.capstone@example.test",
+              "id": "SYN-CLI-006",
+              "name": "Franco Capstone",
+              "status": "review"
+            },
+            {
+              "amount": 419.47,
+              "email": "gina.sintetico@example.test",
+              "id": "SYN-CLI-007",
+              "name": "Gina Sintetico",
+              "status": "ok"
+            },
+            {
+              "amount": 573.26,
+              "email": "hugo.capstone@example.test",
+              "id": "SYN-CLI-008",
+              "name": "Hugo Capstone",
+              "status": "ok"
+            },
+            {
+              "amount": 0,
+              "email": "edge@example.test",
+              "id": "SYN-CLI-EDGE",
+              "name": "Edge Case"
+            }
+          ],
+          "batch_id": "syn-batch-4252",
+          "contract_id": "CP-N1-B",
+          "contract_version": "2.0.0",
+          "idempotent": true,
+          "manifest_hash": "59f3ac3b93744da5",
+          "provenance": {
+            "generator": "etl.run",
+            "schema_version": "1.0.0",
+            "source": "shared_scenario_v1"
+          },
+          "quarantine": [
+            {
+              "reason": "intake_classifier_error",
+              "row": {
+                "amount": -5,
+                "email": "bad",
+                "id": null,
+                "name": ""
+              }
+            }
+          ]
+        },
+        "CP-N1-C": {
+          "case_id": "SYN-CASE-001",
+          "contract_id": "CP-N1-C",
+          "contract_version": "2.0.0",
+          "correction_mechanism": true,
+          "decision_evidence": [
+            {
+              "auto": false,
+              "decision": "no_adverse_action",
+              "reason": "evidence-only review"
+            }
+          ],
+          "entity_evidence": [
+            {
+              "auto_label": false,
+              "signal": "single_account",
+              "source": "shared_scenario_v1"
+            }
+          ],
+          "human_review_required": true,
+          "privacy_sheet": {
+            "data_minimization": "synthetic only",
+            "no_pii": "true",
+            "retention": "training_demo"
+          },
+          "relationship_evidence": [
+            {
+              "auto_inferred": false,
+              "human_review_required": true,
+              "type": "shared_account_observation"
+            }
+          ]
+        },
+        "CP-N2-A": {
+          "contract_id": "CP-N2-A",
+          "contract_version": "2.0.0",
+          "dataset_version": "shared_scenario_v1",
+          "executive_memo": "Dataset has 10 rows and 5 columns. Missingness ranges over 5 columns. Observations are descriptive; no causal claims are supported.",
+          "limitations": [
+            "Descriptive statistics only — no causal interpretation.",
+            "Synthetic data; not representative of any real population.",
+            "No outlier remediation applied (out-of-scope)."
+          ],
+          "missingness": {
+            "amount": 0.0,
+            "email": 0.0,
+            "id": 0.1,
+            "name": 0.1,
+            "status": 0.2
+          },
+          "n_cols": 5,
+          "n_rows": 10,
+          "profile": {
+            "columns": [
+              "id",
+              "name",
+              "email",
+              "amount",
+              "status"
+            ],
+            "n_cols": 5,
+            "n_rows": 10,
+            "stats": "descriptive_only_no_causal_inference"
+          },
+          "reproducible": true
+        },
+        "CP-N2-B": {
+          "accessible": true,
+          "claims_with_sources": [
+            {
+              "claim": "n_clients = 10",
+              "denominator": "scenario.clients",
+              "source": "shared_scenario_v1"
+            },
+            {
+              "claim": "n_transactions = 12",
+              "denominator": "scenario.transactions",
+              "source": "shared_scenario_v1"
+            }
+          ],
+          "color_only_encoding": false,
+          "contract_id": "CP-N2-B",
+          "contract_version": "2.0.0",
+          "hidden_denominators": false,
+          "sections": [
+            {
+              "axis_disclosed": true,
+              "encoding": "text_label_plus_value",
+              "scale": "linear",
+              "title": "Synthetic Operations Report"
+            },
+            {
+              "denominator": "scenario.clients",
+              "encoding": "text",
+              "metric": "n_clients",
+              "value": 10
+            },
+            {
+              "denominator": "scenario.transactions",
+              "encoding": "text",
+              "metric": "n_transactions",
+              "value": 12
+            }
+          ],
+          "spec_id": "syn-spec-4252"
+        },
+        "CP-N2-C": {
+          "approved": false,
+          "contract_id": "CP-N2-C",
+          "contract_version": "2.0.0",
+          "idempotent": true,
+          "job_id": "syn-rpa-4252",
+          "logs_pii_free": true,
+          "rollback_available": true,
+          "steps": [
+            {
+              "action": "noop",
+              "executed": true,
+              "log": "step 1 action=noop result=ok",
+              "result": "ok",
+              "step": 1
+            },
+            {
+              "action": "send_email",
+              "executed": false,
+              "log": "step 2 action=send_email result=pending_human_approval",
+              "result": "pending_human_approval",
+              "step": 2
+            }
+          ]
+        },
+        "CP-N3-A": {
+          "baseline_deterministic": true,
+          "clusters": [
+            {
+              "block_key": "__no_name__",
+              "cluster_id": "CL-001",
+              "inferred": false,
+              "members": [
+                null
+              ]
+            },
+            {
+              "block_key": "ana sintetico",
+              "cluster_id": "CL-002",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-001"
+              ]
+            },
+            {
+              "block_key": "bruno capstone",
+              "cluster_id": "CL-003",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-002"
+              ]
+            },
+            {
+              "block_key": "carla sintetico",
+              "cluster_id": "CL-004",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-003"
+              ]
+            },
+            {
+              "block_key": "diego capstone",
+              "cluster_id": "CL-005",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-004"
+              ]
+            },
+            {
+              "block_key": "edge case",
+              "cluster_id": "CL-006",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-EDGE"
+              ]
+            },
+            {
+              "block_key": "eva sintetico",
+              "cluster_id": "CL-007",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-005"
+              ]
+            },
+            {
+              "block_key": "franco capstone",
+              "cluster_id": "CL-008",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-006"
+              ]
+            },
+            {
+              "block_key": "gina sintetico",
+              "cluster_id": "CL-009",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-007"
+              ]
+            },
+            {
+              "block_key": "hugo capstone",
+              "cluster_id": "CL-010",
+              "inferred": false,
+              "members": [
+                "SYN-CLI-008"
+              ]
+            }
+          ],
+          "contract_id": "CP-N3-A",
+          "contract_version": "2.0.0",
+          "fp_analysis": {
+            "clusters_with_multiple_members": 0,
+            "duplicates_blocked_only_on_name": true,
+            "fuzzy_inference_used": false
+          },
+          "inferred_relationships": false,
+          "train_dev_test_split": true
+        },
+        "CP-N3-B": {
+          "authorization_enforced": true,
+          "auto_fraud_labels": false,
+          "case_id": "syn-graph-4252",
+          "contract_id": "CP-N3-B",
+          "contract_version": "2.0.0",
+          "direct_vs_inferred_distinguished": true,
+          "edges": [
+            {
+              "auto_fraud_label": false,
+              "dst": "E-002",
+              "evidence": [],
+              "link_type": "direct",
+              "src": "E-001"
+            },
+            {
+              "auto_fraud_label": false,
+              "dst": "E-003",
+              "evidence": [],
+              "link_type": "inferred",
+              "src": "E-002"
+            },
+            {
+              "auto_fraud_label": false,
+              "dst": "E-004",
+              "evidence": [],
+              "link_type": "direct",
+              "src": "E-003"
+            },
+            {
+              "auto_fraud_label": false,
+              "dst": "E-001",
+              "evidence": [],
+              "link_type": "inferred",
+              "src": "E-004"
+            }
+          ],
+          "nodes": [
+            {
+              "auto_fraud_label": false,
+              "id": "E-001",
+              "kind": "entity"
+            },
+            {
+              "auto_fraud_label": false,
+              "id": "E-002",
+              "kind": "entity"
+            },
+            {
+              "auto_fraud_label": false,
+              "id": "E-003",
+              "kind": "entity"
+            },
+            {
+              "auto_fraud_label": false,
+              "id": "E-004",
+              "kind": "entity"
+            }
+          ],
+          "reproducible": true
+        },
+        "CP-N3-C": {
+          "abstained": false,
+          "calibrated": true,
+          "case_id": "SYN-CASE-001",
+          "contract_id": "CP-N3-C",
+          "contract_version": "2.0.0",
+          "data_leakage_prevented": true,
+          "human_review_required": true,
+          "score": 0.1284,
+          "threshold": 0.5
+        },
+        "CP-N4-A": {
+          "api_version": "v1",
+          "body": {
+            "ack": true,
+            "health": "ok",
+            "is_root": false,
+            "user": "synthetic_operator"
+          },
+          "contract_id": "CP-N4-A",
+          "contract_version": "2.0.0",
+          "health_check_passed": true,
+          "migrations_applied": [
+            "0001_initial",
+            "0002_synthetic_seed",
+            "0003_indexes"
+          ],
+          "secrets_embedded": false,
+          "status_code": 200
+        },
+        "CP-N4-B": {
+          "approval": {
+            "approved": true,
+            "approver": "synthetic_reviewer",
+            "timestamp": "2026-01-01T00:00:00Z"
+          },
+          "canary_result": {
+            "accuracy": 0.85,
+            "passed": true,
+            "rolled_back": false,
+            "traffic_pct": 5
+          },
+          "contract_id": "CP-N4-B",
+          "contract_version": "2.0.0",
+          "lineage": [
+            {
+              "signature": "faa92b6b0136",
+              "step": "train"
+            },
+            {
+              "model": "syn-triage:1.0.0",
+              "step": "register"
+            },
+            {
+              "approved_by": "synthetic_reviewer",
+              "step": "approve"
+            },
+            {
+              "result": "ok",
+              "step": "canary"
+            },
+            {
+              "result": "ok",
+              "step": "rollback_proof"
+            }
+          ],
+          "model_name": "syn-triage",
+          "model_version": "1.0.0",
+          "rollback_available": true,
+          "rollback_proven": true,
+          "slo": {
+            "availability_target": 0.995,
+            "error_budget_remaining": 0.85,
+            "latency_p95_ms": 120,
+            "measured_availability": 0.998
+          },
+          "train_serve_consistent": true
+        },
+        "CP-N4-C": {
+          "access_control_enforced": true,
+          "audit": [
+            {
+              "executed": true,
+              "name": "search_docs",
+              "redacted": true,
+              "result": [
+                {
+                  "citation": "kb:rollback",
+                  "doc_id": "rollback",
+                  "text": "Rollback restores previous production model version after gate failure."
+                },
+                {
+                  "citation": "kb:er",
+                  "doc_id": "er",
+                  "text": "Entity resolution scores are not fraud labels; use human review."
+                },
+                {
+                  "citation": "kb:pii",
+                  "doc_id": "pii",
+                  "text": "Use synthetic data only in training demos; no real PII."
+                },
+                {
+                  "citation": "kb:rag",
+                  "doc_id": "rag",
+                  "text": "Every retrieved document must carry a citation."
+                }
+              ],
+              "step": 1
+            },
+            {
+              "executed": false,
+              "name": "send_email",
+              "redacted": true,
+              "result": "pending_hitl",
+              "step": 2
+            }
+          ],
+          "contract_id": "CP-N4-C",
+          "contract_version": "3.0.0",
+          "hitl_on_sensitive_effects": true,
+          "max_steps": 8,
+          "rag_cited": true,
+          "rollback_available": true,
+          "steps_bounded": true,
+          "steps_taken": 2,
+          "task_id": "syn-copilot-4252",
+          "traces_redacted": true
+        }
+      },
+      "dependency_graph": {
+        "edges": [
+          {
+            "from": "CP-N1-A",
+            "to": "CP-N1-B",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N1-A",
+            "to": "CP-N1-C",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N1-B",
+            "to": "CP-N1-C",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N1-C",
+            "to": "CP-N2-A",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N2-A",
+            "to": "CP-N2-B",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N2-B",
+            "to": "CP-N2-C",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N2-C",
+            "to": "CP-N3-A",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N3-A",
+            "to": "CP-N3-B",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N3-B",
+            "to": "CP-N3-C",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N3-C",
+            "to": "CP-N4-A",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N4-A",
+            "to": "CP-N4-B",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N4-A",
+            "to": "CP-N4-C",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N4-B",
+            "to": "CP-N4-C",
+            "type": "depends_on"
+          },
+          {
+            "from": "CP-N1-A",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N1-B",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N1-C",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N2-A",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N2-B",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N2-C",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N3-A",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N3-B",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N3-C",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N4-A",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N4-B",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          },
+          {
+            "from": "CP-N4-C",
+            "to": "CP-FINAL",
+            "type": "final_integrates"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "CP-N1-A",
+            "is_final": false,
+            "level": 1
+          },
+          {
+            "id": "CP-N1-B",
+            "is_final": false,
+            "level": 1
+          },
+          {
+            "id": "CP-N1-C",
+            "is_final": false,
+            "level": 1
+          },
+          {
+            "id": "CP-N2-A",
+            "is_final": false,
+            "level": 2
+          },
+          {
+            "id": "CP-N2-B",
+            "is_final": false,
+            "level": 2
+          },
+          {
+            "id": "CP-N2-C",
+            "is_final": false,
+            "level": 2
+          },
+          {
+            "id": "CP-N3-A",
+            "is_final": false,
+            "level": 3
+          },
+          {
+            "id": "CP-N3-B",
+            "is_final": false,
+            "level": 3
+          },
+          {
+            "id": "CP-N3-C",
+            "is_final": false,
+            "level": 3
+          },
+          {
+            "id": "CP-N4-A",
+            "is_final": false,
+            "level": 4
+          },
+          {
+            "id": "CP-N4-B",
+            "is_final": false,
+            "level": 4
+          },
+          {
+            "id": "CP-N4-C",
+            "is_final": false,
+            "level": 4
+          },
+          {
+            "id": "CP-FINAL",
+            "is_final": true,
+            "level": 4
+          }
+        ],
+        "topological_order": [
+          "CP-N1-A",
+          "CP-N1-B",
+          "CP-N1-C",
+          "CP-N2-A",
+          "CP-N2-B",
+          "CP-N2-C",
+          "CP-N3-A",
+          "CP-N3-B",
+          "CP-N3-C",
+          "CP-N4-A",
+          "CP-N4-B",
+          "CP-N4-C",
+          "CP-FINAL"
+        ],
+        "upstream_count": 12,
+        "version": "1.0.0"
+      },
+      "reproducibility": {
+        "scenario_id": "shared_scenario_seed_4252",
+        "scenario_version": "shared_scenario_v1",
+        "seed": 4252,
+        "snapshot_hash": "{\"cases\": [{\"amo"
+      },
+      "trace": [
+        {
+          "contract_id": "CP-N1-A",
+          "contract_version": "2.0.0",
+          "duration_ms": 1.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N1-A"
+        },
+        {
+          "contract_id": "CP-N1-B",
+          "contract_version": "2.0.0",
+          "duration_ms": 2.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N1-B"
+        },
+        {
+          "contract_id": "CP-N1-C",
+          "contract_version": "2.0.0",
+          "duration_ms": 3.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N1-C"
+        },
+        {
+          "contract_id": "CP-N2-A",
+          "contract_version": "2.0.0",
+          "duration_ms": 4.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N2-A"
+        },
+        {
+          "contract_id": "CP-N2-B",
+          "contract_version": "2.0.0",
+          "duration_ms": 5.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N2-B"
+        },
+        {
+          "contract_id": "CP-N2-C",
+          "contract_version": "2.0.0",
+          "duration_ms": 6.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N2-C"
+        },
+        {
+          "contract_id": "CP-N3-A",
+          "contract_version": "2.0.0",
+          "duration_ms": 7.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N3-A"
+        },
+        {
+          "contract_id": "CP-N3-B",
+          "contract_version": "2.0.0",
+          "duration_ms": 8.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N3-B"
+        },
+        {
+          "contract_id": "CP-N3-C",
+          "contract_version": "2.0.0",
+          "duration_ms": 9.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N3-C"
+        },
+        {
+          "contract_id": "CP-N4-A",
+          "contract_version": "2.0.0",
+          "duration_ms": 10.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N4-A"
+        },
+        {
+          "contract_id": "CP-N4-B",
+          "contract_version": "2.0.0",
+          "duration_ms": 11.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N4-B"
+        },
+        {
+          "contract_id": "CP-N4-C",
+          "contract_version": "3.0.0",
+          "duration_ms": 12.0,
+          "note": "",
+          "ok": true,
+          "run_id": "cp-final-seed-4252",
+          "subsystem": "CP-N4-C"
+        }
+      ]
+    },
+    "no_go": false,
+    "no_go_reason": "",
+    "reproducible": true,
+    "scenario_id": "shared_scenario_seed_4252",
+    "subsystem_results": {
+      "CP-N1-A": {
+        "contract_id": "CP-N1-A",
+        "contract_version": "2.0.0",
+        "malformed_handled": true,
+        "n_error": 1,
+        "n_ok": 8,
+        "n_total": 10,
+        "n_warn": 1,
+        "rows": [
+          {
+            "id": "SYN-CLI-001",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-002",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-003",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-004",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-005",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-006",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-007",
+            "status": "ok"
+          },
+          {
+            "id": "SYN-CLI-008",
+            "status": "ok"
+          },
+          {
+            "id": null,
+            "status": "error"
+          },
+          {
+            "id": "SYN-CLI-EDGE",
+            "status": "warn"
+          }
+        ]
+      },
+      "CP-N1-B": {
+        "accepted": [
+          {
+            "amount": 870.01,
+            "email": "ana.sintetico@example.test",
+            "id": "SYN-CLI-001",
+            "name": "Ana Sintetico",
+            "status": "review"
+          },
+          {
+            "amount": 994.27,
+            "email": "bruno.capstone@example.test",
+            "id": "SYN-CLI-002",
+            "name": "Bruno Capstone",
+            "status": "ok"
+          },
+          {
+            "amount": 683.8,
+            "email": "carla.sintetico@example.test",
+            "id": "SYN-CLI-003",
+            "name": "Carla Sintetico",
+            "status": "review"
+          },
+          {
+            "amount": 538.5,
+            "email": "diego.capstone@example.test",
+            "id": "SYN-CLI-004",
+            "name": "Diego Capstone",
+            "status": "ok"
+          },
+          {
+            "amount": 209.7,
+            "email": "eva.sintetico@example.test",
+            "id": "SYN-CLI-005",
+            "name": "Eva Sintetico",
+            "status": "ok"
+          },
+          {
+            "amount": 702.46,
+            "email": "franco.capstone@example.test",
+            "id": "SYN-CLI-006",
+            "name": "Franco Capstone",
+            "status": "review"
+          },
+          {
+            "amount": 419.47,
+            "email": "gina.sintetico@example.test",
+            "id": "SYN-CLI-007",
+            "name": "Gina Sintetico",
+            "status": "ok"
+          },
+          {
+            "amount": 573.26,
+            "email": "hugo.capstone@example.test",
+            "id": "SYN-CLI-008",
+            "name": "Hugo Capstone",
+            "status": "ok"
+          },
+          {
+            "amount": 0,
+            "email": "edge@example.test",
+            "id": "SYN-CLI-EDGE",
+            "name": "Edge Case"
+          }
+        ],
+        "batch_id": "syn-batch-4252",
+        "contract_id": "CP-N1-B",
+        "contract_version": "2.0.0",
+        "idempotent": true,
+        "manifest_hash": "59f3ac3b93744da5",
+        "provenance": {
+          "generator": "etl.run",
+          "schema_version": "1.0.0",
+          "source": "shared_scenario_v1"
+        },
+        "quarantine": [
+          {
+            "reason": "intake_classifier_error",
+            "row": {
+              "amount": -5,
+              "email": "bad",
+              "id": null,
+              "name": ""
+            }
+          }
+        ]
+      },
+      "CP-N1-C": {
+        "case_id": "SYN-CASE-001",
+        "contract_id": "CP-N1-C",
+        "contract_version": "2.0.0",
+        "correction_mechanism": true,
+        "decision_evidence": [
+          {
+            "auto": false,
+            "decision": "no_adverse_action",
+            "reason": "evidence-only review"
+          }
+        ],
+        "entity_evidence": [
+          {
+            "auto_label": false,
+            "signal": "single_account",
+            "source": "shared_scenario_v1"
+          }
+        ],
+        "human_review_required": true,
+        "privacy_sheet": {
+          "data_minimization": "synthetic only",
+          "no_pii": "true",
+          "retention": "training_demo"
+        },
+        "relationship_evidence": [
+          {
+            "auto_inferred": false,
+            "human_review_required": true,
+            "type": "shared_account_observation"
+          }
+        ]
+      },
+      "CP-N2-A": {
+        "contract_id": "CP-N2-A",
+        "contract_version": "2.0.0",
+        "dataset_version": "shared_scenario_v1",
+        "executive_memo": "Dataset has 10 rows and 5 columns. Missingness ranges over 5 columns. Observations are descriptive; no causal claims are supported.",
+        "limitations": [
+          "Descriptive statistics only — no causal interpretation.",
+          "Synthetic data; not representative of any real population.",
+          "No outlier remediation applied (out-of-scope)."
+        ],
+        "missingness": {
+          "amount": 0.0,
+          "email": 0.0,
+          "id": 0.1,
+          "name": 0.1,
+          "status": 0.2
+        },
+        "n_cols": 5,
+        "n_rows": 10,
+        "profile": {
+          "columns": [
+            "id",
+            "name",
+            "email",
+            "amount",
+            "status"
+          ],
+          "n_cols": 5,
+          "n_rows": 10,
+          "stats": "descriptive_only_no_causal_inference"
+        },
+        "reproducible": true
+      },
+      "CP-N2-B": {
+        "accessible": true,
+        "claims_with_sources": [
+          {
+            "claim": "n_clients = 10",
+            "denominator": "scenario.clients",
+            "source": "shared_scenario_v1"
+          },
+          {
+            "claim": "n_transactions = 12",
+            "denominator": "scenario.transactions",
+            "source": "shared_scenario_v1"
+          }
+        ],
+        "color_only_encoding": false,
+        "contract_id": "CP-N2-B",
+        "contract_version": "2.0.0",
+        "hidden_denominators": false,
+        "sections": [
+          {
+            "axis_disclosed": true,
+            "encoding": "text_label_plus_value",
+            "scale": "linear",
+            "title": "Synthetic Operations Report"
+          },
+          {
+            "denominator": "scenario.clients",
+            "encoding": "text",
+            "metric": "n_clients",
+            "value": 10
+          },
+          {
+            "denominator": "scenario.transactions",
+            "encoding": "text",
+            "metric": "n_transactions",
+            "value": 12
+          }
+        ],
+        "spec_id": "syn-spec-4252"
+      },
+      "CP-N2-C": {
+        "approved": false,
+        "contract_id": "CP-N2-C",
+        "contract_version": "2.0.0",
+        "idempotent": true,
+        "job_id": "syn-rpa-4252",
+        "logs_pii_free": true,
+        "rollback_available": true,
+        "steps": [
+          {
+            "action": "noop",
+            "executed": true,
+            "log": "step 1 action=noop result=ok",
+            "result": "ok",
+            "step": 1
+          },
+          {
+            "action": "send_email",
+            "executed": false,
+            "log": "step 2 action=send_email result=pending_human_approval",
+            "result": "pending_human_approval",
+            "step": 2
+          }
+        ]
+      },
+      "CP-N3-A": {
+        "baseline_deterministic": true,
+        "clusters": [
+          {
+            "block_key": "__no_name__",
+            "cluster_id": "CL-001",
+            "inferred": false,
+            "members": [
+              null
+            ]
+          },
+          {
+            "block_key": "ana sintetico",
+            "cluster_id": "CL-002",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-001"
+            ]
+          },
+          {
+            "block_key": "bruno capstone",
+            "cluster_id": "CL-003",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-002"
+            ]
+          },
+          {
+            "block_key": "carla sintetico",
+            "cluster_id": "CL-004",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-003"
+            ]
+          },
+          {
+            "block_key": "diego capstone",
+            "cluster_id": "CL-005",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-004"
+            ]
+          },
+          {
+            "block_key": "edge case",
+            "cluster_id": "CL-006",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-EDGE"
+            ]
+          },
+          {
+            "block_key": "eva sintetico",
+            "cluster_id": "CL-007",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-005"
+            ]
+          },
+          {
+            "block_key": "franco capstone",
+            "cluster_id": "CL-008",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-006"
+            ]
+          },
+          {
+            "block_key": "gina sintetico",
+            "cluster_id": "CL-009",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-007"
+            ]
+          },
+          {
+            "block_key": "hugo capstone",
+            "cluster_id": "CL-010",
+            "inferred": false,
+            "members": [
+              "SYN-CLI-008"
+            ]
+          }
+        ],
+        "contract_id": "CP-N3-A",
+        "contract_version": "2.0.0",
+        "fp_analysis": {
+          "clusters_with_multiple_members": 0,
+          "duplicates_blocked_only_on_name": true,
+          "fuzzy_inference_used": false
+        },
+        "inferred_relationships": false,
+        "train_dev_test_split": true
+      },
+      "CP-N3-B": {
+        "authorization_enforced": true,
+        "auto_fraud_labels": false,
+        "case_id": "syn-graph-4252",
+        "contract_id": "CP-N3-B",
+        "contract_version": "2.0.0",
+        "direct_vs_inferred_distinguished": true,
+        "edges": [
+          {
+            "auto_fraud_label": false,
+            "dst": "E-002",
+            "evidence": [],
+            "link_type": "direct",
+            "src": "E-001"
+          },
+          {
+            "auto_fraud_label": false,
+            "dst": "E-003",
+            "evidence": [],
+            "link_type": "inferred",
+            "src": "E-002"
+          },
+          {
+            "auto_fraud_label": false,
+            "dst": "E-004",
+            "evidence": [],
+            "link_type": "direct",
+            "src": "E-003"
+          },
+          {
+            "auto_fraud_label": false,
+            "dst": "E-001",
+            "evidence": [],
+            "link_type": "inferred",
+            "src": "E-004"
+          }
+        ],
+        "nodes": [
+          {
+            "auto_fraud_label": false,
+            "id": "E-001",
+            "kind": "entity"
+          },
+          {
+            "auto_fraud_label": false,
+            "id": "E-002",
+            "kind": "entity"
+          },
+          {
+            "auto_fraud_label": false,
+            "id": "E-003",
+            "kind": "entity"
+          },
+          {
+            "auto_fraud_label": false,
+            "id": "E-004",
+            "kind": "entity"
+          }
+        ],
+        "reproducible": true
+      },
+      "CP-N3-C": {
+        "abstained": false,
+        "calibrated": true,
+        "case_id": "SYN-CASE-001",
+        "contract_id": "CP-N3-C",
+        "contract_version": "2.0.0",
+        "data_leakage_prevented": true,
+        "human_review_required": true,
+        "score": 0.1284,
+        "threshold": 0.5
+      },
+      "CP-N4-A": {
+        "api_version": "v1",
+        "body": {
+          "ack": true,
+          "health": "ok",
+          "is_root": false,
+          "user": "synthetic_operator"
+        },
+        "contract_id": "CP-N4-A",
+        "contract_version": "2.0.0",
+        "health_check_passed": true,
+        "migrations_applied": [
+          "0001_initial",
+          "0002_synthetic_seed",
+          "0003_indexes"
+        ],
+        "secrets_embedded": false,
+        "status_code": 200
+      },
+      "CP-N4-B": {
+        "approval": {
+          "approved": true,
+          "approver": "synthetic_reviewer",
+          "timestamp": "2026-01-01T00:00:00Z"
+        },
+        "canary_result": {
+          "accuracy": 0.85,
+          "passed": true,
+          "rolled_back": false,
+          "traffic_pct": 5
+        },
+        "contract_id": "CP-N4-B",
+        "contract_version": "2.0.0",
+        "lineage": [
+          {
+            "signature": "faa92b6b0136",
+            "step": "train"
+          },
+          {
+            "model": "syn-triage:1.0.0",
+            "step": "register"
+          },
+          {
+            "approved_by": "synthetic_reviewer",
+            "step": "approve"
+          },
+          {
+            "result": "ok",
+            "step": "canary"
+          },
+          {
+            "result": "ok",
+            "step": "rollback_proof"
+          }
+        ],
+        "model_name": "syn-triage",
+        "model_version": "1.0.0",
+        "rollback_available": true,
+        "rollback_proven": true,
+        "slo": {
+          "availability_target": 0.995,
+          "error_budget_remaining": 0.85,
+          "latency_p95_ms": 120,
+          "measured_availability": 0.998
+        },
+        "train_serve_consistent": true
+      },
+      "CP-N4-C": {
+        "access_control_enforced": true,
+        "audit": [
+          {
+            "executed": true,
+            "name": "search_docs",
+            "redacted": true,
+            "result": [
+              {
+                "citation": "kb:rollback",
+                "doc_id": "rollback",
+                "text": "Rollback restores previous production model version after gate failure."
+              },
+              {
+                "citation": "kb:er",
+                "doc_id": "er",
+                "text": "Entity resolution scores are not fraud labels; use human review."
+              },
+              {
+                "citation": "kb:pii",
+                "doc_id": "pii",
+                "text": "Use synthetic data only in training demos; no real PII."
+              },
+              {
+                "citation": "kb:rag",
+                "doc_id": "rag",
+                "text": "Every retrieved document must carry a citation."
+              }
+            ],
+            "step": 1
+          },
+          {
+            "executed": false,
+            "name": "send_email",
+            "redacted": true,
+            "result": "pending_hitl",
+            "step": 2
+          }
+        ],
+        "contract_id": "CP-N4-C",
+        "contract_version": "3.0.0",
+        "hitl_on_sensitive_effects": true,
+        "max_steps": 8,
+        "rag_cited": true,
+        "rollback_available": true,
+        "steps_bounded": true,
+        "steps_taken": 2,
+        "task_id": "syn-copilot-4252",
+        "traces_redacted": true
+      }
+    }
+  },
+  "schema": "cp_final_backup_v1"
+}

@@ -1,14 +1,29 @@
 {
   "id": "CP-N4-C",
   "gate_section": "S51",
-  "name": "Auditable AI Operations Copilot",
+  "name": "Copiloto y Harness Auditable de Operaciones Multi-Agente con IA",
   "level": 4,
+  "version": "3.0.0",
+  "sub_gates": [
+    {"id": "CP-N4-C.1", "section": "S49", "title": "Runtime multi-agente, adaptadores, RAG, tools, web/SERP, presupuestos y aprobación"},
+    {"id": "CP-N4-C.2", "section": "S50", "title": "Evaluación, red-team, fiabilidad y recuperación"},
+    {"id": "CP-N4-C.3", "section": "S51", "title": "Observabilidad, gobernanza, incidentes, contestabilidad, accesibilidad y system card"}
+  ],
   "acceptance_criteria": [
-    "Copiloto con políticas de tools (allow/deny) y auditoría de acciones.",
-    "RAG sintético o retrieval determinista con citas.",
-    "Eval set sintético con score de calidad.",
-    "Human control: acciones sensibles requieren aprobación.",
-    "Observabilidad: trace de pasos en métricas."
+    "Copiloto con políticas de tools (allow/require_human/deny) y auditoría de acciones.",
+    "RAG sintético o retrieval determinista con citas y ACL por documento.",
+    "Eval set sintético (holdout + trayectoria + red-team) con score de calidad.",
+    "Human control: acciones sensibles requieren aprobación; sin aprobación no se ejecutan.",
+    "Observabilidad: trace de pasos + spans + redacción de emails/tokens/keys.",
+    "Adaptadores local+comercial con contrato provider-neutral; modo determinista sin clave.",
+    "Provider con clasificación de retries (transient/permanent/provider_outage), timeout y fallback commercial→local.",
+    "Orquestador acotado: max 8 steps, max 12 tool calls, stop conditions, detección de bucles, handoffs tipados Generator/Verifier.",
+    "Estado durable (state.json) y resumen desde AWAITING_HUMAN.",
+    "Web/SERP sintético con proveniencia y defensa de inyección (web es DATA, no INSTRUCTION).",
+    "Presupuestos de costo y tokens; BudgetExceeded aborta la ejecución.",
+    "Versionado de modelos/prompts/datasets/indexes (manifiesto 3.0.0).",
+    "Rollback demostrado que restaura el estado previo.",
+    "System card + SECURITY + PRIVACY + ACCESSIBILITY + RESPONSIBLE_USE."
   ],
   "rubric_0_3": {
     "correctness": {
@@ -20,18 +35,18 @@
         "2": "Cumple casos normales; bordes incompletos.",
         "3": "Correcto en normal, borde y error documentado."
       },
-      "focus": "Policies se aplican; acciones denegadas no ejecutan."
+      "focus": "copilot.run(task) -> CopilotRunRecord con citas; require_human pausa; deny nunca ejecuta."
     },
     "robustness": {
       "weight_hint": 0.2,
       "scale": "0-3",
       "levels": {
-        "0": "Crashea ante entradas imperfectas.",
+        "0": "Crashea ante entradas imperfectas o adversariales.",
         "1": "Algunos bordes cubiertos.",
         "2": "Bordes y errores no críticos manejados.",
-        "3": "Resiliente y con mensajes accionables."
+        "3": "Resiliente y con mensajes accionables; red-team de 10 casos pasa."
       },
-      "focus": "Tools desconocidos denegados por defecto."
+      "focus": "Inyección de prompt, loop no acotado, budget breach, tools desconocidos."
     },
     "maintainability": {
       "weight_hint": 0.25,
@@ -40,9 +55,9 @@
         "0": "Monolito opaco.",
         "1": "Estructura mínima.",
         "2": "Módulos/funciones claros y legibles.",
-        "3": "Diseño limpio, testeable y documentado."
+        "3": "Diseño limpio, testeable y documentado; manifiesto versionado; API pública documentada."
       },
-      "focus": "Policy table y audit log claros."
+      "focus": "Separación Generator/Verifier; policy table vs handler; state aislado."
     },
     "responsible_use": {
       "weight_hint": 0.2,
@@ -51,11 +66,11 @@
         "0": "Riesgo ético/privacidad no abordado.",
         "1": "Menciones superficiales.",
         "2": "Controles y límites presentes.",
-        "3": "Controles, límites y comunicación impecables."
+        "3": "Controles, límites, system card, security/privacy/accessibility/responsible-use e incident log."
       },
-      "focus": "Human control en acciones de alto riesgo."
+      "focus": "HITL en efectos sensibles; redacción de trazas; system card; incidentes."
     },
-    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference; los 10 tests adversariales pasan."
   },
   "dependencies": [
     "CP-N4-A",
@@ -65,22 +80,24 @@
     "S50",
     "S51"
   ],
-  "wow_factor_definition": "Copiloto de operaciones AI auditable con tool policies, evals, human-in-the-loop y traza completa — sin LLM de pago requerido.",
+  "wow_factor_definition": "Harness multi-agente auditable con adaptadores local/comercial, RAG con citas y ACL, tools de mínimo privilegio, web/SERP con defensa de inyección, presupuestos, HITL, evaluaciones holdout/trayectoria/red-team, trazas redactadas, rollback e incident log — sin LLM de pago requerido.",
   "scoring_weights_reference": {
     "correctness": 0.35,
-    "edge_cases_data": 0.2,
-    "tests": 0.15,
-    "design": 0.1,
-    "reproducibility": 0.1,
-    "communication_limits": 0.1,
+    "robustness": 0.2,
+    "maintainability": 0.25,
+    "responsible_use": 0.2,
     "pass_threshold": 0.8
   },
   "prohibitions": [
     "No real PII",
     "No fraud inference as automatic decision",
     "No hardcoded production secrets",
-    "Synthetic or legally reusable data only"
+    "No real API keys in the deterministic path",
+    "No network calls in the deterministic path",
+    "Synthetic or legally reusable data only",
+    "No inflated workplace-title claims (senior/master/experto/job-ready)",
+    "No separate fourteenth capstone; the multi-agent project is folded into CP-N4-C per ADR-N4-C"
   ],
-  "package_version": "1.0.0",
-  "generated_at": "2026-07-20T14:53:43Z"
+  "package_version": "3.0.0",
+  "generated_at": "2026-07-29T00:00:00Z"
 }

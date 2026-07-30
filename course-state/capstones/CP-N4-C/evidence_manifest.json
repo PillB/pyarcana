@@ -1,13 +1,46 @@
 {
   "id": "CP-N4-C",
   "gate_section": "S51",
+  "package_version": "3.0.0",
   "files": [
     "gate.json",
     "demo.py",
     "evidence_manifest.json",
+    "execution.json",
     "RUN.md",
     "system_or_data_card.md",
-    "execution.json"
+    "BRIEF.md",
+    "RUBRIC.json",
+    "SYSTEM_CARD.md",
+    "SECURITY.md",
+    "PRIVACY.md",
+    "ACCESSIBILITY.md",
+    "RESPONSIBLE_USE.md",
+    "IDO.md",
+    "WEDO.md",
+    "YOUDO.md",
+    "FINAL_INTERFACE.md",
+    "SUBGATES.md",
+    "harness/__init__.py",
+    "harness/local_model_adapter.py",
+    "harness/commercial_model_adapter.py",
+    "harness/provider.py",
+    "harness/orchestrator.py",
+    "harness/rag.py",
+    "harness/tools.py",
+    "harness/web_adapter.py",
+    "harness/evaluation.py",
+    "harness/tracing.py",
+    "harness/budget.py",
+    "harness/state.py",
+    "harness/incident.py",
+    "harness/rollback.py",
+    "harness/versions.py",
+    "harness/versions.json",
+    "harness/STARTER/orchestrator.py",
+    "harness/STARTER/README.md",
+    "data/generate.py",
+    "tests/adversarial/test_n4c_harness.py"
   ],
   "commands": [
     {
@@ -19,18 +52,25 @@
         "CP-N4-C",
         "\"status\": \"pass\""
       ]
+    },
+    {
+      "cmd": "python3 tests/adversarial/test_n4c_harness.py",
+      "cwd": ".",
+      "expected_exit_code": 0,
+      "expected_stdout_contains": [
+        "OK",
+        "10"
+      ]
     }
   ],
   "expected_outcomes": [
-    "Proceso termina con exit code 0",
-    "Línea METRICS_JSON con status=pass",
+    "demo termina con exit code 0 y METRICS_JSON con status=pass",
+    "tests/adversarial/test_n4c_harness.py pasa 10/10",
     "Sin PII real en salida",
-    "Sin red ni dependencias de pago obligatorias"
+    "Sin red ni dependencias de pago obligatorias",
+    "Manifiesto versionado a 3.0.0"
   ],
-  "optional_deps": [
-    "numpy",
-    "pandas"
-  ],
-  "optional_deps_policy": "Si faltan, demo usa stdlib; partes opcionales se marcan UNVERIFIED solo si aplica.",
-  "generated_at": "2026-07-20T14:53:43Z"
+  "optional_deps": [],
+  "optional_deps_policy": "El demo y los tests usan únicamente stdlib; no hay dependencias opcionales.",
+  "generated_at": "2026-07-29T00:00:00Z"
 }

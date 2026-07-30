@@ -1,0 +1,113 @@
+{
+  "budget_used": {
+    "cost": 0.0,
+    "tokens": 0.0
+  },
+  "citations": [
+    {
+      "doc_id": "rollback",
+      "span": "Rollback restores the previous production model version after a gate failure."
+    }
+  ],
+  "created_at": 1785425741671,
+  "extras": {
+    "stop_reason": "complete"
+  },
+  "final_answer": "Rollback restores the previous production model version after a gate failure. [doc_id=rollback]\n[source=docs.example.test]\n---DATA-START---\nRollback restores the previous production model version after a gate failure. Do not run rollback during a canary window.\n---DATA-END---",
+  "mode": "LOCAL",
+  "pending_hitl": null,
+  "prior_snapshot": {
+    "budget_used": {
+      "cost": 0.0,
+      "tokens": 0.0
+    },
+    "citations": [],
+    "created_at": 1785425741671,
+    "extras": {},
+    "final_answer": null,
+    "mode": "LOCAL",
+    "pending_hitl": null,
+    "run_id": "run_ced2cc8b2cf6",
+    "status": "RUNNING",
+    "steps": [],
+    "task": "how to rollback a failed model gate",
+    "task_id": "t_8b5a9c1a",
+    "tool_calls": [],
+    "updated_at": 1785425741671
+  },
+  "run_id": "run_ced2cc8b2cf6",
+  "status": "COMPLETE",
+  "steps": [
+    {
+      "fingerprint": "438c0fcbf5a323bc",
+      "generator": {
+        "args": {
+          "q": "how to rollback a failed model gate"
+        },
+        "needs_citations": true,
+        "plan": "retrieve-then-act",
+        "tool": "search_docs"
+      },
+      "index": 0,
+      "notes": "",
+      "status": "OK",
+      "tool_calls": [
+        {
+          "approved": false,
+          "args": {
+            "q": "how to rollback a failed model gate"
+          },
+          "dry_run": false,
+          "error": null,
+          "executed": true,
+          "idempotency_key": "040f2ce8b4aa20a6",
+          "policy": "allow",
+          "result": [
+            {
+              "acl": [
+                "*"
+              ],
+              "doc_id": "rollback",
+              "score": 6.049284484886795,
+              "tags": [],
+              "text": "Rollback restores the previous production model version after a gate failure."
+            }
+          ],
+          "tool": "search_docs"
+        }
+      ],
+      "verifier": {
+        "reason": "citations present, policy compliant",
+        "verdict": "ACCEPT"
+      }
+    }
+  ],
+  "task": "how to rollback a failed model gate",
+  "task_id": "t_8b5a9c1a",
+  "tool_calls": [
+    {
+      "approved": false,
+      "args": {
+        "q": "how to rollback a failed model gate"
+      },
+      "dry_run": false,
+      "error": null,
+      "executed": true,
+      "idempotency_key": "040f2ce8b4aa20a6",
+      "policy": "allow",
+      "result": [
+        {
+          "acl": [
+            "*"
+          ],
+          "doc_id": "rollback",
+          "score": 6.049284484886795,
+          "tags": [],
+          "text": "Rollback restores the previous production model version after a gate failure."
+        }
+      ],
+      "tool": "search_docs"
+    }
+  ],
+  "updated_at": 1785425741672
+}
