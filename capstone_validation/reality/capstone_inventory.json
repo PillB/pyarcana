@@ -1,0 +1,93 @@
+[
+  {
+    "capstoneId": "CP-N1-A",
+    "level": 1,
+    "gate": "S04",
+    "version": "1.3.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N1-B",
+    "level": 1,
+    "gate": "S08",
+    "version": "1.3.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N1-C",
+    "level": 1,
+    "gate": "S13",
+    "version": "1.4.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N2-A",
+    "level": 2,
+    "gate": "S17",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N2-B",
+    "level": 2,
+    "gate": "S21",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N2-C",
+    "level": 2,
+    "gate": "S26",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N3-A",
+    "level": 3,
+    "gate": "S30",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N3-B",
+    "level": 3,
+    "gate": "S34",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N3-C",
+    "level": 3,
+    "gate": "S39",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N4-A",
+    "level": 4,
+    "gate": "S43",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N4-B",
+    "level": 4,
+    "gate": "S47",
+    "version": "1.2.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-N4-C",
+    "level": 4,
+    "gate": "S51",
+    "version": "2.0.0",
+    "status": "implemented"
+  },
+  {
+    "capstoneId": "CP-FINAL",
+    "level": 4,
+    "gate": "S52",
+    "version": "1.1.0",
+    "status": "implemented"
+  }
+]

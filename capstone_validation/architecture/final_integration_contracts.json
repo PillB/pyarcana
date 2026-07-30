@@ -1,0 +1,74 @@
+[
+  {
+    "capstoneId": "CP-N1-A",
+    "interfaceName": "intake.ingest",
+    "contract": "POST /intake/v1/ingest {records[]} → {accepted, rejected, review}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N1-B",
+    "interfaceName": "etl.run",
+    "contract": "POST /etl/v1/run {source, manifest?} → {manifest, outputs[], quarantined[]}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N1-C",
+    "interfaceName": "familiarity.review",
+    "contract": "GET /familiarity/v1/evidence?pair_id= → {er, relationship, risk, provenance}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N2-A",
+    "interfaceName": "eda.profile",
+    "contract": "POST /eda/v1/profile {dataset_version} → {dictionary, missingness, distributions}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N2-B",
+    "interfaceName": "reporting.render",
+    "contract": "POST /reporting/v1/render {template, data} → {pdf, claims[]}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N2-C",
+    "interfaceName": "automation.run",
+    "contract": "POST /automation/v1/run {input, dry_run} → {run_id, audit, approval_required}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N3-A",
+    "interfaceName": "er.resolve",
+    "contract": "POST /er/v1/resolve {records[]} → {clusters, ambiguous_queue, metrics}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N3-B",
+    "interfaceName": "relationship.graph",
+    "contract": "POST /relationship/v1/graph {entities, evidence} → {graph, paths, edges_meta}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N3-C",
+    "interfaceName": "triage.score",
+    "contract": "POST /triage/v1/score {case} → {score, calibrated_prob, abstain, model_card_ref}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N4-A",
+    "interfaceName": "service.api",
+    "contract": "REST /service/v1/{ingest,resolve,score} with authz, rate limits, /healthz, /readyz",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N4-B",
+    "interfaceName": "mlplatform.deploy",
+    "contract": "POST /mlplatform/v1/deploy {model_version, strategy} → {deployment_id, slo, rollback_target}",
+    "direction": "produces"
+  },
+  {
+    "capstoneId": "CP-N4-C",
+    "interfaceName": "copilot.run",
+    "contract": "POST /copilot/v1/run {task, provider_mode, budget} → {run_id, steps, citations, trace, approval_status}",
+    "direction": "produces"
+  }
+]

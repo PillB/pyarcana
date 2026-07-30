@@ -1,0 +1,314 @@
+[
+  {
+    "sectionId": "S01",
+    "levelId": 1,
+    "capstoneId": "CP-N1-A",
+    "artifactAdded": "Reproducible project skeleton (venv, lockfile, README)"
+  },
+  {
+    "sectionId": "S02",
+    "levelId": 1,
+    "capstoneId": "CP-N1-A",
+    "artifactAdded": "Argument parser with typed flags and help"
+  },
+  {
+    "sectionId": "S03",
+    "levelId": 1,
+    "capstoneId": "CP-N1-A",
+    "artifactAdded": "Validation rule set with raw/normalised value pairs"
+  },
+  {
+    "sectionId": "S04",
+    "levelId": 1,
+    "capstoneId": "CP-N1-A",
+    "artifactAdded": "Complete CLI with fixtures, tests, output snapshot"
+  },
+  {
+    "sectionId": "S05",
+    "levelId": 1,
+    "capstoneId": "CP-N1-B",
+    "artifactAdded": "Streaming readers with encoding detection"
+  },
+  {
+    "sectionId": "S06",
+    "levelId": 1,
+    "capstoneId": "CP-N1-B",
+    "artifactAdded": "Versioned schema contracts with rejection reasons"
+  },
+  {
+    "sectionId": "S07",
+    "levelId": 1,
+    "capstoneId": "CP-N1-B",
+    "artifactAdded": "Run manifest with input hashes and output lineage"
+  },
+  {
+    "sectionId": "S08",
+    "levelId": 1,
+    "capstoneId": "CP-N1-B",
+    "artifactAdded": "Complete ETL with rejects, manifest, lineage, recovery demo"
+  },
+  {
+    "sectionId": "S09",
+    "levelId": 1,
+    "capstoneId": "CP-N1-C",
+    "artifactAdded": "Token and string similarity functions with thresholds"
+  },
+  {
+    "sectionId": "S10",
+    "levelId": 1,
+    "capstoneId": "CP-N1-C",
+    "artifactAdded": "Temporal-overlap and geo-proximity features with geofence"
+  },
+  {
+    "sectionId": "S11",
+    "levelId": 1,
+    "capstoneId": "CP-N1-C",
+    "artifactAdded": "Privacy sheet and no-automated-decision policy"
+  },
+  {
+    "sectionId": "S12",
+    "levelId": 1,
+    "capstoneId": "CP-N1-C",
+    "artifactAdded": "Accessible dashboard with keyboard operation and labels"
+  },
+  {
+    "sectionId": "S13",
+    "levelId": 1,
+    "capstoneId": "CP-N1-C",
+    "artifactAdded": "Dashboard separating ER evidence, relationship evidence and risk decisions"
+  },
+  {
+    "sectionId": "S14",
+    "levelId": 2,
+    "capstoneId": "CP-N2-A",
+    "artifactAdded": "Profiling report with missingness patterns"
+  },
+  {
+    "sectionId": "S15",
+    "levelId": 2,
+    "capstoneId": "CP-N2-A",
+    "artifactAdded": "Distribution and segment-comparison notebook"
+  },
+  {
+    "sectionId": "S16",
+    "levelId": 2,
+    "capstoneId": "CP-N2-A",
+    "artifactAdded": "Locked environment + executive memo template"
+  },
+  {
+    "sectionId": "S17",
+    "levelId": 2,
+    "capstoneId": "CP-N2-A",
+    "artifactAdded": "Complete EDA portfolio with memo and reproducible env"
+  },
+  {
+    "sectionId": "S18",
+    "levelId": 2,
+    "capstoneId": "CP-N2-B",
+    "artifactAdded": "Reusable accessible chart and report templates"
+  },
+  {
+    "sectionId": "S19",
+    "levelId": 2,
+    "capstoneId": "CP-N2-B",
+    "artifactAdded": "Filter engine with source-to-claim links"
+  },
+  {
+    "sectionId": "S20",
+    "levelId": 2,
+    "capstoneId": "CP-N2-B",
+    "artifactAdded": "PDF export with automated report checks"
+  },
+  {
+    "sectionId": "S21",
+    "levelId": 2,
+    "capstoneId": "CP-N2-B",
+    "artifactAdded": "Complete dashboard factory with exports and checks"
+  },
+  {
+    "sectionId": "S22",
+    "levelId": 2,
+    "capstoneId": "CP-N2-C",
+    "artifactAdded": "Document/spreadsheet validator with contracts"
+  },
+  {
+    "sectionId": "S23",
+    "levelId": 2,
+    "capstoneId": "CP-N2-C",
+    "artifactAdded": "Idempotent runner with safe-retry and audit trail"
+  },
+  {
+    "sectionId": "S24",
+    "levelId": 2,
+    "capstoneId": "CP-N2-C",
+    "artifactAdded": "Approval gate with redacted logs and draft/send separation"
+  },
+  {
+    "sectionId": "S25",
+    "levelId": 2,
+    "capstoneId": "CP-N2-C",
+    "artifactAdded": "AI-draft module with allowlisted recipients"
+  },
+  {
+    "sectionId": "S26",
+    "levelId": 2,
+    "capstoneId": "CP-N2-C",
+    "artifactAdded": "Complete workflow with audit, rollback and test mode"
+  },
+  {
+    "sectionId": "S27",
+    "levelId": 3,
+    "capstoneId": "CP-N3-A",
+    "artifactAdded": "Blocker with pairs-reduction ratio"
+  },
+  {
+    "sectionId": "S28",
+    "levelId": 3,
+    "capstoneId": "CP-N3-A",
+    "artifactAdded": "Comparator library with feature provenance"
+  },
+  {
+    "sectionId": "S29",
+    "levelId": 3,
+    "capstoneId": "CP-N3-A",
+    "artifactAdded": "Labelled benchmark with precision/recall curves"
+  },
+  {
+    "sectionId": "S30",
+    "levelId": 3,
+    "capstoneId": "CP-N3-A",
+    "artifactAdded": "Complete ER engine with Unicode, alias, household and false-positive tests"
+  },
+  {
+    "sectionId": "S31",
+    "levelId": 3,
+    "capstoneId": "CP-N3-B",
+    "artifactAdded": "Evidence graph with source and timestamp"
+  },
+  {
+    "sectionId": "S32",
+    "levelId": 3,
+    "capstoneId": "CP-N3-B",
+    "artifactAdded": "Bounded path search with authorisation filter"
+  },
+  {
+    "sectionId": "S33",
+    "levelId": 3,
+    "capstoneId": "CP-N3-B",
+    "artifactAdded": "Uncertainty display, notes and correction mechanism"
+  },
+  {
+    "sectionId": "S34",
+    "levelId": 3,
+    "capstoneId": "CP-N3-B",
+    "artifactAdded": "Complete workbench with path search, notes, correction and reproducibility"
+  },
+  {
+    "sectionId": "S35",
+    "levelId": 3,
+    "capstoneId": "CP-N3-C",
+    "artifactAdded": "Deterministic baseline with leakage-proof split"
+  },
+  {
+    "sectionId": "S36",
+    "levelId": 3,
+    "capstoneId": "CP-N3-C",
+    "artifactAdded": "Calibration plot, cost-aware threshold and abstention policy"
+  },
+  {
+    "sectionId": "S37",
+    "levelId": 3,
+    "capstoneId": "CP-N3-C",
+    "artifactAdded": "Subgroup and temporal performance report with drift monitor"
+  },
+  {
+    "sectionId": "S38",
+    "levelId": 3,
+    "capstoneId": "CP-N3-C",
+    "artifactAdded": "Model card, monitoring plan and error analysis"
+  },
+  {
+    "sectionId": "S39",
+    "levelId": 3,
+    "capstoneId": "CP-N3-C",
+    "artifactAdded": "Complete triage with baseline, calibration, abstention, model card and monitoring"
+  },
+  {
+    "sectionId": "S40",
+    "levelId": 4,
+    "capstoneId": "CP-N4-A",
+    "artifactAdded": "Versioned API with schema validation and authz"
+  },
+  {
+    "sectionId": "S41",
+    "levelId": 4,
+    "capstoneId": "CP-N4-A",
+    "artifactAdded": "Container image with non-root user and probes"
+  },
+  {
+    "sectionId": "S42",
+    "levelId": 4,
+    "capstoneId": "CP-N4-A",
+    "artifactAdded": "Migration runner, backup/recovery and security scan"
+  },
+  {
+    "sectionId": "S43",
+    "levelId": 4,
+    "capstoneId": "CP-N4-A",
+    "artifactAdded": "Complete service platform with container, probes, migrations, backup and scan"
+  },
+  {
+    "sectionId": "S44",
+    "levelId": 4,
+    "capstoneId": "CP-N4-B",
+    "artifactAdded": "Lineage tracker with dataset versioning"
+  },
+  {
+    "sectionId": "S45",
+    "levelId": 4,
+    "capstoneId": "CP-N4-B",
+    "artifactAdded": "Model registry with train/serve parity and staging gate"
+  },
+  {
+    "sectionId": "S46",
+    "levelId": 4,
+    "capstoneId": "CP-N4-B",
+    "artifactAdded": "Shadow/canary runner with SLOs and last-known-good rollback"
+  },
+  {
+    "sectionId": "S47",
+    "levelId": 4,
+    "capstoneId": "CP-N4-B",
+    "artifactAdded": "Complete platform with lineage, registry, canary, SLOs and proven rollback"
+  },
+  {
+    "sectionId": "S48",
+    "levelId": 4,
+    "capstoneId": "CP-N4-C",
+    "artifactAdded": "Orchestrator skeleton with typed handoffs and bounded steps"
+  },
+  {
+    "sectionId": "S49",
+    "levelId": 4,
+    "capstoneId": "CP-N4-C",
+    "artifactAdded": "Harness with local+commercial adapters, RAG with citations, tools with allowlist, web/SERP, budgets, human approval"
+  },
+  {
+    "sectionId": "S50",
+    "levelId": 4,
+    "capstoneId": "CP-N4-C",
+    "artifactAdded": "Eval suite with holdout, trajectory, injection, tool-misuse, cost-exhaustion and recovery tests"
+  },
+  {
+    "sectionId": "S51",
+    "levelId": 4,
+    "capstoneId": "CP-N4-C",
+    "artifactAdded": "OTel traces with redaction, governance records, incident-response runbook, accessible UX, system card"
+  },
+  {
+    "sectionId": "S52",
+    "levelId": 4,
+    "capstoneId": "CP-FINAL",
+    "artifactAdded": "Final platform integrating all twelve upstream capstones via explicit versioned interfaces"
+  }
+]

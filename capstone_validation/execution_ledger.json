@@ -1,0 +1,57 @@
+{
+  "phases": [
+    {
+      "phase": 0,
+      "name": "environment reality",
+      "status": "done"
+    },
+    {
+      "phase": 1,
+      "name": "current-frameworks research",
+      "status": "done"
+    },
+    {
+      "phase": 2,
+      "name": "data layer (13 capstones + 4 levels + 52 sections + rubrics + badges)",
+      "status": "done"
+    },
+    {
+      "phase": 3,
+      "name": "learner-facing Capstones UI on /",
+      "status": "done"
+    },
+    {
+      "phase": 4,
+      "name": "runnable CP-N4-C harness + CP-FINAL integration contracts",
+      "status": "done"
+    },
+    {
+      "phase": 5,
+      "name": "Stephen Fry EN/ES redaction on briefs/theory",
+      "status": "done"
+    },
+    {
+      "phase": 6,
+      "name": "automated tests (bun test) + agent-browser verification",
+      "status": "done"
+    },
+    {
+      "phase": 7,
+      "name": "capstone_validation mirror (Task 4-mirror)",
+      "status": "done"
+    },
+    {
+      "phase": 8,
+      "name": "commit locally + push to PillB/pyarcana",
+      "status": "pending-auth"
+    }
+  ],
+  "commit": "pending",
+  "deployedCommit": "pending",
+  "devServerPort": 3000,
+  "testSuite": {
+    "runner": "bun test",
+    "file": "tests/capstones.test.ts",
+    "passCount": 119
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "criticalFailures": [
+    "Use of real confidential, personal, employer-owned or regulated information.",
+    "Committed secret or credential in the repository or logs.",
+    "Unsafe SQL or unparameterised query that enables injection.",
+    "Public sensitive attachment or unredacted PII in outputs.",
+    "Automatic unsupported fraud, kinship, collusion, criminal-association, beneficial-ownership or causal-relationship inference.",
+    "Unapproved external side effect (email send, API call, file mutation).",
+    "Fabricated test evidence or a ledger substituted for execution evidence.",
+    "Inaccessible core workflow (no keyboard operation, colour-only encoding).",
+    "Unresolved critical security, privacy or responsible-use defect.",
+    "Final demonstration that cannot be reproduced from the artifact repo."
+  ],
+  "perCapstone": {
+    "CP-N1-C": [
+      "Familiarity dashboard collapses entity-resolution evidence with relationship or risk decisions.",
+      "Familiarity dashboard automatically infers fraud, collusion, kinship, criminal association, beneficial ownership or causal relationship."
+    ],
+    "CP-N2-B": [
+      "Misleading axes, colour-only encoding, hidden denominators, or stale results presented as current."
+    ],
+    "CP-N2-C": [
+      "Automatic external send without approval; no separation between draft and send."
+    ],
+    "CP-N3-A": [
+      "Automatic relationship or fraud inference from ER output."
+    ],
+    "CP-N3-B": [
+      "Visual edge without source, meaning, age, authorisation or correction path."
+    ],
+    "CP-N3-C": [
+      "Unreviewed adverse decision; data leakage; no abstention or human-review route."
+    ],
+    "CP-N4-A": [
+      "Local-only demo that cannot reproduce in a clean environment."
+    ],
+    "CP-N4-B": [
+      "Rollback documented but never executed; train/serve skew unresolved."
+    ],
+    "CP-N4-C": [
+      "Agent without bounded loops; RAG without citations or access controls; web content treated as trusted instruction.",
+      "Polished chatbot without the harness controls (adapters, budgets, approval, tracing, red-team, recovery).",
+      "No-key path missing; mandatory paid key for the basic validation suite."
+    ],
+    "CP-FINAL": [
+      "Final project is a folder of twelve unrelated repositories without explicit interfaces.",
+      "Unsupported claim that the learner prevented fraud, saved money, improved a real organisation, achieved production accuracy, or operated at enterprise scale."
+    ]
+  }
+}

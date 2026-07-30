@@ -1,0 +1,356 @@
+{
+  "capstoneId": "CP-N1-A",
+  "version": "1.3.0",
+  "title": "Reproducible Client Intake and Data-Quality CLI",
+  "level": 1,
+  "gateSection": "S04",
+  "subGates": [],
+  "problemStatement": "In 2015, the United Kingdom's Horizon IT scandal saw hundreds of sub-postmasters wrongly prosecuted because a data-intake system silently corrupted records and no one could reproduce what had happened. The lesson travels well: a program that swallows bad input without explanation, or that behaves differently on two machines, is not a tool but a liability. In this capstone you will build a command-line application that captures synthetic client records, validates required fields, preserves both raw and normalised values, explains every rejection or review reason in plain language, processes many records at once, calculates denominators correctly, emits both machine-readable and human-readable summaries, handles malformed input gracefully, uses no real personal information, runs from a clean environment, and ships tests alongside a beginner-friendly README. The aim is not flair but trust: another person, on another machine, must be able to run your program and obtain the same answer you did.",
+  "intendedUsers": [
+    "A junior analyst onboarding synthetic clients into a bounded review queue",
+    "A reviewer who must understand why a record was accepted or rejected"
+  ],
+  "jobsToBeDone": [
+    "Capture synthetic client records from a file or stdin",
+    "Validate and normalise fields while preserving raw values",
+    "Explain rejection or review reasons",
+    "Emit machine-readable and human-readable summaries"
+  ],
+  "learningOutcomes": [
+    "Build a runnable Python CLI with typed arguments and helpful errors.",
+    "Apply field-level validation and normalisation with provenance.",
+    "Quarantine malformed input without losing it.",
+    "Write beginner-friendly tests and documentation."
+  ],
+  "prerequisites": [
+    "Basic Python",
+    "Comfort with the command line",
+    "Familiarity with CSV and JSON"
+  ],
+  "sectionContributions": [
+    {
+      "sectionId": "S01",
+      "artifact": "Reproducible project skeleton",
+      "theory": "Reproducible environments",
+      "iDo": "Scaffold a runnable CLI project",
+      "weDo": "Complete a partial layout",
+      "youDo": "Create an independent skeleton",
+      "assessment": "Boots from a clean environment",
+      "finalInterface": "Foundational layout for all downstream capstones"
+    },
+    {
+      "sectionId": "S02",
+      "artifact": "Argument parser with typed flags",
+      "theory": "CLI ergonomics",
+      "iDo": "Build argparse with subcommands",
+      "weDo": "Add a validation subcommand",
+      "youDo": "Design flags for a new intake shape",
+      "assessment": "Exits non-zero with helpful message on bad input",
+      "finalInterface": "CLI entrypoint reused by ETL and dashboard"
+    },
+    {
+      "sectionId": "S03",
+      "artifact": "Validation rule set with raw/normalised pairs",
+      "theory": "Validation, normalisation, provenance",
+      "iDo": "Write normalisers for names, dates, IDs",
+      "weDo": "Add rules for phone and address",
+      "youDo": "Design a rule for a synthetic identifier",
+      "assessment": "Rejections include a human-readable reason",
+      "finalInterface": "Rule set reused by ETL contracts and dashboard"
+    },
+    {
+      "sectionId": "S04",
+      "artifact": "Complete CLI with fixtures, tests, snapshot",
+      "theory": "Authentic assessment",
+      "iDo": "Demonstrate the reference solution",
+      "weDo": "Run the acceptance script",
+      "youDo": "Extend for a new synthetic case",
+      "assessment": "Acceptance script passes; demo recorded",
+      "finalInterface": "Intake CLI becomes the entry subsystem of CP-FINAL"
+    }
+  ],
+  "requiredArtifacts": [
+    "CLI source",
+    "Synthetic fixtures",
+    "Validation rules",
+    "Branch tests",
+    "Command examples",
+    "Output snapshot",
+    "README",
+    "Limitations",
+    "Short demo"
+  ],
+  "requiredEvidence": [
+    "Acceptance script output",
+    "Output snapshot",
+    "Recorded demo",
+    "README reproducibility section"
+  ],
+  "syntheticDataContract": {
+    "generator": "Deterministic Python generator producing synthetic names, dates, IDs, phones and addresses from public word lists",
+    "schema": "client_id, name_raw, name_norm, dob_raw, dob_norm, phone_raw, phone_norm, address_raw, address_norm, status, reason",
+    "size": "1,000 records plus 200 malformed edge cases",
+    "license": "Synthetic / CC0",
+    "piiRisk": "No real PII; all names and addresses are synthetic"
+  },
+  "acceptanceCriteria": [
+    "CLI accepts a CSV or JSON file and processes multiple records.",
+    "Required fields are validated; raw and normalised values are both preserved.",
+    "Rejections and reviews carry a human-readable reason.",
+    "Denominators (accepted / rejected / review) are calculated correctly.",
+    "Machine-readable (JSON) and human-readable (text) summaries are emitted.",
+    "Malformed input is handled without crashing.",
+    "Runs from a clean environment with one command.",
+    "Tests pass on the canonical fixtures."
+  ],
+  "criticalCriteria": [
+    "No real personal information anywhere in the project.",
+    "No committed secrets.",
+    "Reproducible from a clean environment.",
+    "Rejections always include a reason."
+  ],
+  "securityRequirements": [
+    "No secrets in code or logs",
+    "Input validation on every field",
+    "No shell injection via CLI arguments",
+    "Dependencies locked"
+  ],
+  "privacyRequirements": [
+    "Synthetic data only",
+    "No real PII",
+    "Raw values stored only for the synthetic fixtures"
+  ],
+  "accessibilityRequirements": [
+    "Clear, plain-language rejection reasons",
+    "Readable monospaced output",
+    "Colour not required to understand output"
+  ],
+  "responsibleUseRequirements": [
+    "No automated adverse decision",
+    "Human review required for any borderline record"
+  ],
+  "testRequirements": [
+    "Normal path tests",
+    "Boundary tests (empty, max-length, unicode)",
+    "Failure tests (malformed, missing required fields)",
+    "Idempotency of summary generation"
+  ],
+  "demoRequirements": [
+    "One-command demo recorded",
+    "README walkthrough"
+  ],
+  "rubric": {
+    "version": "1.3.0",
+    "passThreshold": 80,
+    "criteria": [
+      {
+        "id": "F",
+        "name": "Functional correctness",
+        "weight": 0.18,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "All acceptance criteria pass on the canonical fixtures."
+          },
+          {
+            "level": "Adequate",
+            "description": "Core paths pass; minor edge cases fail with a clear reason."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Core paths fail or behave non-deterministically."
+          }
+        ]
+      },
+      {
+        "id": "D",
+        "name": "Data and failure handling",
+        "weight": 0.12,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Malformed input quarantined; denominators correct; failures explained."
+          },
+          {
+            "level": "Adequate",
+            "description": "Failures handled but reasons are thin."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Failures crash the program or lose data."
+          }
+        ]
+      },
+      {
+        "id": "T",
+        "name": "Testing (normal, boundary, failure)",
+        "weight": 0.14,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Normal, boundary and failure tests present and passing."
+          },
+          {
+            "level": "Adequate",
+            "description": "Happy-path tests only, or boundary tests missing."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No meaningful tests, or tests fabricated."
+          }
+        ]
+      },
+      {
+        "id": "A",
+        "name": "Architecture and maintainability",
+        "weight": 0.1,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Clear module boundaries; typed contracts; small functions."
+          },
+          {
+            "level": "Adequate",
+            "description": "Readable but with some coupling."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Monolithic, hard to extend or test."
+          }
+        ]
+      },
+      {
+        "id": "R",
+        "name": "Reproducibility",
+        "weight": 0.1,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Reproduces from a clean environment in one command."
+          },
+          {
+            "level": "Adequate",
+            "description": "Reproduces with manual steps."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Cannot reproduce outside the author's machine."
+          }
+        ]
+      },
+      {
+        "id": "S",
+        "name": "Security and privacy",
+        "weight": 0.12,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "No secrets; synthetic data; least privilege; secure logging."
+          },
+          {
+            "level": "Adequate",
+            "description": "Minor gaps with documented remediation."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Exposed secret, real PII, or unsafe operation."
+          }
+        ]
+      },
+      {
+        "id": "U",
+        "name": "Responsible use",
+        "weight": 0.1,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "No unsupported inference; human review; correction mechanism."
+          },
+          {
+            "level": "Adequate",
+            "description": "Mostly responsible with one unclear claim."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Automated adverse decision or unsupported causal claim."
+          }
+        ]
+      },
+      {
+        "id": "E",
+        "name": "Evidence and observability",
+        "weight": 0.08,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Inspectible traces, manifests, and lineage."
+          },
+          {
+            "level": "Adequate",
+            "description": "Some evidence present but incomplete."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No inspectible evidence."
+          }
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Communication and demonstration",
+        "weight": 0.06,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Clear brief, demo and limitations; truthful CV narrative."
+          },
+          {
+            "level": "Adequate",
+            "description": "Demonstrable but with unclear framing."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No demo or misleading claims."
+          }
+        ]
+      }
+    ],
+    "criticalFailures": [
+      "Use of real confidential, personal, employer-owned or regulated information.",
+      "Committed secret or credential in the repository or logs.",
+      "Unsafe SQL or unparameterised query that enables injection.",
+      "Public sensitive attachment or unredacted PII in outputs.",
+      "Automatic unsupported fraud, kinship, collusion, criminal-association, beneficial-ownership or causal-relationship inference.",
+      "Unapproved external side effect (email send, API call, file mutation).",
+      "Fabricated test evidence or a ledger substituted for execution evidence.",
+      "Inaccessible core workflow (no keyboard operation, colour-only encoding).",
+      "Unresolved critical security, privacy or responsible-use defect.",
+      "Final demonstration that cannot be reproduced from the artifact repo."
+    ]
+  },
+  "remediationPaths": [
+    "If reproducibility fails: add a lockfile and document the environment",
+    "If rejections lack reasons: extend the rule set with reason codes",
+    "If tests are thin: add boundary and failure cases"
+  ],
+  "badgeDependencies": [],
+  "finalIntegrationInterfaces": [
+    "CLI intake → ETL pipeline (CP-N1-B)",
+    "Validation rules → dashboard evidence (CP-N1-C)"
+  ],
+  "status": "implemented",
+  "redactionPasses": {
+    "en": 2,
+    "es": 2,
+    "lastUpdated": "2026-07-30"
+  }
+}

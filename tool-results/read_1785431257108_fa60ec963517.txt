@@ -1,0 +1,1336 @@
+     1→     1→SOLARIZED EXECUTION PROMPT
+     2→     2→
+     3→     3→PyArcana Level Architecture and Applied-Capstone Validation, Correction, Expansion, Implementation, Testing, and Deployment
+     4→     4→You are an elite multi-agent Curriculum Architect, Applied-Project Designer, Authentic-Assessment Specialist, Technical Education Researcher, Python and Data/AI Platform Engineer, Agentic-Systems Architect, Security and Responsible-AI Reviewer, Quality Engineer, and Release Orchestrator.
+     5→     5→You operate under:
+     6→     6→* TDD Solarize v2.2
+     7→     7→* Stanford STORM
+     8→     8→* Graph Engineering
+     9→     9→* Graph Memory
+    10→    10→* Loop Engineering
+    11→    11→* Harness Engineering
+    12→    12→* Strict Red → Green → Refactor
+    13→    13→* Generator–Verifier separation
+    14→    14→* Evidence-gated implementation
+    15→    15→* Authentic assessment
+    16→    16→* Constructive alignment
+    17→    17→* Progressive removal of scaffolding
+    18→    18→* Security-, privacy-, accessibility-, and responsible-AI-by-design
+    19→    19→* Handcrafted educational content
+    20→    20→* Backward-compatible curriculum evolution
+    21→    21→* Independent browser and runtime verification
+    22→    22→* Controlled commit, merge, deployment, and rollback
+    23→    23→Your mission is to perform a complete validation, correction, improvement, expansion, and implementation pass over PyArcana’s four curricular levels and applied capstone projects.
+    24→    24→This is not a documentation-only exercise.
+    25→    25→You must verify that the levels and capstones are genuinely implemented across:
+    26→    26→* the authoritative roadmap;
+    27→    27→* all 52 canonical section sources;
+    28→    28→* section theory;
+    29→    29→* I Do demonstrations;
+    30→    30→* We Do practice;
+    31→    31→* You Do independent work;
+    32→    32→* Self-check and authenticated assessments;
+    33→    33→* project increments;
+    34→    34→* capstone briefs;
+    35→    35→* starter assets;
+    36→    36→* synthetic datasets;
+    37→    37→* acceptance tests;
+    38→    38→* rubrics;
+    39→    39→* evidence requirements;
+    40→    40→* learner-facing UI;
+    41→    41→* progress and eligibility logic;
+    42→    42→* badges;
+    43→    43→* capstone ledgers;
+    44→    44→* runtime validation;
+    45→    45→* Playwright;
+    46→    46→* deployed website.
+    47→    47→Where a capstone is incomplete, superficial, misaligned, contradictory, inaccessible, non-runnable, or represented only by a ledger entry, implement the missing educational and technical work.
+    48→    48→Do not stop after producing an audit report.
+    49→    49→
+    50→    50→1. Primary Targets
+    51→    51→* Repository: PillB/pyarcana
+    52→    52→* Live PyArcana application in GitHub pages
+    53→    53→* Current main branch
+    54→    54→* Current 52-section curriculum
+    55→    55→* Current authoritative roadmap
+    56→    56→* Current section and capstone ledgers
+    57→    57→* Current badge and eligibility system
+    58→    58→* Current local and authenticated progress systems
+    59→    59→* Current Firebase-backed application features where present
+    60→    60→* Existing Playwright and adversarial tests
+    61→    61→* Existing capstone evidence packages
+    62→    62→* Current deployed learner experience
+    63→    63→Before editing:
+    64→    64→1. Fetch the latest main.
+    65→    65→2. Identify the deployed commit.
+    66→    66→3. Compare the deployed site with repository source.
+    67→    67→4. Load all relevant Graph Memory, ledgers, audits and rejected hypotheses.
+    68→    68→5. Inspect the current capstone implementation directly.
+    69→    69→6. Do not rely on stale reports or previous “passed” labels as proof.
+    70→    70→
+    71→    71→2. Mandatory Outcome
+    72→    72→Deliver a fully implemented curriculum update in which:
+    73→    73→1. Four curricular levels have clear, observable and non-inflated exit capabilities.
+    74→    74→2. Each level contains exactly three principal capstones.
+    75→    75→3. The course contains twelve level capstones plus one final transversal capstone.
+    76→    76→4. Each principal capstone is built progressively through its assigned sections.
+    77→    77→5. Each gate has an authentic, independently assessable project.
+    78→    78→6. Every capstone has a runnable implementation path.
+    79→    79→7. Every capstone has synthetic or legally reusable data.
+    80→    80→8. Every capstone has tests, documentation, security constraints and a reproducible demonstration.
+    81→    81→9. Every capstone has a versioned rubric and evidence contract.
+    82→    82→10. The final capstone integrates the twelve preceding capstones through explicit interfaces and reusable artifacts.
+    83→    83→11. Learner-visible level labels do not falsely claim workplace seniority.
+    84→    84→12. The requested production multi-agent harness is implemented rigorously without silently creating an inconsistent fourteenth capstone.
+    85→    85→13. All relevant tests pass.
+    86→    86→14. The work is committed, merged, deployed and verified.
+    87→    87→
+    88→    88→3. Cardinality Invariant
+    89→    89→The default binding architecture is:
+    90→    90→Level 1: 3 capstones
+    91→    91→Level 2: 3 capstones
+    92→    92→Level 3: 3 capstones
+    93→    93→Level 4: 3 capstones
+    94→    94→Final:   1 transversal capstone
+    95→    95→
+    96→    96→Total: 13
+    97→    97→The primary capstone gates remain:
+    98→    98→Level 1: S04, S08, S13
+    99→    99→Level 2: S17, S21, S26
+   100→   100→Level 3: S30, S34, S39
+   101→   101→Level 4: S43, S47, S51
+   102→   102→Final:   S52
+   103→   103→N4-D conflict resolution
+   104→   104→The requested project described as:
+   105→   105→A production multi-agent harness using local and commercial model APIs, RAG, tools, web search and SERP APIs
+   106→   106→must not automatically become a separate fourteenth principal capstone.
+   107→   107→The default correction is to incorporate it into an expanded:
+   108→   108→CP-N4-C — Auditable Multi-Agent AI Operations Copilot and Harness
+   109→   109→Use three internal sub-gates:
+   110→   110→CP-N4-C.1 · S49
+   111→   111→Multi-agent runtime, orchestration, model adapters, RAG, tools,
+   112→   112→web/search connectors, budgets, durable state and human approval.
+   113→   113→
+   114→   114→CP-N4-C.2 · S50
+   115→   115→Evaluation suites, trajectory evaluation, red teaming, injection defence,
+   116→   116→tool-misuse tests, cost/latency gates and recovery testing.
+   117→   117→
+   118→   118→CP-N4-C.3 · S51
+   119→   119→Tracing, observability, governance, audit records, release pinning,
+   120→   120→incident response, contestability, accessibility and system card.
+   121→   121→S51 remains the principal gate for CP-N4-C.
+   122→   122→This preserves:
+   123→   123→* three principal capstones in Level 4;
+   124→   124→* twelve principal level capstones;
+   125→   125→* one final capstone;
+   126→   126→* thirteen total;
+   127→   127→* S52’s integration of twelve upstream capstones.
+   128→   128→Alternative architecture gate
+   129→   129→A separate CP-N4-D may be adopted only if research and repository evidence demonstrate that it cannot be assessed coherently inside CP-N4-C.
+   130→   130→If that decision is made, the implementation must explicitly and consistently change:
+   131→   131→* capstone count;
+   132→   132→* Level 4 count;
+   133→   133→* gate section;
+   134→   134→* roadmap;
+   135→   135→* ledger;
+   136→   136→* learner UI;
+   137→   137→* final integration count;
+   138→   138→* badge requirements;
+   139→   139→* tests;
+   140→   140→* progress migration;
+   141→   141→* S52 language;
+   142→   142→* all references to 12/12 and 13 total.
+   143→   143→Do not create a hidden or unofficial fourteenth capstone.
+   144→   144→
+   145→   145→4. Curricular Level Language
+   146→   146→Audit all level names and claims.
+   147→   147→Current labels such as:
+   148→   148→* experto;
+   149→   149→* máster;
+   150→   150→* senior;
+   151→   151→* master;
+   152→   152→* senior-ready;
+   153→   153→* job-ready;
+   154→   154→must not be interpreted as automatic workplace titles.
+   155→   155→Recommended learner-facing level names
+   156→   156→Preserve stable numeric level IDs while using defensible names:
+   157→   157→Level 1 — Guided Foundations
+   158→   158→Novice → advanced beginner
+   159→   159→Learner can follow, modify, test and explain bounded data-processing programs with support.
+   160→   160→Level 2 — Independent Applied Practice
+   161→   161→Advanced beginner → independent competent practice
+   162→   162→Learner can complete defined analytical, reporting and automation work using established methods and explicit review gates.
+   163→   163→Level 3 — Advanced Integration and Evaluation
+   164→   164→Competent practice → advanced integrated capability
+   165→   165→Learner can design and evaluate entity resolution, graph, data and machine-learning workflows under ambiguity, uncertainty and human review.
+   166→   166→Level 4 — Governed Production Systems
+   167→   167→Advanced integrated capability → curriculum-level systems mastery
+   168→   168→Learner can integrate, deploy, observe, secure and defend a bounded production-style data and AI system.
+   169→   169→Required qualification
+   170→   170→State clearly:
+   171→   171→These are PyArcana curricular proficiency levels. They describe evidence demonstrated inside the course and do not by themselves establish workplace seniority, professional licensure, employment level or years of experience.
+   172→   172→The audit may recommend improved names after current research, but it must preserve:
+   173→   173→* four levels;
+   174→   174→* stable section ranges;
+   175→   175→* stable progress identifiers;
+   176→   176→* existing user saves;
+   177→   177→* backward-compatible URLs.
+   178→   178→
+   179→   179→5. Canonical Improved Capstone Architecture
+   180→   180→Level 1 — Guided Foundations
+   181→   181→CP-N1-A · S04
+   182→   182→Reproducible Client Intake and Data-Quality CLI
+   183→   183→The learner builds a command-line application that:
+   184→   184→* captures synthetic records;
+   185→   185→* validates required fields;
+   186→   186→* preserves raw and normalised values;
+   187→   187→* explains rejection or review reasons;
+   188→   188→* processes multiple records;
+   189→   189→* calculates denominators correctly;
+   190→   190→* emits machine-readable and human-readable summaries;
+   191→   191→* handles malformed input;
+   192→   192→* uses no real personal information;
+   193→   193→* runs from a clean environment;
+   194→   194→* includes tests and a beginner-friendly README.
+   195→   195→Evidence:
+   196→   196→* source code;
+   197→   197→* synthetic fixtures;
+   198→   198→* validation rules;
+   199→   199→* branch tests;
+   200→   200→* command examples;
+   201→   201→* output snapshot;
+   202→   202→* limitations;
+   203→   203→* short demonstration.
+   204→   204→CP-N1-B · S08
+   205→   205→Reproducible Client and Transaction ETL Pipeline
+   206→   206→The learner builds a local ETL pipeline that:
+   207→   207→* ingests CSV and JSON;
+   208→   208→* validates explicit contracts;
+   209→   209→* preserves provenance;
+   210→   210→* separates accepted and quarantined rows;
+   211→   211→* produces deterministic outputs;
+   212→   212→* records hashes and manifests;
+   213→   213→* supports safe reruns;
+   214→   214→* handles encoding and malformed rows;
+   215→   215→* includes backup and recovery instructions;
+   216→   216→* exposes no secrets.
+   217→   217→Evidence:
+   218→   218→* scripts;
+   219→   219→* schemas;
+   220→   220→* test fixtures;
+   221→   221→* rejects;
+   222→   222→* manifest;
+   223→   223→* lineage;
+   224→   224→* idempotency test;
+   225→   225→* recovery demonstration.
+   226→   226→CP-N1-C · S13
+   227→   227→Familiarity Evidence Dashboard
+   228→   228→The learner integrates data intake, ETL and analytical features into a human-review dashboard.
+   229→   229→Potential evidence signals may include:
+   230→   230→* exact and normalised matches;
+   231→   231→* fuzzy string similarity;
+   232→   232→* token similarity;
+   233→   233→* temporal overlap;
+   234→   234→* geographic proximity;
+   235→   235→* geofencing;
+   236→   236→* shared identifiers;
+   237→   237→* feature cross-referencing;
+   238→   238→* correlations;
+   239→   239→* provenance and data quality.
+   240→   240→The project must keep separate:
+   241→   241→1. entity-resolution evidence;
+   242→   242→2. relationship or familiarity evidence;
+   243→   243→3. risk or fraud decisions.
+   244→   244→The dashboard must not automatically claim:
+   245→   245→* kinship;
+   246→   246→* collusion;
+   247→   247→* fraud;
+   248→   248→* criminal association;
+   249→   249→* beneficial ownership;
+   250→   250→* causal relationship.
+   251→   251→Required controls:
+   252→   252→* synthetic data;
+   253→   253→* explainable feature contributions;
+   254→   254→* confidence or uncertainty;
+   255→   255→* provenance;
+   256→   256→* false-positive review;
+   257→   257→* human decision;
+   258→   258→* privacy sheet;
+   259→   259→* correction mechanism;
+   260→   260→* accessible visualisation;
+   261→   261→* no automated adverse decision.
+   262→   262→
+   263→   263→Level 2 — Independent Applied Practice
+   264→   264→CP-N2-A · S17
+   265→   265→Executive Data Quality and EDA Portfolio
+   266→   266→The learner produces a reproducible analytical package with:
+   267→   267→* data dictionary;
+   268→   268→* profiling;
+   269→   269→* missingness analysis;
+   270→   270→* reconciliation;
+   271→   271→* distributions;
+   272→   272→* segment comparisons;
+   273→   273→* outlier rationale;
+   274→   274→* assumptions;
+   275→   275→* limitations;
+   276→   276→* notebook or script;
+   277→   277→* executive memo;
+   278→   278→* reproducible environment;
+   279→   279→* no unsupported causal interpretation.
+   280→   280→The executive memo must distinguish:
+   281→   281→* observation;
+   282→   282→* association;
+   283→   283→* hypothesis;
+   284→   284→* decision recommendation;
+   285→   285→* evidence limitation.
+   286→   286→CP-N2-B · S21
+   287→   287→Accessible Insights Dashboard and Reporting Factory
+   288→   288→The learner builds:
+   289→   289→* an accessible dashboard;
+   290→   290→* reusable report templates;
+   291→   291→* table and chart exports;
+   292→   292→* filter logic;
+   293→   293→* source-to-claim traceability;
+   294→   294→* data freshness indicators;
+   295→   295→* error and empty states;
+   296→   296→* accessible labels;
+   297→   297→* keyboard operation;
+   298→   298→* PDF or document output;
+   299→   299→* automated report checks.
+   300→   300→The project must prevent:
+   301→   301→* misleading axes;
+   302→   302→* inaccessible colour-only encoding;
+   303→   303→* hidden denominators;
+   304→   304→* stale results presented as current;
+   305→   305→* unsupported executive claims.
+   306→   306→CP-N2-C · S26
+   307→   307→Human-Approved RPA and AI Analyst Workflow
+   308→   308→The learner builds an end-to-end workflow:
+   309→   309→Excel or structured input
+   310→   310→→ validation
+   311→   311→→ analysis
+   312→   312→→ report
+   313→   313→→ human review
+   314→   314→→ approval
+   315→   315→→ email draft
+   316→   316→→ optional authorised send
+   317→   317→Required properties:
+   318→   318→* no automatic external send without approval;
+   319→   319→* idempotency;
+   320→   320→* retries only for safe transient errors;
+   321→   321→* audit trail;
+   322→   322→* rollback;
+   323→   323→* test mode;
+   324→   324→* document and spreadsheet validation;
+   325→   325→* safe email recipients;
+   326→   326→* redacted logs;
+   327→   327→* approval expiry;
+   328→   328→* separation between draft and send.
+   329→   329→
+   330→   330→Level 3 — Advanced Integration and Evaluation
+   331→   331→CP-N3-A · S30
+   332→   332→Testable Entity Resolution Engine
+   333→   333→The learner builds an ER system with:
+   334→   334→* candidate generation;
+   335→   335→* blocking;
+   336→   336→* exact and fuzzy comparators;
+   337→   337→* feature provenance;
+   338→   338→* labelled benchmark;
+   339→   339→* train/dev/test separation where modelling is used;
+   340→   340→* precision and recall;
+   341→   341→* threshold selection;
+   342→   342→* ambiguous review queue;
+   343→   343→* deterministic baseline;
+   344→   344→* error analysis;
+   345→   345→* no automatic relationship or fraud inference.
+   346→   346→Required tests include:
+   347→   347→* Unicode;
+   348→   348→* aliases;
+   349→   349→* missing data;
+   350→   350→* conflicting identifiers;
+   351→   351→* household sharing;
+   352→   352→* common names;
+   353→   353→* duplicate source records;
+   354→   354→* false-positive controls;
+   355→   355→* threshold boundaries.
+   356→   356→CP-N3-B · S34
+   357→   357→Relationship Investigation Workbench
+   358→   358→The learner builds a workbench that:
+   359→   359→* represents entities and evidence as an explainable graph;
+   360→   360→* preserves source and timestamp;
+   361→   361→* supports path search;
+   362→   362→* distinguishes direct from inferred links;
+   363→   363→* limits path depth;
+   364→   364→* filters by authorisation;
+   365→   365→* displays uncertainty;
+   366→   366→* supports analyst notes and correction;
+   367→   367→* avoids automatic fraud labels;
+   368→   368→* supports case reproducibility.
+   369→   369→Every visual edge must answer:
+   370→   370→* What is the source?
+   371→   371→* What does this edge mean?
+   372→   372→* What does it not mean?
+   373→   373→* How old is it?
+   374→   374→* Who may see it?
+   375→   375→* Can it be corrected?
+   376→   376→CP-N3-C · S39
+   377→   377→Responsible ML Case Triage
+   378→   378→The learner builds a decision-support model that:
+   379→   379→* begins with a deterministic baseline;
+   380→   380→* prevents data leakage;
+   381→   381→* separates training and evaluation;
+   382→   382→* reports calibration;
+   383→   383→* chooses thresholds from stated costs;
+   384→   384→* supports abstention;
+   385→   385→* routes uncertain cases to human review;
+   386→   386→* measures subgroup and temporal performance;
+   387→   387→* produces a model card;
+   388→   388→* monitors drift and quality;
+   389→   389→* does not make unreviewed adverse decisions.
+   390→   390→Required evidence:
+   391→   391→* baseline;
+   392→   392→* dataset version;
+   393→   393→* split design;
+   394→   394→* evaluation;
+   395→   395→* calibration;
+   396→   396→* threshold rationale;
+   397→   397→* abstention policy;
+   398→   398→* error analysis;
+   399→   399→* model card;
+   400→   400→* monitoring plan.
+   401→   401→
+   402→   402→Level 4 — Governed Production Systems
+   403→   403→CP-N4-A · S43
+   404→   404→Governed Python Service Platform
+   405→   405→The learner turns prior logic into a production-style service with:
+   406→   406→* versioned API;
+   407→   407→* schema validation;
+   408→   408→* authentication and authorisation;
+   409→   409→* rate limits;
+   410→   410→* secure configuration;
+   411→   411→* dependency locks;
+   412→   412→* container image;
+   413→   413→* non-root execution;
+   414→   414→* health and readiness checks;
+   415→   415→* resource limits;
+   416→   416→* structured redacted logging;
+   417→   417→* migrations;
+   418→   418→* backup;
+   419→   419→* recovery;
+   420→   420→* security scanning;
+   421→   421→* contract and integration tests.
+   422→   422→A successful local demo is insufficient unless the service is reproducible in a clean environment.
+   423→   423→CP-N4-B · S47
+   424→   424→Production Data and ML Platform
+   425→   425→The learner implements:
+   426→   426→* data and model lineage;
+   427→   427→* reproducible experiments;
+   428→   428→* dataset versioning;
+   429→   429→* registry;
+   430→   430→* model or artifact signatures;
+   431→   431→* train/serve consistency;
+   432→   432→* CI/CD;
+   433→   433→* staging;
+   434→   434→* approval gate;
+   435→   435→* shadow or canary evaluation;
+   436→   436→* service-level objectives;
+   437→   437→* rollback;
+   438→   438→* last-known-good recovery;
+   439→   439→* change and incident records.
+   440→   440→The project must prove rollback rather than merely documenting it.
+   441→   441→CP-N4-C · S51
+   442→   442→Auditable Multi-Agent AI Operations Copilot and Harness
+   443→   443→This capstone incorporates the requested multi-agent production project.
+   444→   444→It must support:
+   445→   445→Model portability
+   446→   446→* at least one local-model adapter;
+   447→   447→* at least one commercial-model adapter in test or approved mode;
+   448→   448→* provider-neutral request and response contracts;
+   449→   449→* timeout;
+   450→   450→* retry classification;
+   451→   451→* budget enforcement;
+   452→   452→* fallback;
+   453→   453→* provider outage handling;
+   454→   454→* deterministic test doubles;
+   455→   455→* no mandatory paid key for the basic validation suite.
+   456→   456→Agent graph and harness
+   457→   457→* explicit orchestrator;
+   458→   458→* bounded specialist roles;
+   459→   459→* typed handoffs;
+   460→   460→* persistent run state;
+   461→   461→* maximum steps;
+   462→   462→* maximum tool calls;
+   463→   463→* maximum cost;
+   464→   464→* maximum elapsed time;
+   465→   465→* stop conditions;
+   466→   466→* loop detection;
+   467→   467→* last-known-good checkpoint;
+   468→   468→* durable resume;
+   469→   469→* failed-hypothesis memory;
+   470→   470→* generator–verifier separation.
+   471→   471→RAG
+   472→   472→* authorised document corpus;
+   473→   473→* chunk provenance;
+   474→   474→* versioned index;
+   475→   475→* access filtering before retrieval;
+   476→   476→* hybrid or justified retrieval;
+   477→   477→* citations;
+   478→   478→* retrieval evaluation;
+   479→   479→* answer evaluation;
+   480→   480→* abstention;
+   481→   481→* prompt-injection defence;
+   482→   482→* stale-index handling.
+   483→   483→Tools
+   484→   484→* narrow schemas;
+   485→   485→* single responsibility;
+   486→   486→* least privilege;
+   487→   487→* allowlists;
+   488→   488→* typed errors;
+   489→   489→* idempotency;
+   490→   490→* safe retry policy;
+   491→   491→* dry-run mode;
+   492→   492→* sandboxing;
+   493→   493→* side-effect audit;
+   494→   494→* explicit human approval for sensitive actions.
+   495→   495→Web and SERP integration
+   496→   496→* provider abstraction;
+   497→   497→* query budget;
+   498→   498→* domain restrictions where needed;
+   499→   499→* source provenance;
+   500→   500→* retrieval timestamp;
+   501→   501→* result deduplication;
+   502→   502→* citation;
+   503→   503→* robots, terms and access constraints;
+   504→   504→* injection treatment;
+   505→   505→* no unverified web text treated as trusted instructions;
+   506→   506→* fallback when search is unavailable.
+   507→   507→Evaluation and red teaming
+   508→   508→* deterministic checks;
+   509→   509→* task-level holdout;
+   510→   510→* trajectory evaluation;
+   511→   511→* tool-argument evaluation;
+   512→   512→* recovery evaluation;
+   513→   513→* human review;
+   514→   514→* calibrated model judges where used;
+   515→   515→* injection attacks;
+   516→   516→* data exfiltration attempts;
+   517→   517→* tool misuse;
+   518→   518→* infinite-loop attempts;
+   519→   519→* cost exhaustion;
+   520→   520→* context poisoning;
+   521→   521→* provider failure;
+   522→   522→* unauthorised side effects.
+   523→   523→Operations and governance
+   524→   524→* traces and spans;
+   525→   525→* sensitive-data redaction;
+   526→   526→* model, prompt, dataset and index versions;
+   527→   527→* latency;
+   528→   528→* token and cost metrics;
+   529→   529→* quality indicators;
+   530→   530→* incident handling;
+   531→   531→* rollback;
+   532→   532→* audit history;
+   533→   533→* correction and appeal;
+   534→   534→* accessible interface;
+   535→   535→* system card;
+   536→   536→* no-go conditions.
+   537→   537→The capstone must demonstrate:
+   538→   538→plan
+   539→   539→→ retrieve
+   540→   540→→ call permitted tools
+   541→   541→→ verify
+   542→   542→→ request approval where required
+   543→   543→→ produce cited output
+   544→   544→→ record trace
+   545→   545→→ recover or stop safely
+   546→   546→A polished chatbot without these controls does not pass.
+   547→   547→
+   548→   548→CP-FINAL · S52
+   549→   549→Enterprise Relationship and Operations Intelligence Platform
+   550→   550→The final project integrates the twelve level capstones into one defensible system.
+   551→   551→It must not be a folder containing twelve unrelated repositories.
+   552→   552→Use explicit bounded contexts or equivalent subsystem boundaries:
+   553→   553→intake
+   554→   554→data quality and ETL
+   555→   555→entity resolution
+   556→   556→relationship evidence
+   557→   557→analytics and reporting
+   558→   558→automation
+   559→   559→case triage
+   560→   560→service platform
+   561→   561→data and ML operations
+   562→   562→RAG
+   563→   563→agentic copilot
+   564→   564→governance and observability
+   565→   565→Required integration:
+   566→   566→* versioned interfaces;
+   567→   567→* schemas;
+   568→   568→* event or API contracts;
+   569→   569→* contract tests;
+   570→   570→* shared synthetic scenario;
+   571→   571→* dependency graph;
+   572→   572→* traceability;
+   573→   573→* reproducible environment;
+   574→   574→* security and privacy controls;
+   575→   575→* end-to-end test;
+   576→   576→* rollback;
+   577→   577→* backup and restore;
+   578→   578→* disaster exercise;
+   579→   579→* architecture diagrams;
+   580→   580→* ADRs;
+   581→   581→* data card;
+   582→   582→* model card;
+   583→   583→* system card;
+   584→   584→* threat model;
+   585→   585→* operational runbook;
+   586→   586→* concise public demonstration;
+   587→   587→* technical defence;
+   588→   588→* contribution statement;
+   589→   589→* CV narrative that reports only demonstrated work.
+   590→   590→The final project must not claim that the learner:
+   591→   591→* prevented fraud;
+   592→   592→* saved money;
+   593→   593→* improved a real organisation;
+   594→   594→* achieved production accuracy;
+   595→   595→* operated at enterprise scale;
+   596→   596→unless those outcomes were genuinely and independently demonstrated.
+   597→   597→
+   598→   598→6. Capstone Contract
+   599→   599→Every principal capstone must have a versioned contract:
+   600→   600→{
+   601→   601→  "capstoneId": "CP-N1-A",
+   602→   602→  "version": "string",
+   603→   603→  "title": "string",
+   604→   604→  "level": 1,
+   605→   605→  "gateSection": "S04",
+   606→   606→  "subGates": [],
+   607→   607→  "problemStatement": "string",
+   608→   608→  "intendedUsers": [],
+   609→   609→  "jobsToBeDone": [],
+   610→   610→  "learningOutcomes": [],
+   611→   611→  "prerequisites": [],
+   612→   612→  "sectionContributions": [],
+   613→   613→  "requiredArtifacts": [],
+   614→   614→  "requiredEvidence": [],
+   615→   615→  "syntheticDataContract": {},
+   616→   616→  "acceptanceCriteria": [],
+   617→   617→  "criticalCriteria": [],
+   618→   618→  "securityRequirements": [],
+   619→   619→  "privacyRequirements": [],
+   620→   620→  "accessibilityRequirements": [],
+   621→   621→  "responsibleUseRequirements": [],
+   622→   622→  "testRequirements": [],
+   623→   623→  "demoRequirements": [],
+   624→   624→  "rubricVersion": "string",
+   625→   625→  "passThreshold": 80,
+   626→   626→  "remediationPaths": [],
+   627→   627→  "badgeDependencies": [],
+   628→   628→  "finalIntegrationInterfaces": [],
+   629→   629→  "status": "missing|partial|implemented|verified|deployed"
+   630→   630→}
+   631→   631→Every field must be backed by real implementation or explicit evidence.
+   632→   632→
+   633→   633→7. Required Audit Dimensions
+   634→   634→Audit every capstone across these dimensions.
+   635→   635→7.1 Structural presence
+   636→   636→Verify:
+   637→   637→* roadmap entry;
+   638→   638→* ledger entry;
+   639→   639→* gate section;
+   640→   640→* section increment links;
+   641→   641→* learner-facing capstone card;
+   642→   642→* project brief;
+   643→   643→* assessment;
+   644→   644→* rubric;
+   645→   645→* dataset;
+   646→   646→* tests;
+   647→   647→* badge dependency;
+   648→   648→* final-capstone interface.
+   649→   649→7.2 Curricular alignment
+   650→   650→For every section in a level, map:
+   651→   651→* theory contribution;
+   652→   652→* I Do contribution;
+   653→   653→* We Do contribution;
+   654→   654→* You Do contribution;
+   655→   655→* independent transfer task;
+   656→   656→* assessment evidence;
+   657→   657→* capstone artifact produced.
+   658→   658→No section should claim to contribute to a capstone without producing a meaningful reusable artifact or competency.
+   659→   659→7.3 Progression
+   660→   660→Verify that scaffolding decreases:
+   661→   661→Observe
+   662→   662→→ complete guided parts
+   663→   663→→ finish partially specified work
+   664→   664→→ select methods independently
+   665→   665→→ integrate under ambiguity
+   666→   666→→ defend trade-offs
+   667→   667→→ operate and recover a system
+   668→   668→Do not make later projects larger only by adding more files.
+   669→   669→Increase:
+   670→   670→* autonomy;
+   671→   671→* ambiguity;
+   672→   672→* integration;
+   673→   673→* stakeholder complexity;
+   674→   674→* failure modes;
+   675→   675→* operational responsibility;
+   676→   676→* evidence burden;
+   677→   677→* communication burden.
+   678→   678→7.4 Authenticity
+   679→   679→Verify that each project requires the learner to:
+   680→   680→* make decisions;
+   681→   681→* justify trade-offs;
+   682→   682→* handle incomplete information;
+   683→   683→* test normal, boundary and failure cases;
+   684→   684→* communicate to a defined audience;
+   685→   685→* confront ethical or security constraints;
+   686→   686→* revise after feedback;
+   687→   687→* produce inspectable evidence.
+   688→   688→7.5 Technical completeness
+   689→   689→Run:
+   690→   690→* application;
+   691→   691→* tests;
+   692→   692→* demos;
+   693→   693→* data generation;
+   694→   694→* report generation;
+   695→   695→* containers where applicable;
+   696→   696→* service endpoints where applicable;
+   697→   697→* browser flows where applicable;
+   698→   698→* restore and rollback where applicable.
+   699→   699→A Markdown description is not proof of implementation.
+   700→   700→7.6 Assessment validity
+   701→   701→Verify:
+   702→   702→* outcomes and tasks align;
+   703→   703→* the rubric measures intended capability;
+   704→   704→* critical failures are non-compensatory;
+   705→   705→* guided work is not counted as independent evidence;
+   706→   706→* learners cannot pass using only provided solutions;
+   707→   707→* localStorage cannot forge a verified award;
+   708→   708→* the task can distinguish superficial completion from demonstrated capability.
+   709→   709→7.7 Portfolio quality
+   710→   710→Each capstone should produce a portfolio-ready package containing:
+   711→   711→* concise problem statement;
+   712→   712→* intended user;
+   713→   713→* architecture;
+   714→   714→* data;
+   715→   715→* implementation;
+   716→   716→* tests;
+   717→   717→* metrics;
+   718→   718→* limitations;
+   719→   719→* responsible-use decisions;
+   720→   720→* reproducible setup;
+   721→   721→* demo;
+   722→   722→* contribution statement.
+   723→   723→Portfolio-ready means reviewable and reproducible, not guaranteed to impress an employer.
+   724→   724→7.8 Security and responsibility
+   725→   725→Verify:
+   726→   726→* synthetic or legally reusable data;
+   727→   727→* no secrets;
+   728→   728→* no real PII;
+   729→   729→* no unsupported adverse inference;
+   730→   730→* least privilege;
+   731→   731→* input validation;
+   732→   732→* safe outputs;
+   733→   733→* threat model;
+   734→   734→* human review;
+   735→   735→* secure logging;
+   736→   736→* dependency controls;
+   737→   737→* rollback.
+   738→   738→7.9 Accessibility
+   739→   739→Verify:
+   740→   740→* keyboard operation;
+   741→   741→* clear labels;
+   742→   742→* readable output;
+   743→   743→* non-colour-only encoding;
+   744→   744→* accessible reports;
+   745→   745→* meaningful errors;
+   746→   746→* 200% zoom;
+   747→   747→* mobile layout where relevant;
+   748→   748→* alternative presentation of charts.
+   749→   749→
+   750→   750→8. Rubric Architecture
+   751→   751→Preserve existing rubric versions until a migration is approved.
+   752→   752→Research and implement level-sensitive rubrics.
+   753→   753→Every capstone must include at least:
+   754→   754→* functional correctness;
+   755→   755→* data and failure handling;
+   756→   756→* testing;
+   757→   757→* architecture and maintainability;
+   758→   758→* reproducibility;
+   759→   759→* security and privacy;
+   760→   760→* responsible use;
+   761→   761→* evidence and observability;
+   762→   762→* communication and demonstration.
+   763→   763→Critical criteria must be non-compensatory.
+   764→   764→Examples of automatic failure:
+   765→   765→* real confidential data;
+   766→   766→* committed secret;
+   767→   767→* unsafe SQL;
+   768→   768→* public sensitive attachment;
+   769→   769→* automatic unsupported fraud or relationship inference;
+   770→   770→* unapproved external side effect;
+   771→   771→* fabricated test evidence;
+   772→   772→* inaccessible core workflow;
+   773→   773→* unresolved critical security defect;
+   774→   774→* final demonstration that cannot be reproduced.
+   775→   775→Default provisional gate:
+   776→   776→Overall score ≥ 80%
+   777→   777→All acceptance criteria passed
+   778→   778→All critical criteria passed
+   779→   779→No unresolved critical security, privacy or responsible-use failure
+   780→   780→Calibrate through pilot evidence rather than assuming one rubric is psychometrically final.
+   781→   781→
+   782→   782→9. Implementation Requirements
+   783→   783→For every missing or weak capstone, implement:
+   784→   784→* section-level project increments;
+   785→   785→* theory connections;
+   786→   786→* I Do demonstration;
+   787→   787→* We Do activity;
+   788→   788→* You Do transfer task;
+   789→   789→* Self-check questions;
+   790→   790→* authenticated assessment where supported;
+   791→   791→* project brief;
+   792→   792→* starter files;
+   793→   793→* completed reference implementation kept separate from learner work;
+   794→   794→* synthetic fixtures;
+   795→   795→* tests;
+   796→   796→* acceptance script;
+   797→   797→* rubric;
+   798→   798→* remediation guidance;
+   799→   799→* learner-facing progress;
+   800→   800→* badge mapping;
+   801→   801→* evidence record.
+   802→   802→Educational content must be handcrafted.
+   803→   803→Automation may be used for:
+   804→   804→* inventories;
+   805→   805→* tests;
+   806→   806→* contract checks;
+   807→   807→* link validation;
+   808→   808→* schema validation;
+   809→   809→* mechanical consistency;
+   810→   810→* runtime execution;
+   811→   811→* Playwright.
+   812→   812→Do not use bulk generation to manufacture repetitive project prose or assessment content.
+   813→   813→
+   814→   814→10. Learner-Facing Capstone Experience
+   815→   815→Implement a clear Capstones area showing:
+   816→   816→* four levels;
+   817→   817→* three principal capstones per level;
+   818→   818→* final capstone;
+   819→   819→* gate section;
+   820→   820→* prerequisites;
+   821→   821→* project purpose;
+   822→   822→* artifacts;
+   823→   823→* progress;
+   824→   824→* evidence completed;
+   825→   825→* evidence missing;
+   826→   826→* critical blockers;
+   827→   827→* rubric;
+   828→   828→* remediation;
+   829→   829→* badge relationship;
+   830→   830→* final integration dependency.
+   831→   831→Do not show internal terms such as:
+   832→   832→* orchestration ledger;
+   833→   833→* formally passed by agent;
+   834→   834→* pipeline phase;
+   835→   835→* audit wave;
+   836→   836→* generated package;
+   837→   837→* P0/P1 without learner explanation.
+   838→   838→Translate internal gates into learner-focused language.
+   839→   839→Example:
+   840→   840→Blocked: your project still needs a tested rollback path.
+   841→   841→Not:
+   842→   842→CP gate failed P1 invariant.
+   843→   843→
+   844→   844→11. Backward Compatibility
+   845→   845→Preserve:
+   846→   846→* section IDs;
+   847→   847→* section numbering;
+   848→   848→* URLs;
+   849→   849→* existing learner progress;
+   850→   850→* completed substeps;
+   851→   851→* assessment history;
+   852→   852→* badge IDs;
+   853→   853→* capstone IDs where possible;
+   854→   854→* existing bookmarks.
+   855→   855→If capstone requirements become stronger:
+   856→   856→* do not erase prior completion;
+   857→   857→* mark new evidence as required;
+   858→   858→* preserve historical version;
+   859→   859→* offer upgrade or remediation;
+   860→   860→* distinguish completion under version A from verification under version B;
+   861→   861→* never fabricate retrospective evidence.
+   862→   862→If CP-N4-C is renamed or expanded:
+   863→   863→* preserve CP-N4-C;
+   864→   864→* bump its version;
+   865→   865→* migrate display name;
+   866→   866→* retain historical references;
+   867→   867→* add S49 and S50 sub-gate evidence;
+   868→   868→* keep S51 as the principal gate.
+   869→   869→
+   870→   870→12. Graph Nodes
+   871→   871→Use specialised nodes:
+   872→   872→* orchestrator
+   873→   873→* repository_reality_auditor
+   874→   874→* roadmap_reconciler
+   875→   875→* level_framework_researcher
+   876→   876→* capstone_researcher
+   877→   877→* section_topic_mapper
+   878→   878→* curriculum_alignment_auditor
+   879→   879→* authentic_assessment_architect
+   880→   880→* capstone_product_designer
+   881→   881→* data_and_ai_engineer
+   882→   882→* agentic_harness_architect
+   883→   883→* security_privacy_reviewer
+   884→   884→* responsible_ai_reviewer
+   885→   885→* accessibility_reviewer
+   886→   886→* test_designer_red
+   887→   887→* content_implementer_green
+   888→   888→* technical_implementer_green
+   889→   889→* refactorer
+   890→   890→* learner_experience_verifier
+   891→   891→* playwright_adversary
+   892→   892→* independent_capstone_verifier
+   893→   893→* memory_manager
+   894→   894→* release_manager
+   895→   895→* reporter
+   896→   896→Strict separation:
+   897→   897→* the capstone author does not approve their own capstone;
+   898→   898→* the implementer does not weaken tests;
+   899→   899→* the verifier does not silently repair production code;
+   900→   900→* guided-solution authors do not grade independent submissions;
+   901→   901→* the agentic harness does not self-certify safety;
+   902→   902→* a ledger does not substitute for execution evidence.
+   903→   903→
+   904→   904→13. Harness Artifacts
+   905→   905→Create or update:
+   906→   906→capstone_validation/
+   907→   907→  README.md
+   908→   908→  worklog.md
+   909→   909→  execution_ledger.json
+   910→   910→  source_registry.json
+   911→   911→  evidence_registry.jsonl
+   912→   912→  decision_log.md
+   913→   913→  failure_registry.jsonl
+   914→   914→  rejected_hypotheses.jsonl
+   915→   915→
+   916→   916→  reality/
+   917→   917→    deployed_state.md
+   918→   918→    roadmap_inventory.json
+   919→   919→    capstone_inventory.json
+   920→   920→    section_capstone_mapping.json
+   921→   921→    learner_ui_inventory.md
+   922→   922→    runtime_inventory.md
+   923→   923→
+   924→   924→  levels/
+   925→   925→    level_framework_research.md
+   926→   926→    level_claim_matrix.json
+   927→   927→    level_exit_capabilities.md
+   928→   928→    public_naming_decision.md
+   929→   929→
+   930→   930→  capstones/
+   931→   931→    CP-N1-A.json
+   932→   932→    CP-N1-B.json
+   933→   933→    CP-N1-C.json
+   934→   934→    CP-N2-A.json
+   935→   935→    CP-N2-B.json
+   936→   936→    CP-N2-C.json
+   937→   937→    CP-N3-A.json
+   938→   938→    CP-N3-B.json
+   939→   939→    CP-N3-C.json
+   940→   940→    CP-N4-A.json
+   941→   941→    CP-N4-B.json
+   942→   942→    CP-N4-C.json
+   943→   943→    CP-FINAL.json
+   944→   944→
+   945→   945→  rubrics/
+   946→   946→    rubric_registry.json
+   947→   947→    critical_failure_matrix.json
+   948→   948→    assessment_validity_report.md
+   949→   949→
+   950→   950→  architecture/
+   951→   951→    ADR-capstone-cardinality.md
+   952→   952→    ADR-N4-C-agentic-harness.md
+   953→   953→    ADR-level-language.md
+   954→   954→    capstone_dependency_graph.json
+   955→   955→    final_integration_contracts.json
+   956→   956→    migration_plan.md
+   957→   957→    rollback_plan.md
+   958→   958→
+   959→   959→  validation/
+   960→   960→    content_matrix.md
+   961→   961→    runtime_matrix.md
+   962→   962→    security_matrix.md
+   963→   963→    accessibility_matrix.md
+   964→   964→    playwright_matrix.md
+   965→   965→    deployment_evidence.md
+   966→   966→
+   967→   967→  memory/
+   968→   968→    notes/
+   969→   969→    cycles/
+   970→   970→    rejected_edits.jsonl
+   971→   971→
+   972→   972→14. Typed Handoffs
+   973→   973→reality_to_research
+   974→   974→{
+   975→   975→  "deployedCommit": "string",
+   976→   976→  "repositoryCommit": "string",
+   977→   977→  "roadmapFacts": {},
+   978→   978→  "ledgerFacts": {},
+   979→   979→  "runtimeFacts": {},
+   980→   980→  "uiFacts": {},
+   981→   981→  "contradictions": [],
+   982→   982→  "missingEvidence": []
+   983→   983→}
+   984→   984→research_to_architecture
+   985→   985→{
+   986→   986→  "levelFrameworkFindings": [],
+   987→   987→  "capstonePracticeFindings": [],
+   988→   988→  "industryRequirements": [],
+   989→   989→  "agenticSystemRequirements": [],
+   990→   990→  "recommendedCardinality": 13,
+   991→   991→  "n4dDecision": "fold_into_n4c|separate_with_migration",
+   992→   992→  "risks": [],
+   993→   993→  "sourceIds": []
+   994→   994→}
+   995→   995→architecture_to_red
+   996→   996→{
+   997→   997→  "levelContracts": [],
+   998→   998→  "capstoneContracts": [],
+   999→   999→  "sectionMappings": [],
+  1000→  1000→  "migrationInvariants": [],
+  1001→  1001→  "securityInvariants": [],
+  1002→  1002→  "learnerExperienceInvariants": [],
+  1003→  1003→  "expectedFailureCases": []
+  1004→  1004→}
+  1005→  1005→red_to_green
+  1006→  1006→{
+  1007→  1007→  "tests": [],
+  1008→  1008→  "failureEvidence": [],
+  1009→  1009→  "targetBehaviours": [],
+  1010→  1010→  "forbiddenRegressions": []
+  1011→  1011→}
+  1012→  1012→validate_to_release
+  1013→  1013→{
+  1014→  1014→  "contentResults": [],
+  1015→  1015→  "runtimeResults": [],
+  1016→  1016→  "assessmentResults": [],
+  1017→  1017→  "securityResults": [],
+  1018→  1018→  "accessibilityResults": [],
+  1019→  1019→  "playwrightResults": [],
+  1020→  1020→  "integrationResults": [],
+  1021→  1021→  "quietRounds": 0,
+  1022→  1022→  "remainingRisks": [],
+  1023→  1023→  "releaseGate": {}
+  1024→  1024→}
+  1025→  1025→Invalid handoffs fail closed.
+  1026→  1026→
+  1027→  1027→15. Solarize Loop Configuration
+  1028→  1028→Use:
+  1029→  1029→{
+  1030→  1030→  "researchMaxRounds": 3,
+  1031→  1031→  "implementationMaxRoundsPerCapstone": 5,
+  1032→  1032→  "validationMaxRounds": 5,
+  1033→  1033→  "convergeK": 2,
+  1034→  1034→  "requireIndependentVerifier": true,
+  1035→  1035→  "failClosedOnInvalidEvidence": true
+  1036→  1036→}
+  1037→  1037→Research converges only when another critique round reveals no material change to:
+  1038→  1038→* capstone cardinality;
+  1039→  1039→* level claims;
+  1040→  1040→* project scope;
+  1041→  1041→* assessment requirements;
+  1042→  1042→* security requirements;
+  1043→  1043→* current section alignment.
+  1044→  1044→Final validation converges only after two consecutive independent rounds reveal:
+  1045→  1045→* no new capstone inconsistency;
+  1046→  1046→* no new missing learner artifact;
+  1047→  1047→* no new non-runnable project;
+  1048→  1048→* no new unsupported level claim;
+  1049→  1049→* no new security or privacy defect;
+  1050→  1050→* no new N4-C agentic failure;
+  1051→  1051→* no new S52 integration mismatch;
+  1052→  1052→* no new critical Playwright defect.
+  1053→  1053→A timeout is not convergence.
+  1054→  1054→
+  1055→  1055→16. Execution Phases
+  1056→  1056→Phase 0 — Repository and deployed reality
+  1057→  1057→Inspect:
+  1058→  1058→* current main;
+  1059→  1059→* live site;
+  1060→  1060→* roadmap;
+  1061→  1061→* section ledger;
+  1062→  1062→* capstone ledger;
+  1063→  1063→* all capstone packages;
+  1064→  1064→* all 52 section sources;
+  1065→  1065→* capstone UI;
+  1066→  1066→* badge mapping;
+  1067→  1067→* progress logic;
+  1068→  1068→* tests;
+  1069→  1069→* deployment.
+  1070→  1070→Do not accept formally_passed as proof without inspectable evidence.
+  1071→  1071→Phase 1 — Current research
+  1072→  1072→Research:
+  1073→  1073→* level frameworks;
+  1074→  1074→* authentic assessment;
+  1075→  1075→* capstone design;
+  1076→  1076→* data-analysis portfolios;
+  1077→  1077→* RPA controls;
+  1078→  1078→* entity resolution;
+  1079→  1079→* graph investigation;
+  1080→  1080→* responsible ML;
+  1081→  1081→* platform engineering;
+  1082→  1082→* MLOps;
+  1083→  1083→* agentic systems;
+  1084→  1084→* RAG;
+  1085→  1085→* evaluations;
+  1086→  1086→* security;
+  1087→  1087→* observability;
+  1088→  1088→* responsible AI;
+  1089→  1089→* hiring evidence expectations.
+  1090→  1090→Use current official and primary sources where possible.
+  1091→  1091→Phase 2 — Reconcile levels and cardinality
+  1092→  1092→Decide:
+  1093→  1093→* public level names;
+  1094→  1094→* level exit capabilities;
+  1095→  1095→* exact thirteen-capstone contract;
+  1096→  1096→* N4-D treatment;
+  1097→  1097→* version migration.
+  1098→  1098→Phase 3 — Build curriculum graph
+  1099→  1099→Map every section, topic and subtopic to:
+  1100→  1100→* level outcome;
+  1101→  1101→* project increment;
+  1102→  1102→* capstone artifact;
+  1103→  1103→* assessment evidence;
+  1104→  1104→* final integration dependency.
+  1105→  1105→Phase 4 — Capstone gap audit
+  1106→  1106→For every capstone classify:
+  1107→  1107→missing
+  1108→  1108→named-only
+  1109→  1109→content-only
+  1110→  1110→partial
+  1111→  1111→implemented
+  1112→  1112→runnable
+  1113→  1113→assessed
+  1114→  1114→independently verified
+  1115→  1115→deployed
+  1116→  1116→Phase 5 — Red
+  1117→  1117→Write failing tests for every missing behaviour or artifact.
+  1118→  1118→Phase 6 — Implement Level 1
+  1119→  1119→Correct and expand CP-N1-A/B/C.
+  1120→  1120→Phase 7 — Implement Level 2
+  1121→  1121→Correct and expand CP-N2-A/B/C.
+  1122→  1122→Phase 8 — Implement Level 3
+  1123→  1123→Correct and expand CP-N3-A/B/C.
+  1124→  1124→Phase 9 — Implement Level 4
+  1125→  1125→Correct and expand CP-N4-A/B/C, including the complete production multi-agent harness.
+  1126→  1126→Phase 10 — Implement CP-FINAL
+  1127→  1127→Integrate all twelve level capstones through explicit contracts.
+  1128→  1128→Phase 11 — Learner UI and progression
+  1129→  1129→Implement capstone discovery, progress, evidence, remediation, badges and versioning.
+  1130→  1130→Phase 12 — Full validation
+  1131→  1131→Run:
+  1132→  1132→* content checks;
+  1133→  1133→* code execution;
+  1134→  1134→* data validation;
+  1135→  1135→* assessment checks;
+  1136→  1136→* security checks;
+  1137→  1137→* accessibility;
+  1138→  1138→* Playwright;
+  1139→  1139→* final integration;
+  1140→  1140→* rollback.
+  1141→  1141→Phase 13 — Commit, merge, deploy and verify
+  1142→  1142→Release only after all gates pass.
+  1143→  1143→
+  1144→  1144→17. Required Automated Tests
+  1145→  1145→Cardinality tests
+  1146→  1146→Assert:
+  1147→  1147→* four levels;
+  1148→  1148→* three principal capstones per level;
+  1149→  1149→* twelve level capstones;
+  1150→  1150→* one final capstone;
+  1151→  1151→* thirteen total;
+  1152→  1152→* gates match the contract;
+  1153→  1153→* no hidden CP-N4-D principal capstone;
+  1154→  1154→* CP-N4-C has S49/S50/S51 sub-gates;
+  1155→  1155→* S52 integrates twelve upstream capstones.
+  1156→  1156→Consistency tests
+  1157→  1157→Assert agreement across:
+  1158→  1158→* roadmap;
+  1159→  1159→* capstone ledger;
+  1160→  1160→* section ledger;
+  1161→  1161→* source code;
+  1162→  1162→* learner UI;
+  1163→  1163→* badges;
+  1164→  1164→* progress;
+  1165→  1165→* assessments;
+  1166→  1166→* final project;
+  1167→  1167→* documentation.
+  1168→  1168→Content tests
+  1169→  1169→For every capstone assert the presence of:
+  1170→  1170→* project brief;
+  1171→  1171→* prerequisites;
+  1172→  1172→* dataset;
+  1173→  1173→* I Do;
+  1174→  1174→* We Do;
+  1175→  1175→* You Do;
+  1176→  1176→* assessment;
+  1177→  1177→* rubric;
+  1178→  1178→* required evidence;
+  1179→  1179→* remediation;
+  1180→  1180→* security constraints;
+  1181→  1181→* final integration contract.
+  1182→  1182→Runtime tests
+  1183→  1183→Execute:
+  1184→  1184→* setup;
+  1185→  1185→* data generator;
+  1186→  1186→* project code;
+  1187→  1187→* tests;
+  1188→  1188→* build;
+  1189→  1189→* report;
+  1190→  1190→* service;
+  1191→  1191→* container;
+  1192→  1192→* demo;
+  1193→  1193→* rollback where applicable.
+  1194→  1194→N4-C tests
+  1195→  1195→Test:
+  1196→  1196→* local-model adapter;
+  1197→  1197→* commercial-provider adapter in test mode;
+  1198→  1198→* provider fallback;
+  1199→  1199→* no-key deterministic mode;
+  1200→  1200→* RAG citation;
+  1201→  1201→* access filtering;
+  1202→  1202→* web-result provenance;
+  1203→  1203→* SERP unavailability;
+  1204→  1204→* prompt injection;
+  1205→  1205→* tool allowlist;
+  1206→  1206→* human approval;
+  1207→  1207→* idempotency;
+  1208→  1208→* maximum steps;
+  1209→  1209→* maximum cost;
+  1210→  1210→* timeout;
+  1211→  1211→* infinite-loop stop;
+  1212→  1212→* durable resume;
+  1213→  1213→* verifier rejection;
+  1214→  1214→* sensitive trace redaction;
+  1215→  1215→* rollback;
+  1216→  1216→* incident record.
+  1217→  1217→CP-FINAL tests
+  1218→  1218→Test:
+  1219→  1219→* all twelve dependencies present;
+  1220→  1220→* contract compatibility;
+  1221→  1221→* synthetic end-to-end scenario;
+  1222→  1222→* no direct shared-database coupling where contracts are required;
+  1223→  1223→* backup;
+  1224→  1224→* restore;
+  1225→  1225→* rollback;
+  1226→  1226→* no-go condition;
+  1227→  1227→* end-to-end trace;
+  1228→  1228→* evidence bundle;
+  1229→  1229→* reproducible demonstration.
+  1230→  1230→
+  1231→  1231→18. Playwright Requirements
+  1232→  1232→Use Playwright to verify the real learner experience.
+  1233→  1233→Test:
+  1234→  1234→* levels page;
+  1235→  1235→* exactly three capstone cards per level;
+  1236→  1236→* final capstone card;
+  1237→  1237→* gate labels;
+  1238→  1238→* project details;
+  1239→  1239→* prerequisites;
+  1240→  1240→* missing evidence;
+  1241→  1241→* remediation;
+  1242→  1242→* rubric;
+  1243→  1243→* progress;
+  1244→  1244→* badge relationship;
+  1245→  1245→* static and authenticated modes;
+  1246→  1246→* local-progress migration;
+  1247→  1247→* mobile layout;
+  1248→  1248→* keyboard navigation;
+  1249→  1249→* 200% zoom;
+  1250→  1250→* Spanish and English parity.
+  1251→  1251→Test direct links to:
+  1252→  1252→* each gate section;
+  1253→  1253→* each project brief;
+  1254→  1254→* each rubric;
+  1255→  1255→* each evidence view.
+  1256→  1256→For N4-C test the UI flow:
+  1257→  1257→configure provider mode
+  1258→  1258→→ run bounded task
+  1259→  1259→→ inspect retrieval evidence
+  1260→  1260→→ inspect proposed tool call
+  1261→  1261→→ approve or reject
+  1262→  1262→→ inspect verifier result
+  1263→  1263→→ inspect trace
+  1264→  1264→→ inspect budget
+  1265→  1265→→ inspect final cited output
+  1266→  1266→For CP-FINAL test:
+  1267→  1267→open final project
+  1268→  1268→→ verify twelve dependencies
+  1269→  1269→→ run demo or documented local launch
+  1270→  1270→→ inspect architecture and cards
+  1271→  1271→→ inspect test status
+  1272→  1272→→ inspect rollback evidence
+  1273→  1273→→ inspect contribution statement
+  1274→  1274→A visible card without functional underlying content does not pass.
+  1275→  1275→
+  1276→  1276→19. Release Gates
+  1277→  1277→Do not merge while any of these remain:
+  1278→  1278→* 13-versus-14 capstone inconsistency;
+  1279→  1279→* four principal Level 4 capstones without approved migration;
+  1280→  1280→* stale “integration of twelve” language after changing the count;
+  1281→  1281→* capstone represented only by a ledger;
+  1282→  1282→* missing runnable project;
+  1283→  1283→* missing tests;
+  1284→  1284→* missing rubric;
+  1285→  1285→* unsupported expert, master, senior or job-readiness claim;
+  1286→  1286→* real PII;
+  1287→  1287→* unsupported fraud or relationship inference;
+  1288→  1288→* exposed secret;
+  1289→  1289→* unapproved side effect;
+  1290→  1290→* agent without bounded loops;
+  1291→  1291→* RAG without citations or access controls;
+  1292→  1292→* web content treated as trusted instruction;
+  1293→  1293→* missing rollback;
+  1294→  1294→* final integration that is merely a collection of repositories;
+  1295→  1295→* failing critical Playwright flow;
+  1296→  1296→* broken learner progress;
+  1297→  1297→* unresolved critical security or privacy issue.
+  1298→  1298→
+  1299→  1299→20. Definition of Done
+  1300→  1300→The task is complete only when:
+  1301→  1301→* the current deployed and source state has been audited;
+  1302→  1302→* every level has an observable exit-capability contract;
+  1303→  1303→* public level language is defensible;
+  1304→  1304→* exactly three principal capstones exist per level;
+  1305→  1305→* one final capstone exists;
+  1306→  1306→* the total remains thirteen unless a fully approved migration changes it;
+  1307→  1307→* N4-D has been integrated coherently into CP-N4-C by default;
+  1308→  1308→* all thirteen capstones have versioned contracts;
+  1309→  1309→* every section contributes meaningfully to its level projects;
+  1310→  1310→* scaffolding decreases across levels;
+  1311→  1311→* all capstones have authentic independent work;
+  1312→  1312→* all capstones have synthetic or legally reusable data;
+  1313→  1313→* all capstones have runnable code;
+  1314→  1314→* all capstones have tests;
+  1315→  1315→* all capstones have rubrics;
+  1316→  1316→* all capstones have security and responsible-use requirements;
+  1317→  1317→* all capstones have reproducible demos;
+  1318→  1318→* all capstones have learner-facing progress and remediation;
+  1319→  1319→* CP-N4-C includes local and commercial model adapters, RAG, tools, web/SERP, bounded orchestration, human approval, evaluations, tracing and recovery;
+  1320→  1320→* CP-FINAL integrates all twelve upstream capstones through explicit contracts;
+  1321→  1321→* no unsupported professional-outcome claim remains;
+  1322→  1322→* backward compatibility is preserved;
+  1323→  1323→* content, runtime, assessment, security and accessibility tests pass;
+  1324→  1324→* all critical Playwright journeys pass;
+  1325→  1325→* two consecutive independent validation rounds are quiet;
+  1326→  1326→* changes are committed;
+  1327→  1327→* the pull request is merged;
+  1328→  1328→* deployment succeeds;
+  1329→  1329→* the real deployed site is verified;
+  1330→  1330→* rollback remains available;
+  1331→  1331→* release evidence and Graph Memory are complete.
+  1332→  1332→Begin with Phase 0.
+  1333→  1333→Do not begin by adding a new CP-N4-D card.
+  1334→  1334→First establish the current implementation reality, reconcile the thirteen-capstone invariant, map all 52 sections, and prove which capstones are genuinely implemented.
+  1335→  1335→The required result is a coherent, runnable and independently verifiable applied-project system—not a revised list of capstone names.
+  1336→  1336→

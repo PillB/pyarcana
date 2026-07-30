@@ -1,0 +1,286 @@
+{
+  "nodes": [
+    {
+      "capstoneId": "CP-N1-A",
+      "level": 1,
+      "gate": "S04"
+    },
+    {
+      "capstoneId": "CP-N1-B",
+      "level": 1,
+      "gate": "S08"
+    },
+    {
+      "capstoneId": "CP-N1-C",
+      "level": 1,
+      "gate": "S13"
+    },
+    {
+      "capstoneId": "CP-N2-A",
+      "level": 2,
+      "gate": "S17"
+    },
+    {
+      "capstoneId": "CP-N2-B",
+      "level": 2,
+      "gate": "S21"
+    },
+    {
+      "capstoneId": "CP-N2-C",
+      "level": 2,
+      "gate": "S26"
+    },
+    {
+      "capstoneId": "CP-N3-A",
+      "level": 3,
+      "gate": "S30"
+    },
+    {
+      "capstoneId": "CP-N3-B",
+      "level": 3,
+      "gate": "S34"
+    },
+    {
+      "capstoneId": "CP-N3-C",
+      "level": 3,
+      "gate": "S39"
+    },
+    {
+      "capstoneId": "CP-N4-A",
+      "level": 4,
+      "gate": "S43"
+    },
+    {
+      "capstoneId": "CP-N4-B",
+      "level": 4,
+      "gate": "S47"
+    },
+    {
+      "capstoneId": "CP-N4-C",
+      "level": 4,
+      "gate": "S51"
+    },
+    {
+      "capstoneId": "CP-FINAL",
+      "level": 4,
+      "gate": "S52"
+    }
+  ],
+  "edges": [
+    {
+      "from": "CP-N1-A",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N1-A",
+      "to": "CP-N1-B",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N1-B",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N1-A",
+      "to": "CP-N1-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N1-B",
+      "to": "CP-N1-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N1-C",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N1-A",
+      "to": "CP-N2-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N1-B",
+      "to": "CP-N2-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N1-C",
+      "to": "CP-N2-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N2-A",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N2-A",
+      "to": "CP-N2-B",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N2-B",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N2-A",
+      "to": "CP-N2-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N2-B",
+      "to": "CP-N2-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N2-C",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N1-C",
+      "to": "CP-N3-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N3-A",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N3-A",
+      "to": "CP-N3-B",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N3-B",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N3-A",
+      "to": "CP-N3-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N3-B",
+      "to": "CP-N3-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N3-C",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N3-A",
+      "to": "CP-N4-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N3-B",
+      "to": "CP-N4-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N3-C",
+      "to": "CP-N4-A",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N4-A",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N4-A",
+      "to": "CP-N4-B",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N4-B",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N4-A",
+      "to": "CP-N4-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N4-B",
+      "to": "CP-N4-C",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "CP-N4-C",
+      "to": "CP-FINAL",
+      "type": "final-integration"
+    },
+    {
+      "from": "B-N1-A",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N1-B",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N1-C",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N2-A",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N2-B",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N2-C",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N3-A",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N3-B",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N3-C",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N4-A",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N4-B",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    },
+    {
+      "from": "B-N4-C",
+      "to": "CP-FINAL",
+      "type": "badge-dependency"
+    }
+  ]
+}

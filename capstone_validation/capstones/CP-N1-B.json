@@ -1,0 +1,360 @@
+{
+  "capstoneId": "CP-N1-B",
+  "version": "1.3.0",
+  "title": "Reproducible Client and Transaction ETL Pipeline",
+  "level": 1,
+  "gateSection": "S08",
+  "subGates": [],
+  "problemStatement": "When the European Space Agency's Rosetta probe neared comet 67P, its science team relied on pipelines that had to produce identical outputs whether run in Darmstadt or Toulouse, weeks apart, by different engineers. A pipeline that is not deterministic is not a pipeline; it is a rumour. In this capstone you will build a local ETL pipeline that ingests CSV and JSON, validates explicit contracts, preserves provenance, separates accepted from quarantined rows, produces deterministic outputs, records hashes and manifests, supports safe reruns, handles encoding and malformed rows, includes backup and recovery instructions, and exposes no secrets. The deliverable is a pipeline you would trust to run unattended, because you have watched it fail and recover gracefully.",
+  "intendedUsers": [
+    "A data engineer preparing synthetic client and transaction data for analysis",
+    "A reviewer who must trace any output row back to its source"
+  ],
+  "jobsToBeDone": [
+    "Ingest CSV and JSON with encoding detection",
+    "Validate against explicit contracts",
+    "Separate accepted and quarantined rows",
+    "Produce deterministic outputs with manifests",
+    "Recover safely from a partial failure"
+  ],
+  "learningOutcomes": [
+    "Build a streaming ETL pipeline with explicit contracts.",
+    "Preserve provenance and produce content-hash manifests.",
+    "Quarantine malformed rows without losing them.",
+    "Prove idempotency and recovery."
+  ],
+  "prerequisites": [
+    "CP-N1-A",
+    "File I/O basics",
+    "Hashing concepts"
+  ],
+  "sectionContributions": [
+    {
+      "sectionId": "S05",
+      "artifact": "Streaming readers with encoding detection",
+      "theory": "Robust ingestion",
+      "iDo": "Read a dirty CSV safely",
+      "weDo": "Handle a malformed JSON stream",
+      "youDo": "Add a new file-format adapter",
+      "assessment": "Malformed rows quarantined, not lost",
+      "finalInterface": "Readers reused by analytics factory"
+    },
+    {
+      "sectionId": "S06",
+      "artifact": "Versioned schema contracts with rejection reasons",
+      "theory": "Explicit contracts",
+      "iDo": "Write a pydantic-style schema",
+      "weDo": "Evolve the schema with a migration",
+      "youDo": "Design a contract for transactions",
+      "assessment": "Schema rejects invalid rows with reason codes",
+      "finalInterface": "Contracts become ETL ↔ service boundary"
+    },
+    {
+      "sectionId": "S07",
+      "artifact": "Run manifest with input hashes and output lineage",
+      "theory": "Determinism and idempotency",
+      "iDo": "Compute a content-hash manifest",
+      "weDo": "Prove reruns produce identical outputs",
+      "youDo": "Add a partial-rerun capability",
+      "assessment": "Idempotency test passes on three reruns",
+      "finalInterface": "Manifest format reused by data/ML platform"
+    },
+    {
+      "sectionId": "S08",
+      "artifact": "Complete ETL with rejects, manifest, lineage, recovery",
+      "theory": "Authentic assessment",
+      "iDo": "Demonstrate the reference pipeline",
+      "weDo": "Run the recovery drill",
+      "youDo": "Add a new source adapter",
+      "assessment": "Idempotency + recovery tests pass",
+      "finalInterface": "ETL becomes data-quality subsystem of CP-FINAL"
+    }
+  ],
+  "requiredArtifacts": [
+    "ETL scripts",
+    "Schemas",
+    "Test fixtures",
+    "Rejects log",
+    "Manifest",
+    "Lineage",
+    "Idempotency test",
+    "Recovery demo",
+    "README"
+  ],
+  "requiredEvidence": [
+    "Manifest from a real run",
+    "Idempotency test output across three reruns",
+    "Recovery drill recording"
+  ],
+  "syntheticDataContract": {
+    "generator": "Deterministic generator extending CP-N1-A's clients with synthetic transactions (amounts, timestamps, merchant categories)",
+    "schema": "txn_id, client_id, amount, currency, timestamp, merchant_id, merchant_category, status, reason",
+    "size": "10,000 transactions across 1,000 clients",
+    "license": "Synthetic / CC0",
+    "piiRisk": "No real PII; clients and merchants are synthetic"
+  },
+  "acceptanceCriteria": [
+    "Ingests CSV and JSON with encoding detection.",
+    "Validates against explicit, versioned contracts.",
+    "Preserves provenance for every output row.",
+    "Separates accepted and quarantined rows.",
+    "Outputs are deterministic across reruns.",
+    "Manifest records input hashes and output lineage.",
+    "Safe reruns do not duplicate or corrupt outputs.",
+    "Malformed rows are quarantined with a reason.",
+    "Backup and recovery instructions are documented and demonstrated.",
+    "No secrets are exposed."
+  ],
+  "criticalCriteria": [
+    "Deterministic outputs across reruns.",
+    "Quarantined rows are never lost.",
+    "No secrets in code, config or logs.",
+    "Recovery drill restores the pipeline to a known state."
+  ],
+  "securityRequirements": [
+    "No secrets in code or logs",
+    "No path traversal via input filenames",
+    "Dependencies locked and scanned"
+  ],
+  "privacyRequirements": [
+    "Synthetic data only",
+    "No real PII",
+    "Provenance preserved without exposing source-system details"
+  ],
+  "accessibilityRequirements": [
+    "Manifest is human-readable text",
+    "Error messages are plain language"
+  ],
+  "responsibleUseRequirements": [
+    "No automated adverse decision based on ETL output",
+    "Quarantine reason is reviewable"
+  ],
+  "testRequirements": [
+    "Normal path",
+    "Boundary (empty file, huge file, unicode)",
+    "Failure (malformed, encoding mismatch, partial write)",
+    "Idempotency (three reruns)",
+    "Recovery (kill mid-run, restart)"
+  ],
+  "demoRequirements": [
+    "Recovery drill recorded",
+    "Manifest shown",
+    "Idempotency shown"
+  ],
+  "rubric": {
+    "version": "1.3.0",
+    "passThreshold": 80,
+    "criteria": [
+      {
+        "id": "F",
+        "name": "Functional correctness",
+        "weight": 0.18,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "All acceptance criteria pass on the canonical fixtures."
+          },
+          {
+            "level": "Adequate",
+            "description": "Core paths pass; minor edge cases fail with a clear reason."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Core paths fail or behave non-deterministically."
+          }
+        ]
+      },
+      {
+        "id": "D",
+        "name": "Data and failure handling",
+        "weight": 0.12,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Malformed input quarantined; denominators correct; failures explained."
+          },
+          {
+            "level": "Adequate",
+            "description": "Failures handled but reasons are thin."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Failures crash the program or lose data."
+          }
+        ]
+      },
+      {
+        "id": "T",
+        "name": "Testing (normal, boundary, failure)",
+        "weight": 0.14,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Normal, boundary and failure tests present and passing."
+          },
+          {
+            "level": "Adequate",
+            "description": "Happy-path tests only, or boundary tests missing."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No meaningful tests, or tests fabricated."
+          }
+        ]
+      },
+      {
+        "id": "A",
+        "name": "Architecture and maintainability",
+        "weight": 0.1,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Clear module boundaries; typed contracts; small functions."
+          },
+          {
+            "level": "Adequate",
+            "description": "Readable but with some coupling."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Monolithic, hard to extend or test."
+          }
+        ]
+      },
+      {
+        "id": "R",
+        "name": "Reproducibility",
+        "weight": 0.1,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Reproduces from a clean environment in one command."
+          },
+          {
+            "level": "Adequate",
+            "description": "Reproduces with manual steps."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Cannot reproduce outside the author's machine."
+          }
+        ]
+      },
+      {
+        "id": "S",
+        "name": "Security and privacy",
+        "weight": 0.12,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "No secrets; synthetic data; least privilege; secure logging."
+          },
+          {
+            "level": "Adequate",
+            "description": "Minor gaps with documented remediation."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Exposed secret, real PII, or unsafe operation."
+          }
+        ]
+      },
+      {
+        "id": "U",
+        "name": "Responsible use",
+        "weight": 0.1,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "No unsupported inference; human review; correction mechanism."
+          },
+          {
+            "level": "Adequate",
+            "description": "Mostly responsible with one unclear claim."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Automated adverse decision or unsupported causal claim."
+          }
+        ]
+      },
+      {
+        "id": "E",
+        "name": "Evidence and observability",
+        "weight": 0.08,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Inspectible traces, manifests, and lineage."
+          },
+          {
+            "level": "Adequate",
+            "description": "Some evidence present but incomplete."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No inspectible evidence."
+          }
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Communication and demonstration",
+        "weight": 0.06,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Clear brief, demo and limitations; truthful CV narrative."
+          },
+          {
+            "level": "Adequate",
+            "description": "Demonstrable but with unclear framing."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No demo or misleading claims."
+          }
+        ]
+      }
+    ],
+    "criticalFailures": [
+      "Use of real confidential, personal, employer-owned or regulated information.",
+      "Committed secret or credential in the repository or logs.",
+      "Unsafe SQL or unparameterised query that enables injection.",
+      "Public sensitive attachment or unredacted PII in outputs.",
+      "Automatic unsupported fraud, kinship, collusion, criminal-association, beneficial-ownership or causal-relationship inference.",
+      "Unapproved external side effect (email send, API call, file mutation).",
+      "Fabricated test evidence or a ledger substituted for execution evidence.",
+      "Inaccessible core workflow (no keyboard operation, colour-only encoding).",
+      "Unresolved critical security, privacy or responsible-use defect.",
+      "Final demonstration that cannot be reproduced from the artifact repo."
+    ]
+  },
+  "remediationPaths": [
+    "If non-deterministic: isolate sources of randomness and seed them",
+    "If rows are lost: strengthen the quarantine path",
+    "If recovery is fragile: add a write-ahead manifest"
+  ],
+  "badgeDependencies": [
+    "B-N1-A"
+  ],
+  "finalIntegrationInterfaces": [
+    "ETL output → analytics (CP-N2-A)",
+    "Manifest format → data/ML platform (CP-N4-B)"
+  ],
+  "status": "implemented",
+  "redactionPasses": {
+    "en": 2,
+    "es": 2,
+    "lastUpdated": "2026-07-30"
+  }
+}

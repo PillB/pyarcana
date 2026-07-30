@@ -1,0 +1,486 @@
+{
+  "capstoneId": "CP-FINAL",
+  "version": "1.1.0",
+  "title": "Enterprise Relationship and Operations Intelligence Platform",
+  "level": 4,
+  "gateSection": "S52",
+  "subGates": [],
+  "problemStatement": "When the Apollo programme integrated a hundred contractors into one mission, the magic was not in any single module but in the interfaces: the precise, versioned contracts that let guidance, life support and telemetry speak to one another without confusion. A final capstone that merely collects twelve repositories is not an integration; it is a catalogue. In this capstone you will integrate all twelve level capstones through explicit, versioned interfaces: subsystem boundaries (intake, data quality and ETL, entity resolution, relationship evidence, analytics and reporting, automation, case triage, service platform, data and ML operations, RAG, agentic copilot, governance and observability); APIs or event contracts; contract tests; a dependency graph; a shared synthetic scenario; a reproducible deployment; end-to-end tests; security; privacy; observability; backup; restore; rollback; a disaster exercise; ADRs; architecture diagrams; a data card; a model card; a system card; a threat model; an operational runbook; a concise demo; a technical defence; a personal contribution statement; and a truthful CV narrative. The final project must not claim that the learner prevented fraud, saved money, improved a real organisation, achieved production accuracy, or operated at enterprise scale, unless those outcomes were genuinely and independently demonstrated.",
+  "intendedUsers": [
+    "A reviewer evaluating the integration",
+    "An operator running the platform",
+    "An auditor reading the system card"
+  ],
+  "jobsToBeDone": [
+    "Integrate twelve upstream capstones via versioned interfaces",
+    "Run contract tests and end-to-end tests",
+    "Demonstrate backup, restore, rollback and disaster recovery",
+    "Defend the architecture and report a truthful contribution"
+  ],
+  "learningOutcomes": [
+    "Define subsystem boundaries and versioned interfaces.",
+    "Run contract tests and a shared synthetic end-to-end scenario.",
+    "Demonstrate backup, restore, rollback and a disaster exercise.",
+    "Produce ADRs, architecture diagrams, data/model/system cards, a threat model and a runbook.",
+    "Deliver a technical defence and a truthful contribution statement."
+  ],
+  "prerequisites": [
+    "CP-N1-A",
+    "CP-N1-B",
+    "CP-N1-C",
+    "CP-N2-A",
+    "CP-N2-B",
+    "CP-N2-C",
+    "CP-N3-A",
+    "CP-N3-B",
+    "CP-N3-C",
+    "CP-N4-A",
+    "CP-N4-B",
+    "CP-N4-C"
+  ],
+  "sectionContributions": [
+    {
+      "sectionId": "S52",
+      "artifact": "Final platform integrating all twelve upstream capstones",
+      "theory": "Subsystem boundaries and contract tests",
+      "iDo": "Demonstrate the reference integration",
+      "weDo": "Run the contract-test suite",
+      "youDo": "Write a personal contribution statement",
+      "assessment": "Twelve-dependency integration test passes end-to-end",
+      "finalInterface": "This IS the final integration"
+    }
+  ],
+  "requiredArtifacts": [
+    "Integration source",
+    "Subsystem boundaries",
+    "Versioned interfaces",
+    "API/event contracts",
+    "Contract tests",
+    "Dependency graph",
+    "Shared synthetic scenario",
+    "Reproducible deployment",
+    "End-to-end tests",
+    "Security controls",
+    "Privacy controls",
+    "Observability",
+    "Backup",
+    "Restore",
+    "Rollback",
+    "Disaster exercise",
+    "ADRs",
+    "Architecture diagrams",
+    "Data card",
+    "Model card",
+    "System card",
+    "Threat model",
+    "Operational runbook",
+    "Concise demo",
+    "Technical defence",
+    "Personal contribution statement",
+    "Truthful CV narrative"
+  ],
+  "requiredEvidence": [
+    "Contract-test output",
+    "End-to-end test output",
+    "Backup/restore drill",
+    "Rollback drill",
+    "Disaster-exercise record",
+    "ADRs",
+    "Architecture diagrams",
+    "Data/model/system cards",
+    "Threat model",
+    "Runbook",
+    "Contribution statement"
+  ],
+  "syntheticDataContract": {
+    "generator": "Shared synthetic scenario spanning intake, ETL, ER, relationships, analytics, automation, triage, service, ML, RAG, copilot and governance",
+    "schema": "scenario_id, subsystem, interface_version, input, output, contract_test_status, e2e_status",
+    "size": "One end-to-end scenario with twelve subsystem traces",
+    "license": "Synthetic / CC0",
+    "piiRisk": "No real PII"
+  },
+  "acceptanceCriteria": [
+    "Twelve upstream capstones integrated via explicit versioned interfaces.",
+    "Subsystem boundaries documented.",
+    "API or event contracts present.",
+    "Contract tests pass.",
+    "Dependency graph present.",
+    "Shared synthetic scenario present.",
+    "Reproducible deployment present.",
+    "End-to-end tests pass.",
+    "Security and privacy controls present.",
+    "Observability present.",
+    "Backup and restore demonstrated.",
+    "Rollback demonstrated.",
+    "Disaster exercise executed.",
+    "ADRs present.",
+    "Architecture diagrams present.",
+    "Data card, model card and system card present.",
+    "Threat model present.",
+    "Operational runbook present.",
+    "Concise demo present.",
+    "Technical defence delivered.",
+    "Personal contribution statement present.",
+    "Truthful CV narrative present (no unsupported claims)."
+  ],
+  "criticalCriteria": [
+    "Twelve upstream capstones integrated via explicit versioned interfaces (not a folder of repos).",
+    "Contract tests + dependency graph + shared synthetic scenario.",
+    "Backup, restore, rollback and disaster exercise executed.",
+    "System card aggregating data/model/system cards + threat model + runbook.",
+    "No unsupported claim of fraud prevention, money saved, real-org improvement, production accuracy or enterprise scale."
+  ],
+  "securityRequirements": [
+    "No secrets",
+    "Threat model present",
+    "Dependency scanning",
+    "Redacted logs"
+  ],
+  "privacyRequirements": [
+    "No real PII",
+    "Synthetic scenario",
+    "Access controls"
+  ],
+  "accessibilityRequirements": [
+    "Platform UX is accessible",
+    "Cards and runbook are accessible"
+  ],
+  "responsibleUseRequirements": [
+    "No unsupported claims",
+    "Truthful contribution statement",
+    "Disaster exercise"
+  ],
+  "testRequirements": [
+    "Contract tests (one per interface)",
+    "End-to-end test",
+    "Backup/restore test",
+    "Rollback test",
+    "Disaster-exercise test",
+    "No-go-condition test"
+  ],
+  "demoRequirements": [
+    "End-to-end demo recorded",
+    "Backup/restore/rollback demonstrated",
+    "Disaster exercise recorded",
+    "Technical defence delivered"
+  ],
+  "rubric": {
+    "version": "1.1.0",
+    "passThreshold": 80,
+    "criteria": [
+      {
+        "id": "F",
+        "name": "Functional correctness",
+        "weight": 0.129,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "All acceptance criteria pass on the canonical fixtures."
+          },
+          {
+            "level": "Adequate",
+            "description": "Core paths pass; minor edge cases fail with a clear reason."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Core paths fail or behave non-deterministically."
+          }
+        ]
+      },
+      {
+        "id": "D",
+        "name": "Data and failure handling",
+        "weight": 0.086,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Malformed input quarantined; denominators correct; failures explained."
+          },
+          {
+            "level": "Adequate",
+            "description": "Failures handled but reasons are thin."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Failures crash the program or lose data."
+          }
+        ]
+      },
+      {
+        "id": "T",
+        "name": "Testing (normal, boundary, failure)",
+        "weight": 0.1,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Normal, boundary and failure tests present and passing."
+          },
+          {
+            "level": "Adequate",
+            "description": "Happy-path tests only, or boundary tests missing."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No meaningful tests, or tests fabricated."
+          }
+        ]
+      },
+      {
+        "id": "A",
+        "name": "Architecture and maintainability",
+        "weight": 0.071,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Clear module boundaries; typed contracts; small functions."
+          },
+          {
+            "level": "Adequate",
+            "description": "Readable but with some coupling."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Monolithic, hard to extend or test."
+          }
+        ]
+      },
+      {
+        "id": "R",
+        "name": "Reproducibility",
+        "weight": 0.071,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Reproduces from a clean environment in one command."
+          },
+          {
+            "level": "Adequate",
+            "description": "Reproduces with manual steps."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Cannot reproduce outside the author's machine."
+          }
+        ]
+      },
+      {
+        "id": "S",
+        "name": "Security and privacy",
+        "weight": 0.086,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "No secrets; synthetic data; least privilege; secure logging."
+          },
+          {
+            "level": "Adequate",
+            "description": "Minor gaps with documented remediation."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Exposed secret, real PII, or unsafe operation."
+          }
+        ]
+      },
+      {
+        "id": "U",
+        "name": "Responsible use",
+        "weight": 0.071,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "No unsupported inference; human review; correction mechanism."
+          },
+          {
+            "level": "Adequate",
+            "description": "Mostly responsible with one unclear claim."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Automated adverse decision or unsupported causal claim."
+          }
+        ]
+      },
+      {
+        "id": "E",
+        "name": "Evidence and observability",
+        "weight": 0.057,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Inspectible traces, manifests, and lineage."
+          },
+          {
+            "level": "Adequate",
+            "description": "Some evidence present but incomplete."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No inspectible evidence."
+          }
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Communication and demonstration",
+        "weight": 0.043,
+        "critical": false,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Clear brief, demo and limitations; truthful CV narrative."
+          },
+          {
+            "level": "Adequate",
+            "description": "Demonstrable but with unclear framing."
+          },
+          {
+            "level": "Insufficient",
+            "description": "No demo or misleading claims."
+          }
+        ]
+      },
+      {
+        "id": "12",
+        "name": "Twelve upstream capstones integrated via explicit versioned interfaces",
+        "weight": 0.071,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Criterion fully satisfied with inspectable evidence."
+          },
+          {
+            "level": "Adequate",
+            "description": "Criterion partially satisfied."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Criterion not satisfied."
+          }
+        ]
+      },
+      {
+        "id": "CT",
+        "name": "Contract tests + dependency graph + shared synthetic scenario",
+        "weight": 0.071,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Criterion fully satisfied with inspectable evidence."
+          },
+          {
+            "level": "Adequate",
+            "description": "Criterion partially satisfied."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Criterion not satisfied."
+          }
+        ]
+      },
+      {
+        "id": "DR",
+        "name": "Backup, restore, rollback and disaster exercise executed",
+        "weight": 0.071,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Criterion fully satisfied with inspectable evidence."
+          },
+          {
+            "level": "Adequate",
+            "description": "Criterion partially satisfied."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Criterion not satisfied."
+          }
+        ]
+      },
+      {
+        "id": "SC",
+        "name": "System card aggregating data/model/system cards + threat model + runbook",
+        "weight": 0.071,
+        "critical": true,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "Criterion fully satisfied with inspectable evidence."
+          },
+          {
+            "level": "Adequate",
+            "description": "Criterion partially satisfied."
+          },
+          {
+            "level": "Insufficient",
+            "description": "Criterion not satisfied."
+          }
+        ]
+      }
+    ],
+    "criticalFailures": [
+      "Use of real confidential, personal, employer-owned or regulated information.",
+      "Committed secret or credential in the repository or logs.",
+      "Unsafe SQL or unparameterised query that enables injection.",
+      "Public sensitive attachment or unredacted PII in outputs.",
+      "Automatic unsupported fraud, kinship, collusion, criminal-association, beneficial-ownership or causal-relationship inference.",
+      "Unapproved external side effect (email send, API call, file mutation).",
+      "Fabricated test evidence or a ledger substituted for execution evidence.",
+      "Inaccessible core workflow (no keyboard operation, colour-only encoding).",
+      "Unresolved critical security, privacy or responsible-use defect.",
+      "Final demonstration that cannot be reproduced from the artifact repo.",
+      "Final project is a folder of twelve unrelated repositories without explicit interfaces.",
+      "Unsupported claim that the learner prevented fraud, saved money, improved a real organisation, achieved production accuracy, or operated at enterprise scale."
+    ]
+  },
+  "remediationPaths": [
+    "If interfaces are implicit: extract and version them",
+    "If rollback is unproven: execute a drill and record it",
+    "If claims are inflated: rewrite the CV narrative to report only demonstrated work"
+  ],
+  "badgeDependencies": [
+    "B-N1-A",
+    "B-N1-B",
+    "B-N1-C",
+    "B-N2-A",
+    "B-N2-B",
+    "B-N2-C",
+    "B-N3-A",
+    "B-N3-B",
+    "B-N3-C",
+    "B-N4-A",
+    "B-N4-B",
+    "B-N4-C"
+  ],
+  "finalIntegrationInterfaces": [
+    "intake ← CP-N1-A",
+    "data quality and ETL ← CP-N1-B",
+    "review surface (familiarity evidence) ← CP-N1-C",
+    "analytics and EDA ← CP-N2-A",
+    "reporting ← CP-N2-B",
+    "automation ← CP-N2-C",
+    "entity resolution ← CP-N3-A",
+    "relationship evidence ← CP-N3-B",
+    "case triage ← CP-N3-C",
+    "service platform ← CP-N4-A",
+    "data and ML operations ← CP-N4-B",
+    "RAG, agentic copilot and governance ← CP-N4-C (sub-gates S49/S50/S51) + all upstream cards"
+  ],
+  "status": "implemented",
+  "redactionPasses": {
+    "en": 2,
+    "es": 2,
+    "lastUpdated": "2026-07-30"
+  }
+}
