@@ -581,6 +581,7 @@ export function UserMenu({ onOpenAuth }: { onOpenAuth: () => void }) {
 
   useEffect(() => {
     if (!firebaseAuth) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCheckedFirebase(true)
       return
     }

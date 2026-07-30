@@ -76,7 +76,6 @@ export function AdminFeedbackPanel() {
 
   useEffect(() => {
     // The effect synchronizes filters with the remote feedback data source.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load()
   }, [load])
 

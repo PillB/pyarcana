@@ -1655,6 +1655,7 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
 
   // Reset visible count when filters change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisibleCount(INITIAL_VISIBLE)
     setActiveKeyboardIndex(-1)
   }, [search, typeFilter, levelFilter, sectionFilter, topicFilter])
