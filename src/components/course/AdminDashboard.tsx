@@ -143,7 +143,6 @@ export function AdminDashboard() {
 
   useEffect(() => {
     // The effect synchronizes this view with the remote admin data source.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load()
   }, [load])
 
