@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.nvidia.com/en-us/about-nvidia/careers",
+    "name": "Like no Place You've Ever Worked",
+    "snippet": "Help companies of all sizes embrace industry-changing technologies like RAPIDS to analyze massive amounts of data to make better, faster business decisions. Read more",
+    "host_name": "www.nvidia.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.nvidia.com/cuda",
+    "name": "CUDA Platform for Accelerated Computing",
+    "snippet": "NVIDIA CUDA provides the software layer. Python developers can build robust GPU applications directly in Python . enable developers to build, debug, profile, ...",
+    "host_name": "developer.nvidia.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite/job/Senior-Deep-Learning-Frameworks-CUDA-Software-Engineer_JR2017369",
+    "name": "Senior Deep Learning Frameworks CUDA Software Engineer",
+    "snippet": "We are looking for a motivated Deep Learning engineer to bring advanced CUDA features and Distributed Runtime technologies into AI stacks, including PyTorch, ... Read more",
+    "host_name": "nvidia.wd5.myworkdayjobs.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/CUDA/comments/1pbadfj/what_is_the_best_way_to_become_a_cudagpu_kernel",
+    "name": "What is the best way to become a CUDA/GPU Kernel",
+    "snippet": "Hello. I'm very interested to become a CUDA or GPU engineer. Currently, I'm working as a software engineer and studying Master's in Computer Engineering. ...",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/jobs/view/senior-software-engineer-cuda-python-core-libraries-at-nvidia-4440605052",
+    "name": "Senior Software Engineer, CUDA Python Core Libraries",
+    "snippet": "4 days ago — We are hiring a Senior Software Engineer to advance the Python experience for CUDA Core Libraries . You will build Pythonic APIs, language ... Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ziprecruiter.com/Jobs/Cuda-Machine-Learning-Performance-Engineer",
+    "name": "Cuda Machine Learning Performance Engineer Jobs",
+    "snippet": "The Cuda Machine Learning Performance Engineer specializes in optimizing machine learning models for GPU hardware using CUDA , focusing on ... Read more",
+    "host_name": "www.ziprecruiter.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://bebee.com/us/jobs/senior-software-engineer-cuda-deep-learning-systems-santa-clara-nvidia-santa-clara-ca--jooble-3508648120304674025",
+    "name": "Senior Software Engineer, CUDA Deep Learning Systems",
+    "snippet": "2 days ago — Strong proficiency in C++ and Python programming .Solid background in the fundamentals of Deep Learning with a focus on transformers.Strong ... Read more",
+    "host_name": "bebee.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.nvidia.com/deep-learning-software",
+    "name": "Deep Learning Software",
+    "snippet": "CUDA-X AI is a complete deep learning software stack for researchers and software developers to build high performance GPU-accelerated applications",
+    "host_name": "developer.nvidia.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

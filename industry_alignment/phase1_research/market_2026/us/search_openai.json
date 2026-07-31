@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://openai.com/careers/software-engineer-api-sdk-seattle",
+    "name": "Software Engineer, API SDK",
+    "snippet": "We are looking for a software engineer to help build the official SDKs that power the OpenAI API. Currently offered in Python , Node.js, Golang, Java, and Ruby",
+    "host_name": "openai.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/software-engineer-productivity-model-performance-san-francisco",
+    "name": "Software Engineer, Productivity - Model Performance",
+    "snippet": "You are strong in Python and enjoy building reliable, scalable developer tools and infrastructure. You have experience improving large-scale engineering ...",
+    "host_name": "openai.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/software-engineer-codex-enterprise-london-uk",
+    "name": "Software Engineer, Codex Enterprise",
+    "snippet": "Codex we're building an AI software engineer . Are proficient in one or more backend languages (e.g., Python, Go, Rust) and distributed systems concepts, with a ...",
+    "host_name": "openai.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/software-engineer-research-developer-productivity-san-francisco",
+    "name": "Software Engineer, Research Developer Productivity",
+    "snippet": "Are a proficient Python programmer working in large monorepos . Are proficient with Docker and Kubernetes. Experienced in CI/CD. About OpenAI. OpenAI is an AI ...",
+    "host_name": "openai.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/chatgpt-performance-engineer-san-francisco",
+    "name": "ChatGPT Performance Engineer",
+    "snippet": "In this role, you will: Analyze and optimize performance across application, middleware, runtime, and infrastructure layers—networking, storage, Python runtime, ...",
+    "host_name": "openai.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/software-engineer-enterprise-ai-platform-san-francisco",
+    "name": "Software Engineer, Enterprise AI Platform",
+    "snippet": "We're looking for a hands-on engineer who is strong in Python , system design, enterprise integrations, data architecture, and applied AI systems.",
+    "host_name": "openai.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/software-engineer-product-engineering-(internal-apps)-san-francisco",
+    "name": "Software Engineer, Product Engineering (Internal Apps)",
+    "snippet": "We build internal applications and workflows for Finance and Supply Chain. Our work spans product discovery, React and TypeScript interfaces, Python services ...",
+    "host_name": "openai.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openai.com/careers/software-engineer-hardware-san-francisco",
+    "name": "Software Engineer, Hardware",
+    "snippet": "Work across a diverse stack, primarily using Rust and Python , with opportunities to influence architecture decisions across the training framework. You ...",
+    "host_name": "openai.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

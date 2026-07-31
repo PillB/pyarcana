@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://github.com/datawhalechina/llm-universe",
+    "name": "LLM Universe | 动手学大模型应用开发",
+    "snippet": "本项目对学习者的人工智能基础、 算法 基础没有任何要求，仅需要掌握基本 Python 语法、掌握初级 Python 开发技能即可。 考虑到环境搭建问题，本项目提供了阿里云服务器学生 ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://zhuanlan.zhihu.com/p/987052830",
+    "name": "工业界主流大语言模型后训练(Post-Training)技术总结",
+    "snippet": "使用不同的方法将核心工具实现为 Python 对象。零样本工具可以实现为带有描述、文档示例的 Python 函数，并且 模型 只需要函数的签名和文档字符串作为上下文来生成适当的调用。",
+    "host_name": "zhuanlan.zhihu.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aicoding.csdn.net/6a28fe46662f9a54cb7c1422.html",
+    "name": "大模型开发小白必看：从Python到Langchain - AI编程社区",
+    "snippet": "2026年2月27日 — 本文作者分享了自己在学习 大模型 应用开发过程中的自学路线图，重点讲解了 Python 工程能力、调用模型能力和组织复杂流程能力的重要性，以及LLM、Prompt ...",
+    "host_name": "aicoding.csdn.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=qd1fG1Wcf4c",
+    "name": "當Python 遇上LLM API，算法都丟給AI 就好了！ | Python 程式",
+    "snippet": "This content isn't available. 當 Python 遇上LLM API， 算法 都丟給AI 就好了！ ... MIT一個實驗，扯下AI 大模型 的底褲#張良的發現. 張良的發現. New. 30K ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.51cto.com/u_16163442/14437518",
+    "name": "后端转大模型开发全攻略：Python+RAG+Fine-tuning+Agent",
+    "snippet": "2026年1月14日 — 本文为 后端 工程师转型 大模型 应用开发提供实战导向的全栈学习路径，聚焦 Python 、RAG、Fine-tuning、Agent四大核心技术，强调工程化思维而非 算法 推导， ...",
+    "host_name": "blog.51cto.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.bilibili.com/video/BV1179hYgEDL",
+    "name": "【Python教程】大语言模型应用开发-从0到1搭建一个企业级",
+    "snippet": "... 【 Python 教程】大语言 模型 应用开发-从0到1搭建一个企业级RAG ... 43-文档管理14_Unity端和 后端 联动之删除文档功能的实现; 44-文档管理 ...",
+    "host_name": "www.bilibili.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.aliyun.com/article/1704975",
+    "name": "AI 项目开发：零基础快速使用Python 调用大模型LLM API",
+    "snippet": "2026年1月9日 — API 是连接代码与AI 大模型 的桥梁。通过HTTP 向LLM API 发送Prompt，AI 思考后将结果通过API 返回。全过程无需懂深度学习，只需会写 Python 。",
+    "host_name": "developer.aliyun.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://posttrain.gaozhijun.me/docs",
+    "name": "课程总览 - 大语言模型后训练实践- 高志军",
+    "snippet": "课程简介. 后训练（Post-Training）是将预训练语言 模型 转化为实用、安全且具备推理能力的助手的关键阶段。尽管其计算量仅占预训练的5% 左右，却决定了 模型 能否真正可用 ...",
+    "host_name": "posttrain.gaozhijun.me",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

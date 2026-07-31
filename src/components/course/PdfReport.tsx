@@ -286,7 +286,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
                 <div className="flex-1">
                   <h3 className="font-semibold">Reporte de progreso detallado</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    PDF con todas tus secciones, intentos de examen, scores, tiempo y gaps. Ideal para mostrar a empleadores.
+                    PDF con todas tus secciones, intentos de examen, scores, tiempo y gaps. Ideal para tu registro de aprendizaje personal.
                   </p>
                   <Button
                     onClick={generatePDF}
@@ -605,9 +605,8 @@ function generateCertificateHTML(params: {
     <div class="body-text">Se certifica que</div>
     <div class="name">${userName}</div>
     <div class="body-text">
-      ha completado satisfactoriamente el curso <strong>PyArcana</strong>,
-      demostrando dominio de Python para Data Analysis y Data Science con método
-      pedagógico I Do / We Do / You Do.
+      ha completado ${sectionsCompleted} de ${totalSections} secciones del curso <strong>PyArcana</strong> con método
+      pedagógico I Do / We Do / You Do. Este certificado es un registro de progreso, no una certificación profesional.
     </div>
 
     <div class="stats-row">
@@ -616,12 +615,12 @@ function generateCertificateHTML(params: {
         <div class="stat-label">Secciones completadas</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">70h+</div>
-        <div class="stat-label">Contenido</div>
+        <div class="stat-value">1040h</div>
+        <div class="stat-label">Contenido total</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">11</div>
-        <div class="stat-label">Proyectos</div>
+        <div class="stat-value">13</div>
+        <div class="stat-label">Proyectos integradores</div>
       </div>
     </div>
 

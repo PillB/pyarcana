@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://talent-holding.alibaba.com/campus/position-detail?positionId=199900220060",
+    "name": "算法工程师-芯片应用算法优化",
+    "snippet": "【必备项】 1、熟悉计算机体系结构及操作系统原理，精通C或C++，同时掌握一种以上脚本开发语言，如 Python 、Perl、PHP等； 2、熟悉Linux系统环境，有Linux下的程序开发经验，熟悉 ...",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent-holding.alibaba.com/off-campus/position-detail?positionId=100007620003&amp;shareCode=UITS68RMaTn0ZIC9NHE55hnfOK9kCyNiWr2FnV6kebFToEQESOBcQGMh6tXIMh4R",
+    "name": "数据技术及产品部-AI数据处理工程师-数据",
+    "snippet": "1、具备AI+ 数据 双栈能力：精通 Python ，熟悉SQL/Shell；理解LLM、音频/视频模型 ... 2、多模态 数据 能力：熟悉图像、视频或音频中的任一模态的特征工程、理解/分类/识别 算法 ...",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent-holding.alibaba.com/off-campus/position-detail?positionId=1038409&shareCode=4PrSzpWZYVcsthKzwHqhA6QnoBwxOoGbmSLbbSTlkSY%3D",
+    "name": "智能引擎-大模型训练基础架构研发工程师/高级专家-AI Infra",
+    "snippet": "1. 工程与 算法 基础：计算机相关专业背景，有极佳的工程实现能力，精通C/C++ 与 Python ；具备扎实的 数据 结构与 算法 功底，熟练掌握GDB / Nsight 等调试与性能分析工具。 2 ...",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent-holding.alibaba.com/campus/position-detail?positionId=199900180005",
+    "name": "算法工程师-医学影像",
+    "snippet": "1. 良好的工程实现能力，熟练掌握C/C++、Java、 Python 等至少一门语言，能够提出并实现 算法 创新，并且能够在大规模综合性医学影像和临床 数据 上实现自己的 算法 并充分验证； 2.",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent-holding.alibaba.com/campus/position-detail?positionId=199900180002",
+    "name": "算法工程师-计算机视觉",
+    "snippet": "... 算法 研究和产品开发。 职位要求. 1. 极佳的工程实现能力，熟练掌握C/C++、Java、 Python 等至少一门语言，ACM/ICPC、topcoder等编程比赛获奖者优先； 2. 良好的科研能力 ...",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent-holding.alibaba.com/campus/position-detail?positionId=199900160005",
+    "name": "算法工程师-多模态",
+    "snippet": "熟悉 Python 、C++、Java等至少一门编程语言，熟悉linux环境； 5. 具备优秀的 数据 和逻辑分析能力、团队意识和沟通能力、自我驱动和抗压能力，具有强烈的求知欲和技术热情。",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent-holding.alibaba.com/off-campus/position-detail?positionId=100008580001&amp;shareCode=UITS68RMaTn0ZIC9NHE55uXa72uBP14bKhb2Mqo%2FMhPEdblYYBRuDBrErrGjxn7Q",
+    "name": "智能引擎-多模态推理平台研发工程师/专家-杭州/北京",
+    "snippet": "1. 计算机相关专业，有扎实的工程 算法 基础，精通 数据 结构和常用 算法 ，熟练掌握各种编译、调试、性能分析工具； 2. 精通 Python 及C++中至少一门语言，具备扎实的工程 ...",
+    "host_name": "talent-holding.alibaba.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://python3-cookbook.readthedocs.io/zh_CN/latest/chapters/p01_data_structures_algorithms.html",
+    "name": "第一章：数据结构和算法 - Python Cookbook",
+    "snippet": "Python 提供了大量的内置 数据 结构，包括列表，集合以及字典。大多数情况下使用这些 数据 结构是很简单的。 但是，我们也会经常碰到到诸如查询，排序和过滤等等这些普遍存在的 ...",
+    "host_name": "python3-cookbook.readthedocs.io",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

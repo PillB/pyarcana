@@ -1,0 +1,434 @@
+[
+  {
+    "source_file": "us_amazon.json",
+    "host": "www.amazon.jobs",
+    "title": "Results listed - Job search | Amazon.jobs",
+    "snippet": "Basic qualifications: 10+ years of professional or military experience. Engineering or DevOps Bachelor's degree and 7+ years of relevant cloud consulting",
+    "url": "https://www.amazon.jobs/en/search?base_query=python&loc_query=&latitude=&longitude=&loc_group_id=&invalid_location=false&country=&city=&region=&county=",
+    "date": ""
+  },
+  {
+    "source_file": "us_amazon.json",
+    "host": "www.ziprecruiter.com",
+    "title": "$38-$73/hr Aws Mlops Jobs (NOW HIRING) Jul 2026 - ZipRecruiter",
+    "snippet": "Overview Inabia is seeking an MLOps Engineer (Databricks/AWS) to design, develop, and maintain end-to-end machine learning operations ...",
+    "url": "https://www.ziprecruiter.com/Jobs/Aws-Mlops",
+    "date": ""
+  },
+  {
+    "source_file": "us_amazon.json",
+    "host": "www.amazon.jobs",
+    "title": "Software Development Engineer - 2026 (US) - Job ID: 3177934",
+    "snippet": "Basic Qualifications - Experience with at least one general-purpose programming language such as Java, Python, C++, C#, Go, Rust, or TypeScript",
+    "url": "https://www.amazon.jobs/en/jobs/3177934/software-development-engineer-2026-us",
+    "date": ""
+  },
+  {
+    "source_file": "us_anthropic.json",
+    "host": "www.anthropic.com",
+    "title": "Careers",
+    "snippet": "We're researchers, engineers, and builders from a range of disciplines, About half our technical staff had no prior ML experience; engineers here do lots of ...\nAll our papers have engineers as author",
+    "url": "https://www.anthropic.com/careers",
+    "date": ""
+  },
+  {
+    "source_file": "us_anthropic.json",
+    "host": "alignment.anthropic.com",
+    "title": "Anthropic Fellows Program for AI safety research",
+    "snippet": "Anthropic Fellows Program for AI safety research: applications open for November 2026. ”This is an exceptional opportunity to join AI safety research ...",
+    "url": "https://alignment.anthropic.com/2025/anthropic-fellows-program-2026",
+    "date": ""
+  },
+  {
+    "source_file": "us_anthropic.json",
+    "host": "www.instagram.com",
+    "title": "Work for Anthropic in 2026 Anthropic has launched their",
+    "snippet": "✓ Great opportunity to work with Anthropic researchers on high impact real world AI problems ✓ Stipend is 3800$ per week. They are primarily ...",
+    "url": "https://www.instagram.com/reel/DXQZ07thi7V",
+    "date": "May 2, 2026"
+  },
+  {
+    "source_file": "us_databricks.json",
+    "host": "www.databricks.com",
+    "title": "Current job openings at Databricks",
+    "snippet": "Explore career opportunities at Databricks . Discover open positions and join our team to innovate in data, analytics, and AI. Engineer - Data PlatformMountain. ...",
+    "url": "https://www.databricks.com/company/careers/open-positions",
+    "date": ""
+  },
+  {
+    "source_file": "us_databricks.json",
+    "host": "www.databricks.com",
+    "title": "Internships and Early Careers",
+    "snippet": "At Databricks , our interns and new graduates work on high-visibility projects that directly impact thousands of the world's most innovative companies. Read more",
+    "url": "https://www.databricks.com/company/careers/university-recruiting",
+    "date": ""
+  },
+  {
+    "source_file": "us_databricks.json",
+    "host": "careers.travelers.com",
+    "title": "Data Engineer I (Databricks, AWS, Python)",
+    "snippet": "3 days ago — Data Engineer I (Databricks, AWS, Python ) Salary Range $109,300.00 – $180,200.00 Target Openings. Showcase your skills in Python, SQL, AWS,  ...",
+    "url": "https://careers.travelers.com/job/23634363/data-engineer-i-databricks-aws-python-hartford-ct",
+    "date": ""
+  },
+  {
+    "source_file": "us_google.json",
+    "host": "deepmind.google",
+    "title": "Careers at Google DeepMind",
+    "snippet": "Research Scientists are creative and collaborat ive, bringing scientific expertise to advance GDM's mission. They hold deep theoretical knowledge\nWork alongside best-in-class engineers, leading ethici",
+    "url": "https://deepmind.google/careers",
+    "date": ""
+  },
+  {
+    "source_file": "us_google.json",
+    "host": "www.linkedin.com",
+    "title": "676 Google Deepmind jobs in Worldwide",
+    "snippet": "Student Researcher, BS/MS, Fall 2026. Google. Ann Arbor, MI. Actively Hiring ... Data Scientist, GenAI Strategy and Operations, DeepMind (Fixed-Term Contract).",
+    "url": "https://www.linkedin.com/jobs/google-deepmind-jobs-worldwide",
+    "date": ""
+  },
+  {
+    "source_file": "us_google.json",
+    "host": "www.google.com",
+    "title": "Post-Doctoral Researcher, PhD, 2026 Start, DeepMind",
+    "snippet": "The Post-Doctoral Researcher role is a 12 to 24-month role designed to explore challenging problems for pushing frontiers of AI, while collaborating with Google ...\nThe Post-Doctoral Researcher role i",
+    "url": "https://www.google.com/about/careers/applications/jobs/results/139787667129672390-postdoctoral-researcher-phd-2026-start-deepmind-fixedterm-contract",
+    "date": ""
+  },
+  {
+    "source_file": "us_meta.json",
+    "host": "www.metacareers.com",
+    "title": "Data Engineer, Product Analytics",
+    "snippet": "4+ years of experience with SQL , ETL, data modeling, and at least one programming language (e.g., Python , C++, C#, Scala, etc.) Preferred Qualifications.\nAs a Data Engineer at Meta, you will shape t",
+    "url": "https://www.metacareers.com/profile/job_details/1283364266159062",
+    "date": ""
+  },
+  {
+    "source_file": "us_meta.json",
+    "host": "www.datainterview.com",
+    "title": "Meta Data Engineer Guide (2026): Job, Salary & Interviews",
+    "snippet": "Feb 27, 2026 — →Developing foundational skills in core data engineering tools and technologies (e.g., SQL , Python , Spark). Interview Focus at This Level.\nLooking for Meta Data Engineer jobs? Get the",
+    "url": "https://www.datainterview.com/blog/meta-data-engineer-interview",
+    "date": ""
+  },
+  {
+    "source_file": "us_meta.json",
+    "host": "www.reddit.com",
+    "title": "Data Engineer Technical Screen Meta : r/dataengineering",
+    "snippet": "Advice for Meta Data Engineering Tech Screen: Your proficiency in SQL or Python doesn't directly translate to success here. The unspoken goal ...",
+    "url": "https://www.reddit.com/r/dataengineering/comments/1iwytdc/data_engineer_technical_screen_meta",
+    "date": ""
+  },
+  {
+    "source_file": "us_openai.json",
+    "host": "openai.com",
+    "title": "Careers",
+    "snippet": "Develop safe, beneficial AI systems. We're looking for curious minds from a wide range of disciplines and backgrounds. View open roles.\nOpenAI Residency is a six-month program which offers a pathway t",
+    "url": "https://openai.com/careers",
+    "date": ""
+  },
+  {
+    "source_file": "us_openai.json",
+    "host": "openai.com",
+    "title": "OpenAI Emerging Talent programs",
+    "snippet": "We offer full time roles in research, applied engineering , and product, designed for people with 0–3 years of experience. Whether you're a recent graduate",
+    "url": "https://openai.com/careers/emerging-talent",
+    "date": ""
+  },
+  {
+    "source_file": "us_openai.json",
+    "host": "www.linkedin.com",
+    "title": "OpenAI: Jobs",
+    "snippet": "$185,000.00 - $490,000.00 ; Data Engineer, Core Experimentation · $293,000.00 - $325,000.00 ; AI Deployment ...\nAI is an extremely powerful tool that must be created with safety and human needs at its",
+    "url": "https://www.linkedin.com/company/openai/jobs",
+    "date": ""
+  },
+  {
+    "source_file": "us_search1.json",
+    "host": "www.instagram.com",
+    "title": "If you're serious about becoming a data scientist in 2026, save",
+    "snippet": "Learn statistics, Python, machine learning, SQL and deep learning to become a Data Scientist. Learn Python, blockchain, prompt engineering ...\nIt's Statistics and Machine Learning. Statistics and Mach",
+    "url": "https://www.instagram.com/reel/DU3ao6CCI4D/?hl=en",
+    "date": "Mar 3, 2026"
+  },
+  {
+    "source_file": "us_search1.json",
+    "host": "365datascience.com",
+    "title": "Data Scientist Job Outlook 2026: Trends, Salaries, and Skills",
+    "snippet": "Discover the 2026 data scientist job outlook: We analyzed 1000 job postings to show you current trends, salaries, and essential skills in data science.",
+    "url": "https://365datascience.com/career-advice/career-guides/data-scientist-job-outlook-2025",
+    "date": ""
+  },
+  {
+    "source_file": "us_search1.json",
+    "host": "www.indeed.com",
+    "title": "Data scientist python sql remote jobs",
+    "snippet": "Browse 823 Data Scientist Python SQL Remote job openings. data analysis and machine learning. Proficiency in SQL and Python for data extraction, transformation ...\nBrowse 823 Data Scientist Python SQL",
+    "url": "https://www.indeed.com/q-data-scientist-python-sql-remote-jobs.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_alibaba.json",
+    "host": "www.zhipin.com",
+    "title": "「什么是数据科学家」阿里巴巴集团2026年数据科学家岗位职责",
+    "snippet": "2026年6月5日 — 职位描述 1. 和ICBU各场景的业务紧密协同, 深入理解业务和产品, 将业务和产品的问题转化成 数据 和技术的问题, 并且设计合理的解决方案;",
+    "url": "https://www.zhipin.com/job_detail/9612444ff5436df41nF_3tW-FVdQ.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_alibaba.json",
+    "host": "cn.indeed.com",
+    "title": "200 个Python 数据职位",
+    "snippet": "... 学习/深度学习的基本原理• 具备较强编程能力，熟悉 Python ，能在Linux环境下工作• 能够灵活运用... 淘宝平台事业部-AI 数据科学家 (经营方向)-物流部. Alibaba . 杭州市. 数据 ...",
+    "url": "https://cn.indeed.com/q-python-%E6%95%B0%E6%8D%AE-%E8%81%8C%E4%BD%8D.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_alibaba.json",
+    "host": "www.liepin.com",
+    "title": "2026年数据科学家招聘信息",
+    "snippet": "猎聘 2026 年 数据科学家招聘 信息,海量高薪猎头职位等你来选,了解 数据科学家 岗位要求、薪资待遇等真实 招聘 信息,找高薪职位,上猎聘！",
+    "url": "https://www.liepin.com/zpshujukexuejia",
+    "date": ""
+  },
+  {
+    "source_file": "cn_baidu.json",
+    "host": "www.zhipin.com",
+    "title": "百度飞桨(深度学习测试开发工程师)招聘",
+    "snippet": "2026年4月12日 — 百度百度飞桨(深度学习测试开发工程师)招聘 ，薪资：，地点：北京，要求：3-5年，学历：本科，福利：五险一金、补充医疗保险、定期体检、加班补助、 ...",
+    "url": "https://www.zhipin.com/job_detail/0240dc4b9e9f69981nBy2Ny1EFtZ.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_baidu.json",
+    "host": "ai-studio-static-online.cdn.bcebos.com",
+    "title": "深度学习工程师认证- 百度AI Studio - 人工智能学习与实训社区",
+    "snippet": "基本要求：1. 了解开源，熟悉机器学习及 深度学习 基本理论 2. 能够熟练开发、修改和运行 深度学习 代码，并进行 ...",
+    "url": "https://ai-studio-static-online.cdn.bcebos.com/aistudio/certification",
+    "date": ""
+  },
+  {
+    "source_file": "cn_baidu.json",
+    "host": "www.liepin.com",
+    "title": "2026年北京深度学习推理平台工程师招聘信息",
+    "snippet": "深度学习 推理框架研发 工程师 . 50-80k·15薪. Baidu 已上市. 北京-上地 3-5年 本科. 赵 ... 北京 深度学习 系统专家 招聘 北京 深度学习 优化 工程师招聘 北京 深度学习 平台架构 ...",
+    "url": "https://www.liepin.com/city-bj/zpsdxxtlptgcsxbb5moq",
+    "date": ""
+  },
+  {
+    "source_file": "cn_bytedance.json",
+    "host": "www.liepin.com",
+    "title": "2026年北京PYTHON算法工程师招聘信息",
+    "snippet": "Python 工程师. 16-30k · Python 工程师. 16-30k · Python算法工程师 （运筹算法方向）. 15-25k · python算法工程师 . 15-30k·15薪 · python算法工程师 .",
+    "url": "https://www.liepin.com/city-bj/zppythonsfgcs",
+    "date": ""
+  },
+  {
+    "source_file": "cn_bytedance.json",
+    "host": "jobs.bytedance.com",
+    "title": "大模型算法工程师-IT - 加入字节跳动",
+    "snippet": "1、本科及以上学历，计算机或统计类相关专业，1年以上 算法 研究或开发经验； 2、了解以下一个或多个场景中常见的深度学习 算法 ：推荐系统、广告系统、自然语言处理、计算机视觉； ...",
+    "url": "https://jobs.bytedance.com/experienced/position/7379181559071475978/detail?recomId=f1e7c273-2b4e-11ef-a836-00163e16e6b2&sourceJobId=7094618665286551838",
+    "date": ""
+  },
+  {
+    "source_file": "cn_bytedance.json",
+    "host": "www.zhipin.com",
+    "title": "高级算法工程师- 字节跳动",
+    "snippet": "2026年6月16日 — BOSS直聘为您提供高级 算法工程师 是做什么的以及 字节跳动2026 年高级 算法工程师 岗位职责的信息,更多关于 字节跳动 对高级 算法工程师 的 招聘 要求、岗位 ...",
+    "url": "https://www.zhipin.com/job_detail/3041c17a31d19c8d1HV63dW-GFZV.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_deepseek.json",
+    "host": "talent.deepseek.com",
+    "title": "DeepSeek 招聘",
+    "snippet": "服务端开发 工程师 （线上核心服务/Agent 后端/数据仓库） · 预训练数据 工程师 · AI 搜索算法/ 架构 工程师 · Agent Harness 团队 · Agent Infra 研发 工程师 · 前端/ ...\n© 2026 杭州深度求索人工智能基础技术研究有限公司 版权所有 浙ICP备2023025841号 浙B2-20250178 浙公网安备33010502011812号",
+    "url": "https://talent.deepseek.com",
+    "date": ""
+  },
+  {
+    "source_file": "cn_deepseek.json",
+    "host": "cn.indeed.com",
+    "title": "18 个Deepseek 职位，2026年7月31日招聘",
+    "snippet": "熟悉MoE 模型架构设计和原理，具有MoE 模型预训练或强化学习训练实操经验者优先； 3、精通 Python 及PyTorch/TensorFlow 等框架，具备Qwen、Llama、 Deepseek 等模型二次开发 ...",
+    "url": "https://cn.indeed.com/q-deepseek-%E8%81%8C%E4%BD%8D.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_deepseek.json",
+    "host": "cn.linkedin.com",
+    "title": "DeepSeek AI正在招聘全栈工程师(杭州)",
+    "snippet": "DeepSeek AI 杭州. 1 年前 成为前25 位申请者. 查看 DeepSeek AI为该职位 招聘 的员工. 已停止接受求职申请 ... 整体包含：训练和推理框架、存储和数据基建、负载均衡，高性能 ...",
+    "url": "https://cn.linkedin.com/jobs/view/%E5%85%A8%E6%A0%88%E5%B7%A5%E7%A8%8B%E5%B8%88-at-deepseek-ai-4135983657",
+    "date": ""
+  },
+  {
+    "source_file": "cn_huawei.json",
+    "host": "career.hit.edu.cn",
+    "title": "华为2027届实习生招聘计算产品线专场 - 哈工大就业网",
+    "snippet": "2026年4月20日 — 1、计算机或人工智能相关专业，参与过相关子模块的开发工作； 2、熟练运用至少一门编程语言（C++ /Java / Python /Rust等）； 3、熟悉Tensorflow/scikit- ...",
+    "url": "https://career.hit.edu.cn/zhxy-xszyfzpt/zpxx/zczphxq?id=NGE4OTI0ZDEzYWE4NGFjYzk3ZTkwNmQ3YjUxZWUwNWU=",
+    "date": ""
+  },
+  {
+    "source_file": "cn_huawei.json",
+    "host": "career.huawei.com",
+    "title": "华为招聘官网首页",
+    "snippet": "2026 -05-19. 华为 2027届顶尖 AI 人才 招聘 专项行动火热进行中！ 加入我们，一起探索 AI 的无限可能! 2026 -05-11. 关于网上出现 华为 “内推实习”等虚假信息的重要提醒. 华为 没有 ...\n华为ICT BG拥抱全面智能化时代，以“联接+计算”为战略方向，致力于打造领先世界的联接产业和坚实的算力底座为世界提供新的选择。在联接方面，持续实现“以网兴智”和“以智赋",
+    "url": "https://career.huawei.com/cn",
+    "date": ""
+  },
+  {
+    "source_file": "cn_huawei.json",
+    "host": "www.zhipin.com",
+    "title": "华为2026届校招应届生招聘AI软件开发岗位",
+    "snippet": "2026年6月29日 — 华为华为2026 届校招应届生 招聘AI 软件开发岗位 招聘 ，薪资：，地点：北京，要求：在校/应届，学历：本科，福利：交通补助、节日福利、免费班车、团建 ...",
+    "url": "https://www.zhipin.com/job_detail/07006c977a70492203Fz29y6GVZT.html",
+    "date": ""
+  },
+  {
+    "source_file": "cn_tencent.json",
+    "host": "careers.tencent.com",
+    "title": "腾讯招聘- 岗位详情",
+    "snippet": "岗位职责. 1.负责腾讯混元机器学习平台的设计与开发，包括：性能优化，持续 ... 机器学习平台研发工程师（深圳/北京/上海） 深圳. TEG 技术 五年以上工作经验 更新 ...",
+    "url": "https://careers.tencent.com/jobdesc.html?postId=2038789908503621632",
+    "date": ""
+  },
+  {
+    "source_file": "cn_tencent.json",
+    "host": "www.liepin.com",
+    "title": "2026年腾讯混元机器学习平台运维工程师招聘信息】-猎聘",
+    "snippet": "深度学习平台开发工程师（机器人）. 60-65k · 机器学习平台开发工程师. 45-70k·15薪 · 机器学习平台研发工程师.",
+    "url": "https://www.liepin.com/zptxhyjqxxptywgcsv14rv9q",
+    "date": ""
+  },
+  {
+    "source_file": "cn_tencent.json",
+    "host": "join.qq.com",
+    "title": "岗位详情| 腾讯校招",
+    "snippet": "作为机器学习方向的研究工程师，你可以： 1、了解腾讯的数据，负责海量数据的分析和挖掘工作，构建多个业务领域内的用户画像体模型； 2、负责机器学习（尤其是深度学习领域） ...",
+    "url": "https://join.qq.com/post_detail.html?postid=1149822244424536064",
+    "date": ""
+  },
+  {
+    "source_file": "assess_codesignal.json",
+    "host": "support.codesignal.com",
+    "title": "What should I expect when I take the Data Analytics",
+    "snippet": "The Data Analytics Assessment consists of 1 coding question and 14 quiz questions of varying difficulty that assess core data analysis skills.",
+    "url": "https://support.codesignal.com/hc/en-us/articles/4407377178647-What-should-I-expect-when-I-take-the-Data-Analytics-Assessment-DAA-and-how-is-it-structured",
+    "date": ""
+  },
+  {
+    "source_file": "assess_codesignal.json",
+    "host": "www.reddit.com",
+    "title": "Code Signal Data Analytics Framework Questions",
+    "snippet": "Was wondering if anyone gave the Data Analytics Framework assessment.\n\nTime crunch is a major factor I feel. The last of the questions and ability not ...",
+    "url": "https://www.reddit.com/r/datascience/comments/16z0gck/code_signal_data_analytics_framework_questions",
+    "date": "Jul 31, 2024"
+  },
+  {
+    "source_file": "assess_codesignal.json",
+    "host": "codesignal.com",
+    "title": "CodeSignal | The AI-Native Skills Platform",
+    "snippet": "Measure and understand real-world skills through validated, data-driven assessments that uncover strengths, opportunities, fit, and readiness.",
+    "url": "https://codesignal.com",
+    "date": ""
+  },
+  {
+    "source_file": "assess_leetcode.json",
+    "host": "www.reddit.com",
+    "title": "Best resources to pass HackerRank / data science coding",
+    "snippet": "Hey everyone,\n\nI'm an experienced Data Scientist and I'm looking to make a big move in my career, which means I need to crush the coding assessments ...",
+    "url": "https://www.reddit.com/r/learndatascience/comments/1pnrc1u/best_resources_to_pass_hackerrank_data_science",
+    "date": ""
+  },
+  {
+    "source_file": "assess_leetcode.json",
+    "host": "leetcode.com",
+    "title": "IBM - Data Scientist - Discuss",
+    "snippet": "Aug 22, 2020 — The congitive test was about five mini-games involving both numbers and logic. I passed all the test cases on Hackerrank . All of them. It's a 3 ...",
+    "url": "https://leetcode.com/discuss/interview-experience/805977/ibm-data-scientist",
+    "date": ""
+  },
+  {
+    "source_file": "assess_leetcode.json",
+    "host": "levelup.gitconnected.com",
+    "title": "Learnings of a LeetCode Interview in the world of 2026 with AI",
+    "snippet": "Mar 20, 2026 — Hackerrank or LeetCode tests are becoming simpler or more varied according to the tech stack they want to test , almost like snap trivia. 2026 ?  ...",
+    "url": "https://levelup.gitconnected.com/learnings-of-a-leetcode-interview-in-the-world-of-2026-with-ai-4f6332177a5d",
+    "date": ""
+  },
+  {
+    "source_file": "cert_aws.json",
+    "host": "aws.amazon.com",
+    "title": "AWS Certified Machine Learning Specialty",
+    "snippet": "Prepare for the exam . Note: This certification will be retired on March 31, 2026 . The exam prep resources are available until March 31, 2026 . Read more\nValidate your knowledge and skills in buildin",
+    "url": "https://aws.amazon.com/certification/certified-machine-learning-specialty",
+    "date": ""
+  },
+  {
+    "source_file": "cert_aws.json",
+    "host": "tiffanyjachja.medium.com",
+    "title": "How to pass the AWS Machine Learning Speciality Exam",
+    "snippet": "AWS provides an official exam guide or blueprint for each certification . Start by reviewing the AWS Certified Machine Learning",
+    "url": "https://tiffanyjachja.medium.com/how-to-pass-the-aws-machine-learning-speciality-exam-other-aws-certification-exams-3eefba3f504e",
+    "date": ""
+  },
+  {
+    "source_file": "cert_aws.json",
+    "host": "www.codecademy.com",
+    "title": "MLS-C01: AWS Certified Machine Learning - Specialty",
+    "snippet": "This certification is being retired. The last day to take this exam is March 31, 2026 . Computing Data Science Machine Learning Syllabus 7 units • 18 courses",
+    "url": "https://www.codecademy.com/learn/ext-paths/mls-c01-aws-certified-machine-learning-specialty",
+    "date": ""
+  },
+  {
+    "source_file": "cert_gcp.json",
+    "host": "cloud.google.com",
+    "title": "Professional ML Engineer Certification | Learn - Google Cloud",
+    "snippet": "Length: Two hours Registration fee: $200 (plus. Languages: English, Japanese Exam format: 50-60 multiple choice and multiple select questions. The exam guide ...",
+    "url": "https://cloud.google.com/learn/certification/machine-learning-engineer",
+    "date": ""
+  },
+  {
+    "source_file": "cert_gcp.json",
+    "host": "discuss.google.dev",
+    "title": "Google Cloud's Professional ML Engineer (PMLE) Exam",
+    "snippet": "This comprehensive guide is designed to help you conquer the PMLE exam in 30 days. Exam preparation and time management tips. June 29, 2026 ...",
+    "url": "https://discuss.google.dev/t/google-clouds-professional-ml-engineer-pmle-exam-how-i-passed-in-30-days-and-you-can-too/179510",
+    "date": ""
+  },
+  {
+    "source_file": "cert_gcp.json",
+    "host": "services.google.com",
+    "title": "[PDF] Professional Machine Learning Engineer Exam Guide - Google",
+    "snippet": "Certification exam guide as of June 1, 2026. A Professional Machine Learning (ML) Engineer builds, evaluates, productionizes, and optimizes. AI solutions ...",
+    "url": "https://services.google.com/fh/files/misc/professional_machine_learning_engineer_exam_guide_english_new.pdf",
+    "date": ""
+  },
+  {
+    "source_file": "cert_tf.json",
+    "host": "medium.com",
+    "title": "Passing the TensorFlow Developer Exam | by Lois Leal",
+    "snippet": "This is a different exam because it is hands-on type which can be taken online and needed to be finished in a 5-hour time limit.",
+    "url": "https://medium.com/analytics-vidhya/passing-the-tensorflow-developer-exam-c1b0ede20240",
+    "date": ""
+  },
+  {
+    "source_file": "cert_tf.json",
+    "host": "www.mrdbourke.com",
+    "title": "How I got TensorFlow Developer Certified (and how you",
+    "snippet": "Jun 6, 2020 — Update – As of June 23 2021, the exam now requires TensorFlow 2.5 & Python 3.8, see the set up your environment handbook for more.",
+    "url": "https://www.mrdbourke.com/how-i-got-tensorflow-developer-certified",
+    "date": ""
+  },
+  {
+    "source_file": "cert_tf.json",
+    "host": "www.tensorflow.org",
+    "title": "Receive the TensorFlow Developer Certificate",
+    "snippet": "Demonstrate your level of proficiency in using TensorFlow to solve deep learning and ML problems by passing the TensorFlow Certificate program.",
+    "url": "https://www.tensorflow.org/certificate",
+    "date": ""
+  }
+]

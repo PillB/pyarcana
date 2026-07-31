@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.databricks.com/company/careers/engineering---pipeline/-staff-data-scientist---trust-and-safety-8178287002",
+    "name": "Staff Data Scientist - Trust and Safety",
+    "snippet": "Experience deploying Data Science / ML solutions in production to achieve results. Coding skills in SQL and a software development language (preferably Python) ...",
+    "host_name": "www.databricks.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/engineering---pipeline/senior-data-scientist--5634684002",
+    "name": "Senior Data Scientist",
+    "snippet": "Proficient in data analysis and visualization using tools like R and Python . Experience with distributed data processing systems like Spark and Hadoop, and ...",
+    "host_name": "www.databricks.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/engineering---pipeline/staff-data-scientist---infrastructure-7069793002",
+    "name": "Staff Data Scientist - Infrastructure",
+    "snippet": "Strong coding skills in Python and SQL; Experience with distributed data processing systems like Spark and familiarity with software engineering principles ...",
+    "host_name": "www.databricks.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/engineering---pipeline/senior-machine-learning-engineer---genai-platform--6954585002",
+    "name": "Senior Machine Learning Engineer - GenAI Platform",
+    "snippet": "4+ years of hands-on programming experience with at least one modern language such as Python , Scala, Go, or C++ Strong sense of distributed systems design",
+    "host_name": "www.databricks.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/support/senior-ml--ai-technical-solutions-engineer--7845325002",
+    "name": "Senior ML & AI Technical Solutions Engineer",
+    "snippet": "For 8+ years of experience designing, building, and scaling Data, Machine Learning, and AI systems on-premises and in the cloud using Python, Scala, and Java",
+    "host_name": "www.databricks.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/field-engineering---fe-direct-enterprise/sr-solutions-engineer--8629113002",
+    "name": "Sr. Solutions Engineer",
+    "snippet": "Experienced at designing, architecting, and presenting data systems for customers and managing the delivery of production solutions of those data architectures.",
+    "host_name": "www.databricks.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/field-engineering---fe-direct-regulated/sr-solutions-engineer---public-sector-defense-industrial-base-8584983002",
+    "name": "Sr. Solutions Engineer - Public Sector (Defense Industrial",
+    "snippet": "As a team, we have expertise in cloud platforms, data engineering , data analytics, and data science and machine learning . ... Python , Scala, Java, SQL, or R ...",
+    "host_name": "www.databricks.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.databricks.com/company/careers/sales-operations/ai-engineer--gtm-analytics-8638847002",
+    "name": "AI Engineer — GTM Analytics",
+    "snippet": "7+ years of software and AI engineering related experience. Solid fundamentals in Python and SQL. Hands-on",
+    "host_name": "www.databricks.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]
