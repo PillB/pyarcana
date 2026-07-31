@@ -97,8 +97,7 @@ retriable_truth object + relational`,
       callout: {
         type: "tip",
         title: "Contrato local: stores",
-        content:
-          "Si el reintento del job lee status solo desde cache, el ADR de persistencia está roto. La verdad durable es object store + relacional; el TTL del cache no se audita como fuente.",
+        content: "Evidencia mínima de S45-T1-A: Si el reintento del job lee status solo desde cache, el ADR de persistencia está roto. La verdad durable es object store + relacional; el TTL del cache no se audita como fuente.",
       },
     },
     {
@@ -132,8 +131,7 @@ restore_breach False`,
       callout: {
         type: "tip",
         title: "Contrato local: restore",
-        content:
-          "Un backup sin restore ensayado no es evidencia. Compara `backup_age_h` con RPO y `restore_minutes` con RTO; si el drill falla, declara riesgo de pérdida de datos, no un warning opcional.",
+        content: "Antes de promover S45-T1-B, Un backup sin restore ensayado no es evidencia. Compara `backup_age_h` con RPO y `restore_minutes` con RTO; si el drill falla, declara riesgo de pérdida de datos, no un warning opcional.",
       },
     },
     {
@@ -178,8 +176,7 @@ no_redeliver_if_acked False`,
       callout: {
         type: "tip",
         title: "Contrato local: colas",
-        content:
-          "At-least-once + visibility timeout: el ack va **después** del efecto durable. Sin idempotency key, una reentrega puede reimprimir el PDF del reporte sintético.",
+        content: "La revisión de S45-T2-A conserva que At-least-once + visibility timeout: el ack va **después** del efecto durable. Sin idempotency key, una reentrega puede reimprimir el PDF del reporte sintético.",
       },
     },
     {
@@ -214,8 +211,7 @@ order per_partition`,
       callout: {
         type: "tip",
         title: "Contrato local: DLQ",
-        content:
-          "Poison tras N intentos → estado terminal en DLQ con evidencia. Reintentar sin store de dedup produce doble side-effect; borrar el mensaje sin audit trail no es contención.",
+        content: "Contrato S45-T2-B: Poison tras N intentos → estado terminal en DLQ con evidencia. Reintentar sin store de dedup produce doble side-effect; borrar el mensaje sin audit trail no es contención.",
       },
     },
     {
@@ -248,8 +244,7 @@ network private`,
       callout: {
         type: "tip",
         title: "Contrato local: escala",
-        content:
-          "Escala por lag de cola cuando el backlog cruza el umbral; con lag bajo observa CPU. Workers por encima de cuota o sin backpressure rompen el SLO antes de que el dashboard lo note.",
+        content: "Para S45-T3-A, Escala por lag de cola cuando el backlog cruza el umbral; con lag bajo observa CPU. Workers por encima de cuota o sin backpressure rompen el SLO antes de que el dashboard lo note.",
       },
     },
     {
@@ -279,8 +274,7 @@ least_privilege_actions ['object:get', 'queue:ack']`,
       callout: {
         type: "tip",
         title: "Contrato local: IAM y egress",
-        content:
-          "Least privilege se demuestra con allowlist de acciones y hosts, más prueba negativa de `iam:admin` y de un host desconocido. Un print de `least_privilege=True` sin denegaciones no es evidencia.",
+        content: "Promoción de S45-T3-B: Least privilege se demuestra con allowlist de acciones y hosts, más prueba negativa de `iam:admin` y de un host desconocido. Un print de `least_privilege=True` sin denegaciones no es evidencia.",
       },
     },
     {
@@ -315,8 +309,7 @@ unexpected_destroy False`,
       callout: {
         type: "tip",
         title: "Contrato local: plan IaC",
-        content:
-          "Acepta el plan solo si declared == planned, el entorno es dev/staging/prod, no hay secretos en claro y no hay destroys inesperados. Rechazar un plan malo es el contrato; «aplicar y ver» no lo es.",
+        content: "El dueño de S45-T4-A acepta que Acepta el plan solo si declared == planned, el entorno es dev/staging/prod, no hay secretos en claro y no hay destroys inesperados. Rechazar un plan malo es el contrato; «aplicar y ver» no lo es.",
       },
     },
     {
@@ -348,8 +341,7 @@ currency PEN`,
       callout: {
         type: "tip",
         title: "Contrato local: costo y recovery",
-        content:
-          "Cierra el lab con alarma de costo y recuperación documentadas, evidencia de `FREEZE_SCALE_OUT` cuando haga falta, y ruta humana `COST_OWNER_REVIEW` si falta export o restore. Montos en PEN sintéticos; riesgo residual y límites del laboratorio con stdlib quedan en el portfolio.",
+        content: "Cierre de S45-T4-B: Cierra el lab con alarma de costo y recuperación documentadas, evidencia de `FREEZE_SCALE_OUT` cuando haga falta, y ruta humana `COST_OWNER_REVIEW` si falta export o restore. Montos en PEN sintéticos; riesgo residual y límites del laboratorio con stdlib quedan en el portfolio.",
       },
     },
   ],
@@ -616,7 +608,7 @@ recovery_blocked False`,
         preamble:
           "- **Contexto:** en `CASO-IQU-045-1A` el job de reportes de Iquitos solo puede promoverse si el ADR de stores es correcto.\n- **Meta:** corregir el predicado `meets_contract` (blob→object, transacciones→relacional, cache no autoritativo, TTL > 0).\n- **Éxito:** imprimes exactamente `S45-T1-A PASS`.\n- **Límites:** no mutes el fixture; no inventes stores; no toques el assert; el DEFECT está en el booleano, no en los datos.",
         instruction:
-          "1. Abre el starter: `meets_contract` da PASS con cache autoritativo (DEFECT invertido).\n2. Exige `blob_store == \"object\"` y `transactions == \"relational\"`.\n3. Añade `not cache_authoritative` y `cache_ttl_s > 0`.\n4. Conserva el print `S45-T1-A` y el status PASS/REDESIGN_PERSISTENCE.",
+          "S45-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` da PASS con cache autoritativo (DEFECT invertido).\n2. Exige `blob_store == \"object\"` y `transactions == \"relational\"`.\n3. Añade `not cache_authoritative` y `cache_ttl_s > 0`.\n4. Conserva el print `S45-T1-A` y el status PASS/REDESIGN_PERSISTENCE.",
         hint: "El starter marca PASS cuando el cache es la verdad: invierte ese criterio. El blob del reporte va a object; el status, a relacional.",
         hints: [
           "Si `cache_authoritative` o `transactions == \"cache\"` dan PASS, el predicado está al revés del ADR de T1-A.",
@@ -660,7 +652,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de persistencia en Iquitos no trata igual un ADR limpio, uno con cache como verdad y un registro incompleto.\n- **Meta:** implementar `assess` que distinga PASS, REDESIGN_PERSISTENCE y MISSING:cache_ttl_s.\n- **Éxito:** imprime `PASS REDESIGN_PERSISTENCE MISSING:cache_ttl_s` en ese orden.\n- **Límites:** si falta `cache_ttl_s`, no evalúes el ADR; no inventes el campo; missing ≠ «aceptar».",
         instruction:
-          "1. Revisa el starter: con datos completos aprueba cache autoritativo (bug).\n2. Primero: claves required; si falta alguna → `MISSING:…`.\n3. Luego: object + relacional + cache no autoritativo + TTL > 0 → PASS; si no → REDESIGN_PERSISTENCE.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S45-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con datos completos aprueba cache autoritativo (bug).\n2. Primero: claves required; si falta alguna → `MISSING:…`.\n3. Luego: object + relacional + cache no autoritativo + TTL > 0 → PASS; si no → REDESIGN_PERSISTENCE.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Orden de ramas: schema primero (`MISSING:…`), contenido después. No leas `cache_ttl_s` si el campo no está.",
         hints: [
           "Si falta `cache_ttl_s`, devuelve `MISSING:cache_ttl_s` sin evaluar el ADR.",
@@ -721,7 +713,7 @@ print(*results)
         preamble:
           "- **Contexto:** el control plane del job decide si el ADR **sigue** o se detiene: no hay «seguir con warning».\n- **Meta:** `decide` → CONTINUE (ADR válido), REDESIGN_PERSISTENCE (cache autoritativo), WRITE_STORE_ADR (sin TTL).\n- **Éxito:** `CONTINUE REDESIGN_PERSISTENCE WRITE_STORE_ADR`.\n- **Límites:** no inventes `cache_ttl_s`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `cache_ttl_s` → `WRITE_STORE_ADR` (no CONTINUE).\n2. Con registro completo, reutiliza el predicado object/relacional de E1/E2.\n3. Solo el ADR limpio es CONTINUE; el de cache como verdad es REDESIGN_PERSISTENCE.\n4. Imprime los tres códigos en orden.",
+          "S45-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `cache_ttl_s` → `WRITE_STORE_ADR` (no CONTINUE).\n2. Con registro completo, reutiliza el predicado object/relacional de E1/E2.\n3. Solo el ADR limpio es CONTINUE; el de cache como verdad es REDESIGN_PERSISTENCE.\n4. Imprime los tres códigos en orden.",
         hint: "Sin `cache_ttl_s` no auditas el hot-path: enruta a `WRITE_STORE_ADR` antes de mirar object/relational.",
         hints: [
           "Missing no es breach: primero schema, luego diseño. Solo el ADR object+relacional con cache no autoritativo devuelve `CONTINUE`.",
@@ -783,7 +775,7 @@ assert results == ["CONTINUE", "REDESIGN_PERSISTENCE", "WRITE_STORE_ADR"]
         preamble:
           "- **Contexto:** en `CASO-IQU-045-1B` el status relacional del job solo se promueve si el drill de restore cabe en los SLO.\n- **Meta:** corregir el predicado (consistencia read-after-write, backup_age ≤ rpo, restore ≤ rto).\n- **Éxito:** `S45-T1-B PASS`.\n- **Límites:** no mutes el fixture; no inviertas las desigualdades a propósito; no toques el assert.",
         instruction:
-          "1. Abre el starter: `meets_contract` usa `>` en RPO/RTO (DEFECT).\n2. Cámbialo a `backup_age_h <= rpo_h` y `restore_minutes <= rto_minutes`.\n3. Exige `consistency == \"read-after-write\"`.\n4. Conserva print PASS / DECLARE_DATA_LOSS_RISK.",
+          "S45-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `>` en RPO/RTO (DEFECT).\n2. Cámbialo a `backup_age_h <= rpo_h` y `restore_minutes <= rto_minutes`.\n3. Exige `consistency == \"read-after-write\"`.\n4. Conserva print PASS / DECLARE_DATA_LOSS_RISK.",
         hint: "El starter pasa cuando el backup es viejo o el restore es lento: las desigualdades de RPO/RTO están invertidas.",
         hints: [
           "PASS exige `backup_age_h ≤ rpo_h` y `restore_minutes ≤ rto_minutes`, más consistencia del status declarada.",
@@ -827,7 +819,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el auditor de recovery no confunde un drill lento con un campo ausente.\n- **Meta:** `assess` → PASS, DECLARE_DATA_LOSS_RISK, MISSING:rto_minutes.\n- **Éxito:** `PASS DECLARE_DATA_LOSS_RISK MISSING:rto_minutes`.\n- **Límites:** sin `rto_minutes` no compares RPO/RTO; no declares pérdida por un campo faltante.",
         instruction:
-          "1. Schema primero: required keys; missing → `MISSING:…`.\n2. Con datos: read-after-write + backup fresco + restore ≤ RTO → PASS.\n3. Breach de edad/minutos o consistencia eventual → DECLARE_DATA_LOSS_RISK.\n4. Imprime los tres en orden.",
+          "S45-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero: required keys; missing → `MISSING:…`.\n2. Con datos: read-after-write + backup fresco + restore ≤ RTO → PASS.\n3. Breach de edad/minutos o consistencia eventual → DECLARE_DATA_LOSS_RISK.\n4. Imprime los tres en orden.",
         hint: "Orden de ramas: sin `rto_minutes` no hay drill; devuelve MISSING antes de comparar RPO/RTO.",
         hints: [
           "Si falta `rto_minutes`, `MISSING:rto_minutes` — no declares pérdida de datos por un campo ausente.",
@@ -888,7 +880,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción no «pasas con warning» un restore sin minutos.\n- **Meta:** CONTINUE (OK), DECLARE_DATA_LOSS_RISK (breach), RUN_RESTORE_DRILL (sin rto).\n- **Éxito:** `CONTINUE DECLARE_DATA_LOSS_RISK RUN_RESTORE_DRILL`.\n- **Límites:** no inventes rto; no conviertas incertidumbre en éxito.",
         instruction:
-          "1. Missing → `RUN_RESTORE_DRILL`.\n2. Completo: reutiliza predicado de E1/E2.\n3. Solo drill dentro de SLO es CONTINUE.\n4. Imprime los tres códigos.",
+          "S45-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → `RUN_RESTORE_DRILL`.\n2. Completo: reutiliza predicado de E1/E2.\n3. Solo drill dentro de SLO es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Sin `rto_minutes` no hay drill auditable: enruta a `RUN_RESTORE_DRILL` antes de comparar RPO/RTO.",
         hints: [
           "Missing ≠ breach. Primero schema; luego backup fresco y restore dentro del RTO.",
@@ -950,7 +942,7 @@ assert results == ["CONTINUE", "DECLARE_DATA_LOSS_RISK", "RUN_RESTORE_DRILL"]
         preamble:
           "- **Contexto:** el worker de reportes (`CASO-IQU-045-2A`) solo puede acker si la política de entrega es sana.\n- **Meta:** predicado delivery at-least-once + efecto durable + acked_after_effect + key no vacía + backoff.\n- **Éxito:** `S45-T2-A PASS`.\n- **Límites:** no mutes el fixture; no borres el assert; el DEFECT está en el booleano.",
         instruction:
-          "1. Starter: PASS si `not acked_after_effect` o key vacía (DEFECT).\n2. Invierte: exige los cinco campos de la política correcta.\n3. Status PASS vs. NACK_AND_RETRY.\n4. Conserva el print.",
+          "S45-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si `not acked_after_effect` o key vacía (DEFECT).\n2. Invierte: exige los cinco campos de la política correcta.\n3. Status PASS vs. NACK_AND_RETRY.\n4. Conserva el print.",
         hint: "El DEFECT aprueba si falta ack post-efecto o la key está vacía: at-least-once sin key es side-effect duplicado en reentrega.",
         hints: [
           "Ack solo después del efecto durable; `idempotency_key` no puede ser cadena vacía y el backoff debe estar activo.",
@@ -994,7 +986,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de colas distingue política rota de política incompleta.\n- **Meta:** `assess` → PASS, NACK_AND_RETRY, MISSING:backoff.\n- **Éxito:** `PASS NACK_AND_RETRY MISSING:backoff`.\n- **Límites:** sin backoff no afirmes breach; no inventes el campo.",
         instruction:
-          "1. Schema primero → MISSING.\n2. Completo: predicado de E1 → PASS o NACK_AND_RETRY.\n3. No trates ausencia de backoff como NACK.\n4. Imprime los tres.",
+          "S45-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero → MISSING.\n2. Completo: predicado de E1 → PASS o NACK_AND_RETRY.\n3. No trates ausencia de backoff como NACK.\n4. Imprime los tres.",
         hint: "Orden de ramas: sin `backoff` no afirmas la política de entrega; MISSING antes del predicado de breach.",
         hints: [
           "Si falta `backoff`, `MISSING:backoff`. No trates la ausencia como NACK.",
@@ -1055,7 +1047,7 @@ print(*results)
         preamble:
           "- **Contexto:** ante reentrega, el consumer enruta o se detiene a inspeccionar — no «sigue con suerte».\n- **Meta:** CONTINUE / NACK_AND_RETRY / VERIFY_DELIVERY_SEMANTICS.\n- **Éxito:** `CONTINUE NACK_AND_RETRY VERIFY_DELIVERY_SEMANTICS`.\n- **Límites:** missing de backoff ≠ éxito; no inventes key.",
         instruction:
-          "1. Missing → VERIFY_DELIVERY_SEMANTICS.\n2. Completo: predicado sano → CONTINUE; roto → NACK_AND_RETRY.\n3. Imprime en orden de fixtures.\n4. No toques los datos del starter.",
+          "S45-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → VERIFY_DELIVERY_SEMANTICS.\n2. Completo: predicado sano → CONTINUE; roto → NACK_AND_RETRY.\n3. Imprime en orden de fixtures.\n4. No toques los datos del starter.",
         hint: "Sin `backoff` no puedes afirmar la política de entrega: enruta a `VERIFY_DELIVERY_SEMANTICS` antes del predicado de breach.",
         hints: [
           "Missing primero. Con datos completos, ack post-efecto + key no vacía + efecto durable → `CONTINUE`; si no → `NACK_AND_RETRY`.",
@@ -1117,7 +1109,7 @@ assert results == ["CONTINUE", "NACK_AND_RETRY", "VERIFY_DELIVERY_SEMANTICS"]
         preamble:
           "- **Contexto:** en `CASO-IQU-045-2B`, `m1,m1,m2` deben dejar processed={m1,m2} y poison con terminal en DLQ.\n- **Meta:** predicado set(message_ids)==processed_ids, len==2, ordered_partition, terminal_in_dlq.\n- **Éxito:** `S45-T2-B PASS`.\n- **Límites:** no mutes ids; no «cuentes» m1 dos veces; no toques el assert.",
         instruction:
-          "1. Starter: PASS si len(processed)==len(messages) o no terminal (DEFECT).\n2. Usa igualdad de conjuntos y exige terminal_in_dlq.\n3. Exige ordered_partition.\n4. Conserva print PASS/DEDUP_OR_DLQ.",
+          "S45-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si len(processed)==len(messages) o no terminal (DEFECT).\n2. Usa igualdad de conjuntos y exige terminal_in_dlq.\n3. Exige ordered_partition.\n4. Conserva print PASS/DEDUP_OR_DLQ.",
         hint: "El DEFECT confunde `len(processed)` con dedup real: `m1` dos veces no son dos procesados. Poison sin `terminal_in_dlq` tampoco pasa.",
         hints: [
           "Compara conjuntos: `set(message_ids) == processed_ids`. Luego exige orden por partición y terminal en DLQ.",
@@ -1161,7 +1153,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el auditor de mensajería no confunde «no hay flag de DLQ» con «poison mal manejado».\n- **Meta:** PASS, DEDUP_OR_DLQ, MISSING:terminal_in_dlq.\n- **Éxito:** `PASS DEDUP_OR_DLQ MISSING:terminal_in_dlq`.\n- **Límites:** sin terminal_in_dlq no evalúes dedup; missing ≠ breach.",
         instruction:
-          "1. Schema primero.\n2. Completo: set + orden + terminal → PASS.\n3. Incompleto/sin orden/sin DLQ → DEDUP_OR_DLQ.\n4. Imprime los tres.",
+          "S45-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.\n2. Completo: set + orden + terminal → PASS.\n3. Incompleto/sin orden/sin DLQ → DEDUP_OR_DLQ.\n4. Imprime los tres.",
         hint: "Orden de ramas: sin `terminal_in_dlq` no sabes si el poison terminó; MISSING antes de dedup.",
         hints: [
           "Si falta `terminal_in_dlq`, `MISSING:terminal_in_dlq`. Inspección ≠ DEDUP_OR_DLQ.",
@@ -1222,7 +1214,7 @@ print(*results)
         preamble:
           "- **Contexto:** el worker enruta poison y dups; si falta evidencia de terminal, **inspecciona** — no promueve.\n- **Meta:** CONTINUE / DEDUP_OR_DLQ / INSPECT_MESSAGE_ORDER.\n- **Éxito:** `CONTINUE DEDUP_OR_DLQ INSPECT_MESSAGE_ORDER`.\n- **Límites:** no conviertas missing en CONTINUE; no inventes terminal_in_dlq.",
         instruction:
-          "1. Missing del flag → INSPECT_MESSAGE_ORDER.\n2. Completo: predicado de E1 → CONTINUE o DEDUP_OR_DLQ.\n3. Imprime en orden.\n4. Conserva fixtures.",
+          "S45-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing del flag → INSPECT_MESSAGE_ORDER.\n2. Completo: predicado de E1 → CONTINUE o DEDUP_OR_DLQ.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `terminal_in_dlq` no sabes si el poison terminó: enruta a `INSPECT_MESSAGE_ORDER` antes de evaluar dedup.",
         hints: [
           "Missing del flag de DLQ ≠ breach. Con datos completos, set(message_ids)==processed_ids + orden + terminal → `CONTINUE`.",
@@ -1284,7 +1276,7 @@ assert results == ["CONTINUE", "DEDUP_OR_DLQ", "INSPECT_MESSAGE_ORDER"]
         preamble:
           "- **Contexto:** pico de reportes sintéticos en `CASO-IQU-045-3A`: el pool del worker debe caber en cuota y SLO.\n- **Meta:** workers ≤ cuota, backlog/workers ≤ target, red privada, backpressure activo.\n- **Éxito:** `S45-T3-A PASS`.\n- **Límites:** no mutes números del fixture; no «subas cuota» en el código; corrige solo el predicado.",
         instruction:
-          "1. Starter aprueba sobrecapacidad (DEFECT).\n2. Invierte a workers ≤ quota y lag por worker ≤ target.\n3. Exige private_network y backpressure.\n4. Conserva print PASS/APPLY_BACKPRESSURE.",
+          "S45-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter aprueba sobrecapacidad (DEFECT).\n2. Invierte a workers ≤ quota y lag por worker ≤ target.\n3. Exige private_network y backpressure.\n4. Conserva print PASS/APPLY_BACKPRESSURE.",
         hint: "El DEFECT aprueba sobrecapacidad: workers sobre cuota o sin backpressure no son carga sana.",
         hints: [
           "Capacidad OK: workers ≤ cuota, backlog/workers ≤ target, red privada y backpressure activo.",
@@ -1328,7 +1320,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el operador de plataforma no confunde «falta el flag» con «ya estás saturado».\n- **Meta:** PASS, APPLY_BACKPRESSURE, MISSING:backpressure.\n- **Éxito:** `PASS APPLY_BACKPRESSURE MISSING:backpressure`.\n- **Límites:** sin backpressure no apliques contención a ciegas; no inventes el flag.",
         instruction:
-          "1. Schema primero → MISSING.\n2. Completo: predicado de E1 → PASS o APPLY_BACKPRESSURE.\n3. Imprime los tres.\n4. Conserva fixtures (backlog 500 adverso).",
+          "S45-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero → MISSING.\n2. Completo: predicado de E1 → PASS o APPLY_BACKPRESSURE.\n3. Imprime los tres.\n4. Conserva fixtures (backlog 500 adverso).",
         hint: "Orden de ramas: sin flag de backpressure no afirmas control de carga; MISSING primero.",
         hints: [
           "Si falta `backpressure`, `MISSING:backpressure` — pide capacidad, no apliques backpressure a ciegas.",
@@ -1389,7 +1381,7 @@ print(*results)
         preamble:
           "- **Contexto:** el control plane no escala a ciegas ni promueve con flag ausente.\n- **Meta:** CONTINUE / APPLY_BACKPRESSURE / REQUEST_CAPACITY.\n- **Éxito:** `CONTINUE APPLY_BACKPRESSURE REQUEST_CAPACITY`.\n- **Límites:** missing ≠ CONTINUE; no inventes backpressure=true.",
         instruction:
-          "1. Missing → REQUEST_CAPACITY.\n2. Completo: predicado sano → CONTINUE; roto → APPLY_BACKPRESSURE.\n3. Imprime en orden.\n4. No toques datos.",
+          "S45-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_CAPACITY.\n2. Completo: predicado sano → CONTINUE; roto → APPLY_BACKPRESSURE.\n3. Imprime en orden.\n4. No toques datos.",
         hint: "Sin flag de backpressure no puedes afirmar el control de carga: enruta a `REQUEST_CAPACITY` antes del predicado de sobrecarga.",
         hints: [
           "Missing primero. Con datos completos, workers en cuota + lag por worker OK + red privada + backpressure → `CONTINUE`.",
@@ -1451,7 +1443,7 @@ assert results == ["CONTINUE", "APPLY_BACKPRESSURE", "REQUEST_CAPACITY"]
         preamble:
           "- **Contexto:** el rol del worker (`CASO-IQU-045-3B`) solo puede promoverse con prueba negativa.\n- **Meta:** requested_action ∈ allowed, private_path, egress_host ∈ egress_allow.\n- **Éxito:** `S45-T3-B PASS`.\n- **Límites:** no amplíes allowed_actions; no inventes hosts; corrige el predicado.",
         instruction:
-          "1. Starter: PASS en denegación (DEFECT).\n2. Invierte a membership + private_path.\n3. Status PASS vs. DENY_IAM_OR_EGRESS.\n4. Conserva print.",
+          "S45-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS en denegación (DEFECT).\n2. Invierte a membership + private_path.\n3. Status PASS vs. DENY_IAM_OR_EGRESS.\n4. Conserva print.",
         hint: "El DEFECT invierte la allowlist: admin o host desconocido no pueden dar PASS. La prueba negativa es la evidencia.",
         hints: [
           "PASS solo si la acción pedida está en allowlist, el path es privado y el host de egress está listado.",
@@ -1495,7 +1487,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de seguridad no confunde política incompleta con breach de acción.\n- **Meta:** PASS, DENY_IAM_OR_EGRESS, MISSING:egress_allow.\n- **Éxito:** `PASS DENY_IAM_OR_EGRESS MISSING:egress_allow`.\n- **Límites:** sin egress_allow no deniegues a ciegas; no inventes la allowlist.",
         instruction:
-          "1. Schema primero.\n2. Completo: predicado de E1 → PASS o DENY.\n3. Imprime los tres.\n4. Conserva fixture admin/unknown.example.",
+          "S45-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.\n2. Completo: predicado de E1 → PASS o DENY.\n3. Imprime los tres.\n4. Conserva fixture admin/unknown.example.",
         hint: "Orden de ramas: sin `egress_allow` la política está incompleta; MISSING antes de DENY.",
         hints: [
           "Si falta `egress_allow`, `MISSING:egress_allow` — no conviertas incertidumbre en denegación.",
@@ -1556,7 +1548,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin allowlist de egress el job no se promueve «con fe».\n- **Meta:** CONTINUE / DENY_IAM_OR_EGRESS / REQUEST_SCOPED_POLICY.\n- **Éxito:** `CONTINUE DENY_IAM_OR_EGRESS REQUEST_SCOPED_POLICY`.\n- **Límites:** missing ≠ CONTINUE; no inventes egress_allow.",
         instruction:
-          "1. Missing → REQUEST_SCOPED_POLICY.\n2. Completo: predicado sano → CONTINUE; roto → DENY.\n3. Imprime en orden.\n4. Conserva fixtures.",
+          "S45-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_SCOPED_POLICY.\n2. Completo: predicado sano → CONTINUE; roto → DENY.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `egress_allow` la política está incompleta: enruta a `REQUEST_SCOPED_POLICY` antes de denegar o aprobar.",
         hints: [
           "Missing de allowlist ≠ breach. Con datos completos, acción en set + path privado + host listado → `CONTINUE`.",
@@ -1618,7 +1610,7 @@ assert results == ["CONTINUE", "DENY_IAM_OR_EGRESS", "REQUEST_SCOPED_POLICY"]
         preamble:
           "- **Contexto:** en `CASO-IQU-045-4A` la cola y el bucket de reportes solo aplican si el plan es limpio.\n- **Meta:** declared==planned, env dev|staging|prod, sin secretos, destructive_changes==0.\n- **Éxito:** `S45-T4-A PASS`.\n- **Límites:** no mutes recursos; no «aceptes shared»; corrige el predicado.",
         instruction:
-          "1. Starter: PASS con secretos o destroys (DEFECT).\n2. Invierte y añade paridad de sets y entorno válido.\n3. Status PASS vs. REJECT_IAC_PLAN.\n4. Conserva print.",
+          "S45-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con secretos o destroys (DEFECT).\n2. Invierte y añade paridad de sets y entorno válido.\n3. Status PASS vs. REJECT_IAC_PLAN.\n4. Conserva print.",
         hint: "El DEFECT aprueba planes con secretos, entorno `shared` o destroys: un plan limpio es paridad declared==planned sin sorpresas.",
         hints: [
           "Rechaza si el entorno no es dev/staging/prod, hay secretos en el plan o `destructive_changes > 0` sin control.",
@@ -1662,7 +1654,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de IaC no confunde «no sé cuántos destroys» con «plan con secretos».\n- **Meta:** PASS, REJECT_IAC_PLAN, MISSING:destructive_changes.\n- **Éxito:** `PASS REJECT_IAC_PLAN MISSING:destructive_changes`.\n- **Límites:** sin conteo de destroys no rechaces a ciegas; no inventes el campo.",
         instruction:
-          "1. Schema primero.\n2. Completo: predicado de E1 → PASS o REJECT.\n3. Imprime los tres.\n4. Conserva env `shared` adverso.",
+          "S45-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.\n2. Completo: predicado de E1 → PASS o REJECT.\n3. Imprime los tres.\n4. Conserva env `shared` adverso.",
         hint: "Orden de ramas: sin `destructive_changes` no mides drift; MISSING antes de reject/accept.",
         hints: [
           "Si falta `destructive_changes`, `MISSING:destructive_changes` → revisión de drift, no rechazo ciego.",
@@ -1723,7 +1715,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin conteo de destroys no hay apply silencioso en el job de Iquitos.\n- **Meta:** CONTINUE / REJECT_IAC_PLAN / REVIEW_DRIFT.\n- **Éxito:** `CONTINUE REJECT_IAC_PLAN REVIEW_DRIFT`.\n- **Límites:** missing ≠ CONTINUE; no inventes destructive_changes=0.",
         instruction:
-          "1. Missing → REVIEW_DRIFT.\n2. Completo: predicado limpio → CONTINUE; plan malo → REJECT.\n3. Imprime en orden.\n4. Conserva fixtures.",
+          "S45-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_DRIFT.\n2. Completo: predicado limpio → CONTINUE; plan malo → REJECT.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `destructive_changes` no mides drift destructivo: enruta a `REVIEW_DRIFT` antes de accept/reject.",
         hints: [
           "Missing del conteo de destroys ≠ plan malo. Con datos completos, declared==planned + entorno válido + sin secretos + 0 destroys → `CONTINUE`.",
@@ -1785,7 +1777,7 @@ assert results == ["CONTINUE", "REJECT_IAC_PLAN", "REVIEW_DRIFT"]
         preamble:
           "- **Contexto:** en `CASO-IQU-045-4B` el responsable de costo congela scale-out si el forecast sintético rompe el presupuesto.\n- **Meta:** forecast_pen ≤ budget_pen, cuota OK, restore_tested y portable_export.\n- **Éxito:** `S45-T4-B PASS`.\n- **Límites:** no mutes montos PEN; no inventes restore=true; corrige el predicado.",
         instruction:
-          "1. Starter: PASS con sobrepresupuesto (DEFECT).\n2. Invierte desigualdades y exige restore + export.\n3. Status PASS vs. FREEZE_SCALE_OUT.\n4. Conserva print.",
+          "S45-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con sobrepresupuesto (DEFECT).\n2. Invierte desigualdades y exige restore + export.\n3. Status PASS vs. FREEZE_SCALE_OUT.\n4. Conserva print.",
         hint: "El DEFECT aprueba forecast > budget o cuota rota: en PEN sintéticos eso congela scale-out, no lo celebra.",
         hints: [
           "PASS: forecast_pen ≤ budget_pen, cuota bajo límite, restore ensayado y export portable.",
@@ -1829,7 +1821,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el auditor de costo no confunde «falta export» con «ya rebasaste el budget».\n- **Meta:** PASS, FREEZE_SCALE_OUT, MISSING:portable_export.\n- **Éxito:** `PASS FREEZE_SCALE_OUT MISSING:portable_export`.\n- **Límites:** sin portable_export no congeles a ciegas; no inventes el flag.",
         instruction:
-          "1. Schema primero.\n2. Completo: predicado de E1 → PASS o FREEZE.\n3. Imprime los tres.\n4. Conserva forecast 1500 adverso.",
+          "S45-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.\n2. Completo: predicado de E1 → PASS o FREEZE.\n3. Imprime los tres.\n4. Conserva forecast 1500 adverso.",
         hint: "Orden de ramas: sin `portable_export` no demuestras portabilidad; MISSING antes de FREEZE.",
         hints: [
           "Si falta `portable_export`, `MISSING:portable_export` → revisión de responsable de costo, no freeze automático.",
@@ -1890,7 +1882,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin export portable el scale-out no se «aprueba con fe» en el portfolio.\n- **Meta:** CONTINUE / FREEZE_SCALE_OUT / COST_OWNER_REVIEW.\n- **Éxito:** `CONTINUE FREEZE_SCALE_OUT COST_OWNER_REVIEW`.\n- **Límites:** missing ≠ CONTINUE; no inventes portable_export=true.",
         instruction:
-          "1. Missing → COST_OWNER_REVIEW.\n2. Completo: predicado sano → CONTINUE; roto → FREEZE_SCALE_OUT.\n3. Imprime en orden.\n4. Conserva fixtures.",
+          "S45-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → COST_OWNER_REVIEW.\n2. Completo: predicado sano → CONTINUE; roto → FREEZE_SCALE_OUT.\n3. Imprime en orden.\n4. Conserva fixtures.",
         hint: "Sin `portable_export` no demuestras portabilidad: enruta a `COST_OWNER_REVIEW` antes de congelar o aprobar.",
         hints: [
           "Missing de export ≠ sobrepresupuesto. Con datos completos, forecast ≤ budget PEN + cuota OK + restore + export → `CONTINUE`.",

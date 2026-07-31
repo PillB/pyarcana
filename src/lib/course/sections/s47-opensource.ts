@@ -534,7 +534,7 @@ no_audit False`,
         preamble:
           "- **Contexto:** en `CASO-TAC-047-1A`, el equipo de priorización en Tacna solo acepta un run si el rerun cae dentro de tolerancia con seed y params.\n- **Meta:** corregir `meets_contract` (seed presente + params no vacíos + `|metric−rerun| ≤ tol`).\n- **Éxito:** imprimes exactamente `S47-T1-A PASS` con el fixture válido.\n- **Límites:** no inventes métricas; no borres el assert; no toques los datos del fixture.",
         instruction:
-          "1. Abre el starter: `meets_contract` usa `>` (bug: aprueba lo no reproducible).\n2. Exige `record.get(\"seed\") is not None` y `bool(record[\"params\"])`.\n3. Cambia a `abs(metric - rerun_metric) <= tolerance`.\n4. Conserva el print `S47-T1-A` y el status PASS/MARK_RUN_NONREPRODUCIBLE.",
+          "S47-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `>` (bug: aprueba lo no reproducible).\n2. Exige `record.get(\"seed\") is not None` y `bool(record[\"params\"])`.\n3. Cambia a `abs(metric - rerun_metric) <= tolerance`.\n4. Conserva el print `S47-T1-A` y el status PASS/MARK_RUN_NONREPRODUCIBLE.",
         hint: "El starter usa `>` en lugar de `≤`: invierte la dirección del comparador de tolerancia y exige seed presente + params no vacíos.",
         hints: [
           "Relaciona los campos `seed`, `params`, `metric`, `rerun_metric`, `tolerance` con la regla explicada en S47-T1-A.",
@@ -578,7 +578,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de experiments en Tacna no trata igual un run limpio, uno divergente y uno sin tolerancia declarada.\n- **Meta:** implementar `assess` que distinga PASS, MARK_RUN_NONREPRODUCIBLE y MISSING:tolerance.\n- **Éxito:** imprime `PASS MARK_RUN_NONREPRODUCIBLE MISSING:tolerance` en ese orden.\n- **Límites:** si falta `tolerance`, no evalúes el delta; no inventes el campo; missing ≠ «marcar no reproducible».",
         instruction:
-          "1. Revisa el starter: con campos presentes devuelve PASS si el delta es *mayor* que tol (bug: invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: seed + params + delta ≤ tol → PASS; si no → MARK_RUN_NONREPRODUCIBLE.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S47-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes devuelve PASS si el delta es *mayor* que tol (bug: invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: seed + params + delta ≤ tol → PASS; si no → MARK_RUN_NONREPRODUCIBLE.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a tolerance debe ocurrir antes de esa rama.",
@@ -639,7 +639,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción del ranker de Tacna, un run incompleto no «sigue con warning»: o continúa con evidencia o se investiga.\n- **Meta:** `decide` → CONTINUE (reproducible), MARK_RUN_NONREPRODUCIBLE (adverso), INVESTIGATE_RANDOMNESS (sin tolerance).\n- **Éxito:** `CONTINUE MARK_RUN_NONREPRODUCIBLE INVESTIGATE_RANDOMNESS`.\n- **Límites:** no inventes `tolerance`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `tolerance` → `INVESTIGATE_RANDOMNESS` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2 (seed + params + delta ≤ tol).\n3. Solo el limpio es CONTINUE; el de params vacíos/delta alto es MARK_RUN_NONREPRODUCIBLE.\n4. Imprime los tres códigos en orden.",
+          "S47-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `tolerance` → `INVESTIGATE_RANDOMNESS` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2 (seed + params + delta ≤ tol).\n3. Solo el limpio es CONTINUE; el de params vacíos/delta alto es MARK_RUN_NONREPRODUCIBLE.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INVESTIGATE_RANDOMNESS` antes de evaluar el contenido.",
@@ -700,7 +700,7 @@ assert results == ["CONTINUE", "MARK_RUN_NONREPRODUCIBLE", "INVESTIGATE_RANDOMNE
         preamble:
           "- **Contexto:** en `CASO-TAC-047-1B`, el ranker de Tacna solo entra a la tabla de comparación si data/code/env/split/métrica están versionados y el candidato gana en holdout.\n- **Meta:** completar `meets_contract` (lineage + no latest/train/unknown + candidate > baseline).\n- **Éxito:** `S47-T1-B PASS`.\n- **Límites:** no cambies scores del fixture; no aceptes `code=latest` «por conveniencia».",
         instruction:
-          "1. Abre el starter: `not record[\"data\"] or candidate <= baseline` (bug: aprueba lo inválido).\n2. Calcula `lineage_ok` con `all(...)` sobre data/code/env/split/metric_definition.\n3. Añade `versioned` (code ≠ latest, split ≠ train, metric ≠ unknown).\n4. Exige `candidate > baseline` y conserva print/status.",
+          "S47-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `not record[\"data\"] or candidate <= baseline` (bug: aprueba lo inválido).\n2. Calcula `lineage_ok` con `all(...)` sobre data/code/env/split/metric_definition.\n3. Añade `versioned` (code ≠ latest, split ≠ train, metric ≠ unknown).\n4. Exige `candidate > baseline` y conserva print/status.",
         hint: "El DEFECT niega el data o exige candidate ≤ baseline: invierte a lineage completo + versionado (no latest/train/unknown) + candidate > baseline.",
         hints: [
           "Relaciona los campos `data`, `code`, `env`, `split`, `metric_definition`, `candidate`, `baseline` con la regla explicada en S47-T1-B.",
@@ -746,7 +746,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de comparación en Tacna separa run limpio, run no comparable y registro sin baseline.\n- **Meta:** `assess` → PASS, INVALIDATE_COMPARISON, MISSING:baseline.\n- **Éxito:** `PASS INVALIDATE_COMPARISON MISSING:baseline`.\n- **Límites:** sin baseline no evalúes candidate; no rellenes lineage vacío.",
         instruction:
-          "1. Starter: PASS si falta data o candidate ≤ baseline (bug: aprueba lo no comparable).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…` (sin tocar baseline).\n3. Luego: `lineage_ok` + `versioned` + `candidate > baseline` → PASS; si no → INVALIDATE_COMPARISON.\n4. Imprime `PASS INVALIDATE_COMPARISON MISSING:baseline` con `print(*results)`.",
+          "S47-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si falta data o candidate ≤ baseline (bug: aprueba lo no comparable).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…` (sin tocar baseline).\n3. Luego: `lineage_ok` + `versioned` + `candidate > baseline` → PASS; si no → INVALIDATE_COMPARISON.\n4. Imprime `PASS INVALIDATE_COMPARISON MISSING:baseline` con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a baseline debe ocurrir antes de esa rama.",
@@ -809,7 +809,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin baseline o con lineage roto, el promote del ranker no «sigue con fe».\n- **Meta:** `decide` → CONTINUE / INVALIDATE_COMPARISON / RESTORE_LINEAGE.\n- **Éxito:** esa tripleta exacta.\n- **Límites:** no inventes baseline; no conviertas uncertainty en CONTINUE.",
         instruction:
-          "1. Missing → RESTORE_LINEAGE (no CONTINUE).\n2. Completo: reutiliza predicado de E1/E2.\n3. Adverso (latest/train/unknown) → INVALIDATE_COMPARISON.\n4. Imprime en orden valid/invalid/uncertain.",
+          "S47-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RESTORE_LINEAGE (no CONTINUE).\n2. Completo: reutiliza predicado de E1/E2.\n3. Adverso (latest/train/unknown) → INVALIDATE_COMPARISON.\n4. Imprime en orden valid/invalid/uncertain.",
         hint: "Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RESTORE_LINEAGE` antes de evaluar el contenido.",
@@ -872,7 +872,7 @@ assert results == ["CONTINUE", "INVALIDATE_COMPARISON", "RESTORE_LINEAGE"]` ,
         preamble:
           "- **Contexto:** en `CASO-TAC-047-2A`, el ranker de Tacna solo entra a staging con firma exacta al servicio y aprobación explícita.\n- **Meta:** `meets_contract` con SERVICE_SIG + stage=staging + approved.\n- **Éxito:** `S47-T2-A PASS`.\n- **Límites:** no saltes a production; no aflojes la firma «por demo».",
         instruction:
-          "1. Starter: `not approved or stage == \"production\"` (bug: aprueba promote ilegal).\n2. Compara `input_signature` y `output_signature` con `SERVICE_SIG` del servicio.\n3. Exige `stage == \"staging\"` y `approved` truthy a la vez.\n4. Conserva el print `S47-T2-A` y el status PASS o DENY_MODEL_PROMOTION.",
+          "S47-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `not approved or stage == \"production\"` (bug: aprueba promote ilegal).\n2. Compara `input_signature` y `output_signature` con `SERVICE_SIG` del servicio.\n3. Exige `stage == \"staging\"` y `approved` truthy a la vez.\n4. Conserva el print `S47-T2-A` y el status PASS o DENY_MODEL_PROMOTION.",
         hint: "El DEFECT aprueba cuando falta approved o stage=production: exige firma igual al contrato del servicio, stage=staging y approved=True.",
         hints: [
           "Relaciona los campos `input_signature`, `output_signature`, `stage`, `approved` con la regla explicada en S47-T2-A.",
@@ -922,7 +922,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor del registry en Tacna separa promote limpio, promote ilegal y registro sin flag de aprobación.\n- **Meta:** `assess` → PASS, DENY_MODEL_PROMOTION, MISSING:approved.\n- **Éxito:** esa tripleta exacta.\n- **Límites:** sin approved no evalúes stage; no rellenes el booleano.",
         instruction:
-          "1. Starter invierte PASS/DENY cuando el record está completo.\n2. Primero `missing` de required; sin `approved` → `MISSING:approved` (no evalúes stage).\n3. Luego `sig_ok` + staging + approved → PASS; si no → DENY_MODEL_PROMOTION.\n4. Imprime la tripleta con `print(*results)`.",
+          "S47-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte PASS/DENY cuando el record está completo.\n2. Primero `missing` de required; sin `approved` → `MISSING:approved` (no evalúes stage).\n3. Luego `sig_ok` + staging + approved → PASS; si no → DENY_MODEL_PROMOTION.\n4. Imprime la tripleta con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a approved debe ocurrir antes de esa rama.",
@@ -986,7 +986,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el camino CF-4, falta de aprobación es trabajo humano, no luz verde silenciosa.\n- **Meta:** CONTINUE / DENY_MODEL_PROMOTION / REQUEST_MODEL_APPROVAL.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes approved; no sirvas production «mientras piden el OK».",
         instruction:
-          "1. Missing → REQUEST_MODEL_APPROVAL.\n2. Completo: predicado de E1/E2.\n3. Adverso → DENY_MODEL_PROMOTION.\n4. Imprime en orden.",
+          "S47-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_MODEL_APPROVAL.\n2. Completo: predicado de E1/E2.\n3. Adverso → DENY_MODEL_PROMOTION.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_MODEL_APPROVAL` antes de evaluar el contenido.",
@@ -1050,7 +1050,7 @@ assert results == ["CONTINUE", "DENY_MODEL_PROMOTION", "REQUEST_MODEL_APPROVAL"]
         preamble:
           "- **Contexto:** en `CASO-TAC-047-2B`, el artefacto del ranker solo pasa si hay sha256, features-v3 en train y serve, y card de cuatro secciones.\n- **Meta:** corregir `meets_contract` (digest + igualdad features + card ⊇ REQUIRED).\n- **Éxito:** `S47-T2-B PASS`.\n- **Límites:** no uses `latest`; no recortes la card a «use».",
         instruction:
-          "1. Starter: PASS si hay skew o card corta (bug).\n2. Exige `artifact_digest.startswith(\"sha256:\")`.\n3. `feature_version == serving_feature_version`.\n4. card ⊇ {use, limits, metrics, risks} y print PASS/REJECT.",
+          "S47-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si hay skew o card corta (bug).\n2. Exige `artifact_digest.startswith(\"sha256:\")`.\n3. `feature_version == serving_feature_version`.\n4. card ⊇ {use, limits, metrics, risks} y print PASS/REJECT.",
         hint: "El DEFECT aprueba con skew o card incompleta: exige digest sha256:, train_fv==serve_fv y card ⊇ {use,limits,metrics,risks}.",
         hints: [
           "Relaciona los campos `artifact_digest`, `feature_version`, `serving_feature_version`, `card_sections` con la regla explicada en S47-T2-B.",
@@ -1094,7 +1094,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de artefactos en Tacna distingue card completa, artefacto basura y ausencia de secciones.\n- **Meta:** PASS / REJECT_MODEL_ARTIFACT / MISSING:card_sections.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin card_sections no evalúes digest; no inventes secciones.",
         instruction:
-          "1. Starter: con campos presentes devuelve PASS si hay skew o `len(card) < 4` (bug: aprueba basura).\n2. Primero calcula `missing`; si falta `card_sections` → `MISSING:card_sections` sin mirar digest.\n3. Luego exige `startswith(\"sha256:\")`, train==serve y card ⊇ {use, limits, metrics, risks}.\n4. Imprime `PASS REJECT_MODEL_ARTIFACT MISSING:card_sections` con `print(*results)`.",
+          "S47-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: con campos presentes devuelve PASS si hay skew o `len(card) < 4` (bug: aprueba basura).\n2. Primero calcula `missing`; si falta `card_sections` → `MISSING:card_sections` sin mirar digest.\n3. Luego exige `startswith(\"sha256:\")`, train==serve y card ⊇ {use, limits, metrics, risks}.\n4. Imprime `PASS REJECT_MODEL_ARTIFACT MISSING:card_sections` con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a card_sections debe ocurrir antes de esa rama.",
@@ -1155,7 +1155,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin card no se inventan límites: se deriva a completar evidencia.\n- **Meta:** CONTINUE / REJECT_MODEL_ARTIFACT / COMPLETE_MODEL_CARD.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes secciones; no promote con latest.",
         instruction:
-          "1. Missing → COMPLETE_MODEL_CARD.\n2. Completo: predicado de E1/E2.\n3. Adverso → REJECT_MODEL_ARTIFACT.\n4. Imprime en orden.",
+          "S47-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → COMPLETE_MODEL_CARD.\n2. Completo: predicado de E1/E2.\n3. Adverso → REJECT_MODEL_ARTIFACT.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COMPLETE_MODEL_CARD` antes de evaluar el contenido.",
@@ -1216,7 +1216,7 @@ assert results == ["CONTINUE", "REJECT_MODEL_ARTIFACT", "COMPLETE_MODEL_CARD"]` 
         preamble:
           "- **Contexto:** en `CASO-TAC-047-3A`, el path batch y online del ranker de Tacna deben emitir el mismo vector sin leakage y con ≥3 contract tests.\n- **Meta:** `meets_contract` = batch==online y not leakage y tests≥3.\n- **Éxito:** `S47-T3-A PASS`.\n- **Límites:** no «promuevas con fe»; no bajes el umbral de tests.",
         instruction:
-          "1. Starter: PASS si batch≠online o leakage (bug: aprueba skew).\n2. Invierte a igualdad de features batch/online.\n3. Añade `not leakage` y `contract_tests >= 3`.\n4. Conserva print PASS/DISABLE_INCONSISTENT_SERVING.",
+          "S47-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si batch≠online o leakage (bug: aprueba skew).\n2. Invierte a igualdad de features batch/online.\n3. Añade `not leakage` y `contract_tests >= 3`.\n4. Conserva print PASS/DISABLE_INCONSISTENT_SERVING.",
         hint: "El DEFECT aprueba skew o leakage: exige batch==online, leakage=False y contract_tests ≥ 3.",
         hints: [
           "Relaciona los campos `batch_features`, `online_features`, `leakage`, `contract_tests` con la regla explicada en S47-T3-A.",
@@ -1260,7 +1260,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de features en Tacna separa paridad limpia, skew/leakage y ausencia de contract tests.\n- **Meta:** PASS / DISABLE_INCONSISTENT_SERVING / MISSING:contract_tests.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin contract_tests no evalúes paridad; no inventes tests.",
         instruction:
-          "1. Starter: PASS si batch≠online o leakage (bug: aprueba skew).\n2. Primero `missing` de required; sin `contract_tests` → `MISSING:contract_tests` sin mirar paridad.\n3. Luego batch==online y not leakage y tests≥3 → PASS; si no → DISABLE_INCONSISTENT_SERVING.\n4. Imprime `PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests`.",
+          "S47-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si batch≠online o leakage (bug: aprueba skew).\n2. Primero `missing` de required; sin `contract_tests` → `MISSING:contract_tests` sin mirar paridad.\n3. Luego batch==online y not leakage y tests≥3 → PASS; si no → DISABLE_INCONSISTENT_SERVING.\n4. Imprime `PASS DISABLE_INCONSISTENT_SERVING MISSING:contract_tests`.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
@@ -1321,7 +1321,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin contract tests no se sirve «a ciegas»: se traza el pipeline.\n- **Meta:** CONTINUE / DISABLE_INCONSISTENT_SERVING / TRACE_FEATURE_PIPELINE.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes tests; no ignores leakage.",
         instruction:
-          "1. Missing → TRACE_FEATURE_PIPELINE.\n2. Completo: predicado de E1/E2.\n3. Adverso → DISABLE_INCONSISTENT_SERVING.\n4. Imprime en orden.",
+          "S47-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → TRACE_FEATURE_PIPELINE.\n2. Completo: predicado de E1/E2.\n3. Adverso → DISABLE_INCONSISTENT_SERVING.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `TRACE_FEATURE_PIPELINE` antes de evaluar el contenido.",
@@ -1382,7 +1382,7 @@ assert results == ["CONTINUE", "DISABLE_INCONSISTENT_SERVING", "TRACE_FEATURE_PI
         preamble:
           "- **Contexto:** en `CASO-TAC-047-3B`, el ranker de Tacna solo sirve si p95≤SLO, batch 1–64 y fallback rules-* ensayado.\n- **Meta:** corregir `meets_contract` con esos cuatro chequeos.\n- **Éxito:** `S47-T3-B PASS`.\n- **Límites:** no aceptes fallback `none`; no subas batch «para ir más rápido».",
         instruction:
-          "1. Starter: PASS si p95>slo o not tested (bug).\n2. Invierte a p95 ≤ slo.\n3. Añade `1 <= batch_size <= 64` y `fallback.startswith(\"rules-\")` y tested.\n4. Conserva print PASS/ACTIVATE_SAFE_FALLBACK.",
+          "S47-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si p95>slo o not tested (bug).\n2. Invierte a p95 ≤ slo.\n3. Añade `1 <= batch_size <= 64` y `fallback.startswith(\"rules-\")` y tested.\n4. Conserva print PASS/ACTIVATE_SAFE_FALLBACK.",
         hint: "El DEFECT aprueba p95 alto o fallback none: exige p95≤slo, batch 1–64, fallback tipado (p. ej. rules-*) y fallback_tested=True.",
         hints: [
           "Relaciona los campos `p95_ms`, `slo_ms`, `batch_size`, `fallback`, `fallback_tested` con la regla explicada en S47-T3-B.",
@@ -1426,7 +1426,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de latencia en Tacna separa serving listo, breach de SLO/fallback y ausencia de evidencia de prueba de fallback.\n- **Meta:** PASS / ACTIVATE_SAFE_FALLBACK / MISSING:fallback_tested.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin fallback_tested no evalúes p95; no inventes el booleano.",
         instruction:
-          "1. Starter invierte PASS/ACTIVATE con campos presentes.\n2. Primero `missing`; sin `fallback_tested` → `MISSING:fallback_tested` (no evalúes p95).\n3. Luego p95≤slo, batch 1–64, fallback `rules-*` y tested → PASS; si no → ACTIVATE_SAFE_FALLBACK.\n4. Imprime la tripleta canónica.",
+          "S47-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte PASS/ACTIVATE con campos presentes.\n2. Primero `missing`; sin `fallback_tested` → `MISSING:fallback_tested` (no evalúes p95).\n3. Luego p95≤slo, batch 1–64, fallback `rules-*` y tested → PASS; si no → ACTIVATE_SAFE_FALLBACK.\n4. Imprime la tripleta canónica.",
         hint: "Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a fallback_tested debe ocurrir antes de esa rama.",
@@ -1487,7 +1487,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin evidencia de prueba de fallback se tunear capacidad, no se abre tráfico.\n- **Meta:** CONTINUE / ACTIVATE_SAFE_FALLBACK / TUNE_BATCH_OR_CAPACITY.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes tested; no ignores batch 512.",
         instruction:
-          "1. Missing → TUNE_BATCH_OR_CAPACITY.\n2. Completo: predicado de E1/E2.\n3. Adverso → ACTIVATE_SAFE_FALLBACK.\n4. Imprime en orden.",
+          "S47-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → TUNE_BATCH_OR_CAPACITY.\n2. Completo: predicado de E1/E2.\n3. Adverso → ACTIVATE_SAFE_FALLBACK.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `TUNE_BATCH_OR_CAPACITY` antes de evaluar el contenido.",
@@ -1548,7 +1548,7 @@ assert results == ["CONTINUE", "ACTIVATE_SAFE_FALLBACK", "TUNE_BATCH_OR_CAPACITY
         preamble:
           "- **Contexto:** en `CASO-TAC-047-4A`, el equipo abre canary al 5% del tráfico de priorización en Tacna solo si mode, quality, error y hooks están en presupuesto.\n- **Meta:** `meets_contract` con shadow/canary, traffic≤10, quality y error OK, hooks True.\n- **Éxito:** `S47-T4-A PASS`.\n- **Límites:** no uses mode full; no apagues hooks «para ir más rápido».",
         instruction:
-          "1. Starter: PASS si traffic>10 o error>max (bug).\n2. Exige mode in {shadow, canary}.\n3. traffic≤10, quality_delta ≥ −max_quality_drop, error≤max, hooks.\n4. Conserva print PASS/STOP_CANARY.",
+          "S47-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si traffic>10 o error>max (bug).\n2. Exige mode in {shadow, canary}.\n3. traffic≤10, quality_delta ≥ −max_quality_drop, error≤max, hooks.\n4. Conserva print PASS/STOP_CANARY.",
         hint: "El DEFECT aprueba mode full u over-traffic: exige mode shadow/canary, traffic≤10%, quality_delta ≥ −max_drop, error≤max y hooks=True.",
         hints: [
           "Relaciona los campos `mode`, `traffic_pct`, `quality_delta`, `max_quality_drop`, `error_rate`, `max_error_rate`, `hooks` con la regla explicada en S47-T4-A.",
@@ -1592,7 +1592,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de tráfico en Tacna separa canary sano, over-traffic y ausencia de hooks.\n- **Meta:** PASS / STOP_CANARY / MISSING:hooks.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin hooks no evalúes traffic; no inventes métricas.",
         instruction:
-          "1. Starter: PASS si traffic>10 o error>max (bug: invierte y omite mode/quality/hooks).\n2. Primero `missing`; sin `hooks` → `MISSING:hooks`.\n3. Luego mode in {shadow, canary}, traffic≤10, quality_delta ≥ −max_drop, error≤max y hooks → PASS; si no → STOP_CANARY.\n4. Imprime `PASS STOP_CANARY MISSING:hooks`.",
+          "S47-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si traffic>10 o error>max (bug: invierte y omite mode/quality/hooks).\n2. Primero `missing`; sin `hooks` → `MISSING:hooks`.\n3. Luego mode in {shadow, canary}, traffic≤10, quality_delta ≥ −max_drop, error≤max y hooks → PASS; si no → STOP_CANARY.\n4. Imprime `PASS STOP_CANARY MISSING:hooks`.",
         hint: "Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a hooks debe ocurrir antes de esa rama.",
@@ -1653,7 +1653,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin hooks se recolecta más evidencia de shadow, no se inventan paneles.\n- **Meta:** CONTINUE / STOP_CANARY / COLLECT_MORE_SHADOW_EVIDENCE.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes hooks; no abras al 100%.",
         instruction:
-          "1. Missing → COLLECT_MORE_SHADOW_EVIDENCE.\n2. Completo: predicado de E1/E2.\n3. Adverso → STOP_CANARY.\n4. Imprime en orden.",
+          "S47-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → COLLECT_MORE_SHADOW_EVIDENCE.\n2. Completo: predicado de E1/E2.\n3. Adverso → STOP_CANARY.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COLLECT_MORE_SHADOW_EVIDENCE` antes de evaluar el contenido.",
@@ -1714,7 +1714,7 @@ assert results == ["CONTINUE", "STOP_CANARY", "COLLECT_MORE_SHADOW_EVIDENCE"]` ,
         preamble:
           "- **Contexto:** en `CASO-TAC-047-4B`, el equipo restaura de `1.2.0` a `1.1.0` solo si hay features compatibles, rollback ensayado, retiro de `1.0.0` y audit entry.\n- **Meta:** `meets_contract` con current≠last_good, compatible, tested, retired y audit.\n- **Éxito:** `S47-T4-B PASS`.\n- **Límites:** no borres el trace; no marques PASS sin retired.",
         instruction:
-          "1. Starter: PASS si not compatible o not tested (bug).\n2. Exige current ≠ last_good.\n3. Añade compatible, rollback_tested, `\"1.0.0\" in retired`, audit_entry.\n4. Conserva print PASS/ROLLBACK_TO_LAST_GOOD.",
+          "S47-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not compatible o not tested (bug).\n2. Exige current ≠ last_good.\n3. Añade compatible, rollback_tested, `\"1.0.0\" in retired`, audit_entry.\n4. Conserva print PASS/ROLLBACK_TO_LAST_GOOD.",
         hint: "El DEFECT ignora last-good o retired: exige current≠last_good, features compatibles, rollback_tested, retired no vacío y audit_entry.",
         hints: [
           "Relaciona los campos `current`, `last_good`, `compatible_features`, `rollback_tested`, `retired`, `audit_entry` con la regla explicada en S47-T4-B.",
@@ -1758,7 +1758,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de restauración en Tacna separa path seguro, breach de compat/tested y ausencia de audit.\n- **Meta:** PASS / ROLLBACK_TO_LAST_GOOD / MISSING:audit_entry.\n- **Éxito:** tripleta exacta.\n- **Límites:** sin audit_entry no evalúes compatible; no inventes el flag.",
         instruction:
-          "1. Starter invierte PASS/ROLLBACK con campos presentes (bug: aprueba lo no restaurable).\n2. Primero `missing`; sin `audit_entry` → `MISSING:audit_entry` (no evalúes compatible).\n3. Luego current≠last_good, compatible, tested, `\"1.0.0\" in retired` y audit → PASS; si no → ROLLBACK_TO_LAST_GOOD.\n4. Imprime la tripleta canónica con `print(*results)`.",
+          "S47-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte PASS/ROLLBACK con campos presentes (bug: aprueba lo no restaurable).\n2. Primero `missing`; sin `audit_entry` → `MISSING:audit_entry` (no evalúes compatible).\n3. Luego current≠last_good, compatible, tested, `\"1.0.0\" in retired` y audit → PASS; si no → ROLLBACK_TO_LAST_GOOD.\n4. Imprime la tripleta canónica con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a audit_entry debe ocurrir antes de esa rama.",
@@ -1819,7 +1819,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin audit entry el retiro se revisa con humanos; no se borra el trace ni se da CONTINUE.\n- **Meta:** CONTINUE / ROLLBACK_TO_LAST_GOOD / REVIEW_RETIREMENT.\n- **Éxito:** tripleta exacta.\n- **Límites:** no inventes audit; no limpies el tablero borrando evidencia.",
         instruction:
-          "1. Missing → REVIEW_RETIREMENT.\n2. Completo: predicado de E1/E2.\n3. Adverso → ROLLBACK_TO_LAST_GOOD.\n4. Imprime en orden.",
+          "S47-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_RETIREMENT.\n2. Completo: predicado de E1/E2.\n3. Adverso → ROLLBACK_TO_LAST_GOOD.\n4. Imprime en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_RETIREMENT` antes de evaluar el contenido.",

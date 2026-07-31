@@ -94,8 +94,7 @@ need_evidence`,
       callout: {
         type: "tip",
         title: "ADR antes del loop",
-        content:
-          "Documenta workflow vs. agente con métricas locales antes de abrir el router. Sin baseline medido, el código de lab es `KEEP_DETERMINISTIC_WORKFLOW` o `RUN_AGENT_BASELINE` — no un agente libre.",
+        content: "Evidencia mínima de S49-T1-A: Documenta workflow vs. agente con métricas locales antes de abrir el router. Sin baseline medido, el código de lab es `KEEP_DETERMINISTIC_WORKFLOW` o `RUN_AGENT_BASELINE` — no un agente libre.",
       },
     },
     {
@@ -127,8 +126,7 @@ STOP_AGENT_LOOP`,
       callout: {
         type: "tip",
         title: "Cota o stop",
-        content:
-          "Si `plan_steps` supera `max_steps` o el evaluator queda en False, el run emite `STOP_AGENT_LOOP`. Sin cota no hay promote.",
+        content: "Antes de promover S49-T1-B, Si `plan_steps` supera `max_steps` o el evaluator queda en False, el run emite `STOP_AGENT_LOOP`. Sin cota no hay promote.",
       },
     },
     {
@@ -159,8 +157,7 @@ do_everything False`,
       callout: {
         type: "tip",
         title: "Catálogo auditable",
-        content:
-          "Cada tool del registry debe tener una sola responsabilidad, schema estrecho y errores tipados. Una *god-tool* bloquea el promote del agente que la invoca.",
+        content: "La revisión de S49-T2-A conserva que Cada tool del registry debe tener una sola responsabilidad, schema estrecho y errores tipados. Una *god-tool* bloquea el promote del agente que la invoca.",
       },
     },
     {
@@ -195,8 +192,7 @@ print(call_tool("prod:write", granted, "k2", store))`,
       callout: {
         type: "tip",
         title: "Un efecto, una key",
-        content:
-          "Misma `idempotency_key` ⇒ un solo side effect aunque `attempts` suba. Scope fuera del grant o error no tipado → `DENY_TOOL_CALL`.",
+        content: "Contrato S49-T2-B: Misma `idempotency_key` ⇒ un solo side effect aunque `attempts` suba. Scope fuera del grant o error no tipado → `DENY_TOOL_CALL`.",
       },
     },
     {
@@ -229,8 +225,7 @@ print(jit_context(pool, "C1", 100))`,
       callout: {
         type: "tip",
         title: "Atención acotada",
-        content:
-          "Si `context_tokens` supera el techo o falta checkpoint post-efecto, compacta y checkpointa. Sin provenance no continúes el run.",
+        content: "Para S49-T3-A, Si `context_tokens` supera el techo o falta checkpoint post-efecto, compacta y checkpointa. Sin provenance no continúes el run.",
       },
     },
     {
@@ -262,8 +257,7 @@ print(compact(before, {"budget", "no_prod_write", "paso_ruidoso"}, "cp-7"))`,
       callout: {
         type: "tip",
         title: "LKG o nada",
-        content:
-          "Si la compaction pierde una restricción crítica (`budget`, `no_prod_write`), restaura el last-known-good. Seguir sin LKG no es recovery.",
+        content: "Promoción de S49-T3-B: Si la compaction pierde una restricción crítica (`budget`, `no_prod_write`), restaura el last-known-good. Seguir sin LKG no es recovery.",
       },
     },
     {
@@ -296,8 +290,7 @@ STOP_BUDGET_EXHAUSTED steps=2 cost=0.04`,
       callout: {
         type: "tip",
         title: "Stop con razón",
-        content:
-          "Al agotar `max_steps`, `max_tokens` o `max_cost_pen`, emite `STOP_BUDGET_EXHAUSTED` con la razón en el log. No inventes techo ni éxito.",
+        content: "El dueño de S49-T4-A acepta que Al agotar `max_steps`, `max_tokens` o `max_cost_pen`, emite `STOP_BUDGET_EXHAUSTED` con la razón en el log. No inventes techo ni éxito.",
       },
     },
     {
@@ -328,8 +321,7 @@ SANDBOX_AND_STOP`,
       callout: {
         type: "tip",
         title: "HITL y anti-replay",
-        content:
-          "La acción de producción es imposible sin aprobación de esa tool; documenta riesgo residual y límites del laboratorio basado en stdlib. Conserva evidencia de `SANDBOX_AND_STOP` y de `REQUEST_HUMAN_APPROVAL`.",
+        content: "Cierre de S49-T4-B: La acción de producción es imposible sin aprobación de esa tool; documenta riesgo residual y límites del laboratorio basado en stdlib. Conserva evidencia de `SANDBOX_AND_STOP` y de `REQUEST_HUMAN_APPROVAL`.",
       },
     },
   ],
@@ -594,7 +586,7 @@ SANDBOX_AND_STOP`,
         preamble:
           "- **Contexto:** en `CASO-AYA-049-1A`, el equipo de reportes en Ayacucho solo abre un agente si el baseline no alcanza **y** el plan está justificado.\n- **Meta:** corregir `workflow_preferred` (pasos conocidos, pocas ramas, tool choice cierta, baseline ≥ agent).\n- **Éxito:** imprimes exactamente `S49-T1-A PASS` con el fixture válido.\n- **Límites:** no inventes métricas; no borres el assert; no toques los datos del fixture; no «promuevas» agente reescribiendo el status a mano.",
         instruction:
-          "1. Abre el starter: `workflow_preferred` devuelve True cuando *no* hay pasos conocidos o el agente gana (bug: invierte el ADR).\n2. Exige `known_steps`, `branch_count <= 3`, `not tool_choice_uncertain` y `baseline_success >= agent_success`.\n3. Conserva el print `S49-T1-A` y el status PASS / KEEP_DETERMINISTIC_WORKFLOW.\n4. No mutes el record del fixture.",
+          "S49-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `workflow_preferred` devuelve True cuando *no* hay pasos conocidos o el agente gana (bug: invierte el ADR).\n2. Exige `known_steps`, `branch_count <= 3`, `not tool_choice_uncertain` y `baseline_success >= agent_success`.\n3. Conserva el print `S49-T1-A` y el status PASS / KEEP_DETERMINISTIC_WORKFLOW.\n4. No mutes el record del fixture.",
         hint: "La demo de T1-A usa `known_steps and baseline >= agent`; aquí también acotas `branch_count` y `tool_choice_uncertain`.",
         hints: [
           "La demo de T1-A usa `known_steps and baseline >= agent`; aquí también acotas `branch_count` y `tool_choice_uncertain`.",
@@ -651,7 +643,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor del ADR en Ayacucho no trata igual un caso limpio, un path abierto y un registro sin métrica de agente.\n- **Meta:** implementar `assess` que distinga PASS, KEEP_DETERMINISTIC_WORKFLOW y MISSING:agent_success.\n- **Éxito:** imprime `PASS KEEP_DETERMINISTIC_WORKFLOW MISSING:agent_success` en ese orden.\n- **Límites:** si falta `agent_success`, no evalúes el predicado; no inventes el campo; missing ≠ «promover agente».",
         instruction:
-          "1. Revisa el starter: con campos presentes invierte la preferencia de workflow.\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: llama `workflow_preferred` → PASS o KEEP_DETERMINISTIC_WORKFLOW.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S49-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes invierte la preferencia de workflow.\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: llama `workflow_preferred` → PASS o KEEP_DETERMINISTIC_WORKFLOW.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a agent_success debe ocurrir antes de esa rama.",
@@ -724,7 +716,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el run de reportes de Ayacucho, un ADR incompleto no «sigue con warning»: o continúa con evidencia o pide baseline.\n- **Meta:** `decide` → CONTINUE (workflow justificado), KEEP_DETERMINISTIC_WORKFLOW (path abierto), RUN_AGENT_BASELINE (sin agent_success).\n- **Éxito:** `CONTINUE KEEP_DETERMINISTIC_WORKFLOW RUN_AGENT_BASELINE`.\n- **Límites:** no inventes `agent_success`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `agent_success` → `RUN_AGENT_BASELINE` (no CONTINUE).\n2. Con record completo, reutiliza la regla ADR de E1 (pasos conocidos, ramas acotadas, baseline ≥ agent).\n3. Solo el limpio es CONTINUE; el path abierto es KEEP_DETERMINISTIC_WORKFLOW.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `agent_success` → `RUN_AGENT_BASELINE` (no CONTINUE).\n2. Con record completo, reutiliza la regla ADR de E1 (pasos conocidos, ramas acotadas, baseline ≥ agent).\n3. Solo el limpio es CONTINUE; el path abierto es KEEP_DETERMINISTIC_WORKFLOW.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RUN_AGENT_BASELINE` antes de evaluar el contenido.",
@@ -785,7 +777,7 @@ assert results == ["CONTINUE", "KEEP_DETERMINISTIC_WORKFLOW", "RUN_AGENT_BASELIN
         preamble:
           "- **Contexto:** en `CASO-AYA-049-1B`, la ruta `report` del agente de Ayacucho solo continúa si el plan cabe en `max_steps` y el evaluator cierra en True.\n- **Meta:** corregir `bounded_loop_ok` (ruta permitida, plan ≤ max, outputs = plan, eval True).\n- **Éxito:** imprimes `S49-T1-B PASS`.\n- **Límites:** rutas solo `case`/`report`; no inventes evaluator_pass; no borres el assert.",
         instruction:
-          "1. Abre el starter: devuelve True cuando el plan *supera* max o eval falla (bug invertido).\n2. Exige `route in {case, report}`, `plan_steps <= max_steps`, `worker_outputs == plan_steps`, `evaluator_pass`.\n3. Conserva print `S49-T1-B` y status PASS/STOP_AGENT_LOOP.\n4. No mutes el fixture.",
+          "S49-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: devuelve True cuando el plan *supera* max o eval falla (bug invertido).\n2. Exige `route in {case, report}`, `plan_steps <= max_steps`, `worker_outputs == plan_steps`, `evaluator_pass`.\n3. Conserva print `S49-T1-B` y status PASS/STOP_AGENT_LOOP.\n4. No mutes el fixture.",
         hint: "Rutas válidas en el lab: `case` y `report`. El worker debe completar exactamente `plan_steps` outputs.",
         hints: [
           "Rutas válidas en el lab: `case` y `report`. El worker debe completar exactamente `plan_steps` outputs.",
@@ -842,7 +834,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de trazas en Ayacucho no confunde un loop limpio, uno desbordado y una traza sin bandera de evaluator.\n- **Meta:** `assess` → PASS, STOP_AGENT_LOOP, MISSING:evaluator_pass.\n- **Éxito:** `PASS STOP_AGENT_LOOP MISSING:evaluator_pass`.\n- **Límites:** sin `evaluator_pass` no evalúes el contenido; no inventes el campo.",
         instruction:
-          "1. Corrige `bounded_loop_ok` (hoy aprueba planes rotos).\n2. Primero `missing`; si hay → MISSING:….\n3. Completo: PASS solo si `bounded_loop_ok`; si no STOP_AGENT_LOOP.\n4. Imprime los tres con `print(*results)`.",
+          "S49-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `bounded_loop_ok` (hoy aprueba planes rotos).\n2. Primero `missing`; si hay → MISSING:….\n3. Completo: PASS solo si `bounded_loop_ok`; si no STOP_AGENT_LOOP.\n4. Imprime los tres con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a evaluator_pass debe ocurrir antes de esa rama.",
@@ -915,7 +907,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción sintética del agente de reportes, un loop sin bandera de evaluator no «sigue de verde».\n- **Meta:** `decide` → CONTINUE, STOP_AGENT_LOOP, REPLAN_WITH_BOUNDS.\n- **Éxito:** `CONTINUE STOP_AGENT_LOOP REPLAN_WITH_BOUNDS`.\n- **Límites:** no trates missing como CONTINUE; no asumas evaluator_pass.",
         instruction:
-          "1. Missing → REPLAN_WITH_BOUNDS.\n2. Completo: reutiliza la regla de loop acotado de E1/E2.\n3. Solo trayectoria limpia → CONTINUE; ruta/plan inválidos → STOP_AGENT_LOOP.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REPLAN_WITH_BOUNDS.\n2. Completo: reutiliza la regla de loop acotado de E1/E2.\n3. Solo trayectoria limpia → CONTINUE; ruta/plan inválidos → STOP_AGENT_LOOP.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REPLAN_WITH_BOUNDS` antes de evaluar el contenido.",
@@ -976,7 +968,7 @@ assert results == ["CONTINUE", "STOP_AGENT_LOOP", "REPLAN_WITH_BOUNDS"]` ,
         preamble:
           "- **Contexto:** en `CASO-AYA-049-2A`, el registry del agente de reportes solo admite lectura de caso con contrato estrecho.\n- **Meta:** corregir `is_srp_tool` (responsibilities==1, schema `{case_id}`, sin side_effect, typed_errors).\n- **Éxito:** `S49-T2-A PASS`.\n- **Límites:** no amplíes el schema a `raw`; no «arregles» el fixture; no borres el assert.",
         instruction:
-          "1. Abre el starter: True si responsibilities>1 o side_effect (bug: aprueba god-tools).\n2. Exige responsibilities==1, schema `{case_id}`, sin side_effect y typed_errors True.\n3. Conserva print `S49-T2-A` y status PASS/DISABLE_OVERBROAD_TOOL.\n4. No mutes el record.",
+          "S49-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: True si responsibilities>1 o side_effect (bug: aprueba god-tools).\n2. Exige responsibilities==1, schema `{case_id}`, sin side_effect y typed_errors True.\n3. Conserva print `S49-T2-A` y status PASS/DISABLE_OVERBROAD_TOOL.\n4. No mutes el record.",
         hint: "Compara `schema_fields` con el conjunto mínimo `{\"case_id\"}` y exige typed_errors.",
         hints: [
           "Compara `schema_fields` con el conjunto mínimo `{\"case_id\"}` y exige typed_errors.",
@@ -1033,7 +1025,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor del registry en Ayacucho clasifica tools válidas, god-tools y contratos incompletos.\n- **Meta:** `assess` → PASS, DISABLE_OVERBROAD_TOOL, MISSING:typed_errors.\n- **Éxito:** `PASS DISABLE_OVERBROAD_TOOL MISSING:typed_errors`.\n- **Límites:** sin `typed_errors` no evalúes SRP; no inventes el flag.",
         instruction:
-          "1. Corrige `is_srp_tool` (hoy acepta multi-duty).\n2. Primero missing; luego PASS/DISABLE.\n3. Reutiliza el predicado estricto de E1.\n4. Imprime los tres resultados (`print(*results)`).",
+          "S49-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `is_srp_tool` (hoy acepta multi-duty).\n2. Primero missing; luego PASS/DISABLE.\n3. Reutiliza el predicado estricto de E1.\n4. Imprime los tres resultados (`print(*results)`).",
         hint: "Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a typed_errors debe ocurrir antes de esa rama.",
@@ -1106,7 +1098,7 @@ print(*results)
         preamble:
           "- **Contexto:** antes de enganchar el catálogo al agente de Ayacucho, el gate debe fallar cerrado.\n- **Meta:** `decide` → CONTINUE, DISABLE_OVERBROAD_TOOL, SPLIT_TOOL_CONTRACT.\n- **Éxito:** `CONTINUE DISABLE_OVERBROAD_TOOL SPLIT_TOOL_CONTRACT`.\n- **Límites:** no promociones con schema ambiguo; no trates missing como CONTINUE.",
         instruction:
-          "1. Missing → SPLIT_TOOL_CONTRACT.\n2. Completo: reutiliza `is_srp_tool`; solo True → CONTINUE.\n3. God-tool / multi-side-effect → DISABLE_OVERBROAD_TOOL.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → SPLIT_TOOL_CONTRACT.\n2. Completo: reutiliza `is_srp_tool`; solo True → CONTINUE.\n3. God-tool / multi-side-effect → DISABLE_OVERBROAD_TOOL.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `SPLIT_TOOL_CONTRACT` antes de evaluar el contenido.",
@@ -1167,7 +1159,7 @@ assert results == ["CONTINUE", "DISABLE_OVERBROAD_TOOL", "SPLIT_TOOL_CONTRACT"]`
         preamble:
           "- **Contexto:** en `CASO-AYA-049-2B`, el log del agente de Ayacucho solo acepta `report:prepare` con key y un solo effect tras retry.\n- **Meta:** corregir `tool_call_ok` (schema válido, scope granted, key no vacía, effects==1, error_kind tipado).\n- **Éxito:** `S49-T2-B PASS`.\n- **Límites:** no inventes scopes; no borres el assert; attempts puede ser 2 si effects sigue en 1.",
         instruction:
-          "1. Abre el starter: True si scope *no* granted o effects>1 (bug invertido).\n2. Exige schema válido, scope en granted, key no vacía, effects==1 y error_kind ∈ {retryable, terminal}.\n3. Conserva print `S49-T2-B` y status PASS/DENY_TOOL_CALL.\n4. No mutes el fixture.",
+          "S49-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: True si scope *no* granted o effects>1 (bug invertido).\n2. Exige schema válido, scope en granted, key no vacía, effects==1 y error_kind ∈ {retryable, terminal}.\n3. Conserva print `S49-T2-B` y status PASS/DENY_TOOL_CALL.\n4. No mutes el fixture.",
         hint: "Un retry con la misma idempotency_key puede tener attempts>1, pero effects debe seguir en 1.",
         hints: [
           "Un retry con la misma idempotency_key puede tener attempts>1, pero effects debe seguir en 1.",
@@ -1225,7 +1217,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor del tool log en Ayacucho separa call limpia, breach de scope/efectos y call sin clasificación de error.\n- **Meta:** `assess` → PASS, DENY_TOOL_CALL, MISSING:error_kind.\n- **Éxito:** `PASS DENY_TOOL_CALL MISSING:error_kind`.\n- **Límites:** sin `error_kind` no evalúes el contenido; no inventes «secret dump» como kind válido.",
         instruction:
-          "1. Corrige `tool_call_ok` (hoy aprueba fuera de grant).\n2. Primero missing; luego PASS/DENY.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
+          "S49-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `tool_call_ok` (hoy aprueba fuera de grant).\n2. Primero missing; luego PASS/DENY.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
         hint: "Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a error_kind debe ocurrir antes de esa rama.",
@@ -1299,7 +1291,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el run del agente de reportes, un error sin kind no se «resuelve» reintentando.\n- **Meta:** `decide` → CONTINUE, DENY_TOOL_CALL, CLASSIFY_TOOL_ERROR.\n- **Éxito:** `CONTINUE DENY_TOOL_CALL CLASSIFY_TOOL_ERROR`.\n- **Límites:** no ejecutes a ciegas sin error_kind; no trates missing como CONTINUE.",
         instruction:
-          "1. Missing → CLASSIFY_TOOL_ERROR.\n2. Completo: reutiliza `tool_call_ok`; solo True → CONTINUE.\n3. Scope/efectos rotos → DENY_TOOL_CALL.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → CLASSIFY_TOOL_ERROR.\n2. Completo: reutiliza `tool_call_ok`; solo True → CONTINUE.\n3. Scope/efectos rotos → DENY_TOOL_CALL.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CLASSIFY_TOOL_ERROR` antes de evaluar el contenido.",
@@ -1360,7 +1352,7 @@ assert results == ["CONTINUE", "DENY_TOOL_CALL", "CLASSIFY_TOOL_ERROR"]` ,
         preamble:
           "- **Contexto:** en `CASO-AYA-049-3A`, el paso actual del agente solo puede cargar hechos del caso C1 bajo techo con provenance.\n- **Meta:** corregir `context_ok` (tokens ≤ max, JIT, checkpoint_after_effect, provenance).\n- **Éxito:** `S49-T3-A PASS`.\n- **Límites:** no subas el techo a mano; no borres el assert; no inventes provenance.",
         instruction:
-          "1. Abre el starter: True si tokens *superan* max o falta checkpoint (bug invertido).\n2. Exige tokens ≤ max, retrieved_just_in_time, checkpoint_after_effect y provenance True.\n3. Conserva print `S49-T3-A` y status PASS/COMPACT_AND_CHECKPOINT.\n4. No mutes el fixture.",
+          "S49-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: True si tokens *superan* max o falta checkpoint (bug invertido).\n2. Exige tokens ≤ max, retrieved_just_in_time, checkpoint_after_effect y provenance True.\n3. Conserva print `S49-T3-A` y status PASS/COMPACT_AND_CHECKPOINT.\n4. No mutes el fixture.",
         hint: "El attention budget se viola si context_tokens > max_context_tokens aunque el resto esté bien.",
         hints: [
           "El attention budget se viola si context_tokens > max_context_tokens aunque el resto esté bien.",
@@ -1417,7 +1409,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de context engineering en Ayacucho no confunde pack limpio, overflow y pack sin provenance.\n- **Meta:** `assess` → PASS, COMPACT_AND_CHECKPOINT, MISSING:provenance.\n- **Éxito:** `PASS COMPACT_AND_CHECKPOINT MISSING:provenance`.\n- **Límites:** sin provenance no evalúes tokens; no inventes el flag.",
         instruction:
-          "1. Corrige `context_ok` (hoy aprueba desborde).\n2. Primero missing; luego PASS/COMPACT.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
+          "S49-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `context_ok` (hoy aprueba desborde).\n2. Primero missing; luego PASS/COMPACT.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
         hint: "Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a provenance debe ocurrir antes de esa rama.",
@@ -1490,7 +1482,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el run del agente de reportes, hechos huérfanos no se ejecutan «por velocidad».\n- **Meta:** `decide` → CONTINUE, COMPACT_AND_CHECKPOINT, RETRIEVE_MINIMUM_CONTEXT.\n- **Éxito:** `CONTINUE COMPACT_AND_CHECKPOINT RETRIEVE_MINIMUM_CONTEXT`.\n- **Límites:** no ejecutes sin provenance; no trates missing como CONTINUE.",
         instruction:
-          "1. Missing → RETRIEVE_MINIMUM_CONTEXT.\n2. Completo: reutiliza `context_ok`; solo True → CONTINUE.\n3. Overflow/sin JIT/checkpoint → COMPACT_AND_CHECKPOINT.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RETRIEVE_MINIMUM_CONTEXT.\n2. Completo: reutiliza `context_ok`; solo True → CONTINUE.\n3. Overflow/sin JIT/checkpoint → COMPACT_AND_CHECKPOINT.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RETRIEVE_MINIMUM_CONTEXT` antes de evaluar el contenido.",
@@ -1551,7 +1543,7 @@ assert results == ["CONTINUE", "COMPACT_AND_CHECKPOINT", "RETRIEVE_MINIMUM_CONTE
         preamble:
           "- **Contexto:** en `CASO-AYA-049-3B`, la memoria del agente de Ayacucho solo se compacta si las restricciones críticas sobreviven y hay checkpoint `cp-*`.\n- **Meta:** corregir `compaction_ok` (`facts_before ⊆ facts_after`, retención ≤7, LKG con prefijo `cp-`).\n- **Éxito:** `S49-T3-B PASS`.\n- **Límites:** no inventes LKG; no borres el assert; usa `<=` de conjuntos para ⊆.",
         instruction:
-          "1. Abre el starter: True si *no* hay inclusión o LKG vacío (bug invertido).\n2. Exige facts_before ⊆ facts_after, retención ≤7 y LKG con `startswith(\"cp-\")`.\n3. Conserva print `S49-T3-B` y status PASS/RESTORE_LAST_KNOWN_GOOD.\n4. No mutes el fixture.",
+          "S49-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: True si *no* hay inclusión o LKG vacío (bug invertido).\n2. Exige facts_before ⊆ facts_after, retención ≤7 y LKG con `startswith(\"cp-\")`.\n3. Conserva print `S49-T3-B` y status PASS/RESTORE_LAST_KNOWN_GOOD.\n4. No mutes el fixture.",
         hint: "Usa inclusión de conjuntos: `facts_before <= facts_after` en Python significa ⊆.",
         hints: [
           "Usa inclusión de conjuntos: `facts_before <= facts_after` en Python significa ⊆.",
@@ -1607,7 +1599,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de recovery en Ayacucho no confunde compactación limpia, pérdida de restricciones y registro sin campo LKG.\n- **Meta:** `assess` → PASS, RESTORE_LAST_KNOWN_GOOD, MISSING:last_known_good.\n- **Éxito:** `PASS RESTORE_LAST_KNOWN_GOOD MISSING:last_known_good`.\n- **Límites:** sin `last_known_good` no evalúes el diff; no inventes `cp-`.",
         instruction:
-          "1. Corrige `compaction_ok` (hoy aprueba drop).\n2. Primero missing; luego PASS/RESTORE.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
+          "S49-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `compaction_ok` (hoy aprueba drop).\n2. Primero missing; luego PASS/RESTORE.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
         hint: "Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a last_known_good debe ocurrir antes de esa rama.",
@@ -1679,7 +1671,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el run del agente de reportes, sin poder nombrar el checkpoint de rollback no se continúa.\n- **Meta:** `decide` → CONTINUE, RESTORE_LAST_KNOWN_GOOD, REVIEW_COMPACTION_LOSS.\n- **Éxito:** `CONTINUE RESTORE_LAST_KNOWN_GOOD REVIEW_COMPACTION_LOSS`.\n- **Límites:** no continúes sin LKG; no trates missing como CONTINUE.",
         instruction:
-          "1. Missing → REVIEW_COMPACTION_LOSS.\n2. Completo: reutiliza `compaction_ok`; solo True → CONTINUE.\n3. Drop de críticos o LKG vacío → RESTORE_LAST_KNOWN_GOOD.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_COMPACTION_LOSS.\n2. Completo: reutiliza `compaction_ok`; solo True → CONTINUE.\n3. Drop de críticos o LKG vacío → RESTORE_LAST_KNOWN_GOOD.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_COMPACTION_LOSS` antes de evaluar el contenido.",
@@ -1740,7 +1732,7 @@ assert results == ["CONTINUE", "RESTORE_LAST_KNOWN_GOOD", "REVIEW_COMPACTION_LOS
         preamble:
           "- **Contexto:** en `CASO-AYA-049-4A`, el run de reportes en Ayacucho solo es PASS si la meta se cumplió **y** steps/tokens/cost_pen caben en sus máximos.\n- **Meta:** corregir `budget_ok` (goal_met y contadores ≤ techos).\n- **Éxito:** `S49-T4-A PASS`.\n- **Límites:** no ignores tokens; no inventes max_cost_pen; no borres el assert.",
         instruction:
-          "1. Abre el starter: True si steps o cost *superan* el techo (bug invertido).\n2. Exige goal_met y steps/tokens/cost_pen ≤ sus máximos.\n3. Conserva print `S49-T4-A` y status PASS/STOP_BUDGET_EXHAUSTED.\n4. No mutes el fixture.",
+          "S49-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: True si steps o cost *superan* el techo (bug invertido).\n2. Exige goal_met y steps/tokens/cost_pen ≤ sus máximos.\n3. Conserva print `S49-T4-A` y status PASS/STOP_BUDGET_EXHAUSTED.\n4. No mutes el fixture.",
         hint: "`cost_pen` es el costo sintético del lab; compáralo con `max_cost_pen`, no ignores tokens.",
         hints: [
           "`cost_pen` es el costo sintético del lab; compáralo con `max_cost_pen`, no ignores tokens.",
@@ -1797,7 +1789,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de costos sintéticos en Ayacucho no confunde run limpio, run desbordado y config sin `max_cost_pen`.\n- **Meta:** `assess` → PASS, STOP_BUDGET_EXHAUSTED, MISSING:max_cost_pen.\n- **Éxito:** `PASS STOP_BUDGET_EXHAUSTED MISSING:max_cost_pen`.\n- **Límites:** sin max_cost_pen no evalúes el contenido; no inventes el techo.",
         instruction:
-          "1. Corrige `budget_ok` (hoy aprueba agotamiento).\n2. Primero missing; luego PASS/STOP.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
+          "S49-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `budget_ok` (hoy aprueba agotamiento).\n2. Primero missing; luego PASS/STOP.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
         hint: "Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a max_cost_pen debe ocurrir antes de esa rama.",
@@ -1870,7 +1862,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el run del agente de reportes, sin techo de costo no se «sigue a ciegas».\n- **Meta:** `decide` → CONTINUE, STOP_BUDGET_EXHAUSTED, ASK_FOR_SCOPE_REDUCTION.\n- **Éxito:** `CONTINUE STOP_BUDGET_EXHAUSTED ASK_FOR_SCOPE_REDUCTION`.\n- **Límites:** no inventes techo; no trates missing como CONTINUE; deja razón de stop en el log del portfolio.",
         instruction:
-          "1. Missing → ASK_FOR_SCOPE_REDUCTION.\n2. Completo: reutiliza `budget_ok`; solo True → CONTINUE.\n3. Sobre techo o sin meta → STOP_BUDGET_EXHAUSTED.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → ASK_FOR_SCOPE_REDUCTION.\n2. Completo: reutiliza `budget_ok`; solo True → CONTINUE.\n3. Sobre techo o sin meta → STOP_BUDGET_EXHAUSTED.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASK_FOR_SCOPE_REDUCTION` antes de evaluar el contenido.",
@@ -1931,7 +1923,7 @@ assert results == ["CONTINUE", "STOP_BUDGET_EXHAUSTED", "ASK_FOR_SCOPE_REDUCTION
         preamble:
           "- **Contexto:** en `CASO-AYA-049-4B`, el agente de Ayacucho solo prepara el draft con red cerrada, FS de workspace, approval si aplica y cero efectos rejugados.\n- **Meta:** corregir `sandbox_ok` (network none, FS workspace-read, approval si required, checkpoint `cp-*`, replayed_effects==0).\n- **Éxito:** `S49-T4-B PASS`.\n- **Límites:** no abras network; no borres el assert; replayed > 0 es siempre breach.",
         instruction:
-          "1. Abre el starter: True si network open, sin approval o replay>0 (bug invertido).\n2. Exige network none, FS workspace-read, approval si required, checkpoint `cp-*` y replayed_effects==0.\n3. Conserva print `S49-T4-B` y status PASS/SANDBOX_AND_STOP.\n4. No mutes el fixture.",
+          "S49-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: True si network open, sin approval o replay>0 (bug invertido).\n2. Exige network none, FS workspace-read, approval si required, checkpoint `cp-*` y replayed_effects==0.\n3. Conserva print `S49-T4-B` y status PASS/SANDBOX_AND_STOP.\n4. No mutes el fixture.",
         hint: "Si approval_required es True, approval_present también debe ser True; replayed_effects > 0 es siempre breach.",
         hints: [
           "Si approval_required es True, approval_present también debe ser True; replayed_effects > 0 es siempre breach.",
@@ -1989,7 +1981,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de operación en Ayacucho no confunde run sandboxed, breach de red/FS/replay y registro sin contador de replay.\n- **Meta:** `assess` → PASS, SANDBOX_AND_STOP, MISSING:replayed_effects.\n- **Éxito:** `PASS SANDBOX_AND_STOP MISSING:replayed_effects`.\n- **Límites:** sin replayed_effects no evalúes el contenido; no inventes 0.",
         instruction:
-          "1. Corrige `sandbox_ok` (hoy aprueba open/replay).\n2. Primero missing; luego PASS/SANDBOX.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
+          "S49-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige `sandbox_ok` (hoy aprueba open/replay).\n2. Primero missing; luego PASS/SANDBOX.\n3. Reutiliza el predicado de E1.\n4. Imprime los tres resultados (`print(*results)`).",
         hint: "Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a replayed_effects debe ocurrir antes de esa rama.",
@@ -2063,7 +2055,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el cierre de CP-N4-C para el agente de reportes de Ayacucho, sin evidencia de replay no se reanuda a ciegas.\n- **Meta:** `decide` → CONTINUE, SANDBOX_AND_STOP, REQUEST_HUMAN_APPROVAL.\n- **Éxito:** `CONTINUE SANDBOX_AND_STOP REQUEST_HUMAN_APPROVAL`.\n- **Límites:** no trates missing como CONTINUE; no abras red; no dupliques effects en recovery.",
         instruction:
-          "1. Missing → REQUEST_HUMAN_APPROVAL.\n2. Completo: reutiliza `sandbox_ok`; solo True → CONTINUE.\n3. Red/FS/replay/approval rotos → SANDBOX_AND_STOP.\n4. Imprime los tres códigos en orden (`print(*results)`).",
+          "S49-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_HUMAN_APPROVAL.\n2. Completo: reutiliza `sandbox_ok`; solo True → CONTINUE.\n3. Red/FS/replay/approval rotos → SANDBOX_AND_STOP.\n4. Imprime los tres códigos en orden (`print(*results)`).",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_APPROVAL` antes de evaluar el contenido.",

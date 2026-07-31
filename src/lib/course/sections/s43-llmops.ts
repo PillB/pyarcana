@@ -680,7 +680,7 @@ scan ci_gate`,
         preamble:
           "- **Contexto:** en CASO-TRU-043-1A la API de Trujillo debe reutilizar la capa de dependencias cuando solo cambia el código.\n- **Meta:** corregir el predicado de contrato (lock antes de source, capa reusada, un rebuild de source, digest estable).\n- **Éxito:** una línea `S43-T1-A PASS`.\n- **Límites:** no mutes el fixture; no inventes secretos; el DEFECT está en la condición booleana, no en los datos.",
         instruction:
-          "1. Abre el starter: `meets_contract` usa `not dependency_layer_reused` y `rebuilds > 3` (DEFECT).\n2. Cámbialo a lock antes de source, capa reusada, `source_change_rebuilds == 1` y `digest_stable`.\n3. Conserva el print de status.\n4. Debe imprimir `S43-T1-A PASS`.",
+          "S43-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `not dependency_layer_reused` y `rebuilds > 3` (DEFECT).\n2. Cámbialo a lock antes de source, capa reusada, `source_change_rebuilds == 1` y `digest_stable`.\n3. Conserva el print de status.\n4. Debe imprimir `S43-T1-A PASS`.",
         hint: "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
         hints: [
           "Relaciona los campos `lock_copied_before_source`, `dependency_layer_reused`, `source_change_rebuilds`, `digest_stable` con la regla explicada en S43-T1-A.",
@@ -724,7 +724,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de build no solo mira el dict: primero exige campos, luego el orden de layers.\n- **Meta:** implementar `assess` que separe válido, adverso (source antes de lock) y sin `digest_stable`.\n- **Éxito:** `PASS REORDER_DOCKERFILE MISSING:digest_stable`.\n- **Límites:** calcula `missing` antes de leer digest; no rellenes el campo; datos sintéticos CASO-TRU-043-1A.",
         instruction:
-          "1. Revisa el starter: PASS si no reusa capa y rebuilds > 3 (DEFECT).\n2. Corrige al predicado de T1-A (lock, reuso, rebuilds==1, digest).\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
+          "S43-T1-A-E2 · 1. Revisa el starter: PASS si no reusa capa y rebuilds > 3 (DEFECT).\n2. Corrige al predicado de T1-A (lock, reuso, rebuilds==1, digest).\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a digest_stable debe ocurrir antes de esa rama.",
@@ -785,7 +785,7 @@ print(*results)
         preamble:
           "- **Contexto:** en Trujillo no se inventa un Dockerfile vacío: se pide inspección de caché (texto sintético, sin daemon).\n- **Meta:** decidir CONTINUE / REORDER_DOCKERFILE / INSPECT_CACHE_INVALIDATION sobre el texto.\n- **Éxito:** `CONTINUE REORDER_DOCKERFILE INSPECT_CACHE_INVALIDATION`.\n- **Límites:** None/vacío → INSPECT (no CONTINUE); `COPY requirements` debe ir antes de `COPY src`; sin daemon real.",
         instruction:
-          "1. Lee el DEFECT: None devuelve CONTINUE y el orden usa `src < req`.\n2. En `decide`, vacío → `INSPECT_CACHE_INVALIDATION`.\n3. Completos: CONTINUE solo si `req < src` y ambos existen.\n4. Imprime las tres decisiones en orden.",
+          "S43-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Lee el DEFECT: None devuelve CONTINUE y el orden usa `src < req`.\n2. En `decide`, vacío → `INSPECT_CACHE_INVALIDATION`.\n3. Completos: CONTINUE solo si `req < src` y ambos existen.\n4. Imprime las tres decisiones en orden.",
         hint: "Si `dockerfile` es None o vacío, no inventes layers: devuelve `INSPECT_CACHE_INVALIDATION`.",
         hints: [
           "Si `dockerfile` es None o vacío, no inventes layers: devuelve `INSPECT_CACHE_INVALIDATION`.",
@@ -867,7 +867,7 @@ assert results == ["CONTINUE", "REORDER_DOCKERFILE", "INSPECT_CACHE_INVALIDATION
         preamble:
           "- **Contexto:** CASO-TRU-043-1B exige imagen parchable, proceso non-root y runtime bajo presupuesto.\n- **Meta:** corregir el predicado (base pinned, UID ≥1000, caps vacías, runtime ≤ max).\n- **Éxito:** `S43-T1-B PASS`.\n- **Límites:** no mutes el fixture; no uses `latest`; el DEFECT premia root o caps extras.",
         instruction:
-          "1. Revisa: `meets_contract` es True con uid 0 o capabilities no vacías (DEFECT).\n2. Cámbialo a base pinned, uid ≥ 1000, `not capabilities`, runtime ≤ max.\n3. Conserva el print.\n4. Debe salir `S43-T1-B PASS`.",
+          "S43-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Revisa: `meets_contract` es True con uid 0 o capabilities no vacías (DEFECT).\n2. Cámbialo a base pinned, uid ≥ 1000, `not capabilities`, runtime ≤ max.\n3. Conserva el print.\n4. Debe salir `S43-T1-B PASS`.",
         hint: "Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.",
         hints: [
           "Relaciona los campos `base_pinned`, `uid`, `capabilities`, `runtime_mb`, `max_mb` con la regla explicada en S43-T1-B.",
@@ -911,7 +911,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin techo de tamaño no se puede elegir base parchable con criterio.\n- **Meta:** `assess` que separe válido, adverso (uid 0, latest, SYS_ADMIN) y sin `max_mb`.\n- **Éxito:** `PASS REBUILD_NONROOT MISSING:max_mb`.\n- **Límites:** missing antes de leer max_mb; no inventes techo; fixture sintético.",
         instruction:
-          "1. Corrige el PASS que premia root/caps.\n2. Aplica base pinned + uid ≥1000 + caps vacías + runtime ≤ max.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el PASS que premia root/caps.\n2. Aplica base pinned + uid ≥1000 + caps vacías + runtime ≤ max.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a max_mb debe ocurrir antes de esa rama.",
@@ -972,7 +972,7 @@ print(*results)
         preamble:
           "- **Contexto:** el artefacto real del portfolio es el Dockerfile (texto sintético), no el dict de lab.\n- **Meta:** CONTINUE / REBUILD_NONROOT / SELECT_PATCHABLE_BASE desde texto + presupuesto.\n- **Éxito:** `CONTINUE REBUILD_NONROOT SELECT_PATCHABLE_BASE`.\n- **Límites:** max_mb None → SELECT; USER ≥1000 y digest en FROM; sin shell root inventado.",
         instruction:
-          "1. None de max_mb → `SELECT_PATCHABLE_BASE` (no CONTINUE).\n2. Extrae UID de `USER `; exige `@sha256:` y runtime ≤ max.\n3. BAD (latest + USER 0) → REBUILD_NONROOT.\n4. Imprime las tres decisiones.",
+          "S43-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. None de max_mb → `SELECT_PATCHABLE_BASE` (no CONTINUE).\n2. Extrae UID de `USER `; exige `@sha256:` y runtime ≤ max.\n3. BAD (latest + USER 0) → REBUILD_NONROOT.\n4. Imprime las tres decisiones.",
         hint: "Si `max_mb` es None, no audites tamaño: devuelve `SELECT_PATCHABLE_BASE`.",
         hints: [
           "Si `max_mb` es None, no audites tamaño: devuelve `SELECT_PATCHABLE_BASE`.",
@@ -1062,7 +1062,7 @@ assert results == ["CONTINUE", "REBUILD_NONROOT", "SELECT_PATCHABLE_BASE"]` ,
         preamble:
           "- **Contexto:** CASO-TRU-043-2A exige imagen e inspección sin secreto y DB fuera del efímero.\n- **Meta:** corregir predicado (no baked, runtime_secret, config declarada, db durable, caché efímero).\n- **Éxito:** `S43-T2-A PASS`.\n- **Límites:** no mutes fixtures; no pongas PII/secretos reales en el código.",
         instruction:
-          "1. El DEFECT premia `secret_baked` o `\"db\" in ephemeral`.\n2. Invierte a no baked + runtime_secret + config_declared + mounts correctos.\n3. Conserva print y status.\n4. `S43-T2-A PASS`.",
+          "S43-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. El DEFECT premia `secret_baked` o `\"db\" in ephemeral`.\n2. Invierte a no baked + runtime_secret + config_declared + mounts correctos.\n3. Conserva print y status.\n4. `S43-T2-A PASS`.",
         hint: "Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.",
         hints: [
           "Relaciona los campos `secret_baked`, `runtime_secret`, `config_declared`, `durable_volumes`, `ephemeral_volumes` con la regla explicada en S43-T2-A.",
@@ -1106,7 +1106,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin clasificación de efímeros no se sabe qué se puede borrar al redeploy.\n- **Meta:** assess válido, adverso (secret horneado, db en ephemeral) e incomplete.\n- **Éxito:** `PASS REMOVE_BAKED_SECRET MISSING:ephemeral_volumes`.\n- **Límites:** missing primero; no inventes mounts; sintético.",
         instruction:
-          "1. Corrige el predicado invertido del starter.\n2. Exige no baked + runtime + config + db durable + caché efímero.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido del starter.\n2. Exige no baked + runtime + config + db durable + caché efímero.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a ephemeral_volumes debe ocurrir antes de esa rama.",
@@ -1167,7 +1167,7 @@ print(*results)
         preamble:
           "- **Contexto:** el portfolio pedirá evidencia de history sin secretos, no un dict de lab.\n- **Meta:** CONTINUE / REMOVE_BAKED_SECRET / CLASSIFY_VOLUME.\n- **Éxito:** `CONTINUE REMOVE_BAKED_SECRET CLASSIFY_VOLUME`.\n- **Límites:** ephemeral None → CLASSIFY; busca SECRET=/PASSWORD=; db no puede ser efímero.",
         instruction:
-          "1. None de ephemeral → CLASSIFY_VOLUME.\n2. ok = no baked + db durable + caché efímero + db no en efímero.\n3. BAD layers/mounts → REMOVE.\n4. Imprime las tres decisiones.",
+          "S43-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. None de ephemeral → CLASSIFY_VOLUME.\n2. ok = no baked + db durable + caché efímero + db no en efímero.\n3. BAD layers/mounts → REMOVE.\n4. Imprime las tres decisiones.",
         hint: "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
         hints: [
           "Si `ephemeral` es None, no inventes mounts: devuelve `CLASSIFY_VOLUME`.",
@@ -1243,7 +1243,7 @@ assert results == ["CONTINUE", "REMOVE_BAKED_SECRET", "CLASSIFY_VOLUME"]` ,
         preamble:
           "- **Contexto:** CASO-TRU-043-2B exige red privada, probes semánticos y grace ≥20 s.\n- **Meta:** corregir predicado (private, readiness_db, liveness, drains, grace≥20).\n- **Éxito:** `S43-T2-B PASS`.\n- **Límites:** no mutes fixture; no simules red pública como “ok”.",
         instruction:
-          "1. DEFECT: PASS cuando falta readiness o no drena.\n2. Exige los cinco campos del contrato T2-B.\n3. Conserva print.\n4. `S43-T2-B PASS`.",
+          "S43-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: PASS cuando falta readiness o no drena.\n2. Exige los cinco campos del contrato T2-B.\n3. Conserva print.\n4. `S43-T2-B PASS`.",
         hint: "Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada en S43-T2-B.",
         hints: [
           "Relaciona los campos `private_network`, `readiness_db`, `liveness_loop`, `sigterm_drains`, `grace_seconds` con la regla explicada en S43-T2-B.",
@@ -1287,7 +1287,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin grace documentado no se puede diagnosticar un apagado limpio.\n- **Meta:** assess válido, adverso (red pública, readiness falsa, grace 0) e incomplete.\n- **Éxito:** `PASS DRAIN_AND_ISOLATE MISSING:grace_seconds`.\n- **Límites:** missing antes de grace; no inventes 30 s por defecto.",
         instruction:
-          "1. Corrige predicado invertido.\n2. Exige private + readiness + liveness + drains + grace≥20.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.\n2. Exige private + readiness + liveness + drains + grace≥20.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a grace_seconds debe ocurrir antes de esa rama.",
@@ -1348,7 +1348,7 @@ print(*results)
         preamble:
           "- **Contexto:** en incidentes el artefacto es el log, no el dict del lab.\n- **Meta:** CONTINUE / DRAIN_AND_ISOLATE / DIAGNOSE_HEALTH_SIGNAL.\n- **Éxito:** `CONTINUE DRAIN_AND_ISOLATE DIAGNOSE_HEALTH_SIGNAL`.\n- **Límites:** log vacío → DIAGNOSE; readiness 200 con db caída es breach; grace numérico ≥20.",
         instruction:
-          "1. None/vacío → DIAGNOSE_HEALTH_SIGNAL.\n2. Exige network=private, ready_ok, /healthz, drained y grace≥20.\n3. BAD_LOG → DRAIN_AND_ISOLATE.\n4. Imprime las tres decisiones.",
+          "S43-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → DIAGNOSE_HEALTH_SIGNAL.\n2. Exige network=private, ready_ok, /healthz, drained y grace≥20.\n3. BAD_LOG → DRAIN_AND_ISOLATE.\n4. Imprime las tres decisiones.",
         hint: "Si el log es None o vacío, no inventes probes: devuelve `DIAGNOSE_HEALTH_SIGNAL`.",
         hints: [
           "Si el log es None o vacío, no inventes probes: devuelve `DIAGNOSE_HEALTH_SIGNAL`.",
@@ -1440,7 +1440,7 @@ assert results == ["CONTINUE", "DRAIN_AND_ISOLATE", "DIAGNOSE_HEALTH_SIGNAL"]` ,
         preamble:
           "- **Contexto:** CASO-TRU-043-3A exige api/worker/db/caché healthy, retries a DB y redes front/back.\n- **Meta:** corregir predicado de stack.\n- **Éxito:** `S43-T3-A PASS`.\n- **Límites:** no mutes sets del fixture; no sustituyas retries por depends_on en la cabeza del learner.",
         instruction:
-          "1. DEFECT: PASS cuando el stack está roto.\n2. Exige REQUIRED ⊆ services, healthy==services, api_retries_db, front/back ⊆ networks.\n3. Conserva print.\n4. `S43-T3-A PASS`.",
+          "S43-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: PASS cuando el stack está roto.\n2. Exige REQUIRED ⊆ services, healthy==services, api_retries_db, front/back ⊆ networks.\n3. Conserva print.\n4. `S43-T3-A PASS`.",
         hint: "Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.",
         hints: [
           "Relaciona los campos `services`, `healthy`, `api_retries_db`, `networks` con la regla explicada en S43-T3-A.",
@@ -1484,7 +1484,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin mapa de redes no se espera a dependencias con criterio.\n- **Meta:** assess válido, adverso (solo db healthy, sin retries, red default) e incomplete.\n- **Éxito:** `PASS STOP_UNHEALTHY_STACK MISSING:networks`.\n- **Límites:** missing primero; no inventes front/back.",
         instruction:
-          "1. Corrige predicado invertido.\n2. Aplica regla de cuatro servicios + retries + redes.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.\n2. Aplica regla de cuatro servicios + retries + redes.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a networks debe ocurrir antes de esa rama.",
@@ -1545,7 +1545,7 @@ print(*results)
         preamble:
           "- **Contexto:** el artefacto del portfolio es el YAML (texto sintético), no el set de Python.\n- **Meta:** CONTINUE / STOP_UNHEALTHY_STACK / WAIT_FOR_DEPENDENCY.\n- **Éxito:** `CONTINUE STOP_UNHEALTHY_STACK WAIT_FOR_DEPENDENCY`.\n- **Límites:** compose vacío → WAIT; retries de app (`DB_MAX_ATTEMPTS` o `retries`), no solo depends_on.",
         instruction:
-          "1. None/vacío → WAIT_FOR_DEPENDENCY.\n2. Exige api/worker/db/caché + front/back + token de retries de app.\n3. BAD_COMPOSE → STOP.\n4. Imprime las tres decisiones.",
+          "S43-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → WAIT_FOR_DEPENDENCY.\n2. Exige api/worker/db/caché + front/back + token de retries de app.\n3. BAD_COMPOSE → STOP.\n4. Imprime las tres decisiones.",
         hint: "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
         hints: [
           "Si `compose` es None o vacío, no inventes servicios: devuelve `WAIT_FOR_DEPENDENCY`.",
@@ -1652,7 +1652,7 @@ assert results == ["CONTINUE", "STOP_UNHEALTHY_STACK", "WAIT_FOR_DEPENDENCY"]` ,
         preamble:
           "- **Contexto:** CASO-TRU-043-3B exige expand, compat con código viejo, reset de efímeros y backup restaurado.\n- **Meta:** corregir predicado de migración.\n- **Éxito:** `S43-T3-B PASS`.\n- **Límites:** no mutes fixture; no marques restore True sin entender el drill.",
         instruction:
-          "1. DEFECT premia contract incompatible.\n2. Exige expand + old_ok + ephemeral_reset + backup_restored.\n3. Conserva print.\n4. `S43-T3-B PASS`.",
+          "S43-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT premia contract incompatible.\n2. Exige expand + old_ok + ephemeral_reset + backup_restored.\n3. Conserva print.\n4. `S43-T3-B PASS`.",
         hint: "Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.",
         hints: [
           "Relaciona los campos `migration`, `old_code_compatible`, `ephemeral_reset`, `backup_restored` con la regla explicada en S43-T3-B.",
@@ -1696,7 +1696,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin flag de restore no se puede aprobar el drill de recuperación.\n- **Meta:** assess válido, adverso (contract, sin compat, sin reset, sin restore) e incomplete.\n- **Éxito:** `PASS ROLL_BACK_MIGRATION MISSING:backup_restored`.\n- **Límites:** missing primero; no inventes PASS de restore.",
         instruction:
-          "1. Corrige predicado invertido.\n2. Aplica expand + flags verdes.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.\n2. Aplica expand + flags verdes.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a backup_restored debe ocurrir antes de esa rama.",
@@ -1757,7 +1757,7 @@ print(*results)
         preamble:
           "- **Contexto:** el portfolio pide runbook legible, no un bool en Python.\n- **Meta:** CONTINUE / ROLL_BACK_MIGRATION / RUN_RESTORE_DRILL.\n- **Éxito:** `CONTINUE ROLL_BACK_MIGRATION RUN_RESTORE_DRILL`.\n- **Límites:** runbook vacío → RUN_RESTORE_DRILL; rechaza ephemeral: db y restore SKIPPED.",
         instruction:
-          "1. None/vacío → RUN_RESTORE_DRILL.\n2. Exige strategy expand, old_code_compatible yes, restore PASS, sin ephemeral: db.\n3. BAD_RB → ROLL_BACK.\n4. Imprime las tres decisiones.",
+          "S43-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → RUN_RESTORE_DRILL.\n2. Exige strategy expand, old_code_compatible yes, restore PASS, sin ephemeral: db.\n3. BAD_RB → ROLL_BACK.\n4. Imprime las tres decisiones.",
         hint: "Si el runbook es None o vacío, no inventes restore: devuelve `RUN_RESTORE_DRILL`.",
         hints: [
           "Si el runbook es None o vacío, no inventes restore: devuelve `RUN_RESTORE_DRILL`.",
@@ -1841,7 +1841,7 @@ assert results == ["CONTINUE", "ROLL_BACK_MIGRATION", "RUN_RESTORE_DRILL"]` ,
         preamble:
           "- **Contexto:** CASO-TRU-043-4A exige lock `sha256:…`, stages builder+runtime, sin compiler en runtime y deps locked.\n- **Meta:** corregir predicado multi-stage.\n- **Éxito:** `S43-T4-A PASS`.\n- **Límites:** no mutes fixture; no aceptes lock `latest` como pin.",
         instruction:
-          "1. DEFECT premia unlock o compiler en runtime.\n2. Exige startswith sha256, stages ⊇ {builder,runtime}, not compiler, runtime_deps_locked.\n3. Conserva print.\n4. `S43-T4-A PASS`.",
+          "S43-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT premia unlock o compiler en runtime.\n2. Exige startswith sha256, stages ⊇ {builder,runtime}, not compiler, runtime_deps_locked.\n3. Conserva print.\n4. `S43-T4-A PASS`.",
         hint: "Relaciona los campos `lock_hash`, `stages`, `runtime_deps_locked`, `compiler_in_runtime` con la regla explicada en S43-T4-A.",
         hints: [
           "Relaciona los campos `lock_hash`, `stages`, `runtime_deps_locked`, `compiler_in_runtime` con la regla explicada en S43-T4-A.",
@@ -1885,7 +1885,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin flag de deps locked no se regenera el lock con criterio.\n- **Meta:** assess válido, adverso (latest, solo runtime, compiler) e incomplete.\n- **Éxito:** `PASS BLOCK_UNPINNED_BUILD MISSING:runtime_deps_locked`.\n- **Límites:** missing primero; no inventes sha256.",
         instruction:
-          "1. Corrige predicado invertido.\n2. Aplica regla de pin + stages + no compiler + locked.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.\n2. Aplica regla de pin + stages + no compiler + locked.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a runtime_deps_locked debe ocurrir antes de esa rama.",
@@ -1946,7 +1946,7 @@ print(*results)
         preamble:
           "- **Contexto:** el Dockerfile del portfolio es el artefacto auditado en CI (texto sintético, sin daemon).\n- **Meta:** CONTINUE / BLOCK_UNPINNED_BUILD / REGENERATE_LOCK.\n- **Éxito:** `CONTINUE BLOCK_UNPINNED_BUILD REGENERATE_LOCK`.\n- **Límites:** lock None → REGENERATE; busca gcc solo en el tramo runtime; exige COPY --from=builder.",
         instruction:
-          "1. lock_hash None → REGENERATE_LOCK.\n2. ok = pin sha256 + builder + runtime + COPY --from + sin gcc/g++ en runtime.\n3. BAD_DF + latest → BLOCK.\n4. Imprime las tres decisiones.",
+          "S43-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. lock_hash None → REGENERATE_LOCK.\n2. ok = pin sha256 + builder + runtime + COPY --from + sin gcc/g++ en runtime.\n3. BAD_DF + latest → BLOCK.\n4. Imprime las tres decisiones.",
         hint: "Si `lock_hash` es None, no inventes pin: devuelve `REGENERATE_LOCK`.",
         hints: [
           "Si `lock_hash` es None, no inventes pin: devuelve `REGENERATE_LOCK`.",
@@ -2038,7 +2038,7 @@ assert results == ["CONTINUE", "BLOCK_UNPINNED_BUILD", "REGENERATE_LOCK"]` ,
         preamble:
           "- **Contexto:** CASO-TRU-043-4B exige 0 CVE crítico, 0<mem≤512, 0<cpu≤1.0, sin debug shell y logs redactados.\n- **Meta:** corregir el gate invertido de deploy.\n- **Éxito:** `S43-T4-B PASS`.\n- **Límites:** no mutes fixture; límite 0 no es válido; sin secretos/PII en logs de demo.",
         instruction:
-          "1. DEFECT: `meets_contract` es True en estados de quarantine.\n2. Cámbialo a CVE==0 y límites estrictamente positivos en rango + not debug_shell + logs_redacted.\n3. Conserva print.\n4. `S43-T4-B PASS`.",
+          "S43-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: `meets_contract` es True en estados de quarantine.\n2. Cámbialo a CVE==0 y límites estrictamente positivos en rango + not debug_shell + logs_redacted.\n3. Conserva print.\n4. `S43-T4-B PASS`.",
         hint: "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
         hints: [
           "Relaciona los campos `critical_cves`, `memory_limit_mb`, `cpu_limit`, `debug_shell`, `logs_redacted` con la regla explicada en S43-T4-B.",
@@ -2088,7 +2088,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** sin evidencia de logs redactados no se tria un finding de scan con ética.\n- **Meta:** assess válido, adverso (3 CVE, mem/cpu 0, shell, logs crudos) e incomplete.\n- **Éxito:** `PASS QUARANTINE_IMAGE MISSING:logs_redacted`.\n- **Límites:** missing primero; no inventes CRITICAL: 0.",
         instruction:
-          "1. Corrige el bad_ok invertido del starter.\n2. Aplica CVE==0 + límites en rango + not shell + logs_redacted.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
+          "S43-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el bad_ok invertido del starter.\n2. Aplica CVE==0 + límites en rango + not shell + logs_redacted.\n3. Conserva MISSING.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a logs_redacted debe ocurrir antes de esa rama.",
@@ -2157,7 +2157,7 @@ print(*results)
         preamble:
           "- **Contexto:** el gate de promoción en Trujillo lee un reporte de CI, no un dict de lab.\n- **Meta:** CONTINUE / QUARANTINE_IMAGE / TRIAGE_SCAN_FINDING.\n- **Éxito:** `CONTINUE QUARANTINE_IMAGE TRIAGE_SCAN_FINDING`.\n- **Límites:** reporte vacío → TRIAGE; parsea números; límite 0 no es “sin tope válido”.",
         instruction:
-          "1. None/vacío → TRIAGE_SCAN_FINDING.\n2. Parsea CRITICAL, memory_limit_mb, cpu_limit; exige 0 CVE, límites en rango, debug false, logs true.\n3. BAD_SCAN → QUARANTINE.\n4. Imprime las tres decisiones.",
+          "S43-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → TRIAGE_SCAN_FINDING.\n2. Parsea CRITICAL, memory_limit_mb, cpu_limit; exige 0 CVE, límites en rango, debug false, logs true.\n3. BAD_SCAN → QUARANTINE.\n4. Imprime las tres decisiones.",
         hint: "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",
         hints: [
           "Si el reporte es None o vacío, no inventes hallazgos: devuelve `TRIAGE_SCAN_FINDING`.",

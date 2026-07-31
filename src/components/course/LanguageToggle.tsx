@@ -24,7 +24,7 @@ export function LanguageToggle() {
   const current = LANGUAGES.find((l) => l.code === lang) || LANGUAGES[0]
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative" data-testid="language-toggle">
       <Button
         variant="ghost"
         size="sm"

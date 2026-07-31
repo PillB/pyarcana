@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network, CreditCard, Boxes } from 'lucide-react'
+import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network, CreditCard, Boxes, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useSession } from 'next-auth/react'
@@ -19,6 +19,7 @@ import { LanguageToggle } from '@/components/course/LanguageToggle'
 import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { CapstonesPage } from '@/components/course/CapstonesPage'
+import { InteractiveTour, PYARCANA_TOUR_STORAGE_KEY } from '@/components/course/InteractiveTour'
 import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
@@ -34,6 +35,7 @@ export default function Home() {
   const [authTab, setAuthTab] = useState<'login' | 'register'>('login')
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [pdfReportOpen, setPdfReportOpen] = useState(false)
+  const [tourOpen, setTourOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
@@ -46,6 +48,17 @@ export default function Home() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
+
+    // Show the first-visit interactive tour for new users.
+    let tourTimer: number | undefined
+    try {
+      if (localStorage.getItem(PYARCANA_TOUR_STORAGE_KEY) !== '1') {
+        // Defer slightly so layout settles and tour targets are present.
+        tourTimer = window.setTimeout(() => setTourOpen(true), 400)
+      }
+    } catch {
+      // localStorage unavailable — skip the tour.
+    }
 
     // Sync with URL hash for shareable links (also on hashchange for SPA navigations)
     const syncFromHash = () => {
@@ -79,7 +92,10 @@ export default function Home() {
 
     syncFromHash()
     window.addEventListener('hashchange', syncFromHash)
-    return () => window.removeEventListener('hashchange', syncFromHash)
+    return () => {
+      if (tourTimer !== undefined) window.clearTimeout(tourTimer)
+      window.removeEventListener('hashchange', syncFromHash)
+    }
   }, [])
 
   const updateUrl = (id: string | null, newView: View) => {
@@ -153,6 +169,15 @@ export default function Home() {
     setAuthOpen(true)
   }
 
+  const handleRepeatTour = () => {
+    try {
+      localStorage.removeItem(PYARCANA_TOUR_STORAGE_KEY)
+    } catch {
+      // ignore
+    }
+    setTourOpen(true)
+  }
+
   const activeSection = useMemo(
     () => COURSE_SECTIONS.find((s) => s.id === activeSectionId) || null,
     [activeSectionId]
@@ -168,6 +193,7 @@ export default function Home() {
       <Glossary open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
       {!IS_STATIC_SITE && <FeedbackFab sectionId={activeSectionId} />}
       {!IS_STATIC_SITE && <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />}
+      <InteractiveTour open={tourOpen} onClose={() => setTourOpen(false)} />
 
       {/* Sidebar — desktop */}
       <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-sidebar-border lg:block">
@@ -330,6 +356,8 @@ export default function Home() {
                 size="sm"
                 onClick={() => { setView('admin'); updateUrl(null, 'admin') }}
                 className="gap-1.5"
+                data-testid="nav-admin"
+                title={tr('nav.admin')}
               >
                 <ShieldCheck className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">{tr('nav.admin')}</span>
@@ -468,6 +496,19 @@ export default function Home() {
             <p className="mt-1">
               {tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish
             </p>
+            <p className="mt-3 flex items-center justify-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRepeatTour}
+                className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:text-foreground"
+                data-testid="tour-restart"
+                title={tr('tour.restart')}
+              >
+                <RotateCcw className="h-3 w-3" />
+                {tr('tour.restart')}
+              </Button>
+            </p>
           </div>
         </footer>
       </div>
@@ -486,7 +527,13 @@ function ThemeToggle({
 }) {
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className="h-9 w-9">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-9 w-9"
+        data-testid="theme-toggle"
+        aria-label="Cambiar tema"
+      >
         <Sun className="h-4 w-4" />
       </Button>
     )
@@ -497,7 +544,9 @@ function ThemeToggle({
       size="icon"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className="h-9 w-9"
+      data-testid="theme-toggle"
       aria-label="Cambiar tema"
+      title="Cambiar tema"
     >
       {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>

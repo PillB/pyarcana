@@ -546,7 +546,7 @@ function LevelSection({
               <span className="mr-2 font-mono text-sm text-muted-foreground">
                 {level.stableId}
               </span>
-              {level.name}
+              {tr(`capstones.levelName.${level.stableId}`)}
             </h2>
             <Badge variant="outline" className={cn('gap-1', accent.chip)}>
               <span className={cn('h-1.5 w-1.5 rounded-full', accent.dot)} aria-hidden="true" />

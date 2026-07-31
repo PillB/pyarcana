@@ -101,8 +101,7 @@ anchor_3 cita + claim alineado al SLA`,
       callout: {
         type: "tip",
         title: "Manifiesto y holdout",
-        content:
-          "Sin `dataset@version`, anclas 0–3 y holdout sellado no compares baseline vs. candidato: reescribe el dataset, no el scorecard.",
+        content: "Evidencia mínima de S50-T1-A: Sin `dataset@version`, anclas 0–3 y holdout sellado no compares baseline vs. candidato: reescribe el dataset, no el scorecard.",
       },
     },
     {
@@ -144,8 +143,7 @@ dims ['outcome', 'process', 'trajectory', 'recovery']`,
       callout: {
         type: "tip",
         title: "Trajectory P0",
-        content:
-          "Outcome 3 con `export_csv` fuera de allowlist es P0 de trajectory (puente S49), aunque el texto final luzca bien.",
+        content: "Antes de promover S50-T1-B, Outcome 3 con `export_csv` fuera de allowlist es P0 de trajectory (puente S49), aunque el texto final luzca bien.",
       },
     },
     {
@@ -178,8 +176,7 @@ mix ['det', 'human', 'llm']`,
       callout: {
         type: "tip",
         title: "Ensemble de jueces",
-        content:
-          "Acuerdo humano–LLM bajo umbral o scores fuera de rango → `RECALIBRATE_GRADERS`; desacuerdos van a adjudicación, no a promote silencioso.",
+        content: "La revisión de S50-T2-A conserva que Acuerdo humano–LLM bajo umbral o scores fuera de rango → `RECALIBRATE_GRADERS`; desacuerdos van a adjudicación, no a promote silencioso.",
       },
     },
     {
@@ -214,8 +211,7 @@ ok_gap OK`,
       callout: {
         type: "tip",
         title: "Order bias y holdout",
-        content:
-          "Si |rate_AB − rate_BA| supera el umbral o el holdout se tocó, invalida el juez (`INVALIDATE_JUDGE`) y sella un holdout nuevo.",
+        content: "Contrato S50-T2-B: Si |rate_AB − rate_BA| supera el umbral o el holdout se tocó, invalida el juez (`INVALIDATE_JUDGE`) y sella un holdout nuevo.",
       },
     },
     {
@@ -259,8 +255,7 @@ exfil_leak True`,
       callout: {
         type: "tip",
         title: "Injection ≠ exfil",
-        content:
-          "Injection es entrada hostil; exfil es secreto en salida. Ambos son P0, pero se miden con predicados distintos y dejan traza.",
+        content: "Para S50-T3-A, Injection es entrada hostil; exfil es secreto en salida. Ambos son P0, pero se miden con predicados distintos y dejan traza.",
       },
     },
     {
@@ -308,8 +303,7 @@ poison_left QUARANTINE_POISONED_CORPUS`,
       callout: {
         type: "tip",
         title: "PDF como dato",
-        content:
-          "«grant admin» en un chunk recuperado no amplía tools: el allowlist de sesión manda; corpus tóxico → `QUARANTINE_POISONED_CORPUS`.",
+        content: "Promoción de S50-T3-B: «grant admin» en un chunk recuperado no amplía tools: el allowlist de sesión manda; corpus tóxico → `QUARANTINE_POISONED_CORPUS`.",
       },
     },
     {
@@ -336,8 +330,7 @@ abstain`,
       callout: {
         type: "tip",
         title: "Abstain fail-closed",
-        content:
-          "Claim crítico sin soporte en holdout → `BLOCK_HALLUCINATION_REGRESSION`; mejor `abstain` o humano que inventar evidencia.",
+        content: "El dueño de S50-T4-A acepta que Claim crítico sin soporte en holdout → `BLOCK_HALLUCINATION_REGRESSION`; mejor `abstain` o humano que inventar evidencia.",
       },
     },
     {
@@ -373,8 +366,7 @@ cache prompt_prefix+acl`,
       callout: {
         type: "tip",
         title: "Canary y RTO",
-        content:
-          "Rollback dentro del RTO con evidencia; breach → `ROLLBACK_AI_RELEASE`; RTO ausente o incierto → `ACTIVATE_INCIDENT_RESPONSE`.",
+        content: "Cierre de S50-T4-B: Rollback dentro del RTO con evidencia; breach → `ROLLBACK_AI_RELEASE`; RTO ausente o incierto → `ACTIVATE_INCIDENT_RESPONSE`.",
       },
     },
   ],
@@ -635,7 +627,7 @@ rto_breach ROLLBACK_AI_RELEASE`,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-1A`, el equipo de operaciones de Ica solo acepta un eval si el manifiesto cierra slices, rúbrica y holdout.\n- **Meta:** corregir `coverage_ok`, `holdout_ok` y el gate que imprime PASS o `REBUILD_EVAL_DATASET`.\n- **Éxito:** imprimes `coverage 40 / 40`, la ancla 3 y `S50-T1-A PASS`.\n- **Límites:** no inventes slices; no fuerces PASS a mano; no toques los datos del fixture.",
         instruction:
-          "1. Abre el starter: `coverage_ok` usa `!=` (bug: aprueba cobertura rota) y `holdout_ok` es siempre True.\n2. Cambia a `sum(slices.values()) == tasks`.\n3. Exige `0 < holdout < tasks` y `rubric_levels == {0,1,2,3}`.\n4. Conserva prints de coverage, `anchor_3` y status PASS/REBUILD_EVAL_DATASET.",
+          "S50-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `coverage_ok` usa `!=` (bug: aprueba cobertura rota) y `holdout_ok` es siempre True.\n2. Cambia a `sum(slices.values()) == tasks`.\n3. Exige `0 < holdout < tasks` y `rubric_levels == {0,1,2,3}`.\n4. Conserva prints de coverage, `anchor_3` y status PASS/REBUILD_EVAL_DATASET.",
         hint: "coverage_ok exige sum(slices)==tasks; holdout_ok exige 0 < holdout < tasks; imprime ANCHORS[3].",
         hints: [
           "coverage_ok exige sum(slices)==tasks; holdout_ok exige 0 < holdout < tasks; imprime ANCHORS[3].",
@@ -709,7 +701,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el revisor de evals en Ica no trata igual un manifiesto limpio, uno roto y uno sin clave `holdout`.\n- **Meta:** implementar `assess` que distinga PASS, `REBUILD_EVAL_DATASET` y `MISSING:holdout`.\n- **Éxito:** imprime `PASS REBUILD_EVAL_DATASET MISSING:holdout` en ese orden.\n- **Límites:** si falta `holdout`, no evalúes cobertura; no inventes el campo; missing ≠ rebuild.",
         instruction:
-          "1. Revisa el starter: con campos presentes da PASS cuando la cobertura es *inconsistente* (bug: invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: slices suman + rúbrica {0,1,2,3} + holdout en rango → PASS; si no → REBUILD_EVAL_DATASET.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S50-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes da PASS cuando la cobertura es *inconsistente* (bug: invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: slices suman + rúbrica {0,1,2,3} + holdout en rango → PASS; si no → REBUILD_EVAL_DATASET.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a holdout debe ocurrir antes de esa rama.",
@@ -773,7 +765,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en el scorecard del copiloto de Ica, un manifiesto incompleto no «sigue con warning»: o continúa con evidencia o se calibra la rúbrica.\n- **Meta:** `decide` → CONTINUE (válido), REBUILD_EVAL_DATASET (adverso), CALIBRATE_RUBRIC (sin holdout).\n- **Éxito:** `CONTINUE REBUILD_EVAL_DATASET CALIBRATE_RUBRIC`.\n- **Límites:** no inventes `holdout`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `holdout` → `CALIBRATE_RUBRIC` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2 (slices + rúbrica + holdout).\n3. Solo el limpio es CONTINUE; el de slice único/holdout 0 es REBUILD_EVAL_DATASET.\n4. Imprime los tres códigos en orden.",
+          "S50-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `holdout` → `CALIBRATE_RUBRIC` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2 (slices + rúbrica + holdout).\n3. Solo el limpio es CONTINUE; el de slice único/holdout 0 es REBUILD_EVAL_DATASET.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CALIBRATE_RUBRIC` antes de evaluar el contenido.",
@@ -838,7 +830,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-1B`, el copiloto de Ica reanudó `get_case` (puente S49); debes calificar dims y tools, no solo el texto.\n- **Meta:** implementar `trajectory_ok` con min de scores ≥ `min_dim` y tools ∈ ALLOWED.\n- **Éxito:** imprimes `min_dim 2`, la lista de tools y `S50-T1-B PASS`.\n- **Límites:** no ignores process/trajectory/recovery; no borres ALLOWED; no apruebes solo por outcome 3.",
         instruction:
-          "1. Abre el starter: `trajectory_ok` solo mira `scores[\"outcome\"] == 3`.\n2. Exige `min(scores.values()) >= min_dim`.\n3. Exige `all(t in ALLOWED for t in tools)`.\n4. Conserva prints de min_dim, tools y status PASS/FAIL_UNSAFE_TRAJECTORY.",
+          "S50-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `trajectory_ok` solo mira `scores[\"outcome\"] == 3`.\n2. Exige `min(scores.values()) >= min_dim`.\n3. Exige `all(t in ALLOWED for t in tools)`.\n4. Conserva prints de min_dim, tools y status PASS/FAIL_UNSAFE_TRAJECTORY.",
         hint: "min(scores.values()) >= min_dim y todas las tools ∈ ALLOWED; outcome 3 no salva una tool prohibida.",
         hints: [
           "min(scores.values()) >= min_dim y todas las tools ∈ ALLOWED; outcome 3 no salva una tool prohibida.",
@@ -902,7 +894,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el revisor de proceso en Ica distingue run seguro, run con tool prohibida y registro sin umbral de dimensión.\n- **Meta:** `assess` → PASS, FAIL_UNSAFE_TRAJECTORY, MISSING:min_dimension.\n- **Éxito:** `PASS FAIL_UNSAFE_TRAJECTORY MISSING:min_dimension`.\n- **Límites:** no evalúes dims si falta `min_dimension`; outcome 3 no absuelve `forbidden_tool_used`.",
         instruction:
-          "1. Starter da PASS cuando hay tool prohibida y outcome 3 (bug).\n2. Primero missing de required.\n3. Luego min de cuatro dims ≥ min_dimension y `not forbidden_tool_used`.\n4. Imprime la terna exacta.",
+          "S50-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando hay tool prohibida y outcome 3 (bug).\n2. Primero missing de required.\n3. Luego min de cuatro dims ≥ min_dimension y `not forbidden_tool_used`.\n4. Imprime la terna exacta.",
         hint: "Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a min_dimension debe ocurrir antes de esa rama.",
@@ -966,7 +958,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en promote del copiloto de Ica, un run sin `min_dimension` no «pasa con asterisco»: o continúa seguro o va a revisión humana de proceso.\n- **Meta:** CONTINUE (seguro), FAIL_UNSAFE_TRAJECTORY (adverso), HUMAN_REVIEW_PROCESS (incertidumbre).\n- **Éxito:** `CONTINUE FAIL_UNSAFE_TRAJECTORY HUMAN_REVIEW_PROCESS`.\n- **Límites:** no inventes scores; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → HUMAN_REVIEW_PROCESS.\n2. Completo: reutiliza min(dims) y not forbidden.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → HUMAN_REVIEW_PROCESS.\n2. Completo: reutiliza min(dims) y not forbidden.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `HUMAN_REVIEW_PROCESS` antes de evaluar el contenido.",
@@ -1031,7 +1023,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-2A`, tres jueces puntúan `cite_sla` en Ica; debes medir si el ensemble es confiable.\n- **Meta:** corregir `agreement_rate` (coincidencias, no desacuerdos) y listar índices en conflicto.\n- **Éxito:** `agreement 0.75`, `disagree_idx [2]`, `S50-T2-A PASS`.\n- **Límites:** no inventes pares; no bajes el umbral a mano; no uses un solo score como oráculo.",
         instruction:
-          "1. Starter: `sum(a != b …)` (bug: cuenta desacuerdos).\n2. Cambia a `a == b`.\n3. Construye `disagree` con índices donde difieren.\n4. PASS si rate ≥ 0.75; imprime agreement, disagree_idx y status.",
+          "S50-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `sum(a != b …)` (bug: cuenta desacuerdos).\n2. Cambia a `a == b`.\n3. Construye `disagree` con índices donde difieren.\n4. PASS si rate ≥ 0.75; imprime agreement, disagree_idx y status.",
         hint: "agreement = coincidencias / n; disagree_idx = índices donde human[i] != llm[i].",
         hints: [
           "agreement = coincidencias / n; disagree_idx = índices donde human[i] != llm[i].",
@@ -1097,7 +1089,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el revisor de jueces en Ica no confía en un ensemble con score 1.2 o acuerdo 0.3.\n- **Meta:** `assess` → PASS, RECALIBRATE_GRADERS, MISSING:min_agreement.\n- **Éxito:** `PASS RECALIBRATE_GRADERS MISSING:min_agreement`.\n- **Límites:** si falta `min_agreement`, no compares; scores deben estar en [0,1].",
         instruction:
-          "1. Starter da PASS cuando el acuerdo es *bajo* (bug).\n2. Primero missing.\n3. Luego all scores en [0,1] y agreement ≥ min.\n4. Imprime la terna exacta.",
+          "S50-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando el acuerdo es *bajo* (bug).\n2. Primero missing.\n3. Luego all scores en [0,1] y agreement ≥ min.\n4. Imprime la terna exacta.",
         hint: "Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a min_agreement debe ocurrir antes de esa rama.",
@@ -1161,7 +1153,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin umbral de acuerdo declarado, el promote del copiloto de Ica no puede «seguir verde»: debe adjudicar desacuerdos.\n- **Meta:** CONTINUE / RECALIBRATE_GRADERS / ADJUDICATE_DISAGREEMENT.\n- **Éxito:** `CONTINUE RECALIBRATE_GRADERS ADJUDICATE_DISAGREEMENT`.\n- **Límites:** no inventes `min_agreement`; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → ADJUDICATE_DISAGREEMENT.\n2. Completo: scores en [0,1] y agreement ≥ min.\n3. Solo el calibrado es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → ADJUDICATE_DISAGREEMENT.\n2. Completo: scores en [0,1] y agreement ≥ min.\n3. Solo el calibrado es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ADJUDICATE_DISAGREEMENT` antes de evaluar el contenido.",
@@ -1226,7 +1218,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-2B`, el LLM-judge de Ica se mide con swap de opciones; un gap alto invalida.\n- **Meta:** corregir `order_gap` a valor absoluto y aplicar política OK/INVALIDATE con holdout intacto.\n- **Éxito:** `order_gap 0.02`, `judge OK`, `S50-T2-B PASS`.\n- **Límites:** no inventes rates; no subas MAX_GAP; no ignores `holdout_touched`.",
         instruction:
-          "1. Starter: `return ab + ba` (bug).\n2. Cambia a `abs(ab - ba)`.\n3. Juez OK solo si gap ≤ MAX_GAP y not holdout_touched.\n4. Imprime gap, judge y status.",
+          "S50-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `return ab + ba` (bug).\n2. Cambia a `abs(ab - ba)`.\n3. Juez OK solo si gap ≤ MAX_GAP y not holdout_touched.\n4. Imprime gap, judge y status.",
         hint: "gap = abs(rate_ab - rate_ba); juez OK solo si gap ≤ MAX_GAP y holdout_touched es False.",
         hints: [
           "gap = abs(rate_ab - rate_ba); juez OK solo si gap ≤ MAX_GAP y holdout_touched es False.",
@@ -1292,7 +1284,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el revisor de calibración en Ica sella el holdout: si se tocó o el gap es 0.30, el juez no sirve.\n- **Meta:** PASS / INVALIDATE_JUDGE / MISSING:holdout_touched.\n- **Éxito:** `PASS INVALIDATE_JUDGE MISSING:holdout_touched`.\n- **Límites:** no asumas holdout intacto si falta el flag; no ignores anclas bajas.",
         instruction:
-          "1. Starter da PASS cuando gap es alto u holdout tocado (bug).\n2. Primero missing.\n3. Luego accuracy≥min, gap≤max y not holdout_touched.\n4. Imprime la terna.",
+          "S50-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando gap es alto u holdout tocado (bug).\n2. Primero missing.\n3. Luego accuracy≥min, gap≤max y not holdout_touched.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a holdout_touched debe ocurrir antes de esa rama.",
@@ -1356,7 +1348,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin flag de sellado, el pipeline de Ica no asume holdout limpio: sella uno nuevo y re-evalúa.\n- **Meta:** CONTINUE / INVALIDATE_JUDGE / SEAL_NEW_HOLDOUT.\n- **Éxito:** `CONTINUE INVALIDATE_JUDGE SEAL_NEW_HOLDOUT`.\n- **Límites:** no inventes `holdout_touched=False`; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → SEAL_NEW_HOLDOUT.\n2. Completo: anclas + gap + not touched.\n3. Solo el válido es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → SEAL_NEW_HOLDOUT.\n2. Completo: anclas + gap + not touched.\n3. Solo el válido es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `SEAL_NEW_HOLDOUT` antes de evaluar el contenido.",
@@ -1421,7 +1413,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-3A`, el red team sintético de Ica prueba entrada hostil y leak de token (marcadores de lab, no WAF real).\n- **Meta:** corregir `injection_signal`/`exfil_blocked` invertidos y demostrar limpio + ataque + sin secreto.\n- **Éxito:** `inj_ok True`, `atk_caught True`, `exfil_ok True`, `S50-T3-A PASS`.\n- **Límites:** no unifiques en un solo bool; no borres ATTACK_MARKERS; no uses secretos vivos.",
         instruction:
-          "1. Starter: signal devuelve `not any(…)` y exfil devuelve `any(…)` (ambos invertidos).\n2. Signal = any marcador en lower.\n3. Exfil blocked = not any secreto en salida.\n4. Imprime inj_ok, atk_caught, exfil_ok y status.",
+          "S50-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: signal devuelve `not any(…)` y exfil devuelve `any(…)` (ambos invertidos).\n2. Signal = any marcador en lower.\n3. Exfil blocked = not any secreto en salida.\n4. Imprime inj_ok, atk_caught, exfil_ok y status.",
         hint: "`injection_signal` detecta marcadores del lab (p. ej. «ignore previous»); `exfil_blocked` exige que ningún secreto aparezca en la salida.",
         hints: [
           "`injection_signal` detecta marcadores del lab (p. ej. «ignore previous»); `exfil_blocked` exige que ningún secreto aparezca en la salida.",
@@ -1521,7 +1513,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el gate de seguridad de Ica no promueve si hay injection libre, bytes de leak o tools admin.\n- **Meta:** PASS / BLOCK_SECURITY_P0 / MISSING:severity.\n- **Éxito:** `PASS BLOCK_SECURITY_P0 MISSING:severity`.\n- **Límites:** sin severity no inventes P0/P1; exige contención + cero exfil + read-only + args válidos.",
         instruction:
-          "1. Starter da PASS cuando injection no se bloqueó (bug).\n2. Primero missing de severity.\n3. Luego injection_blocked y exfil==0 y scope read-only y tool_args_valid y severity P0.\n4. Imprime la terna.",
+          "S50-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando injection no se bloqueó (bug).\n2. Primero missing de severity.\n3. Luego injection_blocked y exfil==0 y scope read-only y tool_args_valid y severity P0.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a severity debe ocurrir antes de esa rama.",
@@ -1585,7 +1577,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin severity etiquetada, el run de red team de Ica no se «aprueba a ciegas»: se preserva la traza de ataque.\n- **Meta:** CONTINUE / BLOCK_SECURITY_P0 / PRESERVE_ATTACK_TRACE.\n- **Éxito:** `CONTINUE BLOCK_SECURITY_P0 PRESERVE_ATTACK_TRACE`.\n- **Límites:** no borres el fixture adverso; no inventes severity.",
         instruction:
-          "1. Missing → PRESERVE_ATTACK_TRACE.\n2. Completo: reutiliza contención multi-eje de E2.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → PRESERVE_ATTACK_TRACE.\n2. Completo: reutiliza contención multi-eje de E2.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `PRESERVE_ATTACK_TRACE` antes de evaluar el contenido.",
@@ -1650,7 +1642,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-3B`, un PDF sintético de Ica pide «grant admin» en un comment; la sesión solo tiene `read`.\n- **Meta:** corregir `effective_permissions` para que el doc no expanda la sesión y cerrar `corpus_gate`.\n- **Éxito:** `doc_as_data True`, `privilege min`, `S50-T3-B PASS`.\n- **Límites:** no añadas write por texto del PDF; exige poisoned_removed == total y requested ∈ sesión.",
         instruction:
-          "1. Starter añade `write` si ve «grant admin» (bug).\n2. `effective_permissions` debe devolver solo `set(session_allowed)`.\n3. `corpus_gate` cuarentena si poison residual o requested no en allowed.\n4. Imprime doc_as_data, privilege y status.",
+          "S50-T3-B-E1 · 1. Starter añade `write` si ve «grant admin» (bug).\n2. `effective_permissions` debe devolver solo `set(session_allowed)`.\n3. `corpus_gate` cuarentena si poison residual o requested no en allowed.\n4. Imprime doc_as_data, privilege y status.",
         hint: "`effective_permissions` ignora el texto del PDF; `requested` debe estar en la sesión y `poisoned_removed == poisoned_total`.",
         hints: [
           "`effective_permissions` ignora el texto del PDF; `requested` debe estar en la sesión y `poisoned_removed == poisoned_total`.",
@@ -1751,7 +1743,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el gate de corpus de Ica cuarentena si la instrucción eleva, queda poison o se pide write sin permiso.\n- **Meta:** PASS / QUARANTINE_POISONED_CORPUS / MISSING:requested_permission.\n- **Éxito:** `PASS QUARANTINE_POISONED_CORPUS MISSING:requested_permission`.\n- **Límites:** sin requested no asumas read; exige treat-as-data y poison removido.",
         instruction:
-          "1. Starter da PASS cuando no se trata como datos o el permiso no está (bug).\n2. Primero missing de requested_permission.\n3. Luego treat-as-data y poisoned_removed≥1 y requested in tool_permissions.\n4. Imprime la terna.",
+          "S50-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando no se trata como datos o el permiso no está (bug).\n2. Primero missing de requested_permission.\n3. Luego treat-as-data y poisoned_removed≥1 y requested in tool_permissions.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a requested_permission debe ocurrir antes de esa rama.",
@@ -1815,7 +1807,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin `requested_permission` declarado, el pipeline de Ica no asume el mínimo: reduce privilegio de tools y revisa.\n- **Meta:** CONTINUE / QUARANTINE_POISONED_CORPUS / REDUCE_TOOL_PRIVILEGE.\n- **Éxito:** `CONTINUE QUARANTINE_POISONED_CORPUS REDUCE_TOOL_PRIVILEGE`.\n- **Límites:** no inventes requested=read; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → REDUCE_TOOL_PRIVILEGE.\n2. Completo: reutiliza treat-as-data + poison + permiso.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REDUCE_TOOL_PRIVILEGE.\n2. Completo: reutiliza treat-as-data + poison + permiso.\n3. Solo el limpio es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REDUCE_TOOL_PRIVILEGE` antes de evaluar el contenido.",
@@ -1880,7 +1872,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-4A`, el copiloto de Ica no debe inventar un SLA ausente del chunk recuperado.\n- **Meta:** corregir `claim_action` (answer si support≥thr, si no abstain) y mantener critical_unsupported=0.\n- **Éxito:** `high answer`, `low abstain`, `critical_unsupported 0`, `S50-T4-A PASS`.\n- **Límites:** no inviertas el umbral; no inventes claims; no borres el conteo crítico.",
         instruction:
-          "1. Starter: `answer if support < thr` (bug).\n2. Cambia a `support >= thr`.\n3. Verifica high/low y critical==0.\n4. Imprime high, low, critical_unsupported y status.",
+          "S50-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: `answer if support < thr` (bug).\n2. Cambia a `support >= thr`.\n3. Verifica high/low y critical==0.\n4. Imprime high, low, critical_unsupported y status.",
         hint: "return `\"answer\"` si support >= thr else `\"abstain\"`; thr por defecto 0.5.",
         hints: [
           "return `\"answer\"` si support >= thr else `\"abstain\"`; thr por defecto 0.5.",
@@ -1945,7 +1937,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el gate de holdout de Ica bloquea si hay críticas sin soporte o no se abstiene cuando falta evidencia.\n- **Meta:** PASS / BLOCK_HALLUCINATION_REGRESSION / MISSING:abstained_when_empty.\n- **Éxito:** `PASS BLOCK_HALLUCINATION_REGRESSION MISSING:abstained_when_empty`.\n- **Límites:** sin flag de abstain no asumas True; rate≥min y critical==0.",
         instruction:
-          "1. Starter da PASS cuando critical>0 o no abstiene (bug).\n2. Primero missing de abstained_when_empty.\n3. Luego supported/total ≥ min y critical==0 y abstained_when_empty.\n4. Imprime la terna.",
+          "S50-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando critical>0 o no abstiene (bug).\n2. Primero missing de abstained_when_empty.\n3. Luego supported/total ≥ min y critical==0 y abstained_when_empty.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a abstained_when_empty debe ocurrir antes de esa rama.",
@@ -2009,7 +2001,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin evidencia de que el sistema se abstuvo en vacío, el revisor de Ica no asume groundedness: revisa el slice de abstención.\n- **Meta:** CONTINUE / BLOCK_HALLUCINATION_REGRESSION / REVIEW_ABSTENTION_SLICE.\n- **Éxito:** `CONTINUE BLOCK_HALLUCINATION_REGRESSION REVIEW_ABSTENTION_SLICE`.\n- **Límites:** no inventes abstained_when_empty=True; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → REVIEW_ABSTENTION_SLICE.\n2. Completo: rate + critical==0 + abstain flag.\n3. Solo el grounded es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_ABSTENTION_SLICE.\n2. Completo: rate + critical==0 + abstain flag.\n3. Solo el grounded es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_ABSTENTION_SLICE` antes de evaluar el contenido.",
@@ -2074,7 +2066,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-ICA-050-4B`, el canary del copiloto de Ica solo se acepta si p95, costo, cache ACL y rollback caben en política.\n- **Meta:** completar `reliability_gate` multi-eje (no solo p95).\n- **Éxito:** `healthy PASS`, `p95_ok True`, `S50-T4-B PASS`.\n- **Límites:** no ignores costo/ACL/RTO; no fuerces PASS; snapshot sano del starter se conserva.",
         instruction:
-          "1. Starter: PASS solo si p95≤slo (bug: incompleto).\n2. Añade cost≤cap y cache_acl_safe y rollback_min≤rto_min.\n3. Evalúa snapshot 850/0.07/True/8/10.\n4. Imprime healthy, p95_ok y status.",
+          "S50-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS solo si p95≤slo (bug: incompleto).\n2. Añade cost≤cap y cache_acl_safe y rollback_min≤rto_min.\n3. Evalúa snapshot 850/0.07/True/8/10.\n4. Imprime healthy, p95_ok y status.",
         hint: "PASS solo si p95≤slo y cost≤cap y cache_acl_safe y rollback_min≤rto_min.",
         hints: [
           "PASS solo si p95≤slo y cost≤cap y cache_acl_safe y rollback_min≤rto_min.",
@@ -2142,7 +2134,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el on-call de Ica distingue canary sano, canary con p95/ACL/RTO rotos y registro sin RTO documentado.\n- **Meta:** PASS / ROLLBACK_AI_RELEASE / MISSING:rto_minutes.\n- **Éxito:** `PASS ROLLBACK_AI_RELEASE MISSING:rto_minutes`.\n- **Límites:** sin rto_minutes no compares rollback; no apruebes p95 2500 ni ACL False.",
         instruction:
-          "1. Starter da PASS cuando p95>slo o ACL rota (bug).\n2. Primero missing de rto_minutes.\n3. Luego p95≤slo, cost≤cap, ACL safe, rollback≤rto.\n4. Imprime la terna.",
+          "S50-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter da PASS cuando p95>slo o ACL rota (bug).\n2. Primero missing de rto_minutes.\n3. Luego p95≤slo, cost≤cap, ACL safe, rollback≤rto.\n4. Imprime la terna.",
         hint: "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.",
@@ -2206,7 +2198,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin RTO documentado, el release de IA en Ica no «sigue con fe»: se activa respuesta a incidente.\n- **Meta:** CONTINUE / ROLLBACK_AI_RELEASE / ACTIVATE_INCIDENT_RESPONSE.\n- **Éxito:** `CONTINUE ROLLBACK_AI_RELEASE ACTIVATE_INCIDENT_RESPONSE`.\n- **Límites:** no inventes rto_minutes=10; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → ACTIVATE_INCIDENT_RESPONSE.\n2. Completo: reutiliza reliability multi-eje de E1/E2.\n3. Solo el canary sano es CONTINUE.\n4. Imprime los tres códigos.",
+          "S50-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → ACTIVATE_INCIDENT_RESPONSE.\n2. Completo: reutiliza reliability multi-eje de E1/E2.\n3. Solo el canary sano es CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ACTIVATE_INCIDENT_RESPONSE` antes de evaluar el contenido.",

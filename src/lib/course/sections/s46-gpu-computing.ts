@@ -660,7 +660,7 @@ sli_vs_slo medida vs. objetivo`,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-1A`, un evento de atención solo entra al sink si está en ventana y es ON_TIME o ALLOWED_LATE.\n- **Meta:** corregir el predicado `meets_contract` (in_window ∧ (on_time ∨ allowed_late)).\n- **Éxito:** imprimes exactamente `S46-T1-A PASS` con el fixture válido.\n- **Límites:** no inventes un bound inferior; no mutes el fixture; no uses processing time.",
         instruction:
-          "1. Abre el starter: `meets_contract` aprueba late/out-of-window (bug invertido).\n2. Extrae `et`, `we`, `wm`, `al` del record.\n3. `in_window = et <= we`; `on_time = et > wm`; `allowed_late = et <= wm and (wm - et) <= al`.\n4. PASS solo si `in_window and (on_time or allowed_late)`; conserva el print `S46-T1-A`.",
+          "S46-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` aprueba late/out-of-window (bug invertido).\n2. Extrae `et`, `we`, `wm`, `al` del record.\n3. `in_window = et <= we`; `on_time = et > wm`; `allowed_late = et <= wm and (wm - et) <= al`.\n4. PASS solo si `in_window and (on_time or allowed_late)`; conserva el print `S46-T1-A`.",
         hint: "Dibuja una recta: watermark a la izquierda de los on-time; allowed_lateness es la franja a la izquierda del watermark que aún se acepta.",
         hints: [
           "Orden mental: primero ventana (et ≤ window_end), luego on-time (et > wm), luego gracia (wm − et ≤ allowed_lateness).",
@@ -732,7 +732,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de stream en Huancayo no trata igual un evento limpio, uno demasiado late y uno sin política de gracia.\n- **Meta:** implementar `assess` que distinga PASS, SIDE_OUTPUT_LATE_EVENT y MISSING:allowed_lateness.\n- **Éxito:** imprime `PASS SIDE_OUTPUT_LATE_EVENT MISSING:allowed_lateness` (y el booleano de contrato del scaffold).\n- **Límites:** si falta `allowed_lateness`, no evalúes late; no inventes la gracia; missing ≠ “aceptar”.",
         instruction:
-          "1. Revisa el starter: missing está bien; el predicado de dominio está invertido.\n2. Primero: campos required; si falta alguno → `MISSING:…`.\n3. Luego: `et <= we` y (`et > wm` o `wm - et <= al`) → PASS; si no → SIDE_OUTPUT_LATE_EVENT.\n4. Imprime los tres resultados en ese orden.",
+          "S46-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: missing está bien; el predicado de dominio está invertido.\n2. Primero: campos required; si falta alguno → `MISSING:…`.\n3. Luego: `et <= we` y (`et > wm` o `wm - et <= al`) → PASS; si no → SIDE_OUTPUT_LATE_EVENT.\n4. Imprime los tres resultados en ese orden.",
         hint: "Calcula `missing` antes de leer allowed_lateness; un KeyError no es un token de incertidumbre.",
         hints: [
           "Si falta un campo requerido, devuelve MISSING:… sin evaluar el predicado de late.",
@@ -809,7 +809,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el worker de atenciones decide si el evento **sigue** al sink, va a side-output o espera política de watermark.\n- **Meta:** `decide` → CONTINUE (limpio), SIDE_OUTPUT_LATE_EVENT (late), WAIT_FOR_WATERMARK (sin gracia).\n- **Éxito:** `CONTINUE SIDE_OUTPUT_LATE_EVENT WAIT_FOR_WATERMARK`.\n- **Límites:** no inventes `allowed_lateness`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `allowed_lateness` → `WAIT_FOR_WATERMARK` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2.\n3. Solo el limpio es CONTINUE; el de et=80 es SIDE_OUTPUT_LATE_EVENT.\n4. Imprime los tres códigos en orden.",
+          "S46-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `allowed_lateness` → `WAIT_FOR_WATERMARK` (no CONTINUE).\n2. Con record completo, reutiliza el predicado de E1/E2.\n3. Solo el limpio es CONTINUE; el de et=80 es SIDE_OUTPUT_LATE_EVENT.\n4. Imprime los tres códigos en orden.",
         hint: "Enruta missing primero a WAIT_FOR_WATERMARK; solo con campos completos evalúa on-time/allowed-late.",
         hints: [
           "WAIT_FOR_WATERMARK es incertidumbre operativa, no un PASS disfrazado ni un SIDE_OUTPUT.",
@@ -889,7 +889,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-1B`, el sink de atenciones solo es “exactly-once compuesto” si keys, checkpoint y late_policy cierran juntos.\n- **Meta:** corregir `meets_contract` a set(event_ids)==sink_ids ∧ checkpoint==2 ∧ policy ∈ catálogo.\n- **Éxito:** `S46-T1-B PASS`.\n- **Límites:** no uses longitudes; no apruebes policy vacía; no mutes el fixture.",
         instruction:
-          "1. Abre el starter: compara `len` o aprueba sin policy (bug).\n2. Compara `set(record[\"event_ids\"])` con `sink_ids`.\n3. Exige `checkpoint == 2` y `late_policy in {\"update\", \"side-output\", \"quarantine\"}`.\n4. Conserva print `S46-T1-B` y assert.",
+          "S46-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: compara `len` o aprueba sin policy (bug).\n2. Compara `set(record[\"event_ids\"])` con `sink_ids`.\n3. Exige `checkpoint == 2` y `late_policy in {\"update\", \"side-output\", \"quarantine\"}`.\n4. Conserva print `S46-T1-B` y assert.",
         hint: "Compara conjuntos, no longitudes: [e1,e1,e2] tiene len 3 pero set size 2.",
         hints: [
           "checkpoint y late_policy son eslabones del compuesto exactly-once, no decoración del record.",
@@ -951,7 +951,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el on-call de datos distingue sink limpio, sink a reprocesar e incertidumbre de política.\n- **Meta:** `assess` → PASS / REPLAY_IDEMPOTENTLY / MISSING:late_policy.\n- **Éxito:** `PASS REPLAY_IDEMPOTENTLY MISSING:late_policy`.\n- **Límites:** missing primero; no inventes late_policy; no uses len para dedup.",
         instruction:
-          "1. Conserva el bloque missing.\n2. Corrige la decisión: set equality + checkpoint==2 + policy en catálogo.\n3. Cualquier fallo de dominio → REPLAY_IDEMPOTENTLY.\n4. Imprime las tres rutas en orden.",
+          "S46-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva el bloque missing.\n2. Corrige la decisión: set equality + checkpoint==2 + policy en catálogo.\n3. Cualquier fallo de dominio → REPLAY_IDEMPOTENTLY.\n4. Imprime las tres rutas en orden.",
         hint: "Missing primero; luego set(event_ids)==sink_ids y policy en el catálogo permitido.",
         hints: [
           "PASS solo si set equality AND checkpoint==2 AND policy ∈ {update, side-output, quarantine}.",
@@ -1024,7 +1024,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** antes de un replay de atenciones, el operador elige política de late o detiene el reproceso.\n- **Meta:** `decide` → CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY.\n- **Éxito:** `CONTINUE REPLAY_IDEMPOTENTLY CHOOSE_LATE_POLICY`.\n- **Límites:** sin late_policy no es breach de contenido; no uses CONTINUE en missing.",
         instruction:
-          "1. Missing → CHOOSE_LATE_POLICY.\n2. Con campos completos, predicado de E1/E2.\n3. CONTINUE solo si set+checkpoint+policy OK; si no REPLAY.\n4. Imprime los tres códigos.",
+          "S46-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → CHOOSE_LATE_POLICY.\n2. Con campos completos, predicado de E1/E2.\n3. CONTINUE solo si set+checkpoint+policy OK; si no REPLAY.\n4. Imprime los tres códigos.",
         hint: "Missing → CHOOSE_LATE_POLICY; no uses CONTINUE ni REPLAY para campos ausentes.",
         hints: [
           "Tres salidas distintas: CONTINUE / REPLAY_IDEMPOTENTLY / CHOOSE_LATE_POLICY — no colapses incertidumbre en breach.",
@@ -1099,7 +1099,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-2A`, raw→clean→report debe ser acíclico y con I/O tipado antes de cualquier backfill.\n- **Meta:** `meets_contract = typed_io and is_acyclic(nodes, edges)`.\n- **Éxito:** `S46-T2-A PASS`.\n- **Límites:** no apruebes solo “sin self-loop”; implementa Kahn o DFS; no mutes nodos/edges.",
         instruction:
-          "1. Revisa el starter: predicado invertido y sin detección de ciclos.\n2. Implementa `is_acyclic` (endpoints en nodes, sin self-loop, Kahn con seen == len(nodes)).\n3. PASS solo si `typed_io` y acíclico.\n4. Conserva print `S46-T2-A`.",
+          "S46-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: predicado invertido y sin detección de ciclos.\n2. Implementa `is_acyclic` (endpoints en nodes, sin self-loop, Kahn con seen == len(nodes)).\n3. PASS solo si `typed_io` y acíclico.\n4. Conserva print `S46-T2-A`.",
         hint: "Self-loop es necesario, pero no suficiente: implementa Kahn o DFS para rechazar raw→clean→raw.",
         hints: [
           "Cuenta nodos procesados por Kahn: si seen < len(nodes), hay ciclo residual.",
@@ -1181,7 +1181,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el planificador de assets en Huancayo rechaza ciclos aunque el I/O diga “tipado”.\n- **Meta:** `assess` → PASS / REJECT_DAG / MISSING:typed_io.\n- **Éxito:** `PASS REJECT_DAG MISSING:typed_io`.\n- **Límites:** missing de typed_io antes de edges; typed_io True no perdona el ciclo.",
         instruction:
-          "1. Conserva missing.\n2. Importa/define `is_acyclic` como en el demo.\n3. ok = typed_io and is_acyclic(...); si no → REJECT_DAG.\n4. Imprime las tres rutas.",
+          "S46-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.\n2. Importa/define `is_acyclic` como en el demo.\n3. ok = typed_io and is_acyclic(...); si no → REJECT_DAG.\n4. Imprime las tres rutas.",
         hint: "Reutiliza is_acyclic; el ciclo de 2 nodos debe devolver REJECT_DAG aunque typed_io sea True.",
         hints: [
           "typed_io True no salva un ciclo: acíclico y tipado son condiciones independientes.",
@@ -1273,7 +1273,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** el orquestador no materializa a ciegas: o el grafo es válido, o se rechaza, o se declara la dependencia faltante.\n- **Meta:** `decide` → CONTINUE / REJECT_DAG / DECLARE_ASSET_DEPENDENCY.\n- **Éxito:** `CONTINUE REJECT_DAG DECLARE_ASSET_DEPENDENCY`.\n- **Límites:** missing de typed_io ≠ grafo inválido; no uses solo `a != b`.",
         instruction:
-          "1. Missing → DECLARE_ASSET_DEPENDENCY.\n2. Con record completo, Kahn + typed_io.\n3. Ciclo → REJECT_DAG; línea limpia → CONTINUE.\n4. Imprime en orden.",
+          "S46-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → DECLARE_ASSET_DEPENDENCY.\n2. Con record completo, Kahn + typed_io.\n3. Ciclo → REJECT_DAG; línea limpia → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → DECLARE_ASSET_DEPENDENCY; ciclo → REJECT_DAG; línea acíclica tipada → CONTINUE.",
         hints: [
           "No conviertas DECLARE en REJECT: missing de typed_io ≠ grafo inválido.",
@@ -1367,7 +1367,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-2B`, el plan de backfill de atenciones solo es seguro si los intervalos half-open no se pisan y el resume coincide con el checkpoint.\n- **Meta:** invertir el bug: PASS si **no** hay solape y checkpoint == resume_from.\n- **Éxito:** `S46-T2-B PASS`.\n- **Límites:** calcula solape desde números; no confíes en un flag; half-open: tocar en el borde está bien.",
         instruction:
-          "1. Ordena intervalos por start.\n2. `computed_overlap = any(end_i > start_{i+1})`.\n3. `meets_contract = not computed_overlap and checkpoint == resume_from`.\n4. Conserva print `S46-T2-B`.",
+          "S46-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Ordena intervalos por start.\n2. `computed_overlap = any(end_i > start_{i+1})`.\n3. `meets_contract = not computed_overlap and checkpoint == resume_from`.\n4. Conserva print `S46-T2-B`.",
         hint: "Ordena por start; hay solape si algún fin es > inicio del siguiente (half-open: tocar en el borde está bien).",
         hints: [
           "computed_overlap = any(ordered[i][1] > ordered[i+1][0] …). PASS solo si not computed_overlap y resume == checkpoint.",
@@ -1435,7 +1435,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el planificador no puede confiar en un booleano del ticket: debe medir solape y alinear resume.\n- **Meta:** `assess` → PASS / STOP_OVERLAPPING_BACKFILL / MISSING:resume_from.\n- **Éxito:** `PASS STOP_OVERLAPPING_BACKFILL MISSING:resume_from`.\n- **Límites:** calcula half-open; resume “start” no es checkpoint; missing primero.",
         instruction:
-          "1. Conserva missing de resume_from.\n2. Calcula `computed_overlap` sobre intervals ordenados.\n3. PASS solo si not overlap y resume == checkpoint.\n4. Imprime las tres rutas.",
+          "S46-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing de resume_from.\n2. Calcula `computed_overlap` sobre intervals ordenados.\n3. PASS solo si not overlap y resume == checkpoint.\n4. Imprime las tres rutas.",
         hint: "Missing de resume_from antes de comparar con checkpoint; el solape se calcula sobre intervals ordenados.",
         hints: [
           "resume_from 'start' no es un checkpoint real: debe igualar el id de checkpoint del run.",
@@ -1509,7 +1509,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin `resume_from` no hay plan ejecutable; con solape no hay plan seguro.\n- **Meta:** `decide` → CONTINUE / STOP_OVERLAPPING_BACKFILL / RECOVER_CHECKPOINT.\n- **Éxito:** `CONTINUE STOP_OVERLAPPING_BACKFILL RECOVER_CHECKPOINT`.\n- **Límites:** no trates resume_from=\"start\" como checkpoint; calcula solape siempre.",
         instruction:
-          "1. Missing → RECOVER_CHECKPOINT.\n2. Calcula solape half-open.\n3. Plan limpio → CONTINUE; solape o resume roto → STOP.\n4. Imprime en orden.",
+          "S46-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RECOVER_CHECKPOINT.\n2. Calcula solape half-open.\n3. Plan limpio → CONTINUE; solape o resume roto → STOP.\n4. Imprime en orden.",
         hint: "Missing → RECOVER_CHECKPOINT; solape o resume roto → STOP; plan limpio → CONTINUE.",
         hints: [
           "RECOVER_CHECKPOINT cuando falta resume; STOP_OVERLAPPING_BACKFILL cuando computed_overlap o resume ≠ checkpoint.",
@@ -1585,7 +1585,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-3A`, `atenciones_diarias` solo publica si schema exacto, lag ≤ SLO y hay owner.\n- **Meta:** `meets_contract` con las tres conjunciones (no las inversas).\n- **Éxito:** `S46-T3-A PASS`.\n- **Límites:** no publiques “casi bien”; owner vacío es breach; no mutes el fixture.",
         instruction:
-          "1. Abre el starter: predicado invertido (y sin owner).\n2. Exige schema == observed_schema.\n3. Exige freshness_min ≤ slo_min y bool(owner).\n4. PASS → print `S46-T3-A PASS`; si no QUARANTINE_DATASET.",
+          "S46-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido (y sin owner).\n2. Exige schema == observed_schema.\n3. Exige freshness_min ≤ slo_min y bool(owner).\n4. PASS → print `S46-T3-A PASS`; si no QUARANTINE_DATASET.",
         hint: "Igualdad de dicts de schema (tipos) y comparación numérica de lag vs. SLO.",
         hints: [
           "PASS exige schema exacto (dict igual) AND lag_min ≤ slo_min AND owner no vacío.",
@@ -1648,7 +1648,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de calidad separa dataset roto de record de control incompleto.\n- **Meta:** `assess` → PASS / QUARANTINE_DATASET / MISSING:owner.\n- **Éxito:** `PASS QUARANTINE_DATASET MISSING:owner`.\n- **Límites:** en E2 no uses PAGE_DATA_OWNER; missing primero; no inventes owner.",
         instruction:
-          "1. Conserva missing.\n2. ok = schema exacto ∧ lag ≤ slo ∧ owner.\n3. Si no ok → QUARANTINE_DATASET.\n4. Imprime las tres rutas.",
+          "S46-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.\n2. ok = schema exacto ∧ lag ≤ slo ∧ owner.\n3. Si no ok → QUARANTINE_DATASET.\n4. Imprime las tres rutas.",
         hint: "Missing de owner antes de leer schema; no uses PAGE_DATA_OWNER aquí (E2 usa MISSING:owner).",
         hints: [
           "Adverso típico: case_id tipado como int y lag 80 con slo 15 → QUARANTINE_DATASET.",
@@ -1721,7 +1721,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin owner no se cuarentena a ciegas ni se publica: se pagina.\n- **Meta:** `decide` → CONTINUE / QUARANTINE_DATASET / PAGE_DATA_OWNER.\n- **Éxito:** `CONTINUE QUARANTINE_DATASET PAGE_DATA_OWNER`.\n- **Límites:** no inventes owner por defecto; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing → PAGE_DATA_OWNER.\n2. Predicado de E1/E2 con campos completos.\n3. Breach → QUARANTINE; limpio → CONTINUE.\n4. Imprime en orden.",
+          "S46-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → PAGE_DATA_OWNER.\n2. Predicado de E1/E2 con campos completos.\n3. Breach → QUARANTINE; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → PAGE_DATA_OWNER; breach de schema/lag → QUARANTINE_DATASET.",
         hints: [
           "PAGE_DATA_OWNER es la rama de incertidumbre; no inventes owner por defecto (p. ej. data-ops).",
@@ -1796,7 +1796,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-3B`, un run de clean solo es trazable si el facet está completo y la calidad bajo umbral.\n- **Meta:** `meets_contract` con run- + inputs + outputs + null_rate≤0.02 + owner.\n- **Éxito:** `S46-T3-B PASS`.\n- **Límites:** null_rate bajo no basta sin IO y run_id; no mutes el fixture.",
         instruction:
-          "1. Abre el starter: predicado invertido.\n2. startswith(\"run-\") y bool(inputs) y bool(outputs).\n3. null_rate ≤ 0.02 y bool(owner).\n4. PASS o OPEN_QUALITY_INCIDENT; print `S46-T3-B`.",
+          "S46-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido.\n2. startswith(\"run-\") y bool(inputs) y bool(outputs).\n3. null_rate ≤ 0.02 y bool(owner).\n4. PASS o OPEN_QUALITY_INCIDENT; print `S46-T3-B`.",
         hint: "startswith(\"run-\") + bool(inputs) + bool(outputs) + umbral de null_rate + owner.",
         hints: [
           "null_rate ≤ 0.02 no basta sin inputs, outputs y run_id trazable (prefijo run-).",
@@ -1861,7 +1861,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de calidad no confunde record incompleto con facet roto documentado.\n- **Meta:** `assess` → PASS / OPEN_QUALITY_INCIDENT / MISSING:owner.\n- **Éxito:** `PASS OPEN_QUALITY_INCIDENT MISSING:owner`.\n- **Límites:** missing primero; cualquiera de los eslabones del adverso basta para incidente.",
         instruction:
-          "1. Conserva missing.\n2. Aplica predicado completo de E1.\n3. Si no ok → OPEN_QUALITY_INCIDENT.\n4. Imprime las tres rutas.",
+          "S46-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.\n2. Aplica predicado completo de E1.\n3. Si no ok → OPEN_QUALITY_INCIDENT.\n4. Imprime las tres rutas.",
         hint: "Missing primero; luego el predicado completo de lineage.",
         hints: [
           "MISSING:owner ≠ OPEN_QUALITY_INCIDENT: separa schema incompleto de facet roto.",
@@ -1936,7 +1936,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin owner se traza lineage; con facet roto se abre incidente de calidad.\n- **Meta:** `decide` → CONTINUE / OPEN_QUALITY_INCIDENT / TRACE_LINEAGE.\n- **Éxito:** `CONTINUE OPEN_QUALITY_INCIDENT TRACE_LINEAGE`.\n- **Límites:** no abras incidente por missing; no uses CONTINUE en incertidumbre.",
         instruction:
-          "1. Missing → TRACE_LINEAGE.\n2. Predicado completo si hay campos.\n3. Facet roto → OPEN_QUALITY_INCIDENT; limpio → CONTINUE.\n4. Imprime en orden.",
+          "S46-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → TRACE_LINEAGE.\n2. Predicado completo si hay campos.\n3. Facet roto → OPEN_QUALITY_INCIDENT; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → TRACE_LINEAGE; facet roto → OPEN_QUALITY_INCIDENT.",
         hints: [
           "TRACE_LINEAGE recupera contexto; OPEN_QUALITY_INCIDENT asume que ya conoces el facet roto.",
@@ -2013,7 +2013,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-4A`, la partición `2026-07-22` solo es sana si keys alinean, el re-run no cambia filas y los small files están bajo techo.\n- **Meta:** tres conjunciones: source_keys==target_keys ∧ second_run_changes==0 ∧ small_files≤max.\n- **Éxito:** `S46-T4-A PASS`.\n- **Límites:** no ignores small_files; no mutes el fixture.",
         instruction:
-          "1. Abre el starter: predicado invertido e incompleto.\n2. Exige equality de keys.\n3. Exige second_run_changes == 0 y small_files ≤ max_small_files.\n4. PASS o REBUILD_PARTITION; print `S46-T4-A`.",
+          "S46-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido e incompleto.\n2. Exige equality de keys.\n3. Exige second_run_changes == 0 y small_files ≤ max_small_files.\n4. PASS o REBUILD_PARTITION; print `S46-T4-A`.",
         hint: "Tres conjunciones: keys iguales, cero cambios en re-run y small files bajo techo.",
         hints: [
           "source_keys == target_keys AND second_run_changes == 0 AND small_files ≤ max_small_files.",
@@ -2078,7 +2078,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de particiones reconstruye cuando el sink ya no es función del batch; no adivina el techo de small files.\n- **Meta:** `assess` → PASS / REBUILD_PARTITION / MISSING:max_small_files.\n- **Éxito:** `PASS REBUILD_PARTITION MISSING:max_small_files`.\n- **Límites:** missing de max antes de comparar; cualquier condición rota basta para REBUILD.",
         instruction:
-          "1. Conserva missing.\n2. ok = keys iguales ∧ changes==0 ∧ small_files ≤ max.\n3. Si no → REBUILD_PARTITION.\n4. Imprime las tres rutas.",
+          "S46-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.\n2. ok = keys iguales ∧ changes==0 ∧ small_files ≤ max.\n3. Si no → REBUILD_PARTITION.\n4. Imprime las tres rutas.",
         hint: "Missing de max_small_files antes de comparar small_files.",
         hints: [
           "Keys drift o second_run_changes > 0 o small_files alto → REBUILD_PARTITION.",
@@ -2151,7 +2151,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin `max_small_files` se revisa el diseño del merge; con delta en re-run se reconstruye.\n- **Meta:** `decide` → CONTINUE / REBUILD_PARTITION / REVIEW_INCREMENTAL_KEY.\n- **Éxito:** `CONTINUE REBUILD_PARTITION REVIEW_INCREMENTAL_KEY`.\n- **Límites:** no rebuild automático por missing; no CONTINUAR en incertidumbre.",
         instruction:
-          "1. Missing → REVIEW_INCREMENTAL_KEY.\n2. Predicado de E1/E2.\n3. Merge roto → REBUILD; limpio → CONTINUE.\n4. Imprime en orden.",
+          "S46-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REVIEW_INCREMENTAL_KEY.\n2. Predicado de E1/E2.\n3. Merge roto → REBUILD; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → REVIEW_INCREMENTAL_KEY; merge roto → REBUILD_PARTITION.",
         hints: [
           "REVIEW_INCREMENTAL_KEY es missing de diseño de clave; REBUILD es merge/higiene rota.",
@@ -2226,7 +2226,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** en `CASO-HYO-046-4B`, el simulacro de ops de atenciones solo pasa si frescura, RTO, acciones y owner cierran.\n- **Meta:** sli ≥ slo ∧ rto ≤ target ∧ actions ≥ 1 ∧ owner.\n- **Éxito:** `S46-T4-B PASS`.\n- **Límites:** no apruebes con postmortem_actions=0; no ignores owner.",
         instruction:
-          "1. Abre el starter: predicado invertido e incompleto.\n2. Compara sli con slo (≥) y rto con target (≤).\n3. Exige postmortem_actions ≥ 1 y bool(owner).\n4. PASS o DECLARE_DATA_INCIDENT; print `S46-T4-B`.",
+          "S46-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido e incompleto.\n2. Compara sli con slo (≥) y rto con target (≤).\n3. Exige postmortem_actions ≥ 1 y bool(owner).\n4. PASS o DECLARE_DATA_INCIDENT; print `S46-T4-B`.",
         hint: "SLI es la medida (≥ objetivo); RTO es tiempo de recuperación (≤ target).",
         hints: [
           "PASS si sli ≥ slo AND rto ≤ target_rto AND postmortem_actions ≥ 1 AND owner no vacío.",
@@ -2292,7 +2292,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el on-call declara incidente por evidencia numérica, no por “anda lento”.\n- **Meta:** `assess` → PASS / DECLARE_DATA_INCIDENT / MISSING:owner.\n- **Éxito:** `PASS DECLARE_DATA_INCIDENT MISSING:owner`.\n- **Límites:** missing primero; un solo indicador roto basta para DECLARE.",
         instruction:
-          "1. Conserva missing.\n2. ok = sli≥slo ∧ rto≤target ∧ actions≥1 ∧ owner.\n3. Si no → DECLARE_DATA_INCIDENT.\n4. Imprime las tres rutas.",
+          "S46-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.\n2. ok = sli≥slo ∧ rto≤target ∧ actions≥1 ∧ owner.\n3. Si no → DECLARE_DATA_INCIDENT.\n4. Imprime las tres rutas.",
         hint: "Missing de owner antes de comparar SLI; el adverso falla por varios indicadores a la vez.",
         hints: [
           "Un solo indicador roto basta para DECLARE_DATA_INCIDENT (no esperes que fallen todos).",
@@ -2366,7 +2366,7 @@ meets_contract True` ,
         preamble:
           "- **Contexto:** sin owner se activa el runbook de recovery; con métricas rotas se declara incidente.\n- **Meta:** `decide` → CONTINUE / DECLARE_DATA_INCIDENT / ACTIVATE_RECOVERY_RUNBOOK.\n- **Éxito:** `CONTINUE DECLARE_DATA_INCIDENT ACTIVATE_RECOVERY_RUNBOOK`.\n- **Límites:** no declares incidente vacío de ownership; no CONTINUAR en missing.",
         instruction:
-          "1. Missing → ACTIVATE_RECOVERY_RUNBOOK.\n2. Predicado de E1/E2.\n3. Métricas/acciones rotas → DECLARE; limpio → CONTINUE.\n4. Imprime en orden.",
+          "S46-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → ACTIVATE_RECOVERY_RUNBOOK.\n2. Predicado de E1/E2.\n3. Métricas/acciones rotas → DECLARE; limpio → CONTINUE.\n4. Imprime en orden.",
         hint: "Missing → ACTIVATE_RECOVERY_RUNBOOK; métricas rotas → DECLARE_DATA_INCIDENT.",
         hints: [
           "ACTIVATE_RECOVERY_RUNBOOK solo por missing de owner; SLI/RTO bajos son DECLARE_DATA_INCIDENT.",

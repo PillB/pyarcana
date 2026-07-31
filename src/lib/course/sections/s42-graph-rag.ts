@@ -623,7 +623,7 @@ must_purge_derived True`,
         preamble:
           "- **Contexto:** en `CASO-CUS-042-1A`, el ticket de Cusco solo puede entrar si la forma es estricta y el `status` es del vocabulario.\n- **Meta:** completar el predicado `meets_contract` (required ⊆ keys ⊆ allowed + status en `{open, closed}`).\n- **Éxito:** imprimes exactamente `S42-T1-A PASS` con el fixture válido.\n- **Límites:** no inventes campos; no «aceptes extras por ahora»; no toques los datos del fixture.",
         instruction:
-          "1. Abre el starter: `meets_contract = required.issubset(payload)` (bug: incompleto).\n2. Añade `set(payload).issubset(allowed)`.\n3. Añade `payload.get(\"status\") in {\"open\", \"closed\"}`.\n4. Conserva el print `S42-T1-A` y el status PASS/REJECT_SCHEMA.",
+          "S42-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract = required.issubset(payload)` (bug: incompleto).\n2. Añade `set(payload).issubset(allowed)`.\n3. Añade `payload.get(\"status\") in {\"open\", \"closed\"}`.\n4. Conserva el print `S42-T1-A` y el status PASS/REJECT_SCHEMA.",
         hint: "Modelo de extra=forbid: `set(payload) ⊆ allowed` y `status ∈ {open, closed}`.",
         hints: [
           "Modelo de extra=forbid: `set(payload) ⊆ allowed` y `status ∈ {open, closed}`.",
@@ -675,7 +675,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de borde en Cusco no trata igual un ticket limpio, uno con campo espía y uno incompleto.\n- **Meta:** implementar `assess` que distinga PASS, REJECT_SCHEMA y MISSING:status.\n- **Éxito:** imprime `PASS REJECT_SCHEMA MISSING:status` en ese orden.\n- **Límites:** si falta `status`, no evalúes extras; no inventes el campo; missing ≠ «aceptar».",
         instruction:
-          "1. Revisa el starter: con `status` presente devuelve PASS si hay `case_id` (bug: ignora extras).\n2. Primero: si no hay `status` → `MISSING:status`.\n3. Luego: required ⊆ keys ⊆ allowed y status en vocabulario → PASS; si no → REJECT_SCHEMA.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S42-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con `status` presente devuelve PASS si hay `case_id` (bug: ignora extras).\n2. Primero: si no hay `status` → `MISSING:status`.\n3. Luego: required ⊆ keys ⊆ allowed y status en vocabulario → PASS; si no → REJECT_SCHEMA.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Si falta `status`, devuelve MISSING:status sin mirar extras.",
         hints: [
           "Si falta `status`, devuelve MISSING:status sin mirar extras.",
@@ -738,7 +738,7 @@ print(*results)
         preamble:
           "- **Contexto:** el borde de la mesa de soporte decide si un ticket **sigue** o se detiene: no hay «seguir con warning».\n- **Meta:** `decide` → CONTINUE (limpio), REJECT_SCHEMA (extra), REVIEW_BUSINESS_INVARIANT (sin status).\n- **Éxito:** `CONTINUE REJECT_SCHEMA REVIEW_BUSINESS_INVARIANT`.\n- **Límites:** no inventes `status`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `status` → `REVIEW_BUSINESS_INVARIANT` (no CONTINUE).\n2. Con payload completo, reutiliza el predicado estricto de E1/E2.\n3. Solo el limpio es CONTINUE; el de `note_interna` es REJECT_SCHEMA.\n4. Imprime los tres códigos en orden.",
+          "S42-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `status` → `REVIEW_BUSINESS_INVARIANT` (no CONTINUE).\n2. Con payload completo, reutiliza el predicado estricto de E1/E2.\n3. Solo el limpio es CONTINUE; el de `note_interna` es REJECT_SCHEMA.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
         hints: [
           "Una ausencia no es breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar extras.",
@@ -801,7 +801,7 @@ assert results == ["CONTINUE", "REJECT_SCHEMA", "REVIEW_BUSINESS_INVARIANT"]` ,
         preamble:
           "- **Contexto:** en `CASO-CUS-042-1B`, el canal de notificaciones de Cusco solo puede desplegar si el cambio es aditivo y cada tag tiene handler.\n- **Meta:** implementar `evolution_ok` = add_optional ∧ old_ok ∧ tags == handled.\n- **Éxito:** `S42-T1-B PASS` con el fixture aditivo email/phone.\n- **Límites:** no apruebes `rename_required`; no ignores tags huérfanos.",
         instruction:
-          "1. El starter devuelve True ante rename o tags distintos (bug).\n2. Cambia a: change es `add_optional`, old_ok es True y sets iguales.\n3. Conserva print y status PASS/VERSION_SCHEMA.",
+          "S42-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True ante rename o tags distintos (bug).\n2. Cambia a: change es `add_optional`, old_ok es True y sets iguales.\n3. Conserva print y status PASS/VERSION_SCHEMA.",
         hint: "PASS si change=='add_optional' y old_reader_passes y union_tags == handled_tags.",
         hints: [
           "PASS si change=='add_optional' y old_reader_passes y union_tags == handled_tags.",
@@ -857,7 +857,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el dueño de contrato en Cusco clasifica cada cambio: seguro, rupture o evidencia incompleta.\n- **Meta:** `assess` → PASS / VERSION_SCHEMA / MISSING:handled_tags.\n- **Éxito:** `PASS VERSION_SCHEMA MISSING:handled_tags`.\n- **Límites:** no inventes handled_tags; no trates rename como PASS.",
         instruction:
-          "1. Primero calcula missing de campos required del registro.\n2. Si falta handled_tags → MISSING.\n3. Si add_optional + old_reader + tags exhaustivos → PASS; si no → VERSION_SCHEMA.\n4. Imprime la tripleta.",
+          "S42-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero calcula missing de campos required del registro.\n2. Si falta handled_tags → MISSING.\n3. Si add_optional + old_reader + tags exhaustivos → PASS; si no → VERSION_SCHEMA.\n4. Imprime la tripleta.",
         hint: "Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.",
         hints: [
           "Si falta handled_tags → MISSING; si add_optional y old_ok y tags==handled → PASS; si no → VERSION_SCHEMA.",
@@ -924,7 +924,7 @@ print(*results)
         preamble:
           "- **Contexto:** el canal de notificaciones de Cusco decide si puede **desplegar** un cambio de evento.\n- **Meta:** `decide` → CONTINUE (aditivo OK), VERSION_SCHEMA (rename/tag huérfano), MIGRATE_CONSUMERS (sin handled_tags).\n- **Éxito:** `CONTINUE VERSION_SCHEMA MIGRATE_CONSUMERS`.\n- **Límites:** no inventes handlers; missing no es CONTINUE.",
         instruction:
-          "1. Sin handled_tags → MIGRATE_CONSUMERS.\n2. Con datos: predicado de evolución segura → CONTINUE; si no → VERSION_SCHEMA.\n3. Imprime los tres códigos.",
+          "S42-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin handled_tags → MIGRATE_CONSUMERS.\n2. Con datos: predicado de evolución segura → CONTINUE; si no → VERSION_SCHEMA.\n3. Imprime los tres códigos.",
         hint: "Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.",
         hints: [
           "Sin handled_tags → MIGRATE_CONSUMERS; con datos: add_optional+old_ok+tags exhaustivos → CONTINUE; si no → VERSION_SCHEMA.",
@@ -990,7 +990,7 @@ assert results == ["CONTINUE", "VERSION_SCHEMA", "MIGRATE_CONSUMERS"]` ,
         preamble:
           "- **Contexto:** en `CASO-CUS-042-2A`, el analista de Cusco solo lee **su** ticket con scope `case:read`.\n- **Meta:** `can_read` = actor == owner y `case:read` ∈ scopes (camino analista, sin admin).\n- **Éxito:** `S42-T2-A PASS` con user-a sobre su caso.\n- **Límites:** no abras cross-tenant; no uses rol admin aquí.",
         instruction:
-          "1. El starter permite actor ≠ owner (bug).\n2. Devuelve True solo con binding y scope.\n3. Conserva print PASS/DENY_CROSS_TENANT.",
+          "S42-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter permite actor ≠ owner (bug).\n2. Devuelve True solo con binding y scope.\n3. Conserva print PASS/DENY_CROSS_TENANT.",
         hint: "return actor == owner and 'case:read' in scopes (no uses admin aquí).",
         hints: [
           "return actor == owner and 'case:read' in scopes (no uses admin aquí).",
@@ -1044,7 +1044,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** la matriz de permisos de Cusco debe mostrar allow, deny y evidencia ausente.\n- **Meta:** `assess` → PASS / DENY_CROSS_TENANT / MISSING:roles.\n- **Éxito:** `PASS DENY_CROSS_TENANT MISSING:roles`.\n- **Límites:** no inventes scopes vacíos como allow; missing ≠ breach de cross-tenant.",
         instruction:
-          "1. Si falta `roles` → MISSING:roles.\n2. Si autenticado + actor==owner + case:read → PASS; si no → DENY_CROSS_TENANT.\n3. Imprime la tripleta.",
+          "S42-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta `roles` → MISSING:roles.\n2. Si autenticado + actor==owner + case:read → PASS; si no → DENY_CROSS_TENANT.\n3. Imprime la tripleta.",
         hint: "Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.",
         hints: [
           "Si falta `roles`, MISSING:roles; si actor!=owner o falta case:read → DENY; si no → PASS.",
@@ -1111,7 +1111,7 @@ print(*results)
         preamble:
           "- **Contexto:** la mesa de soporte enruta tres lecturas de ticket: propia, ajena e incompleta.\n- **Meta:** CONTINUE (mismo tenant + scope), DENY_CROSS_TENANT (caso ajeno), VERIFY_RESOURCE_OWNER (sin roles).\n- **Éxito:** `CONTINUE DENY_CROSS_TENANT VERIFY_RESOURCE_OWNER`.\n- **Límites:** no conviertas missing en CONTINUE; no abras cross-tenant.",
         instruction:
-          "1. Sin roles → VERIFY_RESOURCE_OWNER.\n2. Con datos: binding + case:read → CONTINUE; si no → DENY.\n3. Imprime los tres códigos.",
+          "S42-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin roles → VERIFY_RESOURCE_OWNER.\n2. Con datos: binding + case:read → CONTINUE; si no → DENY.\n3. Imprime los tres códigos.",
         hint: "Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.",
         hints: [
           "Sin roles → VERIFY_RESOURCE_OWNER; con datos: owner+case:read → CONTINUE; si no → DENY_CROSS_TENANT.",
@@ -1177,7 +1177,7 @@ assert results == ["CONTINUE", "DENY_CROSS_TENANT", "VERIFY_RESOURCE_OWNER"]` ,
         preamble:
           "- **Contexto:** el worker de reportes de Cusco solo entra con scope granted, identidad `svc-…` y ruta en catálogo.\n- **Meta:** `allow` = needed ∈ granted ∧ service_id empieza por `svc-` ∧ route_declared.\n- **Éxito:** `S42-T2-B PASS` con report:prepare / svc-reporter / ruta True.\n- **Límites:** no apruebes shared-admin; no ignores la ruta.",
         instruction:
-          "1. El starter invierte el predicado y no exige `svc-`.\n2. Implementa las tres condiciones en conjunción.\n3. Conserva print PASS/DENY_SCOPE.",
+          "S42-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte el predicado y no exige `svc-`.\n2. Implementa las tres condiciones en conjunción.\n3. Conserva print PASS/DENY_SCOPE.",
         hint: "return needed in granted and service_id.startswith('svc-') and route_declared",
         hints: [
           "return needed in granted and service_id.startswith('svc-') and route_declared",
@@ -1233,7 +1233,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** la matriz de least privilege en Cusco debe mostrar al menos una denegación explícita y una fila incompleta.\n- **Meta:** `assess` → PASS / DENY_SCOPE / MISSING:route_declared.\n- **Éxito:** `PASS DENY_SCOPE MISSING:route_declared`.\n- **Límites:** no inventes route_declared=True; shared-admin no es atajo.",
         instruction:
-          "1. Primero missing de campos required.\n2. Luego allow de tres puertas → PASS o DENY_SCOPE.\n3. Imprime la tripleta.",
+          "S42-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero missing de campos required.\n2. Luego allow de tres puertas → PASS o DENY_SCOPE.\n3. Imprime la tripleta.",
         hint: "Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.",
         hints: [
           "Si falta route_declared → MISSING; si no, allow solo con scope granted + svc-* + ruta True.",
@@ -1312,7 +1312,7 @@ print(*results)
         preamble:
           "- **Contexto:** `svc-reporter` pide entrar a producción con grant estrecho; un principal genérico y un catálogo incompleto no se «arreglan» con allow.\n- **Meta:** CONTINUE / DENY_SCOPE / REQUEST_NARROW_GRANT.\n- **Éxito:** `CONTINUE DENY_SCOPE REQUEST_NARROW_GRANT`.\n- **Límites:** no inventes catálogo; no uses shared-admin como override.",
         instruction:
-          "1. Sin route_declared → REQUEST_NARROW_GRANT.\n2. Con datos: tres puertas → CONTINUE o DENY_SCOPE.\n3. Imprime los tres códigos.",
+          "S42-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin route_declared → REQUEST_NARROW_GRANT.\n2. Con datos: tres puertas → CONTINUE o DENY_SCOPE.\n3. Imprime los tres códigos.",
         hint: "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
         hints: [
           "Sin route_declared → REQUEST_NARROW_GRANT; con datos: scope+svc+ruta → CONTINUE; si no → DENY_SCOPE.",
@@ -1391,7 +1391,7 @@ assert results == ["CONTINUE", "DENY_SCOPE", "REQUEST_NARROW_GRANT"]` ,
         preamble:
           "- **Contexto:** el adjunto de `CASO-CUS-042-3A` solo se guarda si cabe en bytes, el host está en allowlist y el path queda bajo root.\n- **Meta:** `trusted` = size≤max ∧ host∈allowlist ∧ path.startswith(root+'/').\n- **Éxito:** `S42-T3-A PASS` con el fixture confinado.\n- **Límites:** no ignores la allowlist; no apruebes `/etc` «por excepción».",
         instruction:
-          "1. El starter invierte e ignora hosts (bug).\n2. Implementa las tres condiciones en conjunción.\n3. Conserva print PASS/REJECT_UNTRUSTED_INPUT.",
+          "S42-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte e ignora hosts (bug).\n2. Implementa las tres condiciones en conjunción.\n3. Conserva print PASS/REJECT_UNTRUSTED_INPUT.",
         hint: "return size <= max_bytes and host in allowed_hosts and path.startswith(root + '/')",
         hints: [
           "return size <= max_bytes and host in allowed_hosts and path.startswith(root + '/')",
@@ -1451,7 +1451,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el worker de adjuntos clasifica confinado, adverso real (oversize + metadata IP + `/etc/passwd`) y registro sin root.\n- **Meta:** PASS / REJECT_UNTRUSTED_INPUT / MISSING:root.\n- **Éxito:** `PASS REJECT_UNTRUSTED_INPUT MISSING:root`.\n- **Límites:** no inventes root; el adverso debe fallar por contenido (host/path/bytes).",
         instruction:
-          "1. Primero missing de `root`.\n2. Luego trusted de tres puertas.\n3. Imprime la tripleta.",
+          "S42-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Primero missing de `root`.\n2. Luego trusted de tres puertas.\n3. Imprime la tripleta.",
         hint: "Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.",
         hints: [
           "Primero missing de `root`; luego size + host ∈ allowlist + path bajo root/.",
@@ -1542,7 +1542,7 @@ print(*results)
         preamble:
           "- **Contexto:** el worker decide si **guarda** el archivo o abre revisión de seguridad.\n- **Meta:** CONTINUE (confinado), REJECT_UNTRUSTED_INPUT (adverso), SECURITY_REVIEW (sin root).\n- **Éxito:** `CONTINUE REJECT_UNTRUSTED_INPUT SECURITY_REVIEW`.\n- **Límites:** no inventes root por defecto; no trates missing como CONTINUE.",
         instruction:
-          "1. Sin root → SECURITY_REVIEW.\n2. Con datos: tres puertas → CONTINUE o REJECT.\n3. Imprime los tres códigos.",
+          "S42-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin root → SECURITY_REVIEW.\n2. Con datos: tres puertas → CONTINUE o REJECT.\n3. Imprime los tres códigos.",
         hint: "Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.",
         hints: [
           "Falta root → SECURITY_REVIEW; luego las tres puertas size/host/path.",
@@ -1633,7 +1633,7 @@ assert results == ["CONTINUE", "REJECT_UNTRUSTED_INPUT", "SECURITY_REVIEW"]` ,
         preamble:
           "- **Contexto:** el pipeline de Cusco solo promociona sin secreto en repo/log, con rotación ensayada, deps fijadas y 0 CVE críticas.\n- **Meta:** `promote_ok` con las cinco condiciones en conjunción.\n- **Éxito:** `S42-T3-B PASS` con el fixture limpio.\n- **Límites:** no ignores rotación ni CVE; un solo hallazgo bloquea.",
         instruction:
-          "1. El starter devuelve True si secret_in_repo o not pinned (bug).\n2. Exige not secret_in_repo, not secret_in_log, rotation_tested, pinned, critical_cves==0.\n3. Conserva print PASS/ROTATE_AND_BLOCK.",
+          "S42-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True si secret_in_repo o not pinned (bug).\n2. Exige not secret_in_repo, not secret_in_log, rotation_tested, pinned, critical_cves==0.\n3. Conserva print PASS/ROTATE_AND_BLOCK.",
         hint: "return (not secret_in_repo) and (not secret_in_log) and rotation_tested and pinned and critical_cves == 0",
         hints: [
           "return (not secret_in_repo) and (not secret_in_log) and rotation_tested and pinned and critical_cves == 0",
@@ -1699,7 +1699,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el release manager clasifica promote limpio, hallazgo demostrable e inventario incompleto.\n- **Meta:** PASS / ROTATE_AND_BLOCK / MISSING:critical_cves.\n- **Éxito:** `PASS ROTATE_AND_BLOCK MISSING:critical_cves`.\n- **Límites:** no inventes critical_cves=0; missing no es «cero riesgos».",
         instruction:
-          "1. Si falta critical_cves → MISSING.\n2. Si promote_ok de cinco flags → PASS; si no → ROTATE_AND_BLOCK.\n3. Imprime la tripleta.",
+          "S42-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta critical_cves → MISSING.\n2. Si promote_ok de cinco flags → PASS; si no → ROTATE_AND_BLOCK.\n3. Imprime la tripleta.",
         hint: "Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.",
         hints: [
           "Si falta critical_cves → MISSING; si no, las cinco condiciones de promote limpio → PASS; si no → ROTATE_AND_BLOCK.",
@@ -1798,7 +1798,7 @@ print(*results)
         preamble:
           "- **Contexto:** el pipeline de CI de la mesa de Cusco decide promote a staging: limpio, hallazgo o sin inventario CVE.\n- **Meta:** CONTINUE / ROTATE_AND_BLOCK / ASSESS_DEPENDENCY_RISK.\n- **Éxito:** `CONTINUE ROTATE_AND_BLOCK ASSESS_DEPENDENCY_RISK`.\n- **Límites:** no inventes un cero de CVE; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Sin critical_cves → ASSESS_DEPENDENCY_RISK.\n2. Con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.\n3. Imprime los tres códigos.",
+          "S42-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin critical_cves → ASSESS_DEPENDENCY_RISK.\n2. Con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.\n3. Imprime los tres códigos.",
         hint: "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
         hints: [
           "Sin critical_cves → ASSESS_DEPENDENCY_RISK; con datos: promote limpio → CONTINUE; si no → ROTATE_AND_BLOCK.",
@@ -1897,7 +1897,7 @@ assert results == ["CONTINUE", "ROTATE_AND_BLOCK", "ASSESS_DEPENDENCY_RISK"]` ,
         preamble:
           "- **Contexto:** el tablero de estado de Cusco solo necesita `case_id` y `region` por 30 días con purpose `status-report`.\n- **Meta:** `inventory_ok` = collected ⊆ needed ∧ purpose correcto ∧ days ≤ max.\n- **Éxito:** `S42-T4-A PASS`.\n- **Límites:** no apruebes full_name de más; no ignores el purpose.",
         instruction:
-          "1. El starter invierte inclusion y techo (bug).\n2. Exige collected <= needed, purpose == \"status-report\", days <= max_days.\n3. Conserva print PASS/MINIMIZE_AND_EXPIRE.",
+          "S42-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte inclusion y techo (bug).\n2. Exige collected <= needed, purpose == \"status-report\", days <= max_days.\n3. Conserva print PASS/MINIMIZE_AND_EXPIRE.",
         hint: "return collected <= needed and purpose == 'status-report' and days <= max_days",
         hints: [
           "return collected <= needed and purpose == 'status-report' and days <= max_days",
@@ -1953,7 +1953,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el dueño de privacidad clasifica inventario mínimo, over-collection con retención abusiva y techo no declarado.\n- **Meta:** PASS / MINIMIZE_AND_EXPIRE / MISSING:max_retention_days.\n- **Éxito:** `PASS MINIMIZE_AND_EXPIRE MISSING:max_retention_days`.\n- **Límites:** no inventes 30 días cuando falta el techo.",
         instruction:
-          "1. Si falta max_retention_days → MISSING.\n2. Si inventory_ok → PASS; si no → MINIMIZE_AND_EXPIRE.\n3. Imprime la tripleta.",
+          "S42-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta max_retention_days → MISSING.\n2. Si inventory_ok → PASS; si no → MINIMIZE_AND_EXPIRE.\n3. Imprime la tripleta.",
         hint: "Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
           "Si falta max_retention_days → MISSING; si no, collected⊆needed + purpose + techo → PASS; si no → MINIMIZE_AND_EXPIRE.",
@@ -2038,7 +2038,7 @@ print(*results)
         preamble:
           "- **Contexto:** el tablero de estado pide **publicar** un dataset; sin techo de retención el dueño de privacidad revisa.\n- **Meta:** CONTINUE / MINIMIZE_AND_EXPIRE / PRIVACY_OWNER_REVIEW.\n- **Éxito:** `CONTINUE MINIMIZE_AND_EXPIRE PRIVACY_OWNER_REVIEW`.\n- **Límites:** no asumas 30 días por defecto; no trates missing como CONTINUE.",
         instruction:
-          "1. Sin max_retention_days → PRIVACY_OWNER_REVIEW.\n2. Con datos: inventory_ok → CONTINUE; si no → MINIMIZE_AND_EXPIRE.\n3. Imprime los tres códigos.",
+          "S42-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin max_retention_days → PRIVACY_OWNER_REVIEW.\n2. Con datos: inventory_ok → CONTINUE; si no → MINIMIZE_AND_EXPIRE.\n3. Imprime los tres códigos.",
         hint: "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
         hints: [
           "Sin max_retention_days → PRIVACY_OWNER_REVIEW; con datos: minimización OK → CONTINUE; si no → MINIMIZE_AND_EXPIRE.",
@@ -2123,7 +2123,7 @@ assert results == ["CONTINUE", "MINIMIZE_AND_EXPIRE", "PRIVACY_OWNER_REVIEW"]` ,
         preamble:
           "- **Contexto:** al cerrar un ticket de Cusco, el audit no debe llevar email y deben borrarse primario y derivados con llave separada.\n- **Meta:** `purge_ok` = audit.isdisjoint(pii) ∧ deleted ∧ derived_deleted ∧ key_separate.\n- **Éxito:** `S42-T4-B PASS` con audit de tokens y purga completa.\n- **Límites:** no apruebes email en audit; no ignores derivados.",
         instruction:
-          "1. El starter aprueba si hay ∩ con PII o derivado vivo (bug).\n2. Implementa isdisjoint + flags de borrado + key_separate.\n3. Conserva print PASS/PURGE_DERIVATIVES.",
+          "S42-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter aprueba si hay ∩ con PII o derivado vivo (bug).\n2. Implementa isdisjoint + flags de borrado + key_separate.\n3. Conserva print PASS/PURGE_DERIVATIVES.",
         hint: "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate",
         hints: [
           "return audit.isdisjoint(pii) and deleted and derived_deleted and key_separate",
@@ -2187,7 +2187,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el dueño de ciclo de vida clasifica purga limpia, reaparición (email en audit + export vivo) y alcance de llave no declarado.\n- **Meta:** PASS / PURGE_DERIVATIVES / MISSING:key_separate.\n- **Éxito:** `PASS PURGE_DERIVATIVES MISSING:key_separate`.\n- **Límites:** no asumas key_separate=True por defecto.",
         instruction:
-          "1. Si falta key_separate → MISSING.\n2. Si purge_ok → PASS; si no → PURGE_DERIVATIVES.\n3. Imprime la tripleta.",
+          "S42-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta key_separate → MISSING.\n2. Si purge_ok → PASS; si no → PURGE_DERIVATIVES.\n3. Imprime la tripleta.",
         hint: "Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.",
         hints: [
           "Si falta key_separate → MISSING; si no, audit∩PII vacío + ambos borrados + llave → PASS; si no → PURGE_DERIVATIVES.",
@@ -2272,7 +2272,7 @@ print(*results)
         preamble:
           "- **Contexto:** al cerrar el ticket de Cusco hay que purgar fila, snapshot y export; sin flag de llave separada el alcance queda en revisión humana.\n- **Meta:** CONTINUE / PURGE_DERIVATIVES / VERIFY_DELETION_SCOPE.\n- **Éxito:** `CONTINUE PURGE_DERIVATIVES VERIFY_DELETION_SCOPE`.\n- **Límites:** no soft-delete silencioso; no inventes key_separate.",
         instruction:
-          "1. Sin key_separate → VERIFY_DELETION_SCOPE.\n2. Con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.\n3. Imprime los tres códigos.",
+          "S42-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin key_separate → VERIFY_DELETION_SCOPE.\n2. Con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.\n3. Imprime los tres códigos.",
         hint: "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",
         hints: [
           "Sin key_separate → VERIFY_DELETION_SCOPE; con datos: ciclo completo → CONTINUE; si no → PURGE_DERIVATIVES.",

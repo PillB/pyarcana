@@ -697,7 +697,10 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
         </div>
 
         {/* Legal footer summary */}
-        <div className="mt-8 rounded-xl border border-border bg-muted/30 p-4 text-xs text-muted-foreground">
+        <div
+          className="mt-8 rounded-xl border border-border bg-muted/30 p-4 text-xs text-muted-foreground"
+          data-testid="legal-links"
+        >
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-300" />
             <span>

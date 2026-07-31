@@ -3,7 +3,7 @@ import type { CourseSection } from '../../types'
 export const section41: CourseSection = {
   id: "llm-finetuning",
   index: 41,
-  title: "API con FastAPI y contratos HTTP",
+  title: "APIs con FastAPI y contratos HTTP",
   shortTitle: "API FastAPI",
   tagline: "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
   estimatedHours: 20,
@@ -100,8 +100,7 @@ GET /v1/jobs 200`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T1-A: `POST /v1/jobs` ⇒ 201; `GET /v1/jobs` ⇒ 200; `GET /v1/jobs/{id}` ausente ⇒ 404. No uses 200 en create ni 404 en colección vacía.",
+        content: "Evidencia mínima de S41-T1-A: `POST /v1/jobs` ⇒ 201; `GET /v1/jobs` ⇒ 200; `GET /v1/jobs/{id}` ausente ⇒ 404. No uses 200 en create ni 404 en colección vacía.",
       },
     },
     {
@@ -150,8 +149,7 @@ version v1`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T1-B: dos POST con la misma Idempotency-Key y el mismo body dejan un solo job (`replay`); body distinto bajo la misma key es conflicto. Paginación keyset con `next` estable.",
+        content: "Antes de promover S41-T1-B, dos POST con la misma Idempotency-Key y el mismo body dejan un solo job (`replay`); body distinto bajo la misma key es conflicto. Paginación keyset con `next` estable.",
       },
     },
     {
@@ -185,8 +183,7 @@ jobs 2 domain_imports_http False`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T2-A: el handler orquesta; el dominio no importa HTTP. Si sustituyes `get_store` por un fake, el mismo path crea el job sin reescribir la ruta.",
+        content: "La revisión de S41-T2-A conserva que el handler orquesta; el dominio no importa HTTP. Si sustituyes `get_store` por un fake, el mismo path crea el job sin reescribir la ruta.",
       },
     },
     {
@@ -223,8 +220,7 @@ internal_key_leaked False`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T2-B: body incompleto ⇒ 422 tipado; body válido ⇒ vista allow-list sin `internal_key`. OpenAPI debe coincidir con status y shape reales.",
+        content: "Contrato S41-T2-B: body incompleto ⇒ 422 tipado; body válido ⇒ vista allow-list sin `internal_key`. OpenAPI debe coincidir con status y shape reales.",
       },
     },
     {
@@ -261,8 +257,7 @@ qlen 1`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T3-A: I/O usa boundary async/sync; CPU o durable se encola (`status=queued`) y sale del event loop del request.",
+        content: "Para S41-T3-A, I/O usa boundary async/sync; CPU o durable se encola (`status=queued`) y sale del event loop del request.",
       },
     },
     {
@@ -302,8 +297,7 @@ lifecycle ['startup', 'shutdown']`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T3-B: `client > service > db` en timeouts; ante timeout cancela, cierra el recurso y devuelve Problem Details (`type`, `title`, `status`, `trace_id`) sin PII.",
+        content: "Promoción de S41-T3-B: `client > service > db` en timeouts; ante timeout cancela, cierra el recurso y devuelve Problem Details (`type`, `title`, `status`, `trace_id`) sin PII.",
       },
     },
     {
@@ -340,8 +334,7 @@ total 19 shape_ok True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T4-A: un bug de dominio se atrapa en unit; un status HTTP incorrecto, en contract. Forma de pirámide: unit ≥ contract ≥ integration.",
+        content: "El dueño de S41-T4-A acepta que un bug de dominio se atrapa en unit; un status HTTP incorrecto, en contract. Forma de pirámide: unit ≥ contract ≥ integration.",
       },
     },
     {
@@ -375,8 +368,7 @@ trace_ok True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Criterio T4-B (cierre del gate): cuota excedida ⇒ 429 recuperable; consumidor v1 sigue leyendo campos estables; traza sin PII. Breach ⇒ `THROTTLE_AND_REDACT`; compat incierta ⇒ `INSPECT_COMPATIBILITY`.",
+        content: "Cierre de S41-T4-B: Criterio T4-B (cierre del gate): cuota excedida ⇒ 429 recuperable; consumidor v1 sigue leyendo campos estables; traza sin PII. Breach ⇒ `THROTTLE_AND_REDACT`; compat incierta ⇒ `INSPECT_COMPATIBILITY`.",
       },
     },
   ],
@@ -664,7 +656,7 @@ print(log_fields({"trace_id": "tr-are-041", "job_id": "j1", "email": "a@b.c"}))`
         preamble:
           "- **Contexto:** en `CASO-ARE-041-1A` la matriz del lab fija el create de jobs como POST + colección `/v1/jobs` ⇒ **201**, no 200.\n- **Meta:** implementar `status_for(method, resource, *, item_exists)` con status semánticos.\n- **Éxito:** los asserts del starter pasan e imprimes `S41-T1-A PASS` (POST create 201; health 200; colección 200; ítem ausente 404).\n- **Límites:** no dejes 200 en create; no uses 404 en la colección; fixtures sintéticos sin PII.",
         instruction:
-          "1. Abre el starter: en POST + path que termina en `/jobs` devuelve `200` (bug).\n2. Cámbialo a `201`.\n3. Conserva health 200, colección 200, ítem ausente 404 y el fallback 405.\n4. No borres los asserts ni el print final.",
+          "S41-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: en POST + path que termina en `/jobs` devuelve `200` (bug).\n2. Cámbialo a `201`.\n3. Conserva health 200, colección 200, ítem ausente 404 y el fallback 405.\n4. No borres los asserts ni el print final.",
         hint: "Piensa en una matriz: el status sale de (método, path, existencia del ítem), no de un literal fijo.",
         hints: [
           "Piensa en una matriz: el status sale de (método, path, existencia del ítem), no de un literal fijo.",
@@ -720,6 +712,7 @@ assert status_for("GET", "/v1/health") == 200
 assert status_for("GET", "/v1/jobs") == 200
 assert status_for("GET", "/v1/jobs/job-404", item_exists=False) == 404
 print("S41-T1-A", "PASS")
+meets_contract = status_for("POST", "/v1/jobs") == 201
 ` ,
           output: `S41-T1-A PASS` ,
         },
@@ -732,7 +725,7 @@ print("S41-T1-A", "PASS")
         preamble:
           "- **Contexto:** un revisor del control plane recibe tres samples de tráfico sintético: create bien formado, create con 200 incoherente y un registro sin campo `status`.\n- **Meta:** implementar `assess(record)` que valide campos y aplique la regla de T1-A (POST + /jobs + created + 201).\n- **Éxito:** imprimes exactamente `PASS RETURN_CORRECT_HTTP_STATUS MISSING:status`.\n- **Límites:** no inventes status si falta el campo; no apruebes create con 200; solo sintético.",
         instruction:
-          "1. Revisa el starter: el PASS usa `status==200` y `method==GET` (predicado invertido).\n2. Mantén la rama `missing` primero.\n3. PASS solo si POST, resource termina en `/jobs`, `created` y `status==201`.\n4. Conserva el print de las tres rutas.",
+          "S41-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: el PASS usa `status==200` y `method==GET` (predicado invertido).\n2. Mantén la rama `missing` primero.\n3. PASS solo si POST, resource termina en `/jobs`, `created` y `status==201`.\n4. Conserva el print de las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a status debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a status debe ocurrir antes de esa rama.",
@@ -794,7 +787,7 @@ print(*results)
         preamble:
           "- **Contexto:** en transferencia de contrato OpenAPI, tres muestras de tráfico deciden si el flujo de jobs **sigue**, se **corrige** o se **revisa** por incertidumbre.\n- **Meta:** `decide(record)` fail-closed: OK ⇒ `CONTINUE`; create con 200 ⇒ `RETURN_CORRECT_HTTP_STATUS`; sin `status` ⇒ `REVIEW_RESOURCE_SEMANTICS`.\n- **Éxito:** `CONTINUE RETURN_CORRECT_HTTP_STATUS REVIEW_RESOURCE_SEMANTICS` en ese orden.\n- **Límites:** no trates la ausencia como éxito; no inventes el código HTTP; tokens de lab, no enums de prod.",
         instruction:
-          "1. Si faltan campos, devuelve `REVIEW_RESOURCE_SEMANTICS` (no CONTINUE).\n2. CONTINUE solo con POST + /jobs + created + 201.\n3. Cualquier otra combinación completa ⇒ `RETURN_CORRECT_HTTP_STATUS`.\n4. Conserva el assert de orden de resultados.",
+          "S41-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Si faltan campos, devuelve `REVIEW_RESOURCE_SEMANTICS` (no CONTINUE).\n2. CONTINUE solo con POST + /jobs + created + 201.\n3. Cualquier otra combinación completa ⇒ `RETURN_CORRECT_HTTP_STATUS`.\n4. Conserva el assert de orden de resultados.",
         hint: "Sin status ⇒ REVIEW_RESOURCE_SEMANTICS antes de mirar method/resource. CONTINUE solo con POST + /jobs + created + status 201.",
         hints: [
           "Sin status ⇒ REVIEW_RESOURCE_SEMANTICS antes de mirar method/resource. CONTINUE solo con POST + /jobs + created + status 201.",
@@ -857,7 +850,7 @@ assert results == ["CONTINUE", "RETURN_CORRECT_HTTP_STATUS", "REVIEW_RESOURCE_SE
         preamble:
           "- **Contexto:** en `CASO-ARE-041-1B` un cliente reintenta `POST /v1/jobs` con la misma Idempotency-Key; el lab debe dejar **un solo** side effect.\n- **Meta:** implementar `idempotent_create(store, key, body)` → `created` | `replay` | `conflict`.\n- **Éxito:** created → replay → conflict y `len(store)==1`; imprime `S41-T1-B PASS`.\n- **Límites:** no insertes con key mutada; no crees un segundo job en replay; no silencies body distinto.",
         instruction:
-          "1. Abre el starter: ignora el store real y siempre devuelve `\"created\"`.\n2. Si `key in store`, compara body: igual ⇒ `replay`, distinto ⇒ `conflict`.\n3. Si la key es nueva, guarda `store[key] = body` y devuelve `created`.\n4. Conserva los asserts de longitud 1.",
+          "S41-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: ignora el store real y siempre devuelve `\"created\"`.\n2. Si `key in store`, compara body: igual ⇒ `replay`, distinto ⇒ `conflict`.\n3. Si la key es nueva, guarda `store[key] = body` y devuelve `created`.\n4. Conserva los asserts de longitud 1.",
         hint: "Si la key ya está en store, compara el body guardado: igual ⇒ replay, distinto ⇒ conflict. Solo insertas cuando la key es nueva.",
         hints: [
           "Si la key ya está en store, compara el body guardado: igual ⇒ replay, distinto ⇒ conflict. Solo insertas cuando la key es nueva.",
@@ -904,6 +897,7 @@ assert idempotent_create(store, "idem-are-1", {"name": "other"}) == "conflict"
 assert len(store) == 1
 print("S41-T1-B", "PASS")
 
+meets_contract = len(store) == 1 and idempotent_create(store, "k1", {"x": 1}) == "replay"
 ` ,
           output: `S41-T1-B PASS` ,
         },
@@ -916,7 +910,7 @@ print("S41-T1-B", "PASS")
         preamble:
           "- **Contexto:** el gateway te entrega tres records de auditoría de reintentos: uno sano, uno con hash mismatch + effects>1, y uno sin `version`.\n- **Meta:** `assess` con missing-first y predicado de T1-B (hash igual, un efecto, cursor tipo `job-*`, version `v1`).\n- **Éxito:** `PASS RETURN_IDEMPOTENCY_CONFLICT MISSING:version`.\n- **Límites:** no apruebes effects>1; no inventes version; cursor offset no cuenta como keyset sano.",
         instruction:
-          "1. Corrige el predicado invertido (hoy PASS si effects>1 o hash distinto).\n2. PASS solo con hash estable, effects==1, cursor que empieza por `job-` y version `v1`.\n3. Mantén `MISSING:` + campos ordenados.\n4. Imprime las tres rutas.",
+          "S41-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido (hoy PASS si effects>1 o hash distinto).\n2. PASS solo con hash estable, effects==1, cursor que empieza por `job-` y version `v1`.\n3. Mantén `MISSING:` + campos ordenados.\n4. Imprime las tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
@@ -978,7 +972,7 @@ print(*results)
         preamble:
           "- **Contexto:** un cliente reintenta POST y el gateway pide una decisión fail-closed sobre tres records (válido, hash/effects rotos, sin version).\n- **Meta:** `decide` → `CONTINUE` | `RETURN_IDEMPOTENCY_CONFLICT` | `REPLAY_STORED_RESPONSE`.\n- **Éxito:** `CONTINUE RETURN_IDEMPOTENCY_CONFLICT REPLAY_STORED_RESPONSE`.\n- **Límites:** sin version no inventes v1; breach por hash o effects>1; tokens de lab.",
         instruction:
-          "1. Missing ⇒ `REPLAY_STORED_RESPONSE` (no CONTINUE).\n2. CONTINUE solo con el predicado sano de E2.\n3. Resto completo ⇒ `RETURN_IDEMPOTENCY_CONFLICT`.\n4. Conserva el assert de orden.",
+          "S41-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REPLAY_STORED_RESPONSE` (no CONTINUE).\n2. CONTINUE solo con el predicado sano de E2.\n3. Resto completo ⇒ `RETURN_IDEMPOTENCY_CONFLICT`.\n4. Conserva el assert de orden.",
         hint: "Incertidumbre (falta version) se enruta a REPLAY_STORED_RESPONSE *antes* de mirar hashes. Breach = hash distinto o effects>1 o cursor/version rotos.",
         hints: [
           "Incertidumbre (falta version) se enruta a REPLAY_STORED_RESPONSE *antes* de mirar hashes. Breach = hash distinto o effects>1 o cursor/version rotos.",
@@ -1041,7 +1035,7 @@ assert results == ["CONTINUE", "RETURN_IDEMPOTENCY_CONFLICT", "REPLAY_STORED_RES
         preamble:
           "- **Contexto:** en `CASO-ARE-041-2A` el POST de jobs debe poder probarse con dos fakes sin reescribir la ruta.\n- **Meta:** `create_job(store, body)` puro y `thin_handler(get_store, body)` que solo orquesta.\n- **Éxito:** cada fake recibe un job, sin `status_code` en el body; imprime `S41-T2-A PASS`.\n- **Límites:** no uses un global; no pongas status HTTP en el dominio; no ignores `get_store`.",
         instruction:
-          "1. Elimina `GLOBAL` y el campo `status_code`.\n2. `create_job` recibe `store` y hace append.\n3. `thin_handler` es `return create_job(get_store(), body)`.\n4. Conserva asserts de longitud y ausencia de status_code.",
+          "S41-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Elimina `GLOBAL` y el campo `status_code`.\n2. `create_job` recibe `store` y hace append.\n3. `thin_handler` es `return create_job(get_store(), body)`.\n4. Conserva asserts de longitud y ausencia de status_code.",
         hint: "El dominio no debe conocer status codes ni un global: recibe `store` y `body`. El handler es `return create_job(get_store(), body)`.",
         hints: [
           "El dominio no debe conocer status codes ni un global: recibe `store` y `body`. El handler es `return create_job(get_store(), body)`.",
@@ -1097,6 +1091,7 @@ assert len(mem_a) == 1 and len(mem_b) == 1
 assert "status_code" not in mem_a[0]
 print("S41-T2-A", "PASS")
 
+meets_contract = "status_code" not in mem_a[0] and len(mem_a) == 1
 ` ,
           output: `S41-T2-A PASS` ,
         },
@@ -1109,7 +1104,7 @@ print("S41-T2-A", "PASS")
         preamble:
           "- **Contexto:** en code review del control plane mides si el path operation sigue delgado o se mezcló con HTTP/dominio.\n- **Meta:** `assess` → PASS si handler corto, DI, dominio sin HTTP y `domain_called`; si no, `THIN_THE_HANDLER`; missing ⇒ `MISSING:domain_called`.\n- **Éxito:** `PASS THIN_THE_HANDLER MISSING:domain_called`.\n- **Límites:** no apruebes handlers gordos ni `domain_imports_http`; no inventes domain_called.",
         instruction:
-          "1. Invierte el predicado: PASS no es “líneas >20 y domain_imports_http”.\n2. Criterio: `handler_lines <= 5` y flags sanos.\n3. Missing-first.\n4. Print de tres rutas.",
+          "S41-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado: PASS no es “líneas >20 y domain_imports_http”.\n2. Criterio: `handler_lines <= 5` y flags sanos.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a domain_called debe ocurrir antes de esa rama.",
@@ -1171,7 +1166,7 @@ print(*results)
         preamble:
           "- **Contexto:** tres mediciones de capas deciden si el path sigue, se adelgaza o se revisa la boundary de dependencias.\n- **Meta:** `decide` fail-closed con tokens de lab.\n- **Éxito:** `CONTINUE THIN_THE_HANDLER REVIEW_DEPENDENCY_BOUNDARY`.\n- **Límites:** sin `domain_called` no asumas orquestación; tokens ≠ enums de producción.",
         instruction:
-          "1. Missing ⇒ `REVIEW_DEPENDENCY_BOUNDARY`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `THIN_THE_HANDLER`.\n4. Conserva el assert.",
+          "S41-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REVIEW_DEPENDENCY_BOUNDARY`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `THIN_THE_HANDLER`.\n4. Conserva el assert.",
         hint: "Sin domain_called ⇒ REVIEW_DEPENDENCY_BOUNDARY. CONTINUE exige handler_lines≤5, dependency_injectable, no domain_imports_http y domain_called.",
         hints: [
           "Sin domain_called ⇒ REVIEW_DEPENDENCY_BOUNDARY. CONTINUE exige handler_lines≤5, dependency_injectable, no domain_imports_http y domain_called.",
@@ -1234,7 +1229,7 @@ assert results == ["CONTINUE", "THIN_THE_HANDLER", "REVIEW_DEPENDENCY_BOUNDARY"]
         preamble:
           "- **Contexto:** en `CASO-ARE-041-2B` un job sintético `er-run` puede traer `secret`; el cliente solo debe ver campos públicos.\n- **Meta:** `handle(body)` → 422 tipado si falta `priority`; 200 con allow-list `{name, priority}` si es válido.\n- **Éxito:** asserts de 200 sin secret y 422 con fields; imprime `S41-T2-B PASS`.\n- **Límites:** no devuelvas el body crudo; no uses 200 con defaults silenciosos; sin PII real.",
         instruction:
-          "1. Define required `{name, priority}`.\n2. Si faltan campos, 422 + error/fields ordenados.\n3. Si pasa, `public_view` con allow-list.\n4. Conserva los asserts del starter.",
+          "S41-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Define required `{name, priority}`.\n2. Si faltan campos, 422 + error/fields ordenados.\n3. Si pasa, `public_view` con allow-list.\n4. Conserva los asserts del starter.",
         hint: "required = {name, priority}. Si faltan campos, 422 con lista de fields. Si pasa, serializa solo la allow-list pública.",
         hints: [
           "required = {name, priority}. Si faltan campos, 422 con lista de fields. Si pasa, serializa solo la allow-list pública.",
@@ -1289,6 +1284,7 @@ assert st_bad == 422 and body_bad.get("error") == "validation_error"
 assert "priority" in body_bad.get("fields", [])
 print("S41-T2-B", "PASS")
 
+meets_contract = st_bad == 422 and body_bad.get("error") == "validation_error"
 ` ,
           output: `S41-T2-B PASS` ,
         },
@@ -1301,7 +1297,7 @@ print("S41-T2-B", "PASS")
         preamble:
           "- **Contexto:** revisas tres snapshots: rechazo 422 bien formado (PASS), 200 con secret en response (breach), y un record sin flag `openapi_matches`.\n- **Meta:** `assess` — PASS si input inválido fue rechazado con 422, sin intersección con campos internos y OpenAPI alineado.\n- **Éxito:** `PASS REJECT_AND_REDACT MISSING:openapi_matches`.\n- **Límites:** no apruebes 200 con secret; no inventes openapi_matches; el PASS de este lab es un **rechazo correcto**, no un create feliz.",
         instruction:
-          "1. Corrige el predicado invertido (hoy PASS con 200 y leak).\n2. PASS: `not input_valid` y status 422 y sets disjuntos y openapi_matches.\n3. Missing-first.\n4. Print de tres rutas.",
+          "S41-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido (hoy PASS con 200 y leak).\n2. PASS: `not input_valid` y status 422 y sets disjuntos y openapi_matches.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a openapi_matches debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a openapi_matches debe ocurrir antes de esa rama.",
@@ -1363,7 +1359,7 @@ print(*results)
         preamble:
           "- **Contexto:** en revisión de PR del control plane, tres snapshots deciden si el contrato sigue, se redacta/rechaza o se regenera la doc.\n- **Meta:** `decide` con tokens fail-closed.\n- **Éxito:** `CONTINUE REJECT_AND_REDACT REGENERATE_OPENAPI`.\n- **Límites:** sin `openapi_matches` no evalúes el body como confiable; no inventes el flag.",
         instruction:
-          "1. Missing ⇒ `REGENERATE_OPENAPI`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `REJECT_AND_REDACT`.\n4. Conserva el assert.",
+          "S41-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REGENERATE_OPENAPI`.\n2. CONTINUE con el predicado sano de E2.\n3. Resto ⇒ `REJECT_AND_REDACT`.\n4. Conserva el assert.",
         hint: "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT.",
         hints: [
           "Si falta openapi_matches, no evalúes el body: REGENERATE_OPENAPI. Si hay secret en response o status 200 con body inválido: REJECT_AND_REDACT.",
@@ -1426,7 +1422,7 @@ assert results == ["CONTINUE", "REJECT_AND_REDACT", "REGENERATE_OPENAPI"]
         preamble:
           "- **Contexto:** en `CASO-ARE-041-3A` un GET ligero puede ser I/O; un score CPU o job durable no debe quedarse en el request.\n- **Meta:** `choose_boundary` + `enqueue_if_needed` (background encola `status=queued`).\n- **Éxito:** io_wait no encola; cpu_heavy encola uno; imprime `S41-T3-A PASS`.\n- **Límites:** no marques todo async; no dejes CPU en el loop; sin PII en ids.",
         instruction:
-          "1. Mapea io_wait→async; cpu_heavy/durable→background; resto→sync.\n2. Solo background hace append a la cola.\n3. Devuelve (boundary, len(queue)).\n4. Conserva los asserts.",
+          "S41-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Mapea io_wait→async; cpu_heavy/durable→background; resto→sync.\n2. Solo background hace append a la cola.\n3. Devuelve (boundary, len(queue)).\n4. Conserva los asserts.",
         hint: "Clasifica el kind primero; solo background toca la cola. I/O no debe dejar items en queue.",
         hints: [
           "Clasifica el kind primero; solo background toca la cola. I/O no debe dejar items en queue.",
@@ -1483,6 +1479,7 @@ assert b1 == "async" and n1 == 0
 assert b2 == "background" and n2 == 1 and q[0]["status"] == "queued"
 print("S41-T3-A", "PASS")
 
+meets_contract = results == ["CONTINUE", "THIN_THE_HANDLER", "REVIEW_DEPENDENCY_BOUNDARY"]
 ` ,
           output: `S41-T3-A PASS` ,
         },
@@ -1495,7 +1492,7 @@ print("S41-T3-A", "PASS")
         preamble:
           "- **Contexto:** capacity review del path: ¿el I/O usa await y los flags de offload/durable están documentados?\n- **Meta:** `assess` — PASS si work_kind io, uses_await, cpu_offloaded y durable_job; adverso CPU sin offload ⇒ `MOVE_WORK_OFF_EVENT_LOOP`; sin flag durable ⇒ `MISSING:durable_job`.\n- **Éxito:** `PASS MOVE_WORK_OFF_EVENT_LOOP MISSING:durable_job`.\n- **Límites:** no apruebes CPU en el request; no inventes durable_job; en este lab PASS exige **flags de capacidad presentes**, no solo el kind.",
         instruction:
-          "1. Invierte el predicado (hoy PASS con cpu + await sin offload).\n2. PASS con el conjunto de flags del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
+          "S41-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con cpu + await sin offload).\n2. PASS con el conjunto de flags del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a durable_job debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a durable_job debe ocurrir antes de esa rama.",
@@ -1557,7 +1554,7 @@ print(*results)
         preamble:
           "- **Contexto:** tres clasificaciones de trabajo deciden si el request sigue, se saca del loop o se elige boundary de background ante incertidumbre.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE MOVE_WORK_OFF_EVENT_LOOP CHOOSE_BACKGROUND_BOUNDARY`.\n- **Límites:** sin `durable_job` no asumas offload; tokens de lab.",
         instruction:
-          "1. Missing ⇒ `CHOOSE_BACKGROUND_BOUNDARY`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `MOVE_WORK_OFF_EVENT_LOOP`.\n4. Conserva el assert.",
+          "S41-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `CHOOSE_BACKGROUND_BOUNDARY`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `MOVE_WORK_OFF_EVENT_LOOP`.\n4. Conserva el assert.",
         hint: "Sin durable_job ⇒ CHOOSE_BACKGROUND_BOUNDARY antes de juzgar el loop. CPU o durable en el request ⇒ MOVE_WORK_OFF_EVENT_LOOP.",
         hints: [
           "Sin durable_job ⇒ CHOOSE_BACKGROUND_BOUNDARY antes de juzgar el loop. CPU o durable en el request ⇒ MOVE_WORK_OFF_EVENT_LOOP.",
@@ -1620,7 +1617,7 @@ assert results == ["CONTINUE", "MOVE_WORK_OFF_EVENT_LOOP", "CHOOSE_BACKGROUND_BO
         preamble:
           "- **Contexto:** en `CASO-ARE-041-3B` el job sintético puede superar el budget de servicio; el pool debe cerrarse siempre.\n- **Meta:** `run_with_budget` con try/finally; timeout ⇒ 504 Problem Details + `trace_id` sintético, sin email.\n- **Éxito:** ok y timeout dejan resources vacío; error tipado; imprime `S41-T3-B PASS`.\n- **Límites:** no devuelvas 500 con email; no omitas finally; sin PII real.",
         instruction:
-          "1. Envuelve la lógica en try/finally con `clear()`.\n2. Si elapsed > limit, arma error type/title/status 504/trace_id.\n3. Si no, outcome ok.\n4. Conserva los asserts de ambos caminos.",
+          "S41-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Envuelve la lógica en try/finally con `clear()`.\n2. Si elapsed > limit, arma error type/title/status 504/trace_id.\n3. Si no, outcome ok.\n4. Conserva los asserts de ambos caminos.",
         hint: "Usa try/finally: clear siempre. En timeout arma un dict con type/title/status/trace_id — nunca email ni stack.",
         hints: [
           "Usa try/finally: clear siempre. En timeout arma un dict con type/title/status/trace_id — nunca email ni stack.",
@@ -1685,6 +1682,7 @@ err = out_to["error"]
 assert err.get("status") == 504 and "trace_id" in err and "email" not in err
 print("S41-T3-B", "PASS")
 
+meets_contract = timeout_order == ["client", "service", "db"]
 ` ,
           output: `S41-T3-B PASS` ,
         },
@@ -1697,7 +1695,7 @@ print("S41-T3-B", "PASS")
         preamble:
           "- **Contexto:** telemetría de tres mediciones: cascada sana y recurso cerrado; budgets invertidos + pool abierto; flag de cierre ausente.\n- **Meta:** `assess` — PASS si db < service < client, error `UPSTREAM_TIMEOUT` y `resource_closed`; si no `CANCEL_AND_CLOSE`; missing ⇒ `MISSING:resource_closed`.\n- **Éxito:** `PASS CANCEL_AND_CLOSE MISSING:resource_closed`.\n- **Límites:** no apruebes budgets invertidos; no inventes resource_closed.",
         instruction:
-          "1. Invierte el predicado (hoy PASS con db > client o cerrado False).\n2. PASS con cascada estricta + código estable + closed True.\n3. Missing-first.\n4. Print de tres rutas.",
+          "S41-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con db > client o cerrado False).\n2. PASS con cascada estricta + código estable + closed True.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a resource_closed debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a resource_closed debe ocurrir antes de esa rama.",
@@ -1759,7 +1757,7 @@ print(*results)
         preamble:
           "- **Contexto:** en un incidente de timeout del control plane, tres mediciones deciden continuar, cancelar/cerrar o recalcular budgets ante evidencia incompleta.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE CANCEL_AND_CLOSE RECALCULATE_TIMEOUT_BUDGET`.\n- **Límites:** sin `resource_closed` no hay promoción; tokens de lab.",
         instruction:
-          "1. Missing ⇒ `RECALCULATE_TIMEOUT_BUDGET`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `CANCEL_AND_CLOSE`.\n4. Conserva el assert.",
+          "S41-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `RECALCULATE_TIMEOUT_BUDGET`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `CANCEL_AND_CLOSE`.\n4. Conserva el assert.",
         hint: "Sin resource_closed ⇒ RECALCULATE_TIMEOUT_BUDGET. CONTINUE exige client>service>db, error_code estable y resource_closed True.",
         hints: [
           "Sin resource_closed ⇒ RECALCULATE_TIMEOUT_BUDGET. CONTINUE exige client>service>db, error_code estable y resource_closed True.",
@@ -1822,7 +1820,7 @@ assert results == ["CONTINUE", "CANCEL_AND_CLOSE", "RECALCULATE_TIMEOUT_BUDGET"]
         preamble:
           "- **Contexto:** en `CASO-ARE-041-4A` siembras un bug de dominio o de HTTP y exiges que el nivel correcto lo detecte.\n- **Meta:** `level_detects` (domain→unit, http→contract, adapter→integration) y `pyramid_ok` con unit ≥ contract ≥ integration.\n- **Éxito:** asserts de seeds y pirámides; imprime `S41-T4-A PASS`.\n- **Límites:** no dejes siempre True; no inviertas la forma de la pirámide.",
         instruction:
-          "1. Mapea seed→nivel y compara igualdad.\n2. `pyramid_ok` = cadena de conteos.\n3. Conserva asserts positivos y el caso 2,5,12 False.\n4. Print final PASS.",
+          "S41-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Mapea seed→nivel y compara igualdad.\n2. `pyramid_ok` = cadena de conteos.\n3. Conserva asserts positivos y el caso 2,5,12 False.\n4. Print final PASS.",
         hint: "Mapea domain→unit, http→contract, adapter→integration. No dejes que integration sea el único colador de un bug de status.",
         hints: [
           "Mapea domain→unit, http→contract, adapter→integration. No dejes que integration sea el único colador de un bug de status.",
@@ -1871,6 +1869,7 @@ assert pyramid_ok(12, 5, 2) is True
 assert pyramid_ok(2, 5, 12) is False
 print("S41-T4-A", "PASS")
 
+meets_contract = unit_count >= contract_count and contract_count >= e2e_count
 ` ,
           output: `S41-T4-A PASS` ,
         },
@@ -1883,7 +1882,7 @@ print("S41-T4-A", "PASS")
         preamble:
           "- **Contexto:** tres reportes de test plan: pirámide completa con seed atrapado; solo unit sin seed; flag de seed ausente.\n- **Meta:** `assess` → PASS si layers incluyen unit/contract/integration y todos los flags; si no `BLOCK_UNTESTED_CONTRACT`; missing ⇒ `MISSING:seeded_failure_detected`.\n- **Éxito:** `PASS BLOCK_UNTESTED_CONTRACT MISSING:seeded_failure_detected`.\n- **Límites:** no apruebes una sola capa; no inventes seed detectado.",
         instruction:
-          "1. Invierte el predicado (hoy PASS con layers==1 y seed False).\n2. PASS con subset de capas y all(flags).\n3. Missing-first.\n4. Print de tres rutas.",
+          "S41-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con layers==1 y seed False).\n2. PASS con subset de capas y all(flags).\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a seeded_failure_detected debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a seeded_failure_detected debe ocurrir antes de esa rama.",
@@ -1945,7 +1944,7 @@ print(*results)
         preamble:
           "- **Contexto:** antes de promover el control plane, el test plan debe atrapar seeds en el nivel correcto o bloquear el merge.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE BLOCK_UNTESTED_CONTRACT ADD_MISSING_TEST_LEVEL`.\n- **Límites:** sin flag de seed no asumas cobertura; tokens de lab.",
         instruction:
-          "1. Missing ⇒ `ADD_MISSING_TEST_LEVEL`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `BLOCK_UNTESTED_CONTRACT`.\n4. Conserva el assert.",
+          "S41-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `ADD_MISSING_TEST_LEVEL`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `BLOCK_UNTESTED_CONTRACT`.\n4. Conserva el assert.",
         hint: "Sin seeded_failure_detected ⇒ ADD_MISSING_TEST_LEVEL. CONTINUE exige shape de pirámide y seed detectado en el nivel correcto.",
         hints: [
           "Sin seeded_failure_detected ⇒ ADD_MISSING_TEST_LEVEL. CONTINUE exige shape de pirámide y seed detectado en el nivel correcto.",
@@ -2008,7 +2007,7 @@ assert results == ["CONTINUE", "BLOCK_UNTESTED_CONTRACT", "ADD_MISSING_TEST_LEVE
         preamble:
           "- **Contexto:** en `CASO-ARE-041-4B` la cuota sintética es 100; la traza `tr-are-041` no debe llevar email.\n- **Meta:** `admit(used, limit)` y `log_fields` con ban-set.\n- **Éxito:** remaining 27 bajo cuota; 429 over-limit; log sin email; imprime `S41-T4-B PASS`.\n- **Límites:** no dejes siempre 200; no inventes remaining en 429; no loguees PII.",
         instruction:
-          "1. Si used > limit ⇒ 429 + retry_after_s.\n2. Si no ⇒ 200 + remaining = limit - used.\n3. log_fields filtra email/dni/secret.\n4. Conserva los asserts.",
+          "S41-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Si used > limit ⇒ 429 + retry_after_s.\n2. Si no ⇒ 200 + remaining = limit - used.\n3. log_fields filtra email/dni/secret.\n4. Conserva los asserts.",
         hint: "429 es recuperable: incluye retry_after_s. Redacta con ban-set antes de imprimir/loguear.",
         hints: [
           "429 es recuperable: incluye retry_after_s. Redacta con ban-set antes de imprimir/loguear.",
@@ -2061,6 +2060,7 @@ assert b["status"] == 429 and "retry_after_s" in b
 assert "email" not in logged and logged.get("trace_id") == "tr-are-041"
 print("S41-T4-B", "PASS")
 
+meets_contract = quota_resp == 429 and v1_fields.issubset(v11_fields)
 ` ,
           output: `S41-T4-B PASS` ,
         },
@@ -2073,7 +2073,7 @@ print("S41-T4-B", "PASS")
         preamble:
           "- **Contexto:** tres telemetrías de edge: consumer v1 + cuota sana + log limpio; over-limit + consumer roto + PII; flag pii ausente.\n- **Meta:** `assess` — PASS si consumer pasa, used en rango, trace con prefijo `tr-` y no pii; si no `THROTTLE_AND_REDACT`; missing ⇒ `MISSING:pii_in_log`.\n- **Éxito:** `PASS THROTTLE_AND_REDACT MISSING:pii_in_log`.\n- **Límites:** no apruebes over-limit ni PII en log; no inventes el flag.",
         instruction:
-          "1. Invierte el predicado (hoy PASS con over-limit o pii).\n2. PASS con el conjunto sano del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
+          "S41-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con over-limit o pii).\n2. PASS con el conjunto sano del fixture válido.\n3. Missing-first.\n4. Print de tres rutas.",
         hint: "Primero se calcula `missing`; ningún acceso a pii_in_log debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a pii_in_log debe ocurrir antes de esa rama.",
@@ -2135,7 +2135,7 @@ print(*results)
         preamble:
           "- **Contexto:** cierre del gate CP-N4-A en el edge: cuota, consumer v1 y redaction deben demostrarse o el flujo se bloquea/inspecciona.\n- **Meta:** `decide` fail-closed.\n- **Éxito:** `CONTINUE THROTTLE_AND_REDACT INSPECT_COMPATIBILITY`.\n- **Límites:** sin `pii_in_log` no asumas redaction; tokens de lab, no enums de prod.",
         instruction:
-          "1. Missing ⇒ `INSPECT_COMPATIBILITY`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `THROTTLE_AND_REDACT`.\n4. Conserva el assert.",
+          "S41-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `INSPECT_COMPATIBILITY`.\n2. CONTINUE con predicado sano.\n3. Resto ⇒ `THROTTLE_AND_REDACT`.\n4. Conserva el assert.",
         hint: "Sin pii_in_log ⇒ INSPECT_COMPATIBILITY. CONTINUE exige old_consumer_passes, used≤limit y pii_in_log False.",
         hints: [
           "Sin pii_in_log ⇒ INSPECT_COMPATIBILITY. CONTINUE exige old_consumer_passes, used≤limit y pii_in_log False.",
@@ -2193,7 +2193,7 @@ assert results == ["CONTINUE", "THROTTLE_AND_REDACT", "INSPECT_COMPATIBILITY"]
     ],
   },
   youDo: {
-    title: "API con FastAPI y contratos HTTP",
+    title: "APIs con FastAPI y contratos HTTP",
     context: "API versionada de jobs y evidencia para una oficina ficticia en Arequipa (`CASO-ARE-041`). Entrada: solicitudes HTTP con identidad sintética e Idempotency-Key. Salida: respuestas sin PII con status semánticos, evidencia y errores tipados. El gate se bloquea si un payload inválido, un timeout, un duplicado conflictivo o un límite excedido no produce un error tipado y observable — o si el replay duplica side effects.",
     objectives: [
       "Implementar create + replay + conflicto de Idempotency-Key y GET de status en un lab stdlib (isomorfo a FastAPI).",

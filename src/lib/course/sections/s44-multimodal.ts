@@ -94,8 +94,7 @@ permissions {'contents': 'read'}`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Lint, types y tests en AND sobre la matriz soportada. Un check rojo o una versión fuera de matriz → `FAIL_CI_GATE`; sin `supported` → `REVIEW_MATRIX`.",
+        content: "Evidencia mínima de S44-T1-A: Lint, types y tests en AND sobre la matriz soportada. Un check rojo o una versión fuera de matriz → `FAIL_CI_GATE`; sin `supported` → `REVIEW_MATRIX`.",
       },
     },
     {
@@ -134,8 +133,7 @@ publishable True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "La caché acelera; el artifact con digest y retención es la evidencia. Tags de release sin los mismos gates que `main` → `DISCARD_PIPELINE_RESULT`.",
+        content: "Antes de promover S44-T1-B, La caché acelera; el artifact con digest y retención es la evidencia. Tags de release sin los mismos gates que `main` → `DISCARD_PIPELINE_RESULT`.",
       },
     },
     {
@@ -189,8 +187,7 @@ secret_scan True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Permisos ⊆ {read, none}, pin por SHA de 40 hex y cero secret hits. Write amplio, tag flotante o secreto en logs → `REVOKE_AND_ROTATE`.",
+        content: "La revisión de S44-T2-A conserva que Permisos ⊆ {read, none}, pin por SHA de 40 hex y cero secret hits. Write amplio, tag flotante o secreto en logs → `REVOKE_AND_ROTATE`.",
       },
     },
     {
@@ -222,8 +219,7 @@ prov_ok True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Si los digests de artifact, SBOM y provenance divergen o falta la attestation, el gate rechaza el promote (`REJECT_ATTESTATION`).",
+        content: "Contrato S44-T2-B: Si los digests de artifact, SBOM y provenance divergen o falta la attestation, el gate rechaza el promote (`REJECT_ATTESTATION`).",
       },
     },
     {
@@ -258,8 +254,7 @@ same_digest True`,
       callout: {
         type: "warning",
         title: "Anti-patrón: rebuild al promover",
-        content:
-          "Sin aprobador independiente o con digests distintos entre staging y prod, el gate deniega el promote (`DENY_PROMOTION`). Nunca reconstruyas al promover.",
+        content: "Para S44-T3-A, Sin aprobador independiente o con digests distintos entre staging y prod, el gate deniega el promote (`DENY_PROMOTION`). Nunca reconstruyas al promover.",
       },
     },
     {
@@ -290,8 +285,7 @@ rollback`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Canary sano bajo umbral → hold; error sobre umbral → rollback al digest previo dentro del RTO. Sin RTO medible → `PAUSE_CANARY`.",
+        content: "Promoción de S44-T3-B: Canary sano bajo umbral → hold; error sobre umbral → rollback al digest previo dentro del RTO. Sin RTO medible → `PAUSE_CANARY`.",
       },
     },
     {
@@ -322,8 +316,7 @@ branch main_protected`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Branch protection + reviews + notes operables (cambio, riesgo, migración, rollback). Merge sin protección o notes incompletas → `BLOCK_UNREVIEWED_RELEASE`.",
+        content: "El dueño de S44-T4-A acepta que Branch protection + reviews + notes operables (cambio, riesgo, migración, rollback). Merge sin protección o notes incompletas → `BLOCK_UNREVIEWED_RELEASE`.",
       },
     },
     {
@@ -353,8 +346,7 @@ audit True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Fallo crítico bloquea el release y deja evidencia auditable (logs redactados, dueño, artifact). Breach silencioso → `STOP_SILENT_FAILURE`; falta de dueño o evidencia → `ASSIGN_INCIDENT_OWNER`.",
+        content: "Cierre de S44-T4-B: Fallo crítico bloquea el release y deja evidencia auditable (logs redactados, dueño, artifact). Breach silencioso → `STOP_SILENT_FAILURE`; falta de dueño o evidencia → `ASSIGN_INCIDENT_OWNER`.",
       },
     },
   ],
@@ -602,7 +594,7 @@ audit_trail True`,
         preamble:
           "- **Contexto:** en CASO-PIU-044-1A el PR de ops de Piura solo avanza si lint, types y tests pasan **todos** y la matriz ejecutada es la soportada.\n- **Meta:** corregir el predicado (AND de los tres checks + `matrix == supported`).\n- **Éxito:** una línea `S44-T1-A PASS`.\n- **Límites:** no mutes el fixture; no uses OR; el DEFECT está en la expresión, no en los datos.",
         instruction:
-          "1. Abre el starter: `meets_contract` usa `lint or types or tests` (DEFECT).\n2. Cámbialo a `all(...)` de lint/types/tests **y** `matrix == supported`.\n3. Conserva el print de status.\n4. Debe imprimir `S44-T1-A PASS`.",
+          "S44-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `lint or types or tests` (DEFECT).\n2. Cámbialo a `all(...)` de lint/types/tests **y** `matrix == supported`.\n3. Conserva el print de status.\n4. Debe imprimir `S44-T1-A PASS`.",
         hint: "Recuerda el AND de lint/types/tests más la igualdad matriz == soportada.",
         hints: [
           "Relaciona los campos `lint`, `types`, `tests`, `matrix`, `supported` con la regla explicada en S44-T1-A.",
@@ -645,7 +637,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el job de Piura no inventa una matriz cuando falta `supported`: primero valida campos, luego mide contenido.\n- **Meta:** implementar `assess` que separe válido, adverso (types False + 3.10) y sin `supported`.\n- **Éxito:** `PASS FAIL_CI_GATE MISSING:supported`.\n- **Límites:** calcula `missing` antes de leer `supported`; no rellenes la matriz; datos sintéticos CASO-PIU-044-1A.",
         instruction:
-          "1. Revisa el starter: PASS si OR de lint/types/tests (DEFECT).\n2. Corrige a AND + matrix==supported.\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
+          "S44-T1-A-E2 · 1. Revisa el starter: PASS si OR de lint/types/tests (DEFECT).\n2. Corrige a AND + matrix==supported.\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a supported debe ocurrir antes de esa rama.",
@@ -705,7 +697,7 @@ print(*results)
         preamble:
           "- **Contexto:** en plataforma de Piura no se asume «todo OK» si falta la matriz soportada: se deriva a revisión humana.\n- **Meta:** decidir CONTINUE / FAIL_CI_GATE / REVIEW_MATRIX.\n- **Éxito:** `CONTINUE FAIL_CI_GATE REVIEW_MATRIX`.\n- **Límites:** missing → REVIEW_MATRIX (no CONTINUE); no inventes `supported`; breach de checks cierra con FAIL_CI_GATE.",
         instruction:
-          "1. Lee el DEFECT: missing devuelve CONTINUE y pred usa OR.\n2. En `decide`, missing → `REVIEW_MATRIX`.\n3. Completos: CONTINUE solo si AND + matrix==supported; si no → FAIL_CI_GATE.\n4. Imprime las tres decisiones en orden.",
+          "S44-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Lee el DEFECT: missing devuelve CONTINUE y pred usa OR.\n2. En `decide`, missing → `REVIEW_MATRIX`.\n3. Completos: CONTINUE solo si AND + matrix==supported; si no → FAIL_CI_GATE.\n4. Imprime las tres decisiones en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `supported` a `REVIEW_MATRIX` antes de mirar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_MATRIX` antes de evaluar el contenido.",
@@ -765,7 +757,7 @@ assert results == ["CONTINUE", "FAIL_CI_GATE", "REVIEW_MATRIX"]` ,
         preamble:
           "- **Contexto:** en CASO-PIU-044-1B el wheel de Piura solo se adjunta si el miss de cache aún produce resultado y el digest es verificable.\n- **Meta:** corregir el predicado (prefijo `lock-`, miss pasa, sha256, retención ≥7, tags cubiertos).\n- **Éxito:** `S44-T1-B PASS`.\n- **Límites:** no mutes el fixture; no publiques con digest `latest`; DEFECT en la expresión booleana.",
         instruction:
-          "1. El starter marca PASS con `not cache_miss_passes or not conditions_cover_tags` (DEFECT).\n2. Reemplaza por AND de startswith lock-, miss True, sha256, retention ≥7, conditions True.\n3. Conserva el print.\n4. Debe imprimir `S44-T1-B PASS`.",
+          "S44-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter marca PASS con `not cache_miss_passes or not conditions_cover_tags` (DEFECT).\n2. Reemplaza por AND de startswith lock-, miss True, sha256, retention ≥7, conditions True.\n3. Conserva el print.\n4. Debe imprimir `S44-T1-B PASS`.",
         hint: "Clave de caché con prefijo lock-, artifact sha256 y tags cubiertos: todo en AND.",
         hints: [
           "Relaciona los campos `cache_key`, `cache_miss_passes`, `artifact_digest`, `retention_days`, `conditions_cover_tags` con la regla explicada en S44-T1-B.",
@@ -808,7 +800,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el pipeline de Piura descarta un job si la cache es global, el digest es `latest` o los tags no tienen gates.\n- **Meta:** `assess` con PASS / DISCARD_PIPELINE_RESULT / MISSING:conditions_cover_tags.\n- **Éxito:** exactamente esas tres cadenas en una línea.\n- **Límites:** missing antes de leer conditions; no inventes cobertura de tags; fixture sintético.",
         instruction:
-          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica el contrato completo de T1-B sobre datos completos.\n3. Conserva MISSING por schema.\n4. Imprime `PASS DISCARD_PIPELINE_RESULT MISSING:conditions_cover_tags`.",
+          "S44-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica el contrato completo de T1-B sobre datos completos.\n3. Conserva MISSING por schema.\n4. Imprime `PASS DISCARD_PIPELINE_RESULT MISSING:conditions_cover_tags`.",
         hint: "Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a conditions_cover_tags debe ocurrir antes de esa rama.",
@@ -868,7 +860,7 @@ print(*results)
         preamble:
           "- **Contexto:** si no sabes si los tags de release de Piura comparten gates con main, **pausas a revisar el workflow**, no inventas True.\n- **Meta:** decide CONTINUE / DISCARD_PIPELINE_RESULT / INSPECT_WORKFLOW_CONDITION.\n- **Éxito:** `CONTINUE DISCARD_PIPELINE_RESULT INSPECT_WORKFLOW_CONDITION`.\n- **Límites:** missing ≠ breach; no rellenes conditions; no publiques digest huérfano.",
         instruction:
-          "1. DEFECT: missing → CONTINUE; pred invertido.\n2. missing → INSPECT_WORKFLOW_CONDITION.\n3. Completos: CONTINUE solo con contrato T1-B; si no → DISCARD.\n4. Imprime en orden valid, invalid, uncertain.",
+          "S44-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing → CONTINUE; pred invertido.\n2. missing → INSPECT_WORKFLOW_CONDITION.\n3. Completos: CONTINUE solo con contrato T1-B; si no → DISCARD.\n4. Imprime en orden valid, invalid, uncertain.",
         hint: "Missing ≠ breach: enruta la ausencia de `conditions_cover_tags` a `INSPECT_WORKFLOW_CONDITION` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INSPECT_WORKFLOW_CONDITION` antes de evaluar el contenido.",
@@ -928,7 +920,7 @@ assert results == ["CONTINUE", "DISCARD_PIPELINE_RESULT", "INSPECT_WORKFLOW_COND
         preamble:
           "- **Contexto:** en CASO-PIU-044-2A el workflow de Piura usa `contents: read` y checkout con SHA real de 40 hex.\n- **Meta:** implementar least privilege + `full_sha_pin` + secret_hits==0 + dependency_review.\n- **Éxito:** `S44-T2-A PASS`.\n- **Límites:** no mutes el PIN; no aceptes `@v4`; no cambies el assert; sin secretos reales.",
         instruction:
-          "1. Starter: PASS si write o secret_hits>0 (DEFECT invertido).\n2. Extrae el ref tras `@` y valida len 40 hex.\n3. AND con permisos ⊆ {read, none}, secret_hits==0 y dependency_review.\n4. Imprime `S44-T2-A PASS`.",
+          "S44-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si write o secret_hits>0 (DEFECT invertido).\n2. Extrae el ref tras `@` y valida len 40 hex.\n3. AND con permisos ⊆ {read, none}, secret_hits==0 y dependency_review.\n4. Imprime `S44-T2-A PASS`.",
         hint: "Valida permisos ⊆ {read, none}, `action_ref` con SHA de 40 hex tras `@`, secret_hits==0 y dependency_review.",
         hints: [
           "Extrae el ref después de `@` en `action_ref` y comprueba len==40 y hex.",
@@ -995,7 +987,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** un job de release en Piura con `packages: write` y checkout@v4 no es «casi pinneado»: es breach.\n- **Meta:** assess PASS / REVOKE_AND_ROTATE / MISSING:dependency_review.\n- **Éxito:** `PASS REVOKE_AND_ROTATE MISSING:dependency_review`.\n- **Límites:** missing antes del dominio; pin calculado; no inventes dependency_review.",
         instruction:
-          "1. Starter aprueba write/secret (DEFECT).\n2. Reutiliza full_sha_pin y least privilege.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
+          "S44-T2-A-E2 · 1. Starter aprueba write/secret (DEFECT).\n2. Reutiliza full_sha_pin y least privilege.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero `missing`; luego least privilege + full_sha_pin(action_ref) + secret_hits==0 + dependency_review.",
         hints: [
           "El inválido usa `@v4` (tag flotante) y write: debe fallar por contenido, no por schema.",
@@ -1092,7 +1084,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin dependency_review el lead de ops en Piura no inventa un True: pide **aprobación de seguridad**.\n- **Meta:** decide CONTINUE / REVOKE_AND_ROTATE / SECURITY_APPROVAL.\n- **Éxito:** `CONTINUE REVOKE_AND_ROTATE SECURITY_APPROVAL`.\n- **Límites:** missing ≠ CONTINUE; no apruebes tag flotante; sin secretos reales.",
         instruction:
-          "1. DEFECT: missing→CONTINUE; pred premia write/secret.\n2. missing → SECURITY_APPROVAL.\n3. Completos: CONTINUE solo con contrato T2-A; si no → REVOKE_AND_ROTATE.\n4. Imprime en orden.",
+          "S44-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred premia write/secret.\n2. missing → SECURITY_APPROVAL.\n3. Completos: CONTINUE solo con contrato T2-A; si no → REVOKE_AND_ROTATE.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `dependency_review` a `SECURITY_APPROVAL` antes del contenido.",
         hints: [
           "Reutiliza full_sha_pin sobre action_ref; solo least privilege + pin + cero secrets + review devuelve CONTINUE.",
@@ -1189,7 +1181,7 @@ assert results == ["CONTINUE", "REVOKE_AND_ROTATE", "SECURITY_APPROVAL"]` ,
         preamble:
           "- **Contexto:** en CASO-PIU-044-2B el wheel de Piura, su SBOM y el subject de provenance deben ser el **mismo** digest.\n- **Meta:** corregir a len(set)==1 y attestation_valid.\n- **Éxito:** `S44-T2-B PASS`.\n- **Límites:** no mutes digests del fixture; no copies SBOM de otro build; DEFECT en la comparación.",
         instruction:
-          "1. Starter: PASS si len({...}) > 1 (DEFECT).\n2. Cámbialo a == 1 **y** attestation_valid.\n3. Conserva print/status.\n4. Debe imprimir `S44-T2-B PASS`.",
+          "S44-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si len({...}) > 1 (DEFECT).\n2. Cámbialo a == 1 **y** attestation_valid.\n3. Conserva print/status.\n4. Debe imprimir `S44-T2-B PASS`.",
         hint: "Los tres digests deben coincidir y la attestation debe ser válida.",
         hints: [
           "Relaciona los campos `artifact_digest`, `sbom_digest`, `provenance_subject`, `attestation_valid` con la regla explicada en S44-T2-B.",
@@ -1232,7 +1224,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el auditor de supply chain en Piura rechaza digests divergentes aunque el README diga OK.\n- **Meta:** assess PASS / REJECT_ATTESTATION / MISSING:attestation_valid.\n- **Éxito:** `PASS REJECT_ATTESTATION MISSING:attestation_valid`.\n- **Límites:** missing antes de leer attestation_valid; no inventes True; sintético.",
         instruction:
-          "1. Starter: PASS con digests divergentes (DEFECT).\n2. Corrige a len==1 y attestation_valid.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
+          "S44-T2-B-E2 · 1. Starter: PASS con digests divergentes (DEFECT).\n2. Corrige a len==1 y attestation_valid.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a attestation_valid debe ocurrir antes de esa rama.",
@@ -1292,7 +1284,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin saber si la attestation es válida, Piura **reconstruye provenance**, no inventa un check verde.\n- **Meta:** decide CONTINUE / REJECT_ATTESTATION / REBUILD_PROVENANCE.\n- **Éxito:** `CONTINUE REJECT_ATTESTATION REBUILD_PROVENANCE`.\n- **Límites:** missing ≠ CONTINUE; no rellenes attestation_valid; no promuevas digest huérfano.",
         instruction:
-          "1. DEFECT: missing→CONTINUE; pred len>1.\n2. missing → REBUILD_PROVENANCE.\n3. Completos: CONTINUE solo si digests alineados + attestation; si no → REJECT.\n4. Imprime en orden.",
+          "S44-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred len>1.\n2. missing → REBUILD_PROVENANCE.\n3. Completos: CONTINUE solo si digests alineados + attestation; si no → REJECT.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `attestation_valid` a `REBUILD_PROVENANCE` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REBUILD_PROVENANCE` antes de evaluar el contenido.",
@@ -1352,7 +1344,7 @@ assert results == ["CONTINUE", "REJECT_ATTESTATION", "REBUILD_PROVENANCE"]` ,
         preamble:
           "- **Contexto:** en CASO-PIU-044-3A staging aprobó `sha256:abc`; production solo se mueve con `release-owner` y el **mismo** digest.\n- **Meta:** corregir a staging→production + approved_by + digests idénticos.\n- **Éxito:** `S44-T3-A PASS`.\n- **Límites:** no mutes digests; no promuevas desde dev; DEFECT en el predicado.",
         instruction:
-          "1. Starter: PASS con not approved_by o digests != (DEFECT).\n2. Exige source staging, target production, bool(approved_by), tested==promoted.\n3. Conserva print.\n4. `S44-T3-A PASS`.",
+          "S44-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con not approved_by o digests != (DEFECT).\n2. Exige source staging, target production, bool(approved_by), tested==promoted.\n3. Conserva print.\n4. `S44-T3-A PASS`.",
         hint: "Staging → production, aprobador presente y digests idénticos (sin rebuild).",
         hints: [
           "Relaciona los campos `source_env`, `target_env`, `approved_by`, `tested_digest`, `promoted_digest` con la regla explicada en S44-T3-A.",
@@ -1395,7 +1387,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el lead de ops en Piura pregunta «¿podemos promover?»: la respuesta es digests y aprobador, no el README.\n- **Meta:** assess PASS / DENY_PROMOTION / MISSING:promoted_digest.\n- **Éxito:** `PASS DENY_PROMOTION MISSING:promoted_digest`.\n- **Límites:** missing antes de leer promoted_digest; no inventes digest; sintético.",
         instruction:
-          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T3-A completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
+          "S44-T3-A-E2 · 1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T3-A completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a promoted_digest debe ocurrir antes de esa rama.",
@@ -1455,7 +1447,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin `promoted_digest` no se inventa uno: se **solicita aprobación de release** y se detiene el promote.\n- **Meta:** decide CONTINUE / DENY_PROMOTION / REQUEST_RELEASE_APPROVAL.\n- **Éxito:** `CONTINUE DENY_PROMOTION REQUEST_RELEASE_APPROVAL`.\n- **Límites:** missing ≠ CONTINUE; no rellenes digest; no rebuild al promover.",
         instruction:
-          "1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → REQUEST_RELEASE_APPROVAL.\n3. Completos: CONTINUE solo con contrato T3-A; si no → DENY.\n4. Imprime en orden.",
+          "S44-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → REQUEST_RELEASE_APPROVAL.\n3. Completos: CONTINUE solo con contrato T3-A; si no → DENY.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `promoted_digest` a `REQUEST_RELEASE_APPROVAL` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_RELEASE_APPROVAL` antes de evaluar el contenido.",
@@ -1515,7 +1507,7 @@ assert results == ["CONTINUE", "DENY_PROMOTION", "REQUEST_RELEASE_APPROVAL"]` ,
         preamble:
           "- **Contexto:** en CASO-PIU-044-3B el servicio de jobs de Piura canariza con 0.4% de error (umbral 1%) y rollback ensayado en 75 s (RTO 120).\n- **Meta:** migración compatible + error ≤ umbral + rollback_tested + segundos ≤ RTO.\n- **Éxito:** `S44-T3-B PASS`.\n- **Límites:** no mutes tasas; no ignores RTO; DEFECT en el predicado.",
         instruction:
-          "1. Starter: PASS con error alto o sin rollback (DEFECT).\n2. Invierte a AND del camino sano completo.\n3. Conserva print.\n4. `S44-T3-B PASS`.",
+          "S44-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con error alto o sin rollback (DEFECT).\n2. Invierte a AND del camino sano completo.\n3. Conserva print.\n4. `S44-T3-B PASS`.",
         hint: "Error rate ≤ umbral, rollback ensayado y segundos de rollback ≤ RTO.",
         hints: [
           "Relaciona los campos `migration_compatible`, `canary_error_rate`, `max_error_rate`, `rollback_tested`, `rollback_seconds`, `rto_seconds` con la regla explicada en S44-T3-B.",
@@ -1558,7 +1550,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** un canary de Piura al 8% de error con rollback no ensayado no se «hold»: se clasifica como release a revertir.\n- **Meta:** assess PASS / ROLLBACK_RELEASE / MISSING:rto_seconds.\n- **Éxito:** `PASS ROLLBACK_RELEASE MISSING:rto_seconds`.\n- **Límites:** missing antes de rto_seconds; no inventes RTO; sintético.",
         instruction:
-          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T3-B completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
+          "S44-T3-B-E2 · 1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T3-B completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a rto_seconds debe ocurrir antes de esa rama.",
@@ -1618,7 +1610,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin `rto_seconds` no sabes si el ensayo de rollback de Piura fue a tiempo: **pausas el canary**, no continúas el release.\n- **Meta:** decide CONTINUE / ROLLBACK_RELEASE / PAUSE_CANARY.\n- **Éxito:** `CONTINUE ROLLBACK_RELEASE PAUSE_CANARY`.\n- **Límites:** missing ≠ CONTINUE; no inventes RTO; no ignores error alto.",
         instruction:
-          "1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → PAUSE_CANARY.\n3. Completos: CONTINUE solo con contrato sano; si no → ROLLBACK_RELEASE.\n4. Imprime en orden.",
+          "S44-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → PAUSE_CANARY.\n3. Completos: CONTINUE solo con contrato sano; si no → ROLLBACK_RELEASE.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `rto_seconds` a `PAUSE_CANARY` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `PAUSE_CANARY` antes de evaluar el contenido.",
@@ -1678,7 +1670,7 @@ assert results == ["CONTINUE", "ROLLBACK_RELEASE", "PAUSE_CANARY"]` ,
         preamble:
           "- **Contexto:** en CASO-PIU-044-4A main de Piura exige 2 reviews, checks de CI y notes con cambio, riesgo, migración y rollback.\n- **Meta:** protected_branch + reviews ≥1 + required_checks + set de notes completo.\n- **Éxito:** `S44-T4-A PASS`.\n- **Límites:** no mutes el set de notes; no aceptes notes solo con `change`; DEFECT en el pred.",
         instruction:
-          "1. Starter: PASS sin protección o reviews==0 (DEFECT).\n2. Exige protected True, reviews ≥1, checks True, notes ⊇ {change, risk, migration, rollback}.\n3. Conserva print.\n4. `S44-T4-A PASS`.",
+          "S44-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS sin protección o reviews==0 (DEFECT).\n2. Exige protected True, reviews ≥1, checks True, notes ⊇ {change, risk, migration, rollback}.\n3. Conserva print.\n4. `S44-T4-A PASS`.",
         hint: "Branch protegida, ≥1 review, checks activos y notes con change/risk/migration/rollback.",
         hints: [
           "Relaciona los campos `protected_branch`, `required_reviews`, `required_checks`, `release_notes` con la regla explicada en S44-T4-A.",
@@ -1721,7 +1713,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** merge directo a main sin protección o notes incompletas deja al on-call de Piura sin mapa.\n- **Meta:** assess PASS / BLOCK_UNREVIEWED_RELEASE / MISSING:release_notes.\n- **Éxito:** `PASS BLOCK_UNREVIEWED_RELEASE MISSING:release_notes`.\n- **Límites:** missing antes de release_notes; no inventes el set; sintético.",
         instruction:
-          "1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T4-A completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
+          "S44-T4-A-E2 · 1. Starter: PASS con pred invertido (DEFECT).\n2. Aplica contrato T4-A completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a release_notes debe ocurrir antes de esa rama.",
@@ -1781,7 +1773,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin el mapa `release_notes` no se inventa un set: se exige **completar notes** antes de liberar.\n- **Meta:** decide CONTINUE / BLOCK_UNREVIEWED_RELEASE / COMPLETE_RELEASE_NOTES.\n- **Éxito:** `CONTINUE BLOCK_UNREVIEWED_RELEASE COMPLETE_RELEASE_NOTES`.\n- **Límites:** missing ≠ CONTINUE; no rellenes notes; no merges sin protección.",
         instruction:
-          "1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → COMPLETE_RELEASE_NOTES.\n3. Completos: CONTINUE solo con contrato T4-A; si no → BLOCK.\n4. Imprime en orden.",
+          "S44-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred invertido.\n2. missing → COMPLETE_RELEASE_NOTES.\n3. Completos: CONTINUE solo con contrato T4-A; si no → BLOCK.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `release_notes` a `COMPLETE_RELEASE_NOTES` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `COMPLETE_RELEASE_NOTES` antes de evaluar el contenido.",
@@ -1841,7 +1833,7 @@ assert results == ["CONTINUE", "BLOCK_UNREVIEWED_RELEASE", "COMPLETE_RELEASE_NOT
         preamble:
           "- **Contexto:** en CASO-PIU-044-4B un test de integración crítico falla: el workflow marca block, retiene log+artifact, owner `release` y logs redactados.\n- **Meta:** critical + blocked + redacted + owner truthy + evidence_retained.\n- **Éxito:** `S44-T4-B PASS`.\n- **Límites:** no mutes el fixture; no borres el trace; DEFECT en el pred.",
         instruction:
-          "1. Starter: PASS si critical y not pipeline_blocked (DEFECT).\n2. Exige AND de blocked, redacted, owner, evidence.\n3. Conserva print.\n4. `S44-T4-B PASS`.",
+          "S44-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si critical y not pipeline_blocked (DEFECT).\n2. Exige AND de blocked, redacted, owner, evidence.\n3. Conserva print.\n4. `S44-T4-B PASS`.",
         hint: "Crítico + pipeline bloqueado + logs redactados + owner + evidencia retenida.",
         hints: [
           "Relaciona los campos `critical_failure`, `pipeline_blocked`, `logs_redacted`, `owner`, `evidence_retained` con la regla explicada en S44-T4-B.",
@@ -1884,7 +1876,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** un fallo sin dueño ni evidencia en Piura es un incidente que se olvida hasta el siguiente outage.\n- **Meta:** assess PASS / STOP_SILENT_FAILURE / MISSING:evidence_retained.\n- **Éxito:** `PASS STOP_SILENT_FAILURE MISSING:evidence_retained`.\n- **Límites:** missing antes de evidence_retained; no inventes owner; sintético.",
         instruction:
-          "1. Starter: PASS con critical y not blocked (DEFECT).\n2. Aplica contrato T4-B completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
+          "S44-T4-B-E2 · 1. Starter: PASS con critical y not blocked (DEFECT).\n2. Aplica contrato T4-B completo.\n3. Conserva MISSING.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a evidence_retained debe ocurrir antes de esa rama.",
@@ -1944,7 +1936,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin `evidence_retained` no se reintenta a ciegas: se **asigna dueño de incidente** y se retiene el rastro.\n- **Meta:** decide CONTINUE / STOP_SILENT_FAILURE / ASSIGN_INCIDENT_OWNER.\n- **Éxito:** `CONTINUE STOP_SILENT_FAILURE ASSIGN_INCIDENT_OWNER`.\n- **Límites:** missing ≠ CONTINUE; no inventes evidencia; no continue-on-error.",
         instruction:
-          "1. DEFECT: missing→CONTINUE; pred de crítico sin bloqueo.\n2. missing → ASSIGN_INCIDENT_OWNER.\n3. Completos: CONTINUE solo con contrato T4-B; si no → STOP_SILENT_FAILURE.\n4. Imprime en orden.",
+          "S44-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE; pred de crítico sin bloqueo.\n2. missing → ASSIGN_INCIDENT_OWNER.\n3. Completos: CONTINUE solo con contrato T4-B; si no → STOP_SILENT_FAILURE.\n4. Imprime en orden.",
         hint: "Missing ≠ breach: enruta la ausencia de `evidence_retained` a `ASSIGN_INCIDENT_OWNER` primero.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASSIGN_INCIDENT_OWNER` antes de evaluar el contenido.",

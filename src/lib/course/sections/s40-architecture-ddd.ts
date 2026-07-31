@@ -98,8 +98,7 @@ owner platform`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Antes de cerrar S40-T1-A, verifica un escenario QA con umbral medible y dueño contactable; sin umbral o sin dueño el escenario no es auditable.",
+        content: "Evidencia mínima de S40-T1-A: verifica un escenario QA con umbral medible y dueño contactable; sin umbral o sin dueño el escenario no es auditable.",
       },
     },
     {
@@ -132,8 +131,7 @@ residual_ok True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "En S40-T1-B elige por costo ponderado (menor es mejor) y deja el riesgo residual con umbral y dueño que lo firma; sin residual no hay decisión promocionable.",
+        content: "Antes de promover S40-T1-B, elige por costo ponderado (menor es mejor) y deja el riesgo residual con umbral y dueño que lo firma; sin residual no hay decisión promocionable.",
       },
     },
     {
@@ -168,8 +166,7 @@ domain_pure True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "En S40-T2-A la evidencia es el grafo de capas: prohíbe presentation→infrastructure y domain→infrastructure; infrastructure→domain (adapter hacia adentro) sí está permitido.",
+        content: "La revisión de S40-T2-A conserva que la evidencia es el grafo de capas: prohíbe presentation→infrastructure y domain→infrastructure; infrastructure→domain (adapter hacia adentro) sí está permitido.",
       },
     },
     {
@@ -206,8 +203,7 @@ port_ok True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "En S40-T2-B el dominio depende del port (Protocol), no de SQLAlchemy ni FastAPI. Evidencia de lab: `implements_port`, imports de dominio vacíos y ≥3 contract tests; no uses el sufijo del nombre del adapter como regla.",
+        content: "Contrato S40-T2-B: el dominio depende del port (Protocol), no de SQLAlchemy ni FastAPI. Evidencia de lab: `implements_port`, imports de dominio vacíos y ≥3 contract tests; no uses el sufijo del nombre del adapter como regla.",
       },
     },
     {
@@ -237,8 +233,7 @@ acl True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "En S40-T3-A el artefacto es el context map: glosarios locales, relación entre BC y al menos una traducción ACL (p. ej. case→record). Mezclar modelos sin mapa es `SPLIT_CONTEXTS`.",
+        content: "Para S40-T3-A, el artefacto es el context map: glosarios locales, relación entre BC y al menos una traducción ACL (p. ej. case→record). Mezclar modelos sin mapa es `SPLIT_CONTEXTS`.",
       },
     },
     {
@@ -279,8 +274,7 @@ vo_frozen True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "En S40-T3-B distingue identidad de entity, igualdad por valor del VO y servicio sin estado. `vo_frozen` es checklist de lab: en producción el VO es inmutable de verdad.",
+        content: "Promoción de S40-T3-B: distingue identidad de entity, igualdad por valor del VO y servicio sin estado. `vo_frozen` es checklist de lab: en producción el VO es inmutable de verdad.",
       },
     },
     {
@@ -618,7 +612,7 @@ retire_on 2026-12-01`,
         preamble:
           "- **Contexto:** en CASO-LIM-040-1A el dossier de Red Andina exige un escenario QA con latencia p95 bajo umbral y dueño de plataforma.\n- **Meta:** corregir el predicado de contrato (observed ≤ target y owner truthy).\n- **Éxito:** una línea `S40-T1-A PASS`.\n- **Límites:** no mutes el fixture; no inventes PII; el DEFECT está en la comparación, no en los datos.",
         instruction:
-          "1. Abre el starter: `meets_contract` usa `observed_ms >= target_ms` (DEFECT).\n2. Cámbialo a `observed_ms <= target_ms` y exige `bool(owner)`.\n3. Conserva el print de status.\n4. Debe imprimir `S40-T1-A PASS`.",
+          "S40-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `observed_ms >= target_ms` (DEFECT).\n2. Cámbialo a `observed_ms <= target_ms` y exige `bool(owner)`.\n3. Conserva el print de status.\n4. Debe imprimir `S40-T1-A PASS`.",
         hint: "El DEFECT está en la dirección de la comparación (`>=` vs. `<=`); no en los números del fixture.",
         hints: [
           "El DEFECT está en la dirección de la comparación (`>=` vs. `<=`); no en los números del fixture.",
@@ -662,7 +656,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate del dossier no solo mira el dict: primero exige campos, luego mide latencia.\n- **Meta:** implementar `assess` que separe válido, adverso (410 ms) y sin owner.\n- **Éxito:** `PASS REJECT_QA_SCENARIO MISSING:owner`.\n- **Límites:** calcula `missing` antes de leer owner; no rellenes owner; datos sintéticos CASO-LIM-040-1A.",
         instruction:
-          "1. Revisa el starter: PASS si `observed_ms >= target_ms` (DEFECT).\n2. Corrige a observed ≤ target y owner truthy.\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
+          "S40-T1-A-E2 · 1. Revisa el starter: PASS si `observed_ms >= target_ms` (DEFECT).\n2. Corrige a observed ≤ target y owner truthy.\n3. Conserva la rama MISSING por campos ausentes.\n4. Imprime las tres salidas en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
@@ -723,7 +717,7 @@ print(*results)
         preamble:
           "- **Contexto:** en plataforma de Red Andina no se inventa un dueño de QA cuando falta: se pide evidencia.\n- **Meta:** decidir CONTINUE / REJECT_QA_SCENARIO / REQUEST_QA_OWNER.\n- **Éxito:** `CONTINUE REJECT_QA_SCENARIO REQUEST_QA_OWNER`.\n- **Límites:** missing → REQUEST_QA_OWNER (no CONTINUE); no inventes owner; breach de latencia cierra con REJECT.",
         instruction:
-          "1. Lee el DEFECT: missing devuelve CONTINUE y pred usa ≥.\n2. En `decide`, missing → `REQUEST_QA_OWNER`.\n3. Completos: CONTINUE solo si observed ≤ target y owner; si no → REJECT_QA_SCENARIO.\n4. Imprime las tres decisiones en orden.",
+          "S40-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Lee el DEFECT: missing devuelve CONTINUE y pred usa ≥.\n2. En `decide`, missing → `REQUEST_QA_OWNER`.\n3. Completos: CONTINUE solo si observed ≤ target y owner; si no → REJECT_QA_SCENARIO.\n4. Imprime las tres decisiones en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.",
@@ -784,7 +778,7 @@ assert results == ["CONTINUE", "REJECT_QA_SCENARIO", "REQUEST_QA_OWNER"]` ,
         preamble:
           "- **Contexto:** en CASO-LIM-040-1B el dueño `arquitectura` debe firmar un residual ≤ 2 al elegir async vs. sync.\n- **Meta:** corregir la selección (min de scores, no max) y exigir residual_risk ≤ 2.\n- **Éxito:** `S40-T1-B PASS`.\n- **Límites:** no mutes scores ni selected; no inventes residual; solo corrige el predicado.",
         instruction:
-          "1. Abre el starter: compara `selected` con `max(...)` (DEFECT).\n2. Cámbialo a `min(record[\"scores\"], key=...)` y añade residual ≤ 2.\n3. Imprime `S40-T1-B` y el status.\n4. Debe ser PASS con selected async.",
+          "S40-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: compara `selected` con `max(...)` (DEFECT).\n2. Cámbialo a `min(record[\"scores\"], key=...)` y añade residual ≤ 2.\n3. Imprime `S40-T1-B` y el status.\n4. Debe ser PASS con selected async.",
         hint: "score = costo → min(scores); residual_risk ≤ 2; risk_owner debe existir en el fixture.",
         hints: [
           "selected == min(scores, key=scores.get) and residual_risk <= 2.",
@@ -828,7 +822,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate reabre trade-offs elegidos por moda o con residual alto; sin residual_risk no hay schema completo.\n- **Meta:** enrutar válido (async min), adverso (selected mal / residual 4) e incompleto.\n- **Éxito:** `PASS REOPEN_TRADEOFF MISSING:residual_risk`.\n- **Límites:** missing primero; no inventes residual; no uses max.",
         instruction:
-          "1. Starter da PASS si selected es max (DEFECT).\n2. Corrige a min + residual ≤ 2.\n3. Conserva MISSING de residual_risk.\n4. Imprime las tres salidas.",
+          "S40-T1-B-E2 · 1. Starter da PASS si selected es max (DEFECT).\n2. Corrige a min + residual ≤ 2.\n3. Conserva MISSING de residual_risk.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama.",
@@ -889,7 +883,7 @@ print(*results)
         preamble:
           "- **Contexto:** si falta residual_risk, la mesa de arquitectura de Red Andina escala: no se firma un trade-off a ciegas.\n- **Meta:** CONTINUE / REOPEN_TRADEOFF / ESCALATE_RESIDUAL_RISK.\n- **Éxito:** `CONTINUE REOPEN_TRADEOFF ESCALATE_RESIDUAL_RISK`.\n- **Límites:** missing → ESCALATE (no CONTINUE); pred con min y residual ≤ 2.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y max en pred.\n2. missing → ESCALATE_RESIDUAL_RISK.\n3. Completos: CONTINUE solo min_score + residual ≤ 2; si no → REOPEN_TRADEOFF.\n4. Imprime las tres decisiones.",
+          "S40-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y max en pred.\n2. missing → ESCALATE_RESIDUAL_RISK.\n3. Completos: CONTINUE solo min_score + residual ≤ 2; si no → REOPEN_TRADEOFF.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.",
@@ -950,7 +944,7 @@ assert results == ["CONTINUE", "REOPEN_TRADEOFF", "ESCALATE_RESIDUAL_RISK"]` ,
         preamble:
           "- **Contexto:** CASO-LIM-040-2A pide un grafo legible de Red Andina sin domain→infra ni presentation→infra.\n- **Meta:** validar aristas con conjunto forbidden e imprimir el grafo.\n- **Éxito:** `S40-T2-A PASS` más línea `graph [...]`.\n- **Límites:** no borres aristas del fixture; infrastructure→domain está permitido; layers[2] debe ser domain.",
         instruction:
-          "1. DEFECT: `all(edge[1] == \"infrastructure\")`.\n2. Define forbidden y exige que ninguna arista esté en él.\n3. Añade check de layers[2] == \"domain\".\n4. Imprime status y graph.",
+          "S40-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: `all(edge[1] == \"infrastructure\")`.\n2. Define forbidden y exige que ninguna arista esté en él.\n3. Añade check de layers[2] == \"domain\".\n4. Imprime status y graph.",
         hint: "Convierte cada edge a tuple y compáralo con forbidden = {(domain, infrastructure), (presentation, infrastructure)}.",
         hints: [
           "Convierte cada edge a tuple y compáralo con el conjunto forbidden {(domain, infrastructure), (presentation, infrastructure)}.",
@@ -1001,7 +995,7 @@ graph [('presentation', 'application'), ('application', 'domain'), ('infrastruct
         preamble:
           "- **Contexto:** un dossier con domain→infrastructure no se promociona: se redibuja la frontera.\n- **Meta:** assess válido / adverso con saltos / sin dependencies.\n- **Éxito:** `PASS REDRAW_BOUNDARY MISSING:dependencies`.\n- **Límites:** missing primero; no asumas grafo vacío como limpio.",
         instruction:
-          "1. DEFECT: PASS si todo apunta a infrastructure.\n2. Corrige con forbidden + layers[2]==domain.\n3. Conserva MISSING de dependencies.\n4. Imprime las tres salidas.",
+          "S40-T2-A-E2 · 1. DEFECT: PASS si todo apunta a infrastructure.\n2. Corrige con forbidden + layers[2]==domain.\n3. Conserva MISSING de dependencies.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.",
@@ -1067,7 +1061,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin grafo de dependencias no se asume capas limpias: se pide revisión del dueño de capa.\n- **Meta:** CONTINUE / REDRAW_BOUNDARY / REVIEW_LAYER_OWNER.\n- **Éxito:** `CONTINUE REDRAW_BOUNDARY REVIEW_LAYER_OWNER`.\n- **Límites:** missing → REVIEW_LAYER_OWNER; no CONTINUE silencioso.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y pred invertido.\n2. missing → REVIEW_LAYER_OWNER.\n3. Completos: CONTINUE solo grafo limpio; si no → REDRAW_BOUNDARY.\n4. Imprime las tres decisiones.",
+          "S40-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y pred invertido.\n2. missing → REVIEW_LAYER_OWNER.\n3. Completos: CONTINUE solo grafo limpio; si no → REDRAW_BOUNDARY.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.",
@@ -1133,7 +1127,7 @@ assert results == ["CONTINUE", "REDRAW_BOUNDARY", "REVIEW_LAYER_OWNER"]` ,
         preamble:
           "- **Contexto:** CASO-LIM-040-2B modela CaseRepository + MemoryCaseRepository; el dominio no debe importar infra.\n- **Meta:** validar implements_port, domain_imports vacío y contract_tests ≥ 3.\n- **Éxito:** `S40-T2-B PASS` y línea `dep domain<-adapters`.\n- **Límites:** no uses igualdad de nombres como regla; no inventes imports.",
         instruction:
-          "1. DEFECT: adapter==port y bool(domain_imports).\n2. Predicado: implements_port is True and not domain_imports and contract_tests >= 3.\n3. Imprime status y dep.\n4. Debe ser PASS.",
+          "S40-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: adapter==port y bool(domain_imports).\n2. Predicado: implements_port is True and not domain_imports and contract_tests >= 3.\n3. Imprime status y dep.\n4. Debe ser PASS.",
         hint: "Usa el flag explícito `implements_port` — no inventes reglas por sufijo del nombre del adapter.",
         hints: [
           "Predicado: implements_port is True and not domain_imports and contract_tests >= 3.",
@@ -1208,7 +1202,7 @@ dep domain<-adapters` ,
         preamble:
           "- **Contexto:** un dominio con imports de sqlalchemy invierte la dependencia y no se promociona.\n- **Meta:** assess válido / adverso (implements_port False + sqlalchemy) / sin contract_tests.\n- **Éxito:** `PASS INVERT_DEPENDENCY MISSING:contract_tests`.\n- **Límites:** missing primero; no uses endswith del nombre del adapter.",
         instruction:
-          "1. DEFECT: PASS si adapter==port y domain_imports.\n2. Corrige al trío DIP.\n3. Conserva MISSING de contract_tests.\n4. Imprime las tres salidas.",
+          "S40-T2-B-E2 · 1. DEFECT: PASS si adapter==port y domain_imports.\n2. Corrige al trío DIP.\n3. Conserva MISSING de contract_tests.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
@@ -1274,7 +1268,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin contract_tests no se asume que el port está definido: se pide DEFINIR el contrato.\n- **Meta:** CONTINUE / INVERT_DEPENDENCY / DEFINE_PORT_CONTRACT.\n- **Éxito:** `CONTINUE INVERT_DEPENDENCY DEFINE_PORT_CONTRACT`.\n- **Límites:** missing → DEFINE_PORT_CONTRACT; uncertainty ≠ breach.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y pred anti-DIP.\n2. missing → DEFINE_PORT_CONTRACT.\n3. Completos: CONTINUE solo trío DIP; si no → INVERT_DEPENDENCY.\n4. Imprime las tres decisiones (no un booleano suelto).",
+          "S40-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y pred anti-DIP.\n2. missing → DEFINE_PORT_CONTRACT.\n3. Completos: CONTINUE solo trío DIP; si no → INVERT_DEPENDENCY.\n4. Imprime las tres decisiones (no un booleano suelto).",
         hint: "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.",
@@ -1340,7 +1334,7 @@ assert results == ["CONTINUE", "INVERT_DEPENDENCY", "DEFINE_PORT_CONTRACT"]` ,
         preamble:
           "- **Contexto:** CASO-LIM-040-3A exige un mini context map intake/er con términos disjuntos y ACL case→record.\n- **Meta:** corregir el predicado (isdisjoint + traducción) e imprimir el mapa.\n- **Éxito:** `S40-T3-A PASS` y línea `map [...]`.\n- **Límites:** en el lab, solape de tokens sin mapa es breach; no improvises el ACL; datos sintéticos.",
         instruction:
-          "1. DEFECT: PASS si hay intersección de terms.\n2. Exige isdisjoint y translations[\"case\"]==\"record\".\n3. Imprime status y map legible.\n4. Debe ser PASS.",
+          "S40-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: PASS si hay intersección de terms.\n2. Exige isdisjoint y translations[\"case\"]==\"record\".\n3. Imprime status y map legible.\n4. Debe ser PASS.",
         hint: "Construye conjuntos de términos por BC y exige `isdisjoint` + `translations['case'] == 'record'`.",
         hints: [
           "Lee `rows[0]['terms']` e `rows[1]['terms']`; no uses intersección de tokens como éxito en este lab.",
@@ -1400,7 +1394,7 @@ map [('intake', ['case']), ('er', ['record', 'score'])]` ,
         preamble:
           "- **Contexto:** token `case` en intake y en ER sin ACL es solape de modelos; sin translations no hay schema de mapa.\n- **Meta:** assess válido / adverso solapado / sin translations.\n- **Éxito:** `PASS SPLIT_CONTEXTS MISSING:translations`.\n- **Límites:** missing primero; no inventes el ACL en silencio.",
         instruction:
-          "1. DEFECT: PASS si intake ∩ er no vacío.\n2. Corrige a isdisjoint + case→record.\n3. Conserva MISSING de translations.\n4. Imprime las tres salidas.",
+          "S40-T3-A-E2 · 1. DEFECT: PASS si intake ∩ er no vacío.\n2. Corrige a isdisjoint + case→record.\n3. Conserva MISSING de translations.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.",
@@ -1461,7 +1455,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin mapa de traducciones no se asume frontera sana: se convoca taller de lenguaje ubicuo.\n- **Meta:** CONTINUE / SPLIT_CONTEXTS / WORKSHOP_UBIQUITOUS_LANGUAGE.\n- **Éxito:** `CONTINUE SPLIT_CONTEXTS WORKSHOP_UBIQUITOUS_LANGUAGE`.\n- **Límites:** missing → WORKSHOP (no CONTINUE); no rellenes translations.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y pred de solape como éxito.\n2. missing → WORKSHOP_UBIQUITOUS_LANGUAGE.\n3. Completos: CONTINUE solo disjuntos + ACL; si no → SPLIT_CONTEXTS.\n4. Imprime las tres decisiones.",
+          "S40-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y pred de solape como éxito.\n2. missing → WORKSHOP_UBIQUITOUS_LANGUAGE.\n3. Completos: CONTINUE solo disjuntos + ACL; si no → SPLIT_CONTEXTS.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.",
@@ -1522,7 +1516,7 @@ assert results == ["CONTINUE", "SPLIT_CONTEXTS", "WORKSHOP_UBIQUITOUS_LANGUAGE"]
         preamble:
           "- **Contexto:** CASO-LIM-040-3B trae CASE-001, dos VO 150 PEN y merge_scores(0.8, 0.6).\n- **Meta:** validar identidad, igualdad de VO, currency PEN, vo_frozen, service_stateless y merged==0.7.\n- **Éxito:** `S40-T3-B PASS` y línea entity_same/vo_equal/merged.\n- **Límites:** no compares currency con entity_id; no mutes entidades en el servicio.",
         instruction:
-          "1. DEFECT: meets_contract = currency == entity_a.\n2. Arma el predicado completo (startswith CASE-, same_entity, same_money, PEN, flags, merged==0.7).\n3. Imprime status y el resumen.\n4. Debe ser PASS.",
+          "S40-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: meets_contract = currency == entity_a.\n2. Arma el predicado completo (startswith CASE-, same_entity, same_money, PEN, flags, merged==0.7).\n3. Imprime status y el resumen.\n4. Debe ser PASS.",
         hint: "No compares `currency` con `entity_id`. Identidad = ids iguales; VO = amount+currency; servicio = media ponderada sin estado.",
         hints: [
           "same_entity(entity_a, entity_b) y same_money(vo_a, vo_b); currency debe ser PEN.",
@@ -1609,7 +1603,7 @@ entity_same True vo_equal True merged 0.7` ,
         preamble:
           "- **Contexto:** id vacío, USD o vo_frozen False no pasan el gate de dominio de Red Andina.\n- **Meta:** assess válido / adverso / sin service_stateless.\n- **Éxito:** `PASS REJECT_DOMAIN_MODEL MISSING:service_stateless`.\n- **Límites:** missing primero; currency debe ser PEN en el lab.",
         instruction:
-          "1. DEFECT: PASS si currency==entity_id.\n2. Corrige a startswith CASE- + PEN + vo_frozen + service_stateless.\n3. Conserva MISSING de service_stateless.\n4. Imprime las tres salidas.",
+          "S40-T3-B-E2 · 1. DEFECT: PASS si currency==entity_id.\n2. Corrige a startswith CASE- + PEN + vo_frozen + service_stateless.\n3. Conserva MISSING de service_stateless.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa rama.",
@@ -1670,7 +1664,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin bandera de servicio no se inventa que es stateless: se aclara la invariante.\n- **Meta:** CONTINUE / REJECT_DOMAIN_MODEL / CLARIFY_INVARIANT.\n- **Éxito:** `CONTINUE REJECT_DOMAIN_MODEL CLARIFY_INVARIANT`.\n- **Límites:** missing → CLARIFY_INVARIANT; no CONTINUE silencioso.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y pred currency==entity_id.\n2. missing → CLARIFY_INVARIANT.\n3. Completos: CONTINUE solo modelo sano; si no → REJECT_DOMAIN_MODEL.\n4. Imprime las tres decisiones.",
+          "S40-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y pred currency==entity_id.\n2. missing → CLARIFY_INVARIANT.\n3. Completos: CONTINUE solo modelo sano; si no → REJECT_DOMAIN_MODEL.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.",
@@ -1731,7 +1725,7 @@ assert results == ["CONTINUE", "REJECT_DOMAIN_MODEL", "CLARIFY_INVARIANT"]` ,
         preamble:
           "- **Contexto:** CASO-LIM-040-4A trae personas/cajas C4 y ADR-001 async con alternatives, consequences y feature_flag_off.\n- **Meta:** validar need_c4 + need_adr + status accepted.\n- **Éxito:** `S40-T4-A PASS` y `adr ADR-001 accepted`.\n- **Límites:** no aceptes draft; no inventes campos vacíos; You Do reutilizará la plantilla.",
         instruction:
-          "1. DEFECT: PASS si status draft y len(adr)<3.\n2. need_c4 = context y container no vacíos; need_adr = decision/alternatives/consequences/rollback truthy; status==accepted.\n3. Imprime status y adr id/status.\n4. Debe ser PASS.",
+          "S40-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: PASS si status draft y len(adr)<3.\n2. need_c4 = context y container no vacíos; need_adr = decision/alternatives/consequences/rollback truthy; status==accepted.\n3. Imprime status y adr id/status.\n4. Debe ser PASS.",
         hint: "Valida claves del dict `adr` y que `c4` contenga listas no vacías en context y container; status debe ser accepted.",
         hints: [
           "need_adr = decision, alternatives, consequences, rollback presentes y truthy; status == 'accepted'.",
@@ -1804,7 +1798,7 @@ adr ADR-001 accepted` ,
         preamble:
           "- **Contexto:** un ADR «accepted» sin alternatives o sin container no pasa el gate documental.\n- **Meta:** assess válido / adverso incompleto / sin adr_status.\n- **Éxito:** `PASS RETURN_ADR_TO_DRAFT MISSING:adr_status`.\n- **Límites:** missing primero; no asumas accepted.",
         instruction:
-          "1. DEFECT: PASS si draft y fields < 3.\n2. Corrige a c4 context+container, adr fields mínimos y status accepted.\n3. Conserva MISSING de adr_status.\n4. Imprime las tres salidas.",
+          "S40-T4-A-E2 · 1. DEFECT: PASS si draft y fields < 3.\n2. Corrige a c4 context+container, adr fields mínimos y status accepted.\n3. Conserva MISSING de adr_status.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.",
@@ -1865,7 +1859,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin adr_status no se inventa accepted: se pide revisión de arquitectura.\n- **Meta:** CONTINUE / RETURN_ADR_TO_DRAFT / REQUEST_ARCH_REVIEW.\n- **Éxito:** `CONTINUE RETURN_ADR_TO_DRAFT REQUEST_ARCH_REVIEW`.\n- **Límites:** missing → REQUEST_ARCH_REVIEW; no CONTINUE silencioso.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y pred de draft incompleto como éxito.\n2. missing → REQUEST_ARCH_REVIEW.\n3. Completos: CONTINUE solo C4+ADR accepted completo; si no → RETURN_ADR_TO_DRAFT.\n4. Imprime las tres decisiones.",
+          "S40-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y pred de draft incompleto como éxito.\n2. missing → REQUEST_ARCH_REVIEW.\n3. Completos: CONTINUE solo C4+ADR accepted completo; si no → RETURN_ADR_TO_DRAFT.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.",
@@ -1926,7 +1920,7 @@ assert results == ["CONTINUE", "RETURN_ADR_TO_DRAFT", "REQUEST_ARCH_REVIEW"]` ,
         preamble:
           "- **Contexto:** CASO-LIM-040-4B trae v1 {case_id, status}, v1.1 con priority y deuda del job async.\n- **Meta:** validar v1 ⊆ v11, misma consumer_view y debt owner+retire_on.\n- **Éxito:** `S40-T4-B PASS` más vistas y debt.\n- **Límites:** no inviertas el subconjunto; no inventes retire_on.",
         instruction:
-          "1. DEFECT: meets_contract = v11_fields < v1_fields.\n2. Exige v1 ⊆ v11, consumer_view igual en v1 y v11, owner y retire_on truthy.\n3. Imprime status, vistas y debt.\n4. Debe ser PASS.",
+          "S40-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: meets_contract = v11_fields < v1_fields.\n2. Exige v1 ⊆ v11, consumer_view igual en v1 y v11, owner y retire_on truthy.\n3. Imprime status, vistas y debt.\n4. Debe ser PASS.",
         hint: "Subconjunto correcto: v1 ⊆ v11 (no al revés). Imprime la vista del consumidor y la deuda.",
         hints: [
           "additive_ok = v1_fields <= v11_fields; debt_owner truthy y retire_on no vacío.",
@@ -1997,7 +1991,7 @@ debt platform 2026-12-01` ,
         preamble:
           "- **Contexto:** quitar status de v1.1 rompe el consumidor antiguo; sin retire_on no hay schema de deuda.\n- **Meta:** assess válido / adverso breaking / sin retire_on.\n- **Éxito:** `PASS BLOCK_BREAKING_CHANGE MISSING:retire_on`.\n- **Límites:** missing primero; no inventes fecha de retiro; en el lab, fechas ISO se comparan lexicográficamente.",
         instruction:
-          "1. DEFECT: PASS si v11 < v1.\n2. Corrige a v1 ⊆ v11 + debt_owner truthy + retire_on presente (y ≥ fecha del lab si aplica).\n3. Conserva MISSING de retire_on.\n4. Imprime las tres salidas.",
+          "S40-T4-B-E2 · 1. DEFECT: PASS si v11 < v1.\n2. Corrige a v1 ⊆ v11 + debt_owner truthy + retire_on presente (y ≥ fecha del lab si aplica).\n3. Conserva MISSING de retire_on.\n4. Imprime las tres salidas.",
         hint: "Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.",
@@ -2058,7 +2052,7 @@ print(*results)
         preamble:
           "- **Contexto:** sin retire_on no se asume compat ni se promociona deuda: se negocia versión con evidencia.\n- **Meta:** CONTINUE / BLOCK_BREAKING_CHANGE / NEGOTIATE_VERSION.\n- **Éxito:** `CONTINUE BLOCK_BREAKING_CHANGE NEGOTIATE_VERSION`.\n- **Límites:** missing → NEGOTIATE_VERSION; no CONTINUE silencioso.",
         instruction:
-          "1. DEFECT: missing→CONTINUE y pred de subconjunto invertido.\n2. missing → NEGOTIATE_VERSION.\n3. Completos: CONTINUE solo aditivo + deuda; si no → BLOCK_BREAKING_CHANGE.\n4. Imprime las tres decisiones.",
+          "S40-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. DEFECT: missing→CONTINUE y pred de subconjunto invertido.\n2. missing → NEGOTIATE_VERSION.\n3. Completos: CONTINUE solo aditivo + deuda; si no → BLOCK_BREAKING_CHANGE.\n4. Imprime las tres decisiones.",
         hint: "Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.",

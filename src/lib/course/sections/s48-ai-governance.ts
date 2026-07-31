@@ -3,7 +3,7 @@ import type { CourseSection } from '../../types'
 export const section48: CourseSection = {
   id: "ai-governance",
   index: 48,
-  title: "Aplicaciones LLM y RAG con evidencia",
+  title: "LLM applications y RAG con evidencia",
   shortTitle: "RAG con evidencia",
   tagline: "Asistente sobre documentos autorizados, citas verificables y abstención cuando el retrieval no sostiene la respuesta.",
   estimatedHours: 20,
@@ -85,8 +85,7 @@ emb_dim 2`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "La similitud solo ordena candidatos: un dot product alto no autoriza el claim ni reemplaza la ACL. La versión del embedding (p. ej. `emb-v2`) es parte del contrato del índice; cambiarla sin re-eval rompe el holdout.",
+        content: "Evidencia mínima de S48-T1-A: La similitud solo ordena candidatos: un dot product alto no autoriza el claim ni reemplaza la ACL. La versión del embedding (p. ej. `emb-v2`) es parte del contrato del índice; cambiarla sin re-eval rompe el holdout.",
       },
     },
     {
@@ -115,8 +114,7 @@ holdout rag-holdout-v1`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Recall@K mide retrieval; faithfulness mide respuesta: son gates separados. Un candidato más caro que no supera al baseline en holdout RAG se descarta, no se «prueba en producción».",
+        content: "Antes de promover S48-T1-B, Recall@K mide retrieval; faithfulness mide respuesta: son gates separados. Un candidato más caro que no supera al baseline en holdout RAG se descarta, no se «prueba en producción».",
       },
     },
     {
@@ -160,8 +158,7 @@ unique_hashes True`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "El chunk es la unidad citable, no una rebanada de caracteres: hash estable y `source_version` permiten dedup y evitan evidencia duplicada o perdida entre versiones del documento.",
+        content: "La revisión de S48-T2-A conserva que El chunk es la unidad citable, no una rebanada de caracteres: hash estable y `source_version` permiten dedup y evitan evidencia duplicada o perdida entre versiones del documento.",
       },
     },
     {
@@ -199,8 +196,7 @@ tombstone d3#old`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "La ACL filtra antes del ranking y un tombstone (marca de borrado) invalida la caché: un chunk denegado o borrado nunca llega a los candidatos, sin importar su score vectorial.",
+        content: "Contrato S48-T2-B: La ACL filtra antes del ranking y un tombstone (marca de borrado) invalida la caché: un chunk denegado o borrado nunca llega a los candidatos, sin importar su score vectorial.",
       },
     },
     {
@@ -234,8 +230,7 @@ recall@2 1.0`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "La fusión híbrida combina scores lexical y vectorial con pesos calibrados, pero la mejora solo se declara tras medir Recall@k contra un gold set, no tras correr la fórmula.",
+        content: "Para S48-T3-A, La fusión híbrida combina scores lexical y vectorial con pesos calibrados, pero la mejora solo se declara tras medir Recall@k contra un gold set, no tras correr la fórmula.",
       },
     },
     {
@@ -262,8 +257,7 @@ False
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "El contexto del generador incluye solo fragmentos mínimos y citas resolubles: un reclamo sin evidencia permitida se abstiene en lugar de emitirse o inflar el contexto.",
+        content: "Promoción de S48-T3-B: El contexto del generador incluye solo fragmentos mínimos y citas resolubles: un reclamo sin evidencia permitida se abstiene en lugar de emitirse o inflar el contexto.",
       },
     },
     {
@@ -296,8 +290,7 @@ False`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Un `evidence_ids=[]` no es grounded: la verdad vacua de subconjuntos no prueba un claim. Exige al menos un id en la allowlist y el flag `injected_instruction_ignored` en True.",
+        content: "El dueño de S48-T4-A acepta que Un `evidence_ids=[]` no es grounded: la verdad vacua de subconjuntos no prueba un claim. Exige al menos un id en la allowlist y el flag `injected_instruction_ignored` en True.",
       },
     },
     {
@@ -327,8 +320,7 @@ cost_tokens 1200`,
       callout: {
         type: "tip",
         title: "Contrato local",
-        content:
-          "Si la respuesta no está soportada, el sistema se abstiene (`ABSTAIN_WITH_REASON`); si faltan métricas o presupuesto, deriva a `TUNE_RETRIEVAL_OR_BUDGET`.",
+        content: "Cierre de S48-T4-B: Si la respuesta no está soportada, el sistema se abstiene (`ABSTAIN_WITH_REASON`); si faltan métricas o presupuesto, deriva a `TUNE_RETRIEVAL_OR_BUDGET`.",
       },
     },
   ],
@@ -598,7 +590,7 @@ cost_tokens 1200`,
         preamble:
           "- **Contexto:** en `CASO-PUN-048-1A`, el socio pregunta por el SLA; el índice debe devolver el fragmento más similar bajo `emb-v2`, no el peor.\n- **Meta:** implementar `rank_top` que devuelve el id de mayor dot product solo si `version == \"emb-v2\"`.\n- **Éxito:** imprimes exactamente `S48-T1-A PASS` con el fixture (top esperado `d1`).\n- **Límites:** no uses `min`; no ignores la versión; no inventes docs fuera del fixture.",
         instruction:
-          "1. Abre el starter: `rank_top` usa `min` y no comprueba versión (bug).\n2. Si `version != \"emb-v2\"`, devuelve `None`.\n3. Si no, devuelve `max` por `sum(q_i * d_i)`.\n4. Conserva el print `S48-T1-A` y el status PASS/REJECT_EMBEDDING_RANK.",
+          "S48-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `rank_top` usa `min` y no comprueba versión (bug).\n2. Si `version != \"emb-v2\"`, devuelve `None`.\n3. Si no, devuelve `max` por `sum(q_i * d_i)`.\n4. Conserva el print `S48-T1-A` y el status PASS/REJECT_EMBEDDING_RANK.",
         hint: "El top es el doc con mayor sum(q_i * d_i); si version no es emb-v2 devuelve None.",
         hints: [
           "Usa max(..., key=lambda k: sum(a*b for a,b in zip(query, docs[k]))).",
@@ -649,7 +641,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor del índice en Puno no trata igual un ranking limpio, uno con versión rota y uno sin top esperado.\n- **Meta:** implementar `assess` que distinga PASS, REJECT_EMBEDDING_RANK y MISSING:expected_top.\n- **Éxito:** imprime `PASS REJECT_EMBEDDING_RANK MISSING:expected_top` en ese orden.\n- **Límites:** si falta `expected_top`, no rankees; no inventes el campo; missing ≠ «aceptar».",
         instruction:
-          "1. Revisa el starter: `rank_top` usa `min` y assess no exige emb-v2.\n2. Primero: campos required; si falta `expected_top` → `MISSING:expected_top`.\n3. Luego: max(dot) + versión emb-v2 vs. expected_top → PASS o REJECT.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S48-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: `rank_top` usa `min` y assess no exige emb-v2.\n2. Primero: campos required; si falta `expected_top` → `MISSING:expected_top`.\n3. Luego: max(dot) + versión emb-v2 vs. expected_top → PASS o REJECT.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero valida campos requeridos; solo con schema completo calcula el top por max(dot).",
         hints: [
           "Si falta expected_top → MISSING:expected_top sin tocar docs.",
@@ -720,7 +712,7 @@ print(*results)
         preamble:
           "- **Contexto:** el pipeline del asistente decide si el ranking **sigue** o se detiene: no hay «seguir con warning de métrica».\n- **Meta:** `decide` → CONTINUE (top emb-v2 correcto), REJECT_EMBEDDING_RANK (ranking roto), REVIEW_METRIC_VERSION (sin expected_top).\n- **Éxito:** `CONTINUE REJECT_EMBEDDING_RANK REVIEW_METRIC_VERSION`.\n- **Límites:** no inventes expected_top; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `expected_top` → `REVIEW_METRIC_VERSION` (no CONTINUE).\n2. Con schema completo, max(dot) + version emb-v2 vs. expected.\n3. Solo el válido es CONTINUE; el adverso es REJECT_EMBEDDING_RANK.\n4. Imprime los tres códigos en orden.",
+          "S48-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `expected_top` → `REVIEW_METRIC_VERSION` (no CONTINUE).\n2. Con schema completo, max(dot) + version emb-v2 vs. expected.\n3. Solo el válido es CONTINUE; el adverso es REJECT_EMBEDDING_RANK.\n4. Imprime los tres códigos en orden.",
         hint: "Campo ausente → REVIEW_METRIC_VERSION; no lo conviertas en CONTINUE ni en REJECT.",
         hints: [
           "missing keys → REVIEW_METRIC_VERSION antes de rankear.",
@@ -782,7 +774,7 @@ assert results == ["CONTINUE", "REJECT_EMBEDDING_RANK", "REVIEW_METRIC_VERSION"]
         preamble:
           "- **Contexto:** en `CASO-PUN-048-1B`, antes de reindexar el reglamento con un candidato, debes demostrar mejora en holdout RAG y costo ≤ 50 PEN.\n- **Meta:** implementar `promote_ok` (candidate ≥ min, > baseline, holdout `rag-holdout-*`, costo ≤ 50).\n- **Éxito:** `S48-T1-B PASS` con el fixture 0.81 / 0.72 / 30 PEN.\n- **Límites:** no apruebes regresión; no aceptes holdout vacío o de train.",
         instruction:
-          "1. El starter devuelve True ante regresión o holdout vacío (bug).\n2. Cambia a cuatro AND: umbral, mejora, prefijo `rag-holdout-`, costo ≤ 50.\n3. Conserva print y status PASS/KEEP_EMBEDDING_BASELINE.",
+          "S48-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True ante regresión o holdout vacío (bug).\n2. Cambia a cuatro AND: umbral, mejora, prefijo `rag-holdout-`, costo ≤ 50.\n3. Conserva print y status PASS/KEEP_EMBEDDING_BASELINE.",
         hint: "Cuatro condiciones en AND: umbral, mejora vs. baseline, holdout RAG y costo ≤ 50.",
         hints: [
           "candidate_recall >= min_recall and candidate_recall > baseline_recall.",
@@ -836,7 +828,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** quien mantiene el índice en Puno clasifica cada candidato: promover, conservar baseline o pedir evidencia de costo.\n- **Meta:** `assess` → PASS / KEEP_EMBEDDING_BASELINE / MISSING:reindex_cost_pen.\n- **Éxito:** `PASS KEEP_EMBEDDING_BASELINE MISSING:reindex_cost_pen`.\n- **Límites:** no inventes el costo; no trates missing como KEEP ni como PASS.",
         instruction:
-          "1. Primero calcula missing de campos required.\n2. Si falta `reindex_cost_pen` → MISSING (no compares recalls).\n3. Si mejora + holdout RAG + costo ≤ 50 → PASS; si no → KEEP.\n4. Imprime la tripleta.",
+          "S48-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero calcula missing de campos required.\n2. Si falta `reindex_cost_pen` → MISSING (no compares recalls).\n3. Si mejora + holdout RAG + costo ≤ 50 → PASS; si no → KEEP.\n4. Imprime la tripleta.",
         hint: "Missing de costo ≠ regresión: devuelve MISSING antes de comparar recalls.",
         hints: [
           "Campo ausente → MISSING:reindex_cost_pen (no KEEP).",
@@ -897,7 +889,7 @@ print(*results)
         preamble:
           "- **Contexto:** reindexar el corpus del socio no es «probar suerte»: o hay mejora retenida con presupuesto, o se detiene.\n- **Meta:** `decide` → CONTINUE / KEEP_EMBEDDING_BASELINE / EVALUATE_ERROR_SLICES.\n- **Éxito:** `CONTINUE KEEP_EMBEDDING_BASELINE EVALUATE_ERROR_SLICES`.\n- **Límites:** costo ausente no es «barato»; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Sin `reindex_cost_pen` → EVALUATE_ERROR_SLICES.\n2. Con schema completo, reutiliza el predicado de promote_ok.\n3. Solo mejora retenida es CONTINUE.\n4. Imprime los tres tokens de ruta.",
+          "S48-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin `reindex_cost_pen` → EVALUATE_ERROR_SLICES.\n2. Con schema completo, reutiliza el predicado de promote_ok.\n3. Solo mejora retenida es CONTINUE.\n4. Imprime los tres tokens de ruta.",
         hint: "Costo ausente no es “barato”: deriva a EVALUATE_ERROR_SLICES.",
         hints: [
           "missing reindex_cost_pen → EVALUATE_ERROR_SLICES.",
@@ -959,7 +951,7 @@ assert results == ["CONTINUE", "KEEP_EMBEDDING_BASELINE", "EVALUATE_ERROR_SLICES
         preamble:
           "- **Contexto:** en `CASO-PUN-048-2A`, la ingesta del reglamento solo pasa si los hashes son únicos, cada section existe y la fuente termina en `-v3`.\n- **Meta:** implementar `dedup_meta_ok` con esas tres condiciones.\n- **Éxito:** `S48-T2-A PASS` con hashes a/b y `d1-v3`.\n- **Límites:** no apruebes colisión; no aceptes section vacía ni version `latest`.",
         instruction:
-          "1. El starter usa `len(set) < len(hashes)` como True (bug: colisión = éxito).\n2. Exige `len(set) == unique_hashes`, sections no vacías y sufijo `-v3`.\n3. Conserva print PASS/DEDUP_AND_RECHUNK.",
+          "S48-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter usa `len(set) < len(hashes)` como True (bug: colisión = éxito).\n2. Exige `len(set) == unique_hashes`, sections no vacías y sufijo `-v3`.\n3. Conserva print PASS/DEDUP_AND_RECHUNK.",
         hint: "Implementa la función: cuenta hashes distintos, exige section en cada chunk y source_version con sufijo -v3.",
         hints: [
           "len({c['hash'] for c in chunks}) debe igualar unique_hashes (no ser menor).",
@@ -1015,7 +1007,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el pipeline de ingesta en Puno clasifica cada lote: limpio, re-chunk obligatorio o metadata incompleta.\n- **Meta:** `assess` → PASS / DEDUP_AND_RECHUNK / MISSING:source_version.\n- **Éxito:** `PASS DEDUP_AND_RECHUNK MISSING:source_version`.\n- **Límites:** sin source_version no re-chunkes a ciegas; no inventes la versión.",
         instruction:
-          "1. Missing de `source_version` → MISSING antes de mirar hashes.\n2. PASS solo con hashes únicos, sections y sufijo `-v3`.\n3. Adverso (colisión / section vacía / latest) → DEDUP_AND_RECHUNK.\n4. Imprime la tripleta.",
+          "S48-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Missing de `source_version` → MISSING antes de mirar hashes.\n2. PASS solo con hashes únicos, sections y sufijo `-v3`.\n3. Adverso (colisión / section vacía / latest) → DEDUP_AND_RECHUNK.\n4. Imprime la tripleta.",
         hint: "Sin source_version no re-chunkes a ciegas: marca MISSING.",
         hints: [
           "len(set(hashes)) == unique_hashes y cada chunk con section no vacía.",
@@ -1076,7 +1068,7 @@ print(*results)
         preamble:
           "- **Contexto:** indexar chunks sin provenance o con colisión envenena las citas del socio.\n- **Meta:** `decide` → CONTINUE / DEDUP_AND_RECHUNK / RESTORE_CHUNK_METADATA.\n- **Éxito:** `CONTINUE DEDUP_AND_RECHUNK RESTORE_CHUNK_METADATA`.\n- **Límites:** sin versión de fuente no reindexes; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Sin `source_version` → RESTORE_CHUNK_METADATA.\n2. Con schema, predicado de dedup+sections+`-v3` → CONTINUE o DEDUP.\n3. Imprime los tres tokens.",
+          "S48-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin `source_version` → RESTORE_CHUNK_METADATA.\n2. Con schema, predicado de dedup+sections+`-v3` → CONTINUE o DEDUP.\n3. Imprime los tres tokens.",
         hint: "Sin versión de fuente no reindexes: RESTORE_CHUNK_METADATA.",
         hints: [
           "missing source_version → RESTORE_CHUNK_METADATA.",
@@ -1138,7 +1130,7 @@ assert results == ["CONTINUE", "DEDUP_AND_RECHUNK", "RESTORE_CHUNK_METADATA"]
         preamble:
           "- **Contexto:** en `CASO-PUN-048-2B`, un chunk solo es recuperable si hay intersección ACL, no está borrado, tiene provenance `doc-*` y la caché está invalidada.\n- **Meta:** implementar `acl_active_ok` con esas cuatro condiciones.\n- **Éxito:** `S48-T2-B PASS` en el allow path (ops ∩ public).\n- **Límites:** no apruebes deny ni deleted; no ignores `cache_invalidated`.",
         instruction:
-          "1. El starter devuelve True ante deny o deleted (bug invertido).\n2. Cambia a: ACL∩ ≠ ∅ ∧ not deleted ∧ provenance doc-* ∧ caché True.\n3. Conserva print PASS/FILTER_OR_DELETE_CHUNK.",
+          "S48-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True ante deny o deleted (bug invertido).\n2. Cambia a: ACL∩ ≠ ∅ ∧ not deleted ∧ provenance doc-* ∧ caché True.\n3. Conserva print PASS/FILTER_OR_DELETE_CHUNK.",
         hint: "Cuatro condiciones AND: intersección ACL, no deleted, provenance doc-* y caché invalidado.",
         hints: [
           "bool(user_acl & chunk_acl) and not deleted and provenance.startswith(\"doc-\").",
@@ -1193,7 +1185,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de retrieval no confunde «usuario sin permiso» con «no sé si la caché se invalidó tras el delete».\n- **Meta:** `assess` → PASS / FILTER_OR_DELETE_CHUNK / MISSING:cache_invalidated.\n- **Éxito:** `PASS FILTER_OR_DELETE_CHUNK MISSING:cache_invalidated`.\n- **Límites:** missing de caché no es FILTER silencioso; no inventes el flag.",
         instruction:
-          "1. Primero missing de `cache_invalidated`.\n2. Luego predicado allow completo → PASS o FILTER.\n3. Adverso (sin intersección / deleted / provenance vacío) → FILTER.\n4. Imprime la tripleta.",
+          "S48-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero missing de `cache_invalidated`.\n2. Luego predicado allow completo → PASS o FILTER.\n3. Adverso (sin intersección / deleted / provenance vacío) → FILTER.\n4. Imprime la tripleta.",
         hint: "Incertidumbre de caché (campo ausente) ≠ deny de ACL.",
         hints: [
           "MISSING:cache_invalidated antes de evaluar intersección.",
@@ -1254,7 +1246,7 @@ print(*results)
         preamble:
           "- **Contexto:** servir un chunk sin saber si el tombstone invalidó la caché es fuga de texto viejo al socio.\n- **Meta:** `decide` → CONTINUE / FILTER_OR_DELETE_CHUNK / VERIFY_ACL_PROVENANCE.\n- **Éxito:** `CONTINUE FILTER_OR_DELETE_CHUNK VERIFY_ACL_PROVENANCE`.\n- **Límites:** no conviertas missing en CONTINUE; no apruebes deny.",
         instruction:
-          "1. Sin `cache_invalidated` → VERIFY_ACL_PROVENANCE.\n2. Con schema, allow path → CONTINUE; deny/deleted → FILTER.\n3. Imprime los tres tokens.",
+          "S48-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin `cache_invalidated` → VERIFY_ACL_PROVENANCE.\n2. Con schema, allow path → CONTINUE; deny/deleted → FILTER.\n3. Imprime los tres tokens.",
         hint: "Incertidumbre de invalidación de caché → VERIFY, no deny silencioso.",
         hints: [
           "missing cache_invalidated → VERIFY_ACL_PROVENANCE.",
@@ -1316,7 +1308,7 @@ assert results == ["CONTINUE", "FILTER_OR_DELETE_CHUNK", "VERIFY_ACL_PROVENANCE"
         preamble:
           "- **Contexto:** en `CASO-PUN-048-3A`, el socio busca el SLA: el vector solo elige d2; con pesos 0.6/0.4 el híbrido debe devolver d1.\n- **Meta:** implementar `hybrid_top` con score ponderado lexical+vector.\n- **Éxito:** `S48-T3-A PASS` (top == expected_top d1).\n- **Límites:** no uses solo max(vector); no cambies los pesos del fixture.",
         instruction:
-          "1. El starter devuelve max(vector) (bug: ignora lexical).\n2. Calcula score = w_lex*lexical + w_vec*vector sobre la unión de keys.\n3. Devuelve el id de mayor score.\n4. Conserva print PASS/RECALIBRATE_HYBRID_RANK.",
+          "S48-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve max(vector) (bug: ignora lexical).\n2. Calcula score = w_lex*lexical + w_vec*vector sobre la unión de keys.\n3. Devuelve el id de mayor score.\n4. Conserva print PASS/RECALIBRATE_HYBRID_RANK.",
         hint: "No uses max(vector); score(d) = w_lex*lexical[d] + w_vec*vector[d].",
         hints: [
           "score(d) = weights['lexical']*lexical[d] + weights['vector']*vector[d].",
@@ -1370,7 +1362,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** quien mantiene retrieval calibra pesos solo si el top ponderado cuadra con un gold; si d1 queda débil, no «fuerza» el top.\n- **Meta:** `assess` → PASS / RECALIBRATE_HYBRID_RANK / MISSING:expected_top.\n- **Éxito:** `PASS RECALIBRATE_HYBRID_RANK MISSING:expected_top`.\n- **Límites:** sin expected_top no rankees para PASS; no inventes el gold.",
         instruction:
-          "1. Repara `hybrid_top` (no puro vector).\n2. Missing de expected_top → MISSING.\n3. top == expected → PASS; si no → RECALIBRATE.\n4. Imprime la tripleta.",
+          "S48-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Repara `hybrid_top` (no puro vector).\n2. Missing de expected_top → MISSING.\n3. top == expected → PASS; si no → RECALIBRATE.\n4. Imprime la tripleta.",
         hint: "Falta expected_top → MISSING; no declares mejora de recall sin gold.",
         hints: [
           "score = w_lex*lexical + w_vec*vector; el top debe ser expected_top.",
@@ -1443,7 +1435,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción no calibres pesos sin gold top: o el híbrido cuadra, o se detiene a revisar candidatos.\n- **Meta:** `decide` → CONTINUE / RECALIBRATE_HYBRID_RANK / REVIEW_RERANK_CANDIDATES.\n- **Éxito:** `CONTINUE RECALIBRATE_HYBRID_RANK REVIEW_RERANK_CANDIDATES`.\n- **Límites:** sin expected_top → REVIEW; no uses solo vector.",
         instruction:
-          "1. Missing expected_top → REVIEW_RERANK_CANDIDATES.\n2. Con schema, score híbrido ponderado vs. expected.\n3. Imprime los tres tokens.",
+          "S48-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing expected_top → REVIEW_RERANK_CANDIDATES.\n2. Con schema, score híbrido ponderado vs. expected.\n3. Imprime los tres tokens.",
         hint: "Sin gold top no calibres pesos: REVIEW_RERANK_CANDIDATES.",
         hints: [
           "missing expected_top → REVIEW_RERANK_CANDIDATES.",
@@ -1505,7 +1497,7 @@ assert results == ["CONTINUE", "RECALIBRATE_HYBRID_RANK", "REVIEW_RERANK_CANDIDA
         preamble:
           "- **Contexto:** en `CASO-PUN-048-3B`, la respuesta al socio solo pasa si claims ⊆ cited, citation_acl True y tokens ≤ max.\n- **Meta:** implementar `context_cited_ok` con esas tres condiciones.\n- **Éxito:** `S48-T3-B PASS` con c1,c2 y 800≤1000.\n- **Límites:** no apruebes claim huérfano; no ignores el tope de tokens.",
         instruction:
-          "1. El starter invierte subset/ACL e ignora tokens (bug).\n2. Exige claims ⊆ cited ∧ citation_acl ∧ tokens ≤ max.\n3. Conserva print PASS/ABSTAIN_UNCITED.",
+          "S48-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte subset/ACL e ignora tokens (bug).\n2. Exige claims ⊆ cited ∧ citation_acl ∧ tokens ≤ max.\n3. Conserva print PASS/ABSTAIN_UNCITED.",
         hint: "Tres condiciones AND: subset de citas, ACL de cita y presupuesto de tokens.",
         hints: [
           "claims <= cited_claims (subconjunto) y citation_acl es True.",
@@ -1558,7 +1550,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de respuesta clasifica: contexto limpio, claim sin soporte, o presupuesto de tokens desconocido.\n- **Meta:** `assess` → PASS / ABSTAIN_UNCITED / MISSING:max_context_tokens.\n- **Éxito:** `PASS ABSTAIN_UNCITED MISSING:max_context_tokens`.\n- **Límites:** sin max no declares PASS; no inventes el tope.",
         instruction:
-          "1. Missing de max_context_tokens → MISSING.\n2. PASS solo con subset + ACL + tokens OK.\n3. Adverso (huérfano / ACL false / overflow) → ABSTAIN_UNCITED.\n4. Imprime la tripleta.",
+          "S48-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Missing de max_context_tokens → MISSING.\n2. PASS solo con subset + ACL + tokens OK.\n3. Adverso (huérfano / ACL false / overflow) → ABSTAIN_UNCITED.\n4. Imprime la tripleta.",
         hint: "Sin tope de tokens no infles el contexto: MISSING, no ABSTAIN.",
         hints: [
           "claims <= cited_claims and citation_acl and tokens <= max.",
@@ -1619,7 +1611,7 @@ print(*results)
         preamble:
           "- **Contexto:** armar contexto sin presupuesto de tokens o con claim huérfano no se «arregla en el LLM».\n- **Meta:** `decide` → CONTINUE / ABSTAIN_UNCITED / REQUEST_AUTHORIZED_CONTEXT.\n- **Éxito:** `CONTINUE ABSTAIN_UNCITED REQUEST_AUTHORIZED_CONTEXT`.\n- **Límites:** sin max_context_tokens → REQUEST; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing max → REQUEST_AUTHORIZED_CONTEXT.\n2. Con schema, predicado de citas+ACL+tokens.\n3. Imprime los tres tokens.",
+          "S48-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing max → REQUEST_AUTHORIZED_CONTEXT.\n2. Con schema, predicado de citas+ACL+tokens.\n3. Imprime los tres tokens.",
         hint: "Sin presupuesto de tokens no armes contexto: REQUEST_AUTHORIZED_CONTEXT.",
         hints: [
           "missing max_context_tokens → REQUEST_AUTHORIZED_CONTEXT.",
@@ -1681,7 +1673,7 @@ assert results == ["CONTINUE", "ABSTAIN_UNCITED", "REQUEST_AUTHORIZED_CONTEXT"]
         preamble:
           "- **Contexto:** en `CASO-PUN-048-4A`, «plazo 30 días» solo pasa con `d7#2` en allowlist, schema exacto e inyección del corpus ignorada.\n- **Meta:** implementar `grounded_ok` (schema + ids no vacíos ⊆ allowlist + flag True).\n- **Éxito:** `S48-T4-A PASS` con el fixture bueno.\n- **Límites:** no apruebes lista vacía ni id `unknown`; no asumas injection_ignored.",
         instruction:
-          "1. El starter invierte allowlist/injection y acepta vacío (bug).\n2. Exige set(output)==schema_keys, bool(ids), ids⊆allowed, flag True.\n3. Conserva print PASS/REJECT_UNGROUNDED_OUTPUT.",
+          "S48-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte allowlist/injection y acepta vacío (bug).\n2. Exige set(output)==schema_keys, bool(ids), ids⊆allowed, flag True.\n3. Conserva print PASS/REJECT_UNGROUNDED_OUTPUT.",
         hint: "Cuatro condiciones en AND: schema exacto, evidence no vacía, allowlist e inyección-as-data.",
         hints: [
           "set(output) == schema_keys and bool(evidence_ids) and set(evidence_ids) <= allowed_evidence.",
@@ -1739,7 +1731,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de salida no confunde «corpus hostil activo» con «no sé si ignoramos la inyección».\n- **Meta:** `assess` → PASS / REJECT_UNGROUNDED_OUTPUT / MISSING:injected_instruction_ignored.\n- **Éxito:** `PASS REJECT_UNGROUNDED_OUTPUT MISSING:injected_instruction_ignored`.\n- **Límites:** sin flag no asumas True; no inventes evidence_ids.",
         instruction:
-          "1. Missing del flag → MISSING.\n2. grounded_ok completo → PASS; poison/unknown/flag False → REJECT.\n3. Imprime la tripleta.",
+          "S48-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Missing del flag → MISSING.\n2. grounded_ok completo → PASS; poison/unknown/flag False → REJECT.\n3. Imprime la tripleta.",
         hint: "Flag de inyección ausente → MISSING (no asumas True).",
         hints: [
           "set(output) == schema_keys, evidence_ids no vacío y ⊆ allowed.",
@@ -1808,7 +1800,7 @@ print(*results)
         preamble:
           "- **Contexto:** promover una respuesta que obedece «envía secretos» del corpus o sin flag de inyección es incidente de seguridad, no un warning de producto.\n- **Meta:** `decide` → CONTINUE / REJECT_UNGROUNDED_OUTPUT / VALIDATE_OUTPUT_SCHEMA.\n- **Éxito:** `CONTINUE REJECT_UNGROUNDED_OUTPUT VALIDATE_OUTPUT_SCHEMA`.\n- **Límites:** flag ausente → VALIDATE; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing injected_instruction_ignored → VALIDATE_OUTPUT_SCHEMA.\n2. Con schema, grounded_ok → CONTINUE o REJECT.\n3. Imprime los tres tokens.",
+          "S48-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing injected_instruction_ignored → VALIDATE_OUTPUT_SCHEMA.\n2. Con schema, grounded_ok → CONTINUE o REJECT.\n3. Imprime los tres tokens.",
         hint: "Flag de inyección ausente → VALIDATE_OUTPUT_SCHEMA (no asumas ignorada).",
         hints: [
           "missing injected_instruction_ignored → VALIDATE_OUTPUT_SCHEMA.",
@@ -1878,7 +1870,7 @@ assert results == ["CONTINUE", "REJECT_UNGROUNDED_OUTPUT", "VALIDATE_OUTPUT_SCHE
         preamble:
           "- **Contexto:** en `CASO-PUN-048-4B`, solo se responde si recall, faithfulness, costo y support pasan los umbrales.\n- **Meta:** implementar `answer_gates_ok` con cuatro AND.\n- **Éxito:** `S48-T4-B PASS` con el fixture válido (support True).\n- **Límites:** no apruebes faith baja ni support False; no ignores recall/costo.",
         instruction:
-          "1. El starter invierte faith e ignora recall/costo (bug).\n2. Exige recall≥min, faith≥min, cost≤cap, support True.\n3. Conserva print PASS/ABSTAIN_WITH_REASON.",
+          "S48-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte faith e ignora recall/costo (bug).\n2. Exige recall≥min, faith≥min, cost≤cap, support True.\n3. Conserva print PASS/ABSTAIN_WITH_REASON.",
         hint: "Cuatro umbrales en AND: retrieval_recall, faithfulness, costo y support.",
         hints: [
           "retrieval_recall >= min_recall and faithfulness >= min_faithfulness.",
@@ -1932,7 +1924,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de respuesta no confunde «support medido en False» con «ni siquiera medimos support».\n- **Meta:** `assess` → PASS / ABSTAIN_WITH_REASON / MISSING:support.\n- **Éxito:** `PASS ABSTAIN_WITH_REASON MISSING:support`.\n- **Límites:** sin support no respondas; no inventes el flag.",
         instruction:
-          "1. Missing de support → MISSING.\n2. Cuatro AND → PASS o ABSTAIN_WITH_REASON.\n3. Imprime la tripleta.",
+          "S48-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Missing de support → MISSING.\n2. Cuatro AND → PASS o ABSTAIN_WITH_REASON.\n3. Imprime la tripleta.",
         hint: "Sin flag support no respondas: MISSING → afinación de retrieval/presupuesto.",
         hints: [
           "Cuatro AND: recall, faithfulness, costo y support.",
@@ -1993,7 +1985,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción del asistente de Puno, support bajo se abstiene con razón; sin métrica de support se afinan retrieval o presupuesto, no se «sigue con warning».\n- **Meta:** `decide` → CONTINUE / ABSTAIN_WITH_REASON / TUNE_RETRIEVAL_OR_BUDGET.\n- **Éxito:** `CONTINUE ABSTAIN_WITH_REASON TUNE_RETRIEVAL_OR_BUDGET`.\n- **Límites:** sin support → TUNE; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Missing support → TUNE_RETRIEVAL_OR_BUDGET.\n2. Con schema, answer_gates_ok → CONTINUE o ABSTAIN.\n3. Imprime los tres tokens.",
+          "S48-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing support → TUNE_RETRIEVAL_OR_BUDGET.\n2. Con schema, answer_gates_ok → CONTINUE o ABSTAIN.\n3. Imprime los tres tokens.",
         hint: "Sin medición de support no respondas: TUNE_RETRIEVAL_OR_BUDGET.",
         hints: [
           "missing support → TUNE_RETRIEVAL_OR_BUDGET.",
@@ -2050,7 +2042,7 @@ assert results == ["CONTINUE", "ABSTAIN_WITH_REASON", "TUNE_RETRIEVAL_OR_BUDGET"
     ],
   },
   youDo: {
-    title: "Aplicaciones LLM y RAG con evidencia",
+    title: "LLM applications y RAG con evidencia",
     context: "Asistente RAG autorizado y evaluado sobre documentación sintética de una cooperativa ficticia en Puno. Entrada: documentos versionados con ACL, provenance, metadata y query del socio. Salida: respuesta estructurada con citas verificables o abstención explícita. El gate se bloquea si hay fragmento denegado, evidencia insuficiente, versión borrada o costo excedido.",
     objectives: [
       "Convertir documentos versionados con ACL, provenance y metadata en respuesta estructurada con citas verificables o abstención explícita.",

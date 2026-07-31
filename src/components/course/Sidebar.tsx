@@ -113,7 +113,12 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3">
+      <div
+        className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3"
+        data-testid="sidebar-sections"
+        role="list"
+        aria-label={t('sidebar.sectionsDone', lang)}
+      >
         <div className="space-y-1">
           {sections.map((section, idx) => {
             const isCompleted = safeCompletedSections.includes(section.id)
@@ -266,6 +271,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </button>
         <button
           onClick={() => onSelectSection('__resources__')}
+          data-testid="nav-resources"
           className={cn(
             'mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
             view === 'resources'

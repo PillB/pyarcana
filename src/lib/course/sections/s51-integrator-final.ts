@@ -102,8 +102,7 @@ REDACT_AND_QUARANTINE_TRACE`,
       callout: {
         type: "danger",
         title: "PII en el sink = incidente",
-        content:
-          "Exportar `prompt_raw`, email o tokens a logs es breach (violación del contrato): `REDACT_AND_QUARANTINE_TRACE`. Antes de cerrar este subtema, ejecuta el contrato sobre el caso sintético y documenta el riesgo residual.",
+        content: "Evidencia mínima de S51-T1-A: Exportar `prompt_raw`, email o tokens a logs es breach (violación del contrato): `REDACT_AND_QUARANTINE_TRACE`. Antes de cerrar este subtema, ejecuta el contrato sobre el caso sintético y documenta el riesgo residual.",
       },
     },
     {
@@ -149,8 +148,7 @@ assert m["total_tokens"] == 1500 and m["cost_usd"] == 0.003 and m["export_clean"
       callout: {
         type: "warning",
         title: "Percentil, no solo media",
-        content:
-          "En tu revisión, exige siempre la salida esperada del contrato y un comportamiento fail-closed ante cualquier breach de costo, latencia o redacción.",
+        content: "Antes de promover S51-T1-B, En tu revisión, exige siempre la salida esperada del contrato y un comportamiento fail-closed ante cualquier breach de costo, latencia o redacción.",
       },
     },
     {
@@ -188,8 +186,7 @@ FREEZE_RELEASE_BUNDLE`,
       callout: {
         type: "warning",
         title: "Prohibido latest en prod",
-        content:
-          "No promociones un release a producción sin evidencia de bundle pinneado e inmutable; `latest` o cualquier artefacto vacío son un freeze automático.",
+        content: "La revisión de S51-T2-A conserva que No promociones un release a producción sin evidencia de bundle pinneado e inmutable; `latest` o cualquier artefacto vacío son un freeze automático.",
       },
     },
     {
@@ -229,8 +226,7 @@ REQUEST_INDEPENDENT_APPROVAL`,
       callout: {
         type: "warning",
         title: "Self-approve = change no gobernado",
-        content:
-          "Un cambio sin aprobador independiente, con scope admin o sin audit append-only se rechaza como cambio no gobernado.",
+        content: "Contrato S51-T2-B: Un cambio sin aprobador independiente, con scope admin o sin audit append-only se rechaza como cambio no gobernado.",
       },
     },
     {
@@ -273,8 +269,7 @@ OPEN_COPILOT_INCIDENT`,
       callout: {
         type: "warning",
         title: "Owner antes de reentrenar",
-        content:
-          "Antes de reentrenar, exige un runbook con dueño asignado y evidencia reproducible del slice de drift.",
+        content: "Para S51-T3-A, Antes de reentrenar, exige un runbook con dueño asignado y evidencia reproducible del slice de drift.",
       },
     },
     {
@@ -317,8 +312,7 @@ ROLLBACK_AND_CONTAIN`,
       callout: {
         type: "danger",
         title: "Contener antes de debatir",
-        content:
-          "Sin un dueño que responda por el rollback y la evidencia, no se promueve el siguiente paso del freeze CF-5. Contén y revierte antes de debatir la causa raíz.",
+        content: "Promoción de S51-T3-B: Sin un dueño que responda por el rollback y la evidencia, no se promueve el siguiente paso del freeze CF-5. Contén y revierte antes de debatir la causa raíz.",
       },
     },
     {
@@ -362,8 +356,7 @@ ASK_USER_TO_CONFIRM`,
       callout: {
         type: "warning",
         title: "Side-effect sin confirmación = bloqueo",
-        content:
-          "Al cerrar este subtema, documenta el riesgo residual y los límites del laboratorio con stdlib. Sin confirmación del efecto, no se ejecuta una acción irreversible.",
+        content: "El dueño de S51-T4-A acepta que Al cerrar este subtema, documenta el riesgo residual y los límites del laboratorio con stdlib. Sin confirmación del efecto, no se ejecuta una acción irreversible.",
       },
     },
     {
@@ -409,8 +402,7 @@ ROUTE_CONTESTATION`,
       callout: {
         type: "warning",
         title: "a11y incompleta bloquea CF-5",
-        content:
-          "Cierre S51-T4-B / CF-5: teclado, lector, contraste AA (≥4.5), corrección y apelación humana son obligatorios. Fallo → `FAIL_ACCESSIBILITY_GATE`; sin appeal → `ROUTE_CONTESTATION`. Un panel «bonito» solo-mouse no se promociona.",
+        content: "Cierre de S51-T4-B: teclado, lector, contraste AA (≥4.5), corrección y apelación humana son obligatorios. Fallo → `FAIL_ACCESSIBILITY_GATE`; sin appeal → `ROUTE_CONTESTATION`. Un panel «bonito» solo-mouse no se promociona.",
       },
     },
   ],
@@ -691,7 +683,7 @@ FAIL_ACCESSIBILITY_GATE`,
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-1A`, el on-call de la entidad ficticia de Moquegua solo acepta una traza si el `trace_id` correlaciona, hay cuatro spans y no hay PII en el sink.\n- **Meta:** corregir `meets_contract` (`tr-` + spans completos + versiones pinneadas + `pii_in_trace is False`).\n- **Éxito:** imprimes exactamente `S51-T1-A PASS` con el fixture válido.\n- **Límites:** no borres el assert; no inventes spans; no toques los datos del fixture.",
         instruction:
-          "1. Abre el starter: `meets_contract` usa `not trace_id or pii_in_trace` (bug: aprueba basura).\n2. Exige `trace_id.startswith(\"tr-\")` y el conjunto `prompt/retrieval/tool/answer` ⊆ spans.\n3. Añade `all(versions.values())` y `not pii_in_trace`.\n4. Conserva el print `S51-T1-A` y el status PASS/REDACT_AND_QUARANTINE_TRACE.",
+          "S51-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `not trace_id or pii_in_trace` (bug: aprueba basura).\n2. Exige `trace_id.startswith(\"tr-\")` y el conjunto `prompt/retrieval/tool/answer` ⊆ spans.\n3. Añade `all(versions.values())` y `not pii_in_trace`.\n4. Conserva el print `S51-T1-A` y el status PASS/REDACT_AND_QUARANTINE_TRACE.",
         hint: "Exige `trace_id` con prefijo `tr-`, los cuatro spans y `pii_in_trace is False`.",
         hints: [
           "Exige `trace_id` con prefijo `tr-`, el conjunto `prompt/retrieval/tool/answer` y versiones no vacías.",
@@ -734,7 +726,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de observabilidad en Moquegua no trata igual una traza limpia, una con PII y una sin flag de privacidad.\n- **Meta:** implementar `assess` que distinga PASS, REDACT_AND_QUARANTINE_TRACE y MISSING:pii_in_trace.\n- **Éxito:** imprime `PASS REDACT_AND_QUARANTINE_TRACE MISSING:pii_in_trace` en ese orden.\n- **Límites:** si falta `pii_in_trace`, no evalúes contenido; no inventes la clave; missing ≠ «cuarentena de PII».",
         instruction:
-          "1. Revisa el starter: con campos presentes devuelve PASS si no hay `trace_id` o si hay PII (bug invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: `tr-` + cuatro spans + versiones + cero PII → PASS; si no → REDACT_AND_QUARANTINE_TRACE.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S51-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con campos presentes devuelve PASS si no hay `trace_id` o si hay PII (bug invertido).\n2. Primero: calcula `missing` de required; si hay → `MISSING:…`.\n3. Luego: `tr-` + cuatro spans + versiones + cero PII → PASS; si no → REDACT_AND_QUARANTINE_TRACE.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero calcula `missing`; no leas `pii_in_trace` hasta confirmar que la clave existe.",
         hints: [
           "Primero calcula `missing`; no leas `pii_in_trace` hasta confirmar que la clave existe.",
@@ -795,7 +787,7 @@ print(*results)
         preamble:
           "- **Contexto:** en producción del copiloto de Moquegua, una traza incompleta no «sigue con warning»: o continúa limpia o se restaura el contexto.\n- **Meta:** helpers + `decide` → CONTINUE (limpia), REDACT_AND_QUARANTINE_TRACE (adverso), RESTORE_TRACE_CONTEXT (sin `pii_in_trace`).\n- **Éxito:** `CONTINUE REDACT_AND_QUARANTINE_TRACE RESTORE_TRACE_CONTEXT`.\n- **Límites:** no inventes `pii_in_trace`; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige `spans_complete` (cuatro nombres, no `len==1`) y `versions_pinned` (todas no vacías y ≠ `latest`).\n2. Missing → `RESTORE_TRACE_CONTEXT` (no CONTINUE).\n3. Con record completo: `tr-` + helpers + no PII → CONTINUE; si no → REDACT_AND_QUARANTINE_TRACE.\n4. Imprime los tres códigos en orden.",
+          "S51-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige `spans_complete` (cuatro nombres, no `len==1`) y `versions_pinned` (todas no vacías y ≠ `latest`).\n2. Missing → `RESTORE_TRACE_CONTEXT` (no CONTINUE).\n3. Con record completo: `tr-` + helpers + no PII → CONTINUE; si no → REDACT_AND_QUARANTINE_TRACE.\n4. Imprime los tres códigos en orden.",
         hint: "Missing → RESTORE_TRACE_CONTEXT; pii_in_trace True o helpers en falso → REDACT_AND_QUARANTINE_TRACE; solo traza limpia y completa → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.",
@@ -879,7 +871,7 @@ assert results == ["CONTINUE", "REDACT_AND_QUARANTINE_TRACE", "RESTORE_TRACE_CON
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-1B`, el dashboard del copiloto de Moquegua solo está sano si la suma por etapa cuadra, el p95 respeta el SLO y hay campos redactados.\n- **Meta:** completar `meets_contract` (suma == total_tokens, p95 ≤ slo, redacted_fields ≥ 1).\n- **Éxito:** `S51-T1-B PASS`.\n- **Límites:** no cambies los contadores del fixture; no uses la media de latencia; no borres el assert.",
         instruction:
-          "1. Abre el starter: PASS si total==0 o p95 > slo (bug).\n2. Suma `prompt_tokens + retrieval_tokens + answer_tokens` y compárala con `total_tokens`.\n3. Exige `p95_ms <= slo_ms` y `redacted_fields >= 1`.\n4. Conserva print/status PASS/ALERT_COST_LATENCY.",
+          "S51-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: PASS si total==0 o p95 > slo (bug).\n2. Suma `prompt_tokens + retrieval_tokens + answer_tokens` y compárala con `total_tokens`.\n3. Exige `p95_ms <= slo_ms` y `redacted_fields >= 1`.\n4. Conserva print/status PASS/ALERT_COST_LATENCY.",
         hint: "Suma prompt+retrieval+answer y compárala con `total_tokens`; exige p95 ≤ SLO y al menos un campo redactado.",
         hints: [
           "Suma prompt+retrieval+answer y compárala con `total_tokens`; exige p95 ≤ SLO y `redacted_fields >= 1`.",
@@ -922,7 +914,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de métricas en Moquegua separa fila limpia, fila con costo/latencia rota y registro sin contador de redacción.\n- **Meta:** `assess` → PASS, ALERT_COST_LATENCY, MISSING:redacted_fields.\n- **Éxito:** `PASS ALERT_COST_LATENCY MISSING:redacted_fields`.\n- **Límites:** sin `redacted_fields` no evalúes la suma; no rellenes el campo ausente.",
         instruction:
-          "1. Starter: PASS si total==0 o p95 > slo (bug).\n2. Primero missing de required.\n3. Luego suma + p95 ≤ slo + redacted_fields ≥ 1.\n4. Imprime la tripleta en orden.",
+          "S51-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si total==0 o p95 > slo (bug).\n2. Primero missing de required.\n3. Luego suma + p95 ≤ slo + redacted_fields ≥ 1.\n4. Imprime la tripleta en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
@@ -983,7 +975,7 @@ print(*results)
         preamble:
           "- **Contexto:** en ops del copiloto, un export incompleto no se «promueve con disclaimer»: o continúa limpio o se repara el pipeline de redacción.\n- **Meta:** helpers de compute + `decide` → CONTINUE, ALERT_COST_LATENCY, FIX_REDACTION_PIPELINE.\n- **Éxito:** `CONTINUE ALERT_COST_LATENCY FIX_REDACTION_PIPELINE` (costo válido 0.003).\n- **Límites:** no inventes `redacted_fields`; no uses media de latencia; no toques fixtures.",
         instruction:
-          "1. Implementa `reconcile_tokens` (suma por etapa == total).\n2. `estimate_cost_usd` = round(total/1000 * 0.002, 6); `export_clean` = redacted_fields ≥ 1.\n3. Missing → FIX_REDACTION_PIPELINE; con datos: helpers + p95_ok + cost ≥ 0 → CONTINUE.\n4. Imprime los tres códigos en orden.",
+          "S51-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `reconcile_tokens` (suma por etapa == total).\n2. `estimate_cost_usd` = round(total/1000 * 0.002, 6); `export_clean` = redacted_fields ≥ 1.\n3. Missing → FIX_REDACTION_PIPELINE; con datos: helpers + p95_ok + cost ≥ 0 → CONTINUE.\n4. Imprime los tres códigos en orden.",
         hint: "Primero missing → FIX_REDACTION_PIPELINE; luego reconcile_tokens + p95_ok + export_clean + estimate_cost_usd ≥ 0 para CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.",
@@ -1080,7 +1072,7 @@ assert estimate_cost_usd(1500) == 0.003` ,
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-2A`, el equipo de Moquegua congela el release `copilot-7` solo si modelo/prompt/dataset/índice/evaluador están pinneados e inmutables.\n- **Meta:** corregir `meets_contract` (seis claves ≠ vacío/`latest` y `immutable is True`).\n- **Éxito:** `S51-T2-A PASS`.\n- **Límites:** no aceptes `latest` «por conveniencia»; no borres el assert; no cambies IDs del fixture.",
         instruction:
-          "1. Starter: PASS si not immutable o hay `latest` (bug).\n2. Recorre release/model/prompt/dataset/index/evaluator: todos truthy y ≠ `latest`.\n3. Exige `immutable is True`.\n4. Conserva print PASS/FREEZE_RELEASE_BUNDLE.",
+          "S51-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not immutable o hay `latest` (bug).\n2. Recorre release/model/prompt/dataset/index/evaluator: todos truthy y ≠ `latest`.\n3. Exige `immutable is True`.\n4. Conserva print PASS/FREEZE_RELEASE_BUNDLE.",
         hint: "Ningún artefacto puede ser vacío o `latest`; `immutable` debe ser True.",
         hints: [
           "Recorre release/model/prompt/dataset/index/evaluator: todos pinneados y distintos de `latest`.",
@@ -1127,7 +1119,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de registry en Moquegua separa bundle limpio, bundle con `latest`/mutable y registro sin flag `immutable`.\n- **Meta:** `assess` → PASS, FREEZE_RELEASE_BUNDLE, MISSING:immutable.\n- **Éxito:** `PASS FREEZE_RELEASE_BUNDLE MISSING:immutable`.\n- **Límites:** sin `immutable` no evalúes pins; no inventes el flag.",
         instruction:
-          "1. Starter invierte el predicado de pin.\n2. Primero missing de required.\n3. Luego seis versiones pinneadas + immutable True.\n4. Imprime la tripleta.",
+          "S51-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte el predicado de pin.\n2. Primero missing de required.\n3. Luego seis versiones pinneadas + immutable True.\n4. Imprime la tripleta.",
         hint: "Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.",
@@ -1190,7 +1182,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el freeze CF-5, un release incompleto no se promociona: se registra la versión faltante o se congela el bundle.\n- **Meta:** helpers + `decide` → CONTINUE, FREEZE_RELEASE_BUNDLE, REGISTER_MISSING_VERSION.\n- **Éxito:** `CONTINUE FREEZE_RELEASE_BUNDLE REGISTER_MISSING_VERSION`.\n- **Límites:** no inventes `immutable`; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Corrige `versions_pinned` (all pinneados, no any latest).\n2. `bundle_immutable` = `immutable is True` (no False).\n3. Missing → REGISTER_MISSING_VERSION; ambos helpers True → CONTINUE.\n4. Imprime los tres códigos.",
+          "S51-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige `versions_pinned` (all pinneados, no any latest).\n2. `bundle_immutable` = `immutable is True` (no False).\n3. Missing → REGISTER_MISSING_VERSION; ambos helpers True → CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Missing → REGISTER_MISSING_VERSION; versions_pinned y bundle_immutable en falso → FREEZE_RELEASE_BUNDLE; solo pin completo e inmutable → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.",
@@ -1266,7 +1258,7 @@ assert results == ["CONTINUE", "FREEZE_RELEASE_BUNDLE", "REGISTER_MISSING_VERSIO
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-2B`, el change ticket de Moquegua exige autor ≠ aprobador, risk válido, scope de lectura, retención ≤30 y audit append-only.\n- **Meta:** corregir `meets_contract` con esas cinco anclas.\n- **Éxito:** `S51-T2-B PASS`.\n- **Límites:** no cambies author/approver del fixture; no «arregles» self-approve en silencio; no borres el assert.",
         instruction:
-          "1. Starter: PASS si author==approver o scope admin (bug).\n2. Exige author ≠ approver y risk ∈ {low, medium, high}.\n3. Scope `endswith(\"-read\")`, retención ≤ 30, audit_append_only True.\n4. Conserva print PASS/REJECT_UNGOVERNED_CHANGE.",
+          "S51-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si author==approver o scope admin (bug).\n2. Exige author ≠ approver y risk ∈ {low, medium, high}.\n3. Scope `endswith(\"-read\")`, retención ≤ 30, audit_append_only True.\n4. Conserva print PASS/REJECT_UNGOVERNED_CHANGE.",
         hint: "author ≠ approver, scope `*-read`, retención ≤ 30 y audit append-only.",
         hints: [
           "Segregación de funciones: `author` y `approver` son personas distintas; risk ∈ {low, medium, high}.",
@@ -1309,7 +1301,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de change control en Moquegua separa ticket limpio, ticket no gobernado y registro sin flag de audit append-only.\n- **Meta:** `assess` → PASS, REJECT_UNGOVERNED_CHANGE, MISSING:audit_append_only.\n- **Éxito:** `PASS REJECT_UNGOVERNED_CHANGE MISSING:audit_append_only`.\n- **Límites:** sin `audit_append_only` no evalúes SoD; no inventes el flag.",
         instruction:
-          "1. Starter invierte dual-control.\n2. Primero missing.\n3. Luego SoD + risk + scope read + retención + audit.\n4. Imprime la tripleta.",
+          "S51-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte dual-control.\n2. Primero missing.\n3. Luego SoD + risk + scope read + retención + audit.\n4. Imprime la tripleta.",
         hint: "Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.",
@@ -1370,7 +1362,7 @@ print(*results)
         preamble:
           "- **Contexto:** en CF-5, un change incompleto no se «aprueba con disclaimer»: se pide aprobación independiente o se rechaza.\n- **Meta:** helpers + `decide` → CONTINUE, REJECT_UNGOVERNED_CHANGE, REQUEST_INDEPENDENT_APPROVAL.\n- **Éxito:** `CONTINUE REJECT_UNGOVERNED_CHANGE REQUEST_INDEPENDENT_APPROVAL`.\n- **Límites:** no inventes `audit_append_only`; no conviertas missing en CONTINUE.",
         instruction:
-          "1. `sod_ok`: author ≠ approver y risk válido.\n2. `access_policy_ok`: scope `-read`, retención ≤30, audit True.\n3. Missing → REQUEST_INDEPENDENT_APPROVAL; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
+          "S51-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. `sod_ok`: author ≠ approver y risk válido.\n2. `access_policy_ok`: scope `-read`, retención ≤30, audit True.\n3. Missing → REQUEST_INDEPENDENT_APPROVAL; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Missing → REQUEST_INDEPENDENT_APPROVAL; sod_ok y access_policy_ok en falso → REJECT_UNGOVERNED_CHANGE; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
@@ -1448,7 +1440,7 @@ assert results == ["CONTINUE", "REJECT_UNGOVERNED_CHANGE", "REQUEST_INDEPENDENT_
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-3A`, el slice de Moquegua solo está verde si availability/faithfulness/drift cumplen umbral y hay owner del runbook.\n- **Meta:** corregir `meets_contract` (tres SLI + owner no vacío).\n- **Éxito:** `S51-T3-A PASS`.\n- **Límites:** no inventes owner; no «promedies» faithfulness; no borres el assert.",
         instruction:
-          "1. Starter: PASS si availability < slo o drift > max (bug).\n2. Exige availability ≥ slo, faithfulness ≥ slo, drift ≤ max.\n3. Añade `bool(owner)`.\n4. Conserva print PASS/OPEN_COPILOT_INCIDENT.",
+          "S51-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si availability < slo o drift > max (bug).\n2. Exige availability ≥ slo, faithfulness ≥ slo, drift ≤ max.\n3. Añade `bool(owner)`.\n4. Conserva print PASS/OPEN_COPILOT_INCIDENT.",
         hint: "availability y faithfulness ≥ sus SLO, drift ≤ max y `owner` no vacío.",
         hints: [
           "Compara cada SLI con su umbral en la dirección correcta (≥ para calidad/disponibilidad, ≤ para drift).",
@@ -1491,7 +1483,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de SLO en Moquegua separa slice sano, slice en incidente y registro sin clave `owner`.\n- **Meta:** `assess` → PASS, OPEN_COPILOT_INCIDENT, MISSING:owner.\n- **Éxito:** `PASS OPEN_COPILOT_INCIDENT MISSING:owner`.\n- **Límites:** sin clave `owner` no evalúes SLI; owner vacío en el adverso es breach de contenido (no MISSING).",
         instruction:
-          "1. Starter invierte comparaciones de SLI.\n2. Primero missing de required.\n3. Luego multi-SLI + bool(owner).\n4. Imprime la tripleta.",
+          "S51-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte comparaciones de SLI.\n2. Primero missing de required.\n3. Luego multi-SLI + bool(owner).\n4. Imprime la tripleta.",
         hint: "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
@@ -1552,7 +1544,7 @@ print(*results)
         preamble:
           "- **Contexto:** en ops del copiloto, un slice sin dueño no se «optimiza en silencio»: se triajea o se abre incidente.\n- **Meta:** `sli_ok` + burn + `decide` → CONTINUE, OPEN_COPILOT_INCIDENT, TRIAGE_DRIFT_SLICE.\n- **Éxito:** `CONTINUE OPEN_COPILOT_INCIDENT TRIAGE_DRIFT_SLICE` (burn válido 0.2).\n- **Límites:** no inventes owner; no ignores faithfulness; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Implementa `error_budget_burn` (errors/allowed en ventana 100).\n2. `sli_ok`: availability, faithfulness y drift vs. umbrales.\n3. Missing de owner → TRIAGE_DRIFT_SLICE; sli_ok + owner + burn finito → CONTINUE.\n4. Imprime los tres códigos.",
+          "S51-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `error_budget_burn` (errors/allowed en ventana 100).\n2. `sli_ok`: availability, faithfulness y drift vs. umbrales.\n3. Missing de owner → TRIAGE_DRIFT_SLICE; sli_ok + owner + burn finito → CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Missing de owner → TRIAGE_DRIFT_SLICE; owner vacío o SLI roto → OPEN_COPILOT_INCIDENT. Burn = errors/allowed con allowed=(1-slo)*window.",
         hints: [
           "Una ausencia de clave no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
@@ -1634,7 +1626,7 @@ assert error_budget_burn(0.999, 0.995) == 0.2` ,
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-3B`, el simulacro de incidente del copiloto de Moquegua exige contención, pin last-good, reloj ≤ RTO, ≥1 acción y owners.\n- **Meta:** corregir `meets_contract` con esas anclas.\n- **Éxito:** `S51-T3-B PASS`.\n- **Límites:** no alargues el RTO «a mano»; no borres owners del fixture; no borres el assert.",
         instruction:
-          "1. Starter: PASS si not contained o minutos > RTO (bug).\n2. Exige contained True y `rolled_back_to.startswith(\"copilot-\")`.\n3. Minutos ≤ RTO, postmortem_actions ≥ 1, owners_assigned True.\n4. Conserva print PASS/ROLLBACK_AND_CONTAIN.",
+          "S51-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not contained o minutos > RTO (bug).\n2. Exige contained True y `rolled_back_to.startswith(\"copilot-\")`.\n3. Minutos ≤ RTO, postmortem_actions ≥ 1, owners_assigned True.\n4. Conserva print PASS/ROLLBACK_AND_CONTAIN.",
         hint: "Contención True, last-good `copilot-*`, minutos ≤ RTO, ≥1 acción y owners asignados.",
         hints: [
           "Orden mental: contained → rollback al pin → reloj ≤ RTO → post mortem con dueños.",
@@ -1677,7 +1669,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de IR en Moquegua separa simulacro listo, respuesta incompleta y registro sin flag de owners.\n- **Meta:** `assess` → PASS, ROLLBACK_AND_CONTAIN, MISSING:owners_assigned.\n- **Éxito:** `PASS ROLLBACK_AND_CONTAIN MISSING:owners_assigned`.\n- **Límites:** sin `owners_assigned` no evalúes RTO; no inventes dueños.",
         instruction:
-          "1. Starter invierte contención/RTO.\n2. Primero missing.\n3. Luego contained + pin + RTO + acciones + owners.\n4. Imprime la tripleta.",
+          "S51-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte contención/RTO.\n2. Primero missing.\n3. Luego contained + pin + RTO + acciones + owners.\n4. Imprime la tripleta.",
         hint: "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
@@ -1738,7 +1730,7 @@ print(*results)
         preamble:
           "- **Contexto:** en CF-5, un incidente sin dueños no se cierra con un print: se convoca revisión o se fuerza contención.\n- **Meta:** helpers + `decide` → CONTINUE, ROLLBACK_AND_CONTAIN, CONVENE_INCIDENT_REVIEW.\n- **Éxito:** `CONTINUE ROLLBACK_AND_CONTAIN CONVENE_INCIDENT_REVIEW`.\n- **Límites:** no inventes owners; no conviertas missing en CONTINUE.",
         instruction:
-          "1. `within_rto`: minutos ≤ RTO y pin `copilot-*`.\n2. `ir_complete`: contained + ≥1 acción + owners True.\n3. Missing → CONVENE_INCIDENT_REVIEW; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
+          "S51-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. `within_rto`: minutos ≤ RTO y pin `copilot-*`.\n2. `ir_complete`: contained + ≥1 acción + owners True.\n3. Missing → CONVENE_INCIDENT_REVIEW; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Missing → CONVENE_INCIDENT_REVIEW; within_rto e ir_complete en falso → ROLLBACK_AND_CONTAIN; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
@@ -1819,7 +1811,7 @@ assert results == ["CONTINUE", "ROLLBACK_AND_CONTAIN", "CONVENE_INCIDENT_REVIEW"
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-4A`, el copiloto de Moquegua solo habilita la tool de escritura si muestra incertidumbre, citas, resumen del efecto y confirmación humana.\n- **Meta:** corregir `meets_contract` (evidence + confirmación condicional).\n- **Éxito:** `S51-T4-A PASS`.\n- **Límites:** no inventes `confirmed`; no vacíes `effect_summary`; no borres el assert.",
         instruction:
-          "1. Starter: PASS si falta incertidumbre/citas/confirmed (bug).\n2. Exige uncertainty_shown, citations_resolve y effect_summary truthy.\n3. Si confirmation_required, exige confirmed.\n4. Conserva print PASS/BLOCK_UNCONFIRMED_ACTION.",
+          "S51-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si falta incertidumbre/citas/confirmed (bug).\n2. Exige uncertainty_shown, citations_resolve y effect_summary truthy.\n3. Si confirmation_required, exige confirmed.\n4. Conserva print PASS/BLOCK_UNCONFIRMED_ACTION.",
         hint: "Incertidumbre y citas visibles; si hay confirmación requerida, `confirmed` debe ser True.",
         hints: [
           "`effect_summary` no vacío resume el side-effect («prepara borrador») antes de ejecutarlo.",
@@ -1862,7 +1854,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de UX en Moquegua separa respuesta listable, acción bloqueada y registro sin clave `confirmed`.\n- **Meta:** `assess` → PASS, BLOCK_UNCONFIRMED_ACTION, MISSING:confirmed.\n- **Éxito:** `PASS BLOCK_UNCONFIRMED_ACTION MISSING:confirmed`.\n- **Límites:** sin `confirmed` no evalúes el resto; no inventes la clave.",
         instruction:
-          "1. Starter invierte uncertainty/citations/confirmed.\n2. Primero missing.\n3. Luego evidence + confirmación condicional.\n4. Imprime la tripleta.",
+          "S51-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte uncertainty/citations/confirmed.\n2. Primero missing.\n3. Luego evidence + confirmación condicional.\n4. Imprime la tripleta.",
         hint: "Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.",
@@ -1923,7 +1915,7 @@ print(*results)
         preamble:
           "- **Contexto:** en CF-5, un side-effect sin evidencia visible no se «manda con warning»: se pide confirmación o se bloquea.\n- **Meta:** helpers + `decide` → CONTINUE, BLOCK_UNCONFIRMED_ACTION, ASK_USER_TO_CONFIRM.\n- **Éxito:** `CONTINUE BLOCK_UNCONFIRMED_ACTION ASK_USER_TO_CONFIRM`.\n- **Límites:** no inventes `confirmed`; no conviertas missing en CONTINUE.",
         instruction:
-          "1. `evidence_visible`: incertidumbre + citas + effect_summary.\n2. `effect_confirmed`: not required or confirmed is True.\n3. Missing → ASK_USER_TO_CONFIRM; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
+          "S51-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. `evidence_visible`: incertidumbre + citas + effect_summary.\n2. `effect_confirmed`: not required or confirmed is True.\n3. Missing → ASK_USER_TO_CONFIRM; ambos True → CONTINUE.\n4. Imprime los tres códigos.",
         hint: "Missing → ASK_USER_TO_CONFIRM; evidence_visible o effect_confirmed en falso → BLOCK_UNCONFIRMED_ACTION; solo ambos True → CONTINUE.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
@@ -2001,7 +1993,7 @@ assert results == ["CONTINUE", "BLOCK_UNCONFIRMED_ACTION", "ASK_USER_TO_CONFIRM"
         preamble:
           "- **Contexto:** en `CASO-MOQ-051-4B`, el panel del copiloto de Moquegua solo cierra CF-5 si es operable por teclado, legible (contraste AA), con corrección y apelación a humano.\n- **Meta:** corregir `meets_contract` (teclado + labels + contraste ≥ min + corrección + appeal).\n- **Éxito:** `S51-T4-B PASS`.\n- **Límites:** no uses igualdad exacta de contraste; no borres appeal del fixture; no borres el assert.",
         instruction:
-          "1. Starter: PASS si not keyboard o contraste < min o not appeal (bug).\n2. Exige keyboard_complete y screen_reader_labels.\n3. `contrast_ratio >= min_contrast`, correction_available y appeal_to_human.\n4. Conserva print PASS/FAIL_ACCESSIBILITY_GATE.",
+          "S51-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si not keyboard o contraste < min o not appeal (bug).\n2. Exige keyboard_complete y screen_reader_labels.\n3. `contrast_ratio >= min_contrast`, correction_available y appeal_to_human.\n4. Conserva print PASS/FAIL_ACCESSIBILITY_GATE.",
         hint: "Teclado + labels + contraste ≥ min AA + corrección + apelación humana.",
         hints: [
           "Compara `contrast_ratio >= min_contrast` (4.5 en AA); no uses igualdad exacta ni el sentido invertido.",
@@ -2044,7 +2036,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el gate de a11y en Moquegua separa panel completable, panel no accesible y registro sin ruta de apelación humana.\n- **Meta:** `assess` → PASS, FAIL_ACCESSIBILITY_GATE, MISSING:appeal_to_human.\n- **Éxito:** `PASS FAIL_ACCESSIBILITY_GATE MISSING:appeal_to_human`.\n- **Límites:** sin `appeal_to_human` no evalúes contraste; no inventes la clave.",
         instruction:
-          "1. Starter invierte keyboard/contraste/appeal.\n2. Primero missing.\n3. Luego teclado + labels + contraste ≥ min + corrección + appeal.\n4. Imprime la tripleta.",
+          "S51-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Starter invierte keyboard/contraste/appeal.\n2. Primero missing.\n3. Luego teclado + labels + contraste ≥ min + corrección + appeal.\n4. Imprime la tripleta.",
         hint: "Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.",
@@ -2105,7 +2097,7 @@ print(*results)
         preamble:
           "- **Contexto:** en el cierre de CF-5, un panel sin ruta humana no se «aprueba con disclaimer»: se enruta a contestación o se falla el gate.\n- **Meta:** `meets_wcag_aa` + `decide` → CONTINUE, FAIL_ACCESSIBILITY_GATE, ROUTE_CONTESTATION.\n- **Éxito:** `CONTINUE FAIL_ACCESSIBILITY_GATE ROUTE_CONTESTATION`.\n- **Límites:** no inventes appeal; compara contraste con `>=`, no con igualdad exacta; no conviertas missing en CONTINUE.",
         instruction:
-          "1. Implementa `meets_wcag_aa` con las cinco anclas (teclado, labels, contraste, corrección, appeal).\n2. Missing → ROUTE_CONTESTATION.\n3. Helper True → CONTINUE; si no → FAIL_ACCESSIBILITY_GATE.\n4. Imprime los tres códigos.",
+          "S51-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Implementa `meets_wcag_aa` con las cinco anclas (teclado, labels, contraste, corrección, appeal).\n2. Missing → ROUTE_CONTESTATION.\n3. Helper True → CONTINUE; si no → FAIL_ACCESSIBILITY_GATE.\n4. Imprime los tres códigos.",
         hint: "Missing → ROUTE_CONTESTATION; compara contraste numéricamente (>=), no con igualdad exacta.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.",

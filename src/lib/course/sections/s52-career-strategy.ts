@@ -565,7 +565,7 @@ BLOCK_INCOMPLETE_EVIDENCE_BUNDLE`,
         preamble:
           "- **Contexto:** en `CASO-PER-052-1A`, ops, relationship y privacy deben estar en la matriz viva; el baseline sintético de TTR y review_precision está congelado.\n- **Meta:** corregir `meets_contract` (stakeholders mínimos + jobs≥3 + métricas + `baseline_frozen`).\n- **Éxito:** imprimes exactamente `S52-T1-A PASS` con el fixture válido.\n- **Límites:** no borres el assert; no inventes stakeholders; no toques los datos del fixture; sin PII real.",
         instruction:
-          "1. Abre el starter: `meets_contract` aprueba si jobs==0 o baseline no frozen (bug).\n2. Exige `{\"ops\",\"relationship\",\"privacy\"} <= stakeholders`, `jobs >= 3`, `{\"ttr\",\"review_precision\"} <= metrics` y `baseline_frozen`.\n3. Conserva el print `S52-T1-A` y el status PASS/REOPEN_CF1.\n4. No rellenes campos ni mutes el record.",
+          "S52-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` aprueba si jobs==0 o baseline no frozen (bug).\n2. Exige `{\"ops\",\"relationship\",\"privacy\"} <= stakeholders`, `jobs >= 3`, `{\"ttr\",\"review_precision\"} <= metrics` y `baseline_frozen`.\n3. Conserva el print `S52-T1-A` y el status PASS/REOPEN_CF1.\n4. No rellenes campos ni mutes el record.",
         hint: "Relaciona los campos `stakeholders`, `jobs`, `metrics`, `baseline_frozen` con la regla explicada en S52-T1-A.",
         hints: [
           "Relaciona los campos `stakeholders`, `jobs`, `metrics`, `baseline_frozen` con la regla explicada en S52-T1-A.",
@@ -608,7 +608,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de CF-1 en la plataforma multi-región no trata igual una matriz limpia, una incompleta de contenido y una sin campo de baseline.\n- **Meta:** implementar `assess` que distinga PASS, REOPEN_CF1 y MISSING:baseline_frozen.\n- **Éxito:** imprime `PASS REOPEN_CF1 MISSING:baseline_frozen` en ese orden.\n- **Límites:** si falta `baseline_frozen`, no evalúes el contenido; no inventes el campo; missing ≠ «aceptar».",
         instruction:
-          "1. Revisa el starter: assess aprueba con jobs==0 (mismo defecto de E1).\n2. Primero: campos required; si falta `baseline_frozen` → `MISSING:baseline_frozen`.\n3. Luego: predicado de stakeholders/jobs/métricas/baseline → PASS o REOPEN_CF1.\n4. Imprime los tres resultados con `print(*results)`.",
+          "S52-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: assess aprueba con jobs==0 (mismo defecto de E1).\n2. Primero: campos required; si falta `baseline_frozen` → `MISSING:baseline_frozen`.\n3. Luego: predicado de stakeholders/jobs/métricas/baseline → PASS o REOPEN_CF1.\n4. Imprime los tres resultados con `print(*results)`.",
         hint: "Primero se calcula `missing`; ningún acceso a baseline_frozen debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a baseline_frozen debe ocurrir antes de esa rama.",
@@ -669,7 +669,7 @@ print(*results)
         preamble:
           "- **Contexto:** el gate de ensamblaje decide si CF-1 **sigue** o se detiene: no hay «continuar con warning de baseline».\n- **Meta:** `decide` → CONTINUE (matriz viva), REOPEN_CF1 (contenido roto), INTERVIEW_STAKEHOLDER (sin baseline_frozen).\n- **Éxito:** `CONTINUE REOPEN_CF1 INTERVIEW_STAKEHOLDER`.\n- **Límites:** no inventes baseline_frozen; no conviertas missing en CONTINUE; no toques los fixtures.",
         instruction:
-          "1. Corrige missing: sin `baseline_frozen` → `INTERVIEW_STAKEHOLDER` (no CONTINUE).\n2. Con schema completo, aplica el predicado de stakeholders/jobs/métricas/baseline.\n3. Solo el válido es CONTINUE; el adverso es REOPEN_CF1.\n4. Imprime los tres códigos en orden.",
+          "S52-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `baseline_frozen` → `INTERVIEW_STAKEHOLDER` (no CONTINUE).\n2. Con schema completo, aplica el predicado de stakeholders/jobs/métricas/baseline.\n3. Solo el válido es CONTINUE; el adverso es REOPEN_CF1.\n4. Imprime los tres códigos en orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `INTERVIEW_STAKEHOLDER` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INTERVIEW_STAKEHOLDER` antes de evaluar el contenido.",
@@ -730,7 +730,7 @@ assert results == ["CONTINUE", "REOPEN_CF1", "INTERVIEW_STAKEHOLDER"]` ,
         preamble:
           "- **Contexto:** en `CASO-PER-052-1B`, la plataforma multi-región no despliega si falta no-go de PII real o de decisión automática de riesgo.\n- **Meta:** corregir `meets_contract` (synthetic-only + human-review, risks_with_owner≥1, no-go real-pii+auto-risk-decision, residual aceptado).\n- **Éxito:** imprimes exactamente `S52-T1-B PASS`.\n- **Límites:** no borres el assert; no «gestiones» el breach con un disclaimer; sin PII real en fixtures.",
         instruction:
-          "1. Abre el starter: `meets_contract` aprueba cuando el no-go está vacío o el residual no se aceptó (bug).\n2. Exige subsets de constraints y no_go, `risks_with_owner >= 1` y `residual_risk_accepted`.\n3. Conserva print `S52-T1-B` y status PASS/DECLARE_NO_GO.\n4. No mutes los sets del fixture.",
+          "S52-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` aprueba cuando el no-go está vacío o el residual no se aceptó (bug).\n2. Exige subsets de constraints y no_go, `risks_with_owner >= 1` y `residual_risk_accepted`.\n3. Conserva print `S52-T1-B` y status PASS/DECLARE_NO_GO.\n4. No mutes los sets del fixture.",
         hint: "Relaciona los campos `constraints`, `risks_with_owner`, `no_go`, `residual_risk_accepted` con la regla explicada en S52-T1-B.",
         hints: [
           "Relaciona los campos `constraints`, `risks_with_owner`, `no_go`, `residual_risk_accepted` con la regla explicada en S52-T1-B.",
@@ -773,7 +773,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el comité de riesgo no confunde un registro firmado, uno vacío de no-go y uno sin flag de residual.\n- **Meta:** `assess` → PASS, DECLARE_NO_GO, MISSING:residual_risk_accepted.\n- **Éxito:** `PASS DECLARE_NO_GO MISSING:residual_risk_accepted`.\n- **Límites:** calcula `missing` antes de leer residual; no rellenes evidencia; el adverso falla por contenido.",
         instruction:
-          "1. Corrige assess: deja de aprobar ausencia de no-go.\n2. Primero required keys; si falta residual → MISSING.\n3. Luego predicado completo de T1-B.\n4. Imprime los tres resultados en orden.",
+          "S52-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess: deja de aprobar ausencia de no-go.\n2. Primero required keys; si falta residual → MISSING.\n3. Luego predicado completo de T1-B.\n4. Imprime los tres resultados en orden.",
         hint: "Primero se calcula `missing`; ningún acceso a residual_risk_accepted debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a residual_risk_accepted debe ocurrir antes de esa rama.",
@@ -834,7 +834,7 @@ print(*results)
         preamble:
           "- **Contexto:** el release gate no «sigue con warning» si falta residual o se violó el no-go.\n- **Meta:** CONTINUE (firmado), DECLARE_NO_GO (breach), INDEPENDENT_RISK_REVIEW (schema incompleto).\n- **Éxito:** `CONTINUE DECLARE_NO_GO INDEPENDENT_RISK_REVIEW`.\n- **Límites:** missing ≠ CONTINUE; no inventes residual; no toques fixtures.",
         instruction:
-          "1. Missing → INDEPENDENT_RISK_REVIEW.\n2. Completo: predicado T1-B → CONTINUE o DECLARE_NO_GO.\n3. Imprime los tres códigos.\n4. Conserva el assert de orden.",
+          "S52-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → INDEPENDENT_RISK_REVIEW.\n2. Completo: predicado T1-B → CONTINUE o DECLARE_NO_GO.\n3. Imprime los tres códigos.\n4. Conserva el assert de orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `INDEPENDENT_RISK_REVIEW` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `INDEPENDENT_RISK_REVIEW` antes de evaluar el contenido.",
@@ -895,7 +895,7 @@ assert results == ["CONTINUE", "DECLARE_NO_GO", "INDEPENDENT_RISK_REVIEW"]` ,
         preamble:
           "- **Contexto:** en `CASO-PER-052-2A`, el ensamblaje multi-región exige mapa de contexts, OpenAPI/eventos versionados y ≥10 contract tests.\n- **Meta:** corregir `meets_contract` (seis contexts, apis/events versionados, not shared_database, contract_tests≥10).\n- **Éxito:** `S52-T2-A PASS`.\n- **Límites:** no borres el assert; no apruebes monólito; no inventes tests.",
         instruction:
-          "1. Starter: PASS si shared_database o API no versionadas (bug).\n2. Exige subset de los seis contexts (incluye relationship).\n3. `not shared_database` y `contract_tests >= 10`.\n4. Conserva print y status STOP_INTEGRATION_RELEASE.",
+          "S52-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si shared_database o API no versionadas (bug).\n2. Exige subset de los seis contexts (incluye relationship).\n3. `not shared_database` y `contract_tests >= 10`.\n4. Conserva print y status STOP_INTEGRATION_RELEASE.",
         hint: "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
         hints: [
           "Relaciona los campos `contexts`, `apis_versioned`, `events_versioned`, `shared_database`, `contract_tests` con la regla explicada en S52-T2-A.",
@@ -939,7 +939,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de arquitectura no iguala un mapa limpio, un monólito con DB compartida y un registro sin contador de contract tests.\n- **Meta:** `assess` → PASS, STOP_INTEGRATION_RELEASE, MISSING:contract_tests.\n- **Éxito:** `PASS STOP_INTEGRATION_RELEASE MISSING:contract_tests`.\n- **Límites:** missing antes de leer contract_tests; adverso falla por contenido; no inventes el campo.",
         instruction:
-          "1. Corrige assess (deja de premiar shared_database).\n2. Required keys primero.\n3. Predicado completo de T2-A.\n4. Imprime los tres resultados.",
+          "S52-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar shared_database).\n2. Required keys primero.\n3. Predicado completo de T2-A.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa rama.",
@@ -1000,7 +1000,7 @@ print(*results)
         preamble:
           "- **Contexto:** el release de integración falla cerrado: no hay «seguir y arreglar el consumidor después».\n- **Meta:** CONTINUE, STOP_INTEGRATION_RELEASE, MAP_BOUNDED_CONTEXTS.\n- **Éxito:** `CONTINUE STOP_INTEGRATION_RELEASE MAP_BOUNDED_CONTEXTS`.\n- **Límites:** missing ≠ CONTINUE; no rellenes contract_tests; no toques fixtures.",
         instruction:
-          "1. Missing → MAP_BOUNDED_CONTEXTS.\n2. Completo: predicado de contexts/API/eventos/DB/tests.\n3. Imprime los tres códigos.\n4. Conserva el assert de orden.",
+          "S52-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → MAP_BOUNDED_CONTEXTS.\n2. Completo: predicado de contexts/API/eventos/DB/tests.\n3. Imprime los tres códigos.\n4. Conserva el assert de orden.",
         hint: "Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `MAP_BOUNDED_CONTEXTS` antes de evaluar el contenido.",
@@ -1061,7 +1061,7 @@ assert results == ["CONTINUE", "STOP_INTEGRATION_RELEASE", "MAP_BOUNDED_CONTEXTS
         preamble:
           "- **Contexto:** en `CASO-PER-052-2B`, ER propone, triage prioriza, RPA prepara draft, RAG cita y **el humano decide**.\n- **Meta:** corregir `meets_contract` (toda la cadena en True y `infers_fraud` en False).\n- **Éxito:** `S52-T2-B PASS`.\n- **Límites:** no borres el assert; no apruebes autofraude; sin PII real.",
         instruction:
-          "1. Starter: PASS si infers_fraud o sin human_decides (bug).\n2. Exige all de er/triage/rpa/rag/human y `not infers_fraud`.\n3. Conserva print y BLOCK_AUTOMATED_RISK_DECISION.\n4. No mutes el record.",
+          "S52-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si infers_fraud o sin human_decides (bug).\n2. Exige all de er/triage/rpa/rag/human y `not infers_fraud`.\n3. Conserva print y BLOCK_AUTOMATED_RISK_DECISION.\n4. No mutes el record.",
         hint: "Relaciona los campos `er_proposes_match`, `triage_prioritizes`, `rpa_prepares_draft`, `rag_cites`, `human_decides`, `infers_fraud` con la regla explicada en S52-T2-B.",
         hints: [
           "Relaciona los campos `er_proposes_match`, `triage_prioritizes`, `rpa_prepares_draft`, `rag_cites`, `human_decides`, `infers_fraud` con la regla explicada en S52-T2-B.",
@@ -1104,7 +1104,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el auditor de riesgo no trata igual una cadena limpia, una con autofraude y una sin el flag `infers_fraud`.\n- **Meta:** PASS, BLOCK_AUTOMATED_RISK_DECISION, MISSING:infers_fraud.\n- **Éxito:** `PASS BLOCK_AUTOMATED_RISK_DECISION MISSING:infers_fraud`.\n- **Límites:** missing antes de leer infers_fraud; no inventes el flag; adverso falla por contenido.",
         instruction:
-          "1. Corrige assess (deja de premiar autofraude).\n2. Required keys primero.\n3. Predicado de cadena + not infers_fraud.\n4. Imprime los tres resultados.",
+          "S52-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar autofraude).\n2. Required keys primero.\n3. Predicado de cadena + not infers_fraud.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a infers_fraud debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a infers_fraud debe ocurrir antes de esa rama.",
@@ -1165,7 +1165,7 @@ print(*results)
         preamble:
           "- **Contexto:** el workflow sensible no «sigue con warning» si falta el flag de fraude o se omite el humano.\n- **Meta:** CONTINUE, BLOCK_AUTOMATED_RISK_DECISION, REQUEST_HUMAN_REVIEW.\n- **Éxito:** `CONTINUE BLOCK_AUTOMATED_RISK_DECISION REQUEST_HUMAN_REVIEW`.\n- **Límites:** missing ≠ CONTINUE; no rellenes infers_fraud; no toques fixtures.",
         instruction:
-          "1. Missing → REQUEST_HUMAN_REVIEW.\n2. Completo: cadena + not infers_fraud.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
+          "S52-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → REQUEST_HUMAN_REVIEW.\n2. Completo: cadena + not infers_fraud.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_REVIEW` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `REQUEST_HUMAN_REVIEW` antes de evaluar el contenido.",
@@ -1226,7 +1226,7 @@ assert results == ["CONTINUE", "BLOCK_AUTOMATED_RISK_DECISION", "REQUEST_HUMAN_R
         preamble:
           "- **Contexto:** en `CASO-PER-052-3A`, la graduación exige unit/contract/integration/evals/red_team/performance en True y open_p0=open_p1=0.\n- **Meta:** corregir `meets_contract` (seis capas + contadores en cero).\n- **Éxito:** `S52-T3-A PASS`.\n- **Límites:** no borres el assert; no «compenses» un P0 con demo; sin PII en red team.",
         instruction:
-          "1. Starter: PASS si red_team falso o contadores >0 (bug).\n2. `all` de las seis capas y `open_p0 == 0` y `open_p1 == 0`.\n3. Conserva print y BLOCK_FINAL_ON_P0_P1.\n4. No mutes el suite del fixture.",
+          "S52-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si red_team falso o contadores >0 (bug).\n2. `all` de las seis capas y `open_p0 == 0` y `open_p1 == 0`.\n3. Conserva print y BLOCK_FINAL_ON_P0_P1.\n4. No mutes el suite del fixture.",
         hint: "Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla explicada en S52-T3-A.",
         hints: [
           "Relaciona los campos `unit`, `contract`, `integration`, `evals`, `red_team`, `performance`, `open_p0`, `open_p1` con la regla explicada en S52-T3-A.",
@@ -1269,7 +1269,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de release no confunde suite limpio, suite con P0 y schema sin contador open_p1.\n- **Meta:** PASS, BLOCK_FINAL_ON_P0_P1, MISSING:open_p1.\n- **Éxito:** `PASS BLOCK_FINAL_ON_P0_P1 MISSING:open_p1`.\n- **Límites:** missing antes de leer open_p1; adverso falla por contenido; no inventes contadores.",
         instruction:
-          "1. Corrige assess (deja de premiar P0 abiertos).\n2. Required keys primero.\n3. Predicado de capas + ceros.\n4. Imprime los tres resultados.",
+          "S52-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar P0 abiertos).\n2. Required keys primero.\n3. Predicado de capas + ceros.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a open_p1 debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a open_p1 debe ocurrir antes de esa rama.",
@@ -1330,7 +1330,7 @@ print(*results)
         preamble:
           "- **Contexto:** el gate final no promociona con contadores de severidad faltantes ni con P0 abiertos.\n- **Meta:** CONTINUE, BLOCK_FINAL_ON_P0_P1, FIX_AND_RERUN_REGRESSION.\n- **Éxito:** `CONTINUE BLOCK_FINAL_ON_P0_P1 FIX_AND_RERUN_REGRESSION`.\n- **Límites:** missing ≠ CONTINUE; no rellenes open_p1; no toques fixtures.",
         instruction:
-          "1. Missing → FIX_AND_RERUN_REGRESSION.\n2. Completo: capas + ceros.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
+          "S52-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → FIX_AND_RERUN_REGRESSION.\n2. Completo: capas + ceros.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `FIX_AND_RERUN_REGRESSION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `FIX_AND_RERUN_REGRESSION` antes de evaluar el contenido.",
@@ -1391,7 +1391,7 @@ assert results == ["CONTINUE", "BLOCK_FINAL_ON_P0_P1", "FIX_AND_RERUN_REGRESSION
         preamble:
           "- **Contexto:** en `CASO-PER-052-3B`, el drill sintético exige avail≥slo, backup_age≤rpo, rollback≤rto y disaster_exercise True.\n- **Meta:** corregir `meets_contract` con comparadores en la dirección correcta + flag de restore.\n- **Éxito:** `S52-T3-B PASS`.\n- **Límites:** no borres el assert; no apruebes tabletop sin reloj; no inventes números.",
         instruction:
-          "1. Starter: PASS si availability < slo o rollback > rto (bug).\n2. `availability >= slo` y `backup_age_h <= rpo_h` y `rollback_min <= rto_min` y `disaster_exercise`.\n3. Conserva print y NO_GO_RESILIENCE.\n4. No mutes el fixture.",
+          "S52-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si availability < slo o rollback > rto (bug).\n2. `availability >= slo` y `backup_age_h <= rpo_h` y `rollback_min <= rto_min` y `disaster_exercise`.\n3. Conserva print y NO_GO_RESILIENCE.\n4. No mutes el fixture.",
         hint: "Relaciona los campos `availability`, `slo`, `backup_age_h`, `rpo_h`, `rollback_min`, `rto_min`, `disaster_exercise` con la regla explicada en S52-T3-B.",
         hints: [
           "Relaciona los campos `availability`, `slo`, `backup_age_h`, `rpo_h`, `rollback_min`, `rto_min`, `disaster_exercise` con la regla explicada en S52-T3-B.",
@@ -1434,7 +1434,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de operación no confunde drill limpio, breach de SLO/RTO y registro sin flag de ejercicio.\n- **Meta:** PASS, NO_GO_RESILIENCE, MISSING:disaster_exercise.\n- **Éxito:** `PASS NO_GO_RESILIENCE MISSING:disaster_exercise`.\n- **Límites:** missing antes de leer disaster_exercise; adverso falla por números; no inventes el flag.",
         instruction:
-          "1. Corrige assess (deja de premiar breach).\n2. Required keys primero.\n3. Predicado de resiliencia.\n4. Imprime los tres resultados.",
+          "S52-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar breach).\n2. Required keys primero.\n3. Predicado de resiliencia.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a disaster_exercise debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a disaster_exercise debe ocurrir antes de esa rama.",
@@ -1495,7 +1495,7 @@ print(*results)
         preamble:
           "- **Contexto:** el gate de resiliencia no promociona con drill no corrido ni con RTO incumplido.\n- **Meta:** CONTINUE, NO_GO_RESILIENCE, RUN_DISASTER_EXERCISE.\n- **Éxito:** `CONTINUE NO_GO_RESILIENCE RUN_DISASTER_EXERCISE`.\n- **Límites:** missing ≠ CONTINUE; no rellenes disaster_exercise; no toques fixtures.",
         instruction:
-          "1. Missing → RUN_DISASTER_EXERCISE.\n2. Completo: predicado de availability/SLO/RPO/RTO + restore.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
+          "S52-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RUN_DISASTER_EXERCISE.\n2. Completo: predicado de availability/SLO/RPO/RTO + restore.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `RUN_DISASTER_EXERCISE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RUN_DISASTER_EXERCISE` antes de evaluar el contenido.",
@@ -1556,7 +1556,7 @@ assert results == ["CONTINUE", "NO_GO_RESILIENCE", "RUN_DISASTER_EXERCISE"]` ,
         preamble:
           "- **Contexto:** en `CASO-PER-052-4A`, el revisor de CV exige result_ttr < baseline, benchmark sintético, demo≤10 min, claims sourced y personal_contribution.\n- **Meta:** corregir `meets_contract` con esas cinco condiciones.\n- **Éxito:** `S52-T4-A PASS`.\n- **Límites:** no borres el assert; no inventes mejora; sin PII real en el guion.",
         instruction:
-          "1. Starter: PASS si result ≥ baseline o claims no sourced (bug).\n2. Exige result < baseline, benchmark_synthetic, demo_minutes ≤ 10, cv_claims_sourced y personal_contribution.\n3. Conserva print y REJECT_UNSUPPORTED_PORTFOLIO_CLAIM.\n4. No mutes el fixture.",
+          "S52-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si result ≥ baseline o claims no sourced (bug).\n2. Exige result < baseline, benchmark_synthetic, demo_minutes ≤ 10, cv_claims_sourced y personal_contribution.\n3. Conserva print y REJECT_UNSUPPORTED_PORTFOLIO_CLAIM.\n4. No mutes el fixture.",
         hint: "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
         hints: [
           "Relaciona los campos `baseline_ttr_min`, `result_ttr_min`, `benchmark_synthetic`, `demo_minutes`, `cv_claims_sourced`, `personal_contribution` con la regla explicada en S52-T4-A.",
@@ -1599,7 +1599,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor de portfolio no confunde un claim limpio, uno sin mejora/fuentes y uno sin contribución personal documentada.\n- **Meta:** PASS, REJECT_UNSUPPORTED_PORTFOLIO_CLAIM, MISSING:personal_contribution.\n- **Éxito:** `PASS REJECT_UNSUPPORTED_PORTFOLIO_CLAIM MISSING:personal_contribution`.\n- **Límites:** missing antes de leer personal_contribution; adverso falla por contenido; no inventes el campo.",
         instruction:
-          "1. Corrige assess (deja de premiar claims sin fuente).\n2. Required keys primero.\n3. Predicado de T4-A.\n4. Imprime los tres resultados.",
+          "S52-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar claims sin fuente).\n2. Required keys primero.\n3. Predicado de T4-A.\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a personal_contribution debe ocurrir antes de esa rama.",
@@ -1660,7 +1660,7 @@ print(*results)
         preamble:
           "- **Contexto:** el gate de CV no «sigue con warning» si falta contribución personal o el claim no se sostiene.\n- **Meta:** CONTINUE, REJECT_UNSUPPORTED_PORTFOLIO_CLAIM, RECORD_PERSONAL_CONTRIBUTION.\n- **Éxito:** `CONTINUE REJECT_UNSUPPORTED_PORTFOLIO_CLAIM RECORD_PERSONAL_CONTRIBUTION`.\n- **Límites:** missing ≠ CONTINUE; no rellenes personal_contribution; no toques fixtures.",
         instruction:
-          "1. Missing → RECORD_PERSONAL_CONTRIBUTION.\n2. Completo: predicado de mejora/demo/fuentes.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
+          "S52-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RECORD_PERSONAL_CONTRIBUTION.\n2. Completo: predicado de mejora/demo/fuentes.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `RECORD_PERSONAL_CONTRIBUTION` antes de evaluar el contenido.",
@@ -1721,7 +1721,7 @@ assert results == ["CONTINUE", "REJECT_UNSUPPORTED_PORTFOLIO_CLAIM", "RECORD_PER
         preamble:
           "- **Contexto:** en `CASO-PER-052-4B`, la graduación exige los 8 nombres + comando reproducible + trade-offs defendidos + cpn4c_independent.\n- **Meta:** corregir `meets_contract` con subset de artefactos y los tres flags en True.\n- **Éxito:** `S52-T4-B PASS`.\n- **Límites:** no borres el assert; no apruebes monorepo solo con README; no compenses CP-N4-C.",
         instruction:
-          "1. Starter: PASS si len(artifacts)<8 o no cpn4c_independent (bug).\n2. Exige subset de los 8 nombres y all de reproducible/tradeoffs/cpn4c_independent.\n3. Conserva print y BLOCK_INCOMPLETE_EVIDENCE_BUNDLE.\n4. No mutes el set del fixture.",
+          "S52-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si len(artifacts)<8 o no cpn4c_independent (bug).\n2. Exige subset de los 8 nombres y all de reproducible/tradeoffs/cpn4c_independent.\n3. Conserva print y BLOCK_INCOMPLETE_EVIDENCE_BUNDLE.\n4. No mutes el set del fixture.",
         hint: "Relaciona los campos `artifacts`, `reproducible_command`, `tradeoffs_defended`, `cpn4c_independent` con la regla explicada en S52-T4-B.",
         hints: [
           "Relaciona los campos `artifacts`, `reproducible_command`, `tradeoffs_defended`, `cpn4c_independent` con la regla explicada en S52-T4-B.",
@@ -1764,7 +1764,7 @@ assert meets_contract is True` ,
         preamble:
           "- **Contexto:** el revisor externo no confunde bundle completo, monorepo solo con README y registro sin flag cpn4c_independent.\n- **Meta:** PASS, BLOCK_INCOMPLETE_EVIDENCE_BUNDLE, MISSING:cpn4c_independent.\n- **Éxito:** `PASS BLOCK_INCOMPLETE_EVIDENCE_BUNDLE MISSING:cpn4c_independent`.\n- **Límites:** missing antes de leer cpn4c_independent; adverso falla por contenido; no inventes el flag.",
         instruction:
-          "1. Corrige assess (deja de premiar bundle corto).\n2. Required keys primero.\n3. Predicado de T4-B (subset de 8 + flags).\n4. Imprime los tres resultados.",
+          "S52-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige assess (deja de premiar bundle corto).\n2. Required keys primero.\n3. Predicado de T4-B (subset de 8 + flags).\n4. Imprime los tres resultados.",
         hint: "Primero se calcula `missing`; ningún acceso a cpn4c_independent debe ocurrir antes de esa rama.",
         hints: [
           "Primero se calcula `missing`; ningún acceso a cpn4c_independent debe ocurrir antes de esa rama.",
@@ -1825,7 +1825,7 @@ print(*results)
         preamble:
           "- **Contexto:** el gate senior-master no promociona con independencia de CP-N4-C no declarada ni con bundle incompleto.\n- **Meta:** CONTINUE, BLOCK_INCOMPLETE_EVIDENCE_BUNDLE, SCHEDULE_TECHNICAL_DEFENSE.\n- **Éxito:** `CONTINUE BLOCK_INCOMPLETE_EVIDENCE_BUNDLE SCHEDULE_TECHNICAL_DEFENSE`.\n- **Límites:** missing ≠ CONTINUE; no rellenes cpn4c_independent; no toques fixtures.",
         instruction:
-          "1. Missing → SCHEDULE_TECHNICAL_DEFENSE.\n2. Completo: subset de 8 + reproducible + tradeoffs + cpn4c_independent.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
+          "S52-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → SCHEDULE_TECHNICAL_DEFENSE.\n2. Completo: subset de 8 + reproducible + tradeoffs + cpn4c_independent.\n3. Imprime los tres códigos.\n4. Conserva el assert.",
         hint: "Una ausencia no equivale a breach: enrútala a `SCHEDULE_TECHNICAL_DEFENSE` antes de evaluar el contenido.",
         hints: [
           "Una ausencia no equivale a breach: enrútala a `SCHEDULE_TECHNICAL_DEFENSE` antes de evaluar el contenido.",
