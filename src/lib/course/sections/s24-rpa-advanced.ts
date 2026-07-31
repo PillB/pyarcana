@@ -621,6 +621,7 @@ print(max(dpi, 200))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: umbral invertido
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 skew=1.2
 print(abs(skew) < 0.5)
 `,
@@ -701,6 +702,7 @@ print(dpi, deskew, crop)`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: elige min score
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 s={0:0.1,90:0.8}
 print(min(s, key=s.get))
 `,
@@ -738,6 +740,7 @@ print(max(s, key=s.get))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: usa len no sum
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 flags=[0,1,1,0]
 print(len(flags))
 `,
@@ -950,6 +953,7 @@ print(m, status, weak)`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: no strip
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 s='Total: 12.5'
 k,v=s.split(':',1)
 print(k, v)
@@ -989,6 +993,7 @@ print(k.strip(), v.strip())`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: cuenta header
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 t=[['H1','H2'],['a','b']]
 print(len(t))
 `,
@@ -1070,6 +1075,7 @@ print(sorted(fields, key=lambda t: t[0]))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: no limpia no-dígitos
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 import re
 s='20-123'
 print(s)
@@ -1203,6 +1209,7 @@ print(norm_ruc(raw["ruc"]), norm_total(raw["total"]))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: siempre auto
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 total, lines=10.0,[4.0,5.0]
 print('auto')
 `,
@@ -1240,6 +1247,7 @@ print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: reasons vacío
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 ruc=None
 reasons=[]
 print(reasons)
@@ -1340,6 +1348,7 @@ review_not_fraud`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: usa n-correct
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 correct, n = 3, 4
 print((n - correct) / n)
 `,

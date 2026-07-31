@@ -4,7 +4,11 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import sys
 import unittest
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
 
 from scripts.newbie_packet_builder import active_manifest, parse_section_learner
 

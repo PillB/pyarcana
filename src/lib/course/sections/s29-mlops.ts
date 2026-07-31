@@ -2329,24 +2329,14 @@ if __name__ == "__main__":
       },
       {
         question: "Decisión y evidencia deben:",
-        options: [
-          "Confirmarse en transacciones separadas siempre",
-          "Ignorar rollback",
-          "Vivir solo en logs de texto",
-          "Ser atómicas en la misma transacción lógica",
-        ],
+        options: ["Confirmarse en transacciones separadas siempre", "Ignorar rollback", "Vivir solo en logs de texto", "Ser atómicas en la misma transacción lógica"],
         correctIndex: 3,
         explanation:
           "Si falla la evidencia, ROLLBACK también de la decisión. Decisión huérfana rompe el almacén de verdad (atomicidad ACID).",
       },
       {
         question: "El repository pattern:",
-        options: [
-          "Esparce SQL por toda la app a propósito",
-          "Encapsula acceso a datos y facilita tests con :memory:",
-          "Reemplaza constraints",
-          "Marca fraude automático",
-        ],
+        options: ["Esparce SQL por toda la app a propósito", "Encapsula acceso a datos y facilita tests con :memory:", "Reemplaza constraints", "Marca fraude automático"],
         correctIndex: 1,
         explanation:
           "El repository es el borde de persistencia: métodos como pending() y get() ocultan SQL y se prueban inyectando una conexión :memory:. Preferible NOT EXISTS a NOT IN si pair_id puede ser NULL.",
@@ -2354,12 +2344,7 @@ if __name__ == "__main__":
       {
         question:
           "Una migración que hace DROP de pairs sin backup en el lab debe…",
-        options: [
-          "rechazarse: no_drop_without_backup es parte del contrato",
-          "ejecutarse en producción si el SQL es corto",
-          "silenciar el error de IntegrityError",
-          "usar SELECT * sin WHERE para ir más rápido",
-        ],
+        options: ["rechazarse: no_drop_without_backup es parte del contrato", "ejecutarse en producción si el SQL es corto", "silenciar el error de IntegrityError", "usar SELECT * sin WHERE para ir más rápido"],
         correctIndex: 0,
         explanation:
           "Gobernanza de esquema: cambios destructivos requieren backup y versionado en schema_migrations. El lab entrena el hábito antes de tocar producción.",
@@ -2382,12 +2367,7 @@ if __name__ == "__main__":
       {
         question:
           "Si `EXPLAIN QUERY PLAN` muestra SCAN sobre pairs al filtrar por block_key, la lectura correcta es…",
-        options: [
-          "Ya hay índice mágico aunque no lo creaste",
-          "El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX",
-          "SCAN significa que el resultado es siempre vacío",
-          "Debes imprimir la palabra INDEX sin mirar el plan",
-        ],
+        options: ["Ya hay índice mágico aunque no lo creaste", "El motor recorre la tabla; un índice en block_key puede pasar el plan a SEARCH/INDEX", "SCAN significa que el resultado es siempre vacío", "Debes imprimir la palabra INDEX sin mirar el plan"],
         correctIndex: 1,
         explanation:
           "SCAN = recorrido completo. Tras CREATE INDEX en la columna de filtro, vuelve a pedir el plan: si aparece INDEX/SEARCH, el índice está ayudando a esa consulta concreta. El texto del plan es diagnóstico, no una API estable entre versiones.",

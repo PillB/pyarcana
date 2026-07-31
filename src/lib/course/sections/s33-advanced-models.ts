@@ -2370,25 +2370,15 @@ if __name__ == "__main__":
       },
       {
         question: "¿Qué evidencia documenta que el modelo usó regularización L2?",
-        options: [
-          "Que Σw² (l2_sq) sea mayor que cero",
-          "La configuración de entrenamiento: penalty=\"l2\" y la fuerza (C o λ) en el log",
-          "Que accuracy supere al dummy",
-          "Que el umbral thr sea 0.5",
-        ],
-        correctIndex: 1,
+        options: ["Que Σw² (l2_sq) sea mayor que cero", "Que accuracy supere al dummy", "La configuración de entrenamiento: penalty=\"l2\" y la fuerza (C o λ) en el log", "Que el umbral thr sea 0.5"],
+        correctIndex: 2,
         explanation:
           "l2_sq=Σw² solo describe la magnitud de un vector de pesos; un modelo sin L2 también puede tener pesos no nulos. La evidencia de regularización es la config del fit (penalty y fuerza) registrada en params.",
       },
       {
         question: "Para promocionar un modelo en el workbench, ¿contra qué ancla conviene compararlo?",
-        options: [
-          "Solo contra el dummy majority",
-          "Solo contra deep learning",
-          "Contra el dummy y la regla determinista (el mejor baseline simple), idealmente también por costo",
-          "Contra thr=0 sin baseline",
-        ],
-        correctIndex: 2,
+        options: ["Solo contra el dummy majority", "Solo contra deep learning", "Contra thr=0 sin baseline", "Contra el dummy y la regla determinista (el mejor baseline simple), idealmente también por costo"],
+        correctIndex: 3,
         explanation:
           "Ganar solo al dummy no basta si una regla simple ya es mejor. Documenta beats_dummy y beats_rule (y costo cuando FP/FN son asimétricos) antes de subir complejidad.",
       }

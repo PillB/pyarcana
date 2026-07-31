@@ -2093,13 +2093,8 @@ if __name__ == "__main__":
  },
  {
  question: "Si dos seeds eligen el mismo k en el lab multi-seed, ¿qué puedes afirmar con rigor?",
- options: [
-  "Las particiones son idénticas (ARI = 1)",
-  "Hay acuerdo sobre el número de clusters k; la estabilidad de etiquetas exige otra métrica (p. ej. ARI)",
-  "Se puede sancionar al segmento del cluster 0",
-  "El silhouette del mes de test es válido"
- ],
- correctIndex: 1,
+ options: ["Hay acuerdo sobre el número de clusters k; la estabilidad de etiquetas exige otra métrica (p. ej. ARI)", "Las particiones son idénticas (ARI = 1)", "Se puede sancionar al segmento del cluster 0", "El silhouette del mes de test es válido"],
+ correctIndex: 0,
  explanation: "El lab mide acuerdo de k (argmax por seed). Estabilidad de partición requiere comparar etiquetas o centroides (ARI, jitter), no solo el entero k.",
  }
  ],

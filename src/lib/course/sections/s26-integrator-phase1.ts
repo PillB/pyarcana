@@ -857,6 +857,7 @@ print((snap['run_id'], snap['api_rpm'], len(snap)))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: umbral 100
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 api_rpm=90
 print('too_high' if api_rpm>100 else 'ok')
 `,
@@ -936,6 +937,7 @@ print(schedule["cron"], schedule["tz"])`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: lineal base*attempt
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 attempt, base = 3, 100
 print(base * attempt)
 `,
@@ -1019,6 +1021,7 @@ print(dlq)`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: reprocess all
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 ckpt={'a'}; items=['a','b']
 print(items)
 `,
@@ -1330,6 +1333,7 @@ print((audit[0]['action'], len(audit)))`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: ok sin reason
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 action, reason = 'reject', None
 print('ok')
 `,
@@ -1367,6 +1371,7 @@ print('invalid' if action=='reject' and not reason else 'ok')`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: no incrementa ni audita
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 ver=1
 audit=[]
 print((ver, len(audit), None))
@@ -1446,6 +1451,7 @@ print('alert_success_rate' if rate < 0.95 else 'ok')`,
           language: 'python',
           title: "exercise.py",
           code: `# DEFECT: ok aunque n>0
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 n=1
 print('ok' if n>0 else 'P0_unapproved_send')
 `,
@@ -1767,36 +1773,21 @@ print("package", package_e2e()["n2_regression"], package_e2e()["value_minutes_sa
       },
       {
         question: "El path canónico del VP RPA + AI Analyst en el cierre CP-N2-C es:",
-        options: [
-          "ingest → analyze → approve → draft_email (sin validate ni report)",
-          "validate → draft_email → approve → report",
-          "ingest → validate → analyze → ai_assist → report → approve → draft_email",
-          "ai_assist → ingest → approve en paralelo con draft_email",
-        ],
-        correctIndex: 2,
+        options: ["ingest → analyze → approve → draft_email (sin validate ni report)", "validate → draft_email → approve → report", "ai_assist → ingest → approve en paralelo con draft_email", "ingest → validate → analyze → ai_assist → report → approve → draft_email"],
+        correctIndex: 3,
         explanation:
           "El contrato de 7 steps incluye ai_assist (traspaso de S25) y exige approve antes de draft_email; las vistas parciales de lab lo declaran cuando omiten AI o email.",
       },
       {
         question: "Si cambias la foto de datos a mitad de un run, la política de metadata del VP es:",
-        options: [
-          "Reescribir el mismo run_id con el nuevo data_cutoff",
-          "Borrar el audit y reutilizar el schedule",
-          "Ignorar metadata y confiar solo en el cron",
-          "Versionar un nuevo run_id con metadata inmutable al start",
-        ],
-        correctIndex: 3,
+        options: ["Versionar un nuevo run_id con metadata inmutable al start", "Reescribir el mismo run_id con el nuevo data_cutoff", "Borrar el audit y reutilizar el schedule", "Ignorar metadata y confiar solo en el cron"],
+        correctIndex: 0,
         explanation:
           "Metadata (run_id, trigger, git_sha, data_cutoff, límites) es inmutable al start; un cambio de foto de datos abre un nuevo run_id.",
       },
       {
         question: "Si falla draft_email después de materializar el report, la compensación correcta es:",
-        options: [
-          "Borrar report y draft del historial sin rastro",
-          "Dejar el draft huérfano y el report en active",
-          "Quitar el draft y marcar el report como superseded (sin borrar evidencia)",
-          "Etiquetar fraud_labels=1 y reenviar el correo",
-        ],
+        options: ["Borrar report y draft del historial sin rastro", "Dejar el draft huérfano y el report en active", "Quitar el draft y marcar el report como superseded (sin borrar evidencia)", "Etiquetar fraud_labels=1 y reenviar el correo"],
         correctIndex: 2,
         explanation:
           "La compensación parcial saca el draft y deja el report superseded para defensa; no reescribe el historial ni inventa fraude.",

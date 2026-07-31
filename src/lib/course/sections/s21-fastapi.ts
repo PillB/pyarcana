@@ -1767,8 +1767,8 @@ def manifest(artifacts: dict) -> dict:
  },
  {
  question: "La checklist mínima de a11y del lab (has_h1 + alts) debe fallar cuando la lista de alts está vacía. ¿Por qué no basta con all(len(a) > 10 for a in alts)?",
- options: ["Porque all([]) es True en Python y aprobaría un paquete sin alternativas", "Porque Jinja no admite listas vacías", "Porque ReportLab exige al menos dos alts", "Porque SHA-256 no firma listas vacías"],
- correctIndex: 0,
+ options: ["Porque Jinja no admite listas vacías", "Porque all([]) es True en Python y aprobaría un paquete sin alternativas", "Porque ReportLab exige al menos dos alts", "Porque SHA-256 no firma listas vacías"],
+ correctIndex: 1,
  explanation:
  "En Python, all([]) es True. El contrato mínimo exige H1, al menos un alt y longitud útil en cada uno; una lista vacía no describe ninguna figura.",
  },

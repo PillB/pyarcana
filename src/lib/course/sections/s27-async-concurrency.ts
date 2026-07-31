@@ -955,6 +955,7 @@ print([n for n in names if n.startswith('test_')])`,
           language: 'python',
           title: "exercise.py",
           code: `# Caso 27 · assert equality
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 # DEFECT: siempre ok
 left,right='a','b'
 print('ok')
@@ -1353,6 +1354,7 @@ print('ok' if '@' in s else 'invalid')`,
           language: 'python',
           title: "exercise.py",
           code: `# Caso 27 · mensaje inválido
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 # DEFECT: mensaje genérico
 v=-1
 print('error')

@@ -2436,25 +2436,15 @@ if __name__ == "__main__":
       },
       {
         question: "Un proxy high-risk en la cola de revisión se gestiona mejor así:",
-        options: [
-          "Convertirlo en auto_label de fraude para maximizar recall",
-          "Ignorarlo si el promedio global de precision es alto",
-          "Justificar el riesgo con evidencia (gaps/n) y aplicar review, mitigate o drop",
-          "Borrar el model card para no dejar rastro del feature",
-        ],
-        correctIndex: 2,
+        options: ["Convertirlo en auto_label de fraude para maximizar recall", "Justificar el riesgo con evidencia (gaps/n) y aplicar review, mitigate o drop", "Ignorarlo si el promedio global de precision es alto", "Borrar el model card para no dejar rastro del feature"],
+        correctIndex: 1,
         explanation:
           "El proxy se audita con evidencia y se mitiga; no se convierte en etiqueta de fraude ni se oculta la gobernanza.",
       },
       {
         question: "El audit mínimo de un override en el lab exige, como mínimo:",
-        options: [
-          "Solo el emoji del analista en el chat del equipo",
-          "case, human y by no vacío (ts y reason se recomiendan en portfolio)",
-          "Reentrenar el modelo en silencio sin logs",
-          "Publicar el score puntual sin banda ni capa humana",
-        ],
-        correctIndex: 1,
+        options: ["Solo el emoji del analista en el chat del equipo", "Reentrenar el modelo en silencio sin logs", "Publicar el score puntual sin banda ni capa humana", "case, human y by no vacío (ts y reason se recomiendan en portfolio)"],
+        correctIndex: 3,
         explanation:
           "Sin actor (by) y acción humana el override es silencioso. ts/reason/model_version completan la reconstrucción en portfolio.",
       },

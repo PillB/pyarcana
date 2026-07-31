@@ -930,6 +930,7 @@ print(all(eq(a, b) == eq(b, a) for a, b in pairs))`,
           language: "python",
           title: "exercise.py",
           code: `# DEFECT: imprime ok aunque r no tiene id
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 r = {}
 print("ok")
 `,
@@ -1452,6 +1453,7 @@ print(c.execute("select count(*) from t").fetchone()[0])`,
           language: "python",
           title: "exercise.py",
           code: `# DEFECT: usa n*n (incluye diagonal)
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 n = 4
 print(n * n)
 `,
@@ -1535,6 +1537,7 @@ encoding_ok True`,
           language: "python",
           title: "exercise.py",
           code: `# DEFECT: no aplica sorted
+# Este codigo tiene un defecto intencional que el learner debe corregir.
 ids = ["b", "a"]
 print(ids)
 `,
