@@ -151,7 +151,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
               {isReturning ? tr('progress.continue') : tr('progress.start')}
               <ArrowRight className="h-4 w-4" />
             </Button>
-            {!isSignedIn && (
+            {!isSignedIn && !IS_STATIC_SITE && (
               <Button
                 size="lg"
                 variant="outline"
@@ -298,7 +298,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
               className="mt-4 max-w-2xl rounded-xl border border-gold/50 bg-background/75 px-4 py-3 text-xs text-foreground/80 backdrop-blur"
               data-testid="static-site-notice"
             >
-              <strong>{english ? 'Public edition' : 'Edición pública'}:</strong>{' '}
+              <strong>Edición pública / Public edition:</strong>{' '}
               {english
                 ? 'This page is a read-only snapshot hosted on GitHub Pages. Account creation and cloud sync are available when Firebase is configured; otherwise, your progress stays in this browser only.'
                 : 'Esta página es una versión de solo lectura publicada en GitHub Pages. Crear cuenta y sincronizar en la nube están disponibles cuando Firebase está configurado; de lo contrario, tu progreso se queda únicamente en este navegador.'}
