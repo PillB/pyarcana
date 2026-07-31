@@ -311,14 +311,23 @@ def parse_landing() -> dict:
 
     # Parse the literal copy rendered by Dashboard/Page.  This prevents packet
     # evidence from drifting to a stale hand-written landing summary.
-    method_cards = [
-        {"title": card_title, "desc": desc}
-        for card_title, desc in re.findall(
-            r"<MethodStep\b.*?title=\"([^\"]+)\".*?desc=\"([^\"]+)\"",
-            dashboard,
-            re.S,
-        )
-    ]
+    method_cards = []
+    for m in re.finditer(r"<MethodStep\b[^>]*?(?:/>|>)", dashboard, re.S):
+        block = m.group(0)
+        # Try string-literal title="..." first, then JSX expression title={'...' : '...'}
+        title_m = re.search(r'title="([^"]+)"', block)
+        if not title_m:
+            title_m = re.search(r"title=\{[^?]*?\?[^:]*?'([^']+)'\s*:", block)
+        if not title_m:
+            title_m = re.search(r"title=\{[^?]*?\?[^:]*?\"([^\"]+)\"\s*:", block)
+        desc_m = re.search(r'desc="([^"]+)"', block)
+        if not desc_m:
+            # desc is often a multi-line ternary; extract the first branch
+            desc_m = re.search(r"desc=\{[^?]*?\?\s*'([^']+)'\s*:", block)
+        if not desc_m:
+            desc_m = re.search(r'desc=\{[^?]*?\?\s*"([^"]+)"\s*:', block)
+        if title_m and desc_m:
+            method_cards.append({"title": title_m.group(1), "desc": desc_m.group(1)})
     why_cards = [
         {"title": card_title, "desc": desc}
         for card_title, desc in re.findall(
@@ -475,28 +484,26 @@ def parse_section_learner(path: Path) -> dict:
     if m_wedo and m_youdo:
         wedo_region = text[m_wedo.start() : m_youdo.start()]
     exercises = []
-    for m in re.finditer(r"\binstruction:\s*", wedo_region):
-        # id/kind usually appear *before* instruction in CourseSection objects
-        lookback = wedo_region[max(0, m.start() - 500) : m.start()]
-        chunk = wedo_region[m.start() : m.start() + 8000]
-        instruction = extract_string_field(chunk, "instruction")
+    # Robust exercise parsing: split the weDo region on exercise id: fields
+    # that match the S##-T#-[AB]-E# pattern. Each exercise block starts at
+    # its id: field and ends at the next id: field (or end of region).
+    ex_id_pattern = re.compile(r"\bid\s*:\s*['\"](S\d{2}-T\d-[AB]-E[1-3])['\"]")
+    id_matches = list(ex_id_pattern.finditer(wedo_region))
+    for i, id_m in enumerate(id_matches):
+        eid = id_m.group(1)
+        block_start = id_m.start()
+        block_end = id_matches[i + 1].start() if i + 1 < len(id_matches) else len(wedo_region)
+        block = wedo_region[block_start:block_end]
+        instruction = extract_string_field(block, "instruction")
         if not instruction:
             continue
-        # stop instruction association bleeding into next exercise: cut at next instruction
-        nxt = re.search(r"\binstruction\s*:", chunk[20:])
-        if nxt:
-            chunk = chunk[: 20 + nxt.start()]
-        hint = extract_string_field(chunk, "hint")
-        hints = extract_string_array(chunk, "hints")
+        hint = extract_string_field(block, "hint")
+        hints = extract_string_array(block, "hints")
         if not hints and hint:
             hints = [hint]
-        # prefer id immediately preceding this instruction
-        prev_ids = re.findall(r"\bid\s*:\s*['\"]([^'\"]+)['\"]", lookback)
-        eid = prev_ids[-1] if prev_ids else extract_string_field(chunk, "id")
-        kinds = re.findall(r"\bkind\s*:\s*['\"]([^'\"]+)['\"]", lookback)
-        kind = kinds[-1] if kinds else extract_string_field(chunk, "kind")
-        tests = extract_string_field(chunk, "tests")
-        starter_objs = find_object_after(chunk[:3000], "starterCode")
+        kind = extract_string_field(block, "kind")
+        tests = extract_string_field(block, "tests")
+        starter_objs = find_object_after(block[:3000], "starterCode")
         starter_code = None
         if starter_objs:
             starter_code, _, _ = extract_code_from_obj(starter_objs[0])
