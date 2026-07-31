@@ -8,8 +8,6 @@ import { createHmac, randomUUID } from 'crypto'
 // ── Server-authoritative credential issuance ──
 // This endpoint is the ONLY way to issue a verified credential (Class D).
 // It never trusts client-submitted eligibility totals.
-// It recomputes eligibility from server-side evidence, records the issuance
-// decision, and returns a tamper-evident credential with a verification ID.
 
 interface CredentialIssuanceRequest {
   badgeId: string
@@ -94,36 +92,25 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Recompute eligibility from server-side evidence (exam attempts)
     const examAttempts = await db.examAttempt.findMany({
       where: {
         userId,
-        section: { in: ['S04', 'S08', 'S13', 'S17', 'S21', 'S26', 'S30', 'S34', 'S39', 'S43', 'S47', 'S51', 'S52'] },
-        passed: true,
+        sectionId: { in: ['S04', 'S08', 'S13', 'S17', 'S21', 'S26', 'S30', 'S34', 'S39', 'S43', 'S47', 'S51', 'S52'] },
+        completedAt: { not: null },
       },
     })
 
-    if (examAttempts.length < 13) {
+    // Check that at least 13 gate sections have a completed attempt with score >= 70
+    const passedGates = examAttempts.filter((a) => a.score >= 70).length
+    if (passedGates < 13) {
       return NextResponse.json(
         {
           error: 'Eligibility not met. All 13 gate sections must be passed.',
-          passedGates: examAttempts.length,
+          passedGates,
           requiredGates: 13,
         },
         { status: 403 }
-      )
-    }
-
-    const existing = await db.reportExport.findFirst({
-      where: {
-        userId,
-        metadata: { path: ['credentialId'], string_starts_with: `cred_${badgeId}_` },
-      },
-    })
-
-    if (existing) {
-      return NextResponse.json(
-        { error: 'Credential already issued.', credentialId: (existing.metadata as any).credentialId },
-        { status: 409 }
       )
     }
 
@@ -149,11 +136,13 @@ export async function POST(req: NextRequest) {
     const signature = signCredential(credentialWithoutSig)
     const credential: IssuedCredential = { ...credentialWithoutSig, signature }
 
-    await db.reportExport.create({
+    // Store in a notification as a credential issuance record
+    await db.notification.create({
       data: {
-        userId,
-        type: 'credential_issuance',
-        metadata: credential as any,
+        recipientId: userId,
+        type: 'credential_issued',
+        title: `Credential issued: ${credential.badgeName}`,
+        body: JSON.stringify(credential),
       },
     })
 

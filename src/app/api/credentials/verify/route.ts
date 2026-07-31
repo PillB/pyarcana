@@ -6,7 +6,6 @@ import { createHmac } from 'crypto'
 // ── Public credential verification endpoint ──
 // Anyone can verify a credential by its verificationId.
 // This endpoint does NOT require authentication — it's public.
-// It returns only the public-safe fields (no private evidence, no email).
 
 function getSigningKey(): string {
   const key = process.env.CREDENTIAL_SIGNING_KEY
@@ -39,23 +38,26 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Find the credential by verificationId
-    const record = await db.reportExport.findFirst({
+    // Search Notifications for the credential by verificationId
+    const records = await db.notification.findMany({
       where: {
-        type: 'credential_issuance',
-        metadata: { path: ['verificationId'], equals: verificationId },
+        type: 'credential_issued',
+        body: { contains: verificationId },
       },
     })
 
-    if (!record) {
+    if (records.length === 0) {
       return NextResponse.json(
         { valid: false, error: 'Credential not found.' },
         { status: 404 }
       )
     }
 
-    const credential = record.metadata as any
-    if (!credential.credentialId) {
+    const record = records[0]
+    let credential: any
+    try {
+      credential = JSON.parse(record.body)
+    } catch {
       return NextResponse.json(
         { valid: false, error: 'Invalid credential record.' },
         { status: 500 }
