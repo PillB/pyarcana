@@ -41,9 +41,9 @@ class CiDependencyInstallContractTests(unittest.TestCase):
         self.assertIn("test.setTimeout(180_000)", suite)
         self.assertIn("data-section-id", suite)
         self.assertNotIn("waitForLoadState('networkidle')", suite)
-        # The browser regression pass is allowed 30 minutes for the full suite with retries.
+        # The browser regression pass is bounded at 15 minutes with no retries.
         # but the workflow remains explicitly bounded and superseded runs cancel.
-        self.assertIn("timeout-minutes: 30", workflow)
+        self.assertIn("timeout-minutes: 15", workflow)
         self.assertIn("scripts/code_rendering.spec.ts", workflow)
         self.assertIn("CODE_FIDELITY_SCREENSHOTS: '1'", workflow)
         self.assertIn("cancel-in-progress: true", workflow)

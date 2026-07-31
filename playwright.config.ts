@@ -5,7 +5,7 @@ export default defineConfig({
   testMatch: '*.spec.ts',
   fullyParallel: false, // Run serially to avoid dev server contention
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 0 : 0,
   workers: 1,
   reporter: [
     ['html', { outputFolder: 'playwright-report' }],
