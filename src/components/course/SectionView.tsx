@@ -161,7 +161,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
       {/* Compact sticky top bar — replaces 500px preamble stack */}
       <div className="sticky top-14 z-30 -mx-4 mb-3 bg-background/85 backdrop-blur-md border-b border-border/60 px-4 py-2.5">
         <div className="flex items-center gap-2.5">
-          <Badge variant="outline" className="gap-1 border-primary/30 text-primary shrink-0">
+          <Badge variant="outline" className="gap-1 border-primary/30 text-primary shrink-0" data-testid="section-badge">
             <span className="font-bold">S{section.index}</span>
           </Badge>
           <h1 className="text-base sm:text-lg font-bold tracking-tight truncate flex-1 min-w-0">

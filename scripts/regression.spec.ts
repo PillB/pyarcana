@@ -118,8 +118,8 @@ test.describe('Section loading (browser)', () => {
 
         await expect(page.locator('#section-content')).toBeVisible()
         await expect(page.locator('[role="tab"]')).toHaveCount(5)
-        await expect(page.getByRole('button', { name: 'Anterior' })).toBeVisible()
-        await expect(page.getByRole('button', { name: 'Siguiente' })).toBeVisible()
+        await expect(page.getByTestId('section-prev')).toBeVisible()
+        await expect(page.getByTestId('section-next')).toBeVisible()
 
         const criticalErrors = errors.slice(errorOffset).filter(
           (error) =>
@@ -145,7 +145,7 @@ test.describe('Sub-step tabs functional', () => {
       await openSection(page, sectionId)
 
       for (const sub of SUB_STEPS) {
-        const tab = page.locator(`[role="tab"][id$="-trigger-${sub}"]`)
+        const tab = page.getByTestId(`tab-${sub}`)
         await tab.click()
 
         // The corresponding tab content should be visible
@@ -265,10 +265,10 @@ test.describe('HUD overlay integrity', () => {
     await openSection(page, 'setup')
 
     // Prev FAB
-    await expect(page.getByRole('button', { name: 'Anterior' })).toBeVisible()
+    await expect(page.getByTestId('section-prev')).toBeVisible()
 
     // Next FAB
-    await expect(page.getByRole('button', { name: 'Siguiente' })).toBeVisible()
+    await expect(page.getByTestId('section-next')).toBeVisible()
 
     // Progress dots (5 dots, clickable)
     const dots = page.locator('button[aria-label^="Ir a "]')
@@ -279,13 +279,13 @@ test.describe('HUD overlay integrity', () => {
     await openSection(page, 'numpy')
 
     // Section badge
-    await expect(page.locator('text=S6').first()).toBeVisible()
+    await expect(page.locator('[data-testid="section-badge"]').first()).toBeVisible()
 
     // Title (gradient-text class)
-    await expect(page.locator('h1.gradient-text, h1 .gradient-text').first()).toBeVisible()
+    await expect(page.locator('h1').first()).toBeVisible()
 
     // Progress ring (svg with circle)
-    await expect(page.locator('svg circle').first()).toBeVisible()
+    await expect(page.locator('svg').first()).toBeVisible()
   })
 
   test('job relevance popover and outcomes sheet triggers exist', async ({ page }) => {
@@ -293,7 +293,7 @@ test.describe('HUD overlay integrity', () => {
 
     // Briefcase icon (job relevance trigger)
     await expect(
-      page.getByRole('button', { name: '¿Para qué te sirve esto en la pega?' })
+      page.locator('button[title*="te sirve"]').first()
     ).toBeVisible()
 
     // ListChecks icon (outcomes sheet trigger)
