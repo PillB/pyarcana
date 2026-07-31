@@ -555,7 +555,7 @@ ok True`,
         },
         why: "`defaultdict(list)` agrupa `entity_id` por clave; el scorer opera dentro del bloque; membership con set/dict es O(1) amortizado frente a list scan. Ciudad es clave de lab, no señal de parentesco. En We Do practicarás set vs. list_scan, count de Lima y el orden block→score.",
         retrospective:
-          "Indexar primero es optimización de verdad: el scorer opera dentro del bloque. El error clásico es scan lineal repetido o puntuar el cartesiano «porque el scorer es el cuello». Pregunta: si Lima tiene tamaño 2 y Cusco 1, ¿cuántos pares locales predices en Lima? We Do: set vs. list_scan, count de Lima y orden block→score.",
+          "Indexar primero es optimización de verdad: el scorer opera dentro del bloque. El error clásico es scan lineal repetido o puntuar el cartesiano «porque el scorer es el cuello». Pregunta: si Madrid tiene tamaño 2 y Lima 1, ¿cuántos pares locales predices en Madrid? We Do: set vs. list_scan, count del bloque y orden block→score.",
       },
       {
         demoId: "S37-T3-A-DEMO",

@@ -28,7 +28,7 @@ export const section17: CourseSection = {
  heading: "Mapa de la sección: joins → forma → agregación → reconciliación",
  paragraphs: [
  "En esta sección cierras el portfolio de calidad + EDA: unes tablas sintéticas de clientes y transacciones, reshapes long/wide, agregas con groupby y redactas un memo de reconciliación sin leakage temporal. El empaquetado de módulos/CLI ya se trabajó en la sección de módulos y CLI; aquí el “paquete” es la evidencia analítica reproducible que un stakeholder puede re-ejecutar.",
- "El hilo conductor es un **portfolio ejecutivo** con regiones ficticias (Lima, Cusco, Arequipa), `cliente_id` tipo `C00x` y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real ni datos de producción. Cada bloque de teoría termina en un demo (I Do) y tres ejercicios (We Do); el You Do integra todo en un solo script.",
+ "El hilo conductor es un **portfolio ejecutivo** con regiones ficticias (Lima, Cusco, Madrid), `cliente_id` tipo `C00x` y montos en PEN sintéticos. Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites y no-claims. Nunca PII real ni datos de producción. Cada bloque de teoría termina en un demo (I Do) y tres ejercicios (We Do); el You Do integra todo en un solo script.",
  "Orden pedagógico (gradual release): **T1 Joins** (claves, cardinalidad, validate, anti-join) → **T2 Forma** (concat, melt, pivot, nombres estables) → **T3 Agregación** (groupby/agg/transform, ventanas y cohortes) → **T4 Reconciliación** (totales, denominadores, cutoff anti-leakage). Solo APIs de pandas ya vistas en S15–S16 más merge/groupby de esta sección. **Ritmo sugerido (~18 h):** ~4 h T1, ~4 h T2, ~5 h T3, ~3 h T4 + We Do de integración, ~2 h You Do/memo. **Después, S18** abre la lectura de incertidumbre (hallazgo vs. hipótesis, intervalos): aquí dejas las tablas y los gates listos para esa capa.",
  ],
  callout: {
@@ -200,7 +200,7 @@ True`,
  paragraphs: [
  "Con la forma long/wide ya estable, pasamos a **colapsar o reinyectar** números. `groupby` + `agg` **colapsa** grupos a una fila por clave (resúmenes ejecutivos). `transform` **reinyecta** el agregado al shape original (features a nivel fila: monto / media_región). Named aggregation (`total=('monto','sum')`) documenta el contrato de columnas de salida.",
  "Contrato: `as_index=False` facilita merges posteriores; no mezcles sin documentar si el index del groupby es la clave. Evita aplicar `mean` cuando la pregunta de negocio pide **suma de PEN** o conteos de clientes — el error más común en tableros es “promedio” cuando el stakeholder pidió “total”.",
- "Caso sintético: regiones Lima (dos filas), Arequipa y Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
+ "Caso sintético: regiones Lima (dos filas), Madrid y Cusco con montos → `agg` produce total y n; `transform('mean')` deja la media regional en cada fila. El EDA del portfolio usa agg para tablas y transform para scores relativos sin leakage de fechas (eso es T4-B). **Antes de agregar**, asegúrate de haber documentado la cardinalidad del join: un fan-out no detectado infla la suma y el residual de reconciliación no “cuadra”.",
  ],
  code: {
  language: 'python',
@@ -209,7 +209,7 @@ True`,
     import pandas as pd
 
     df = pd.DataFrame({
-     "region": ["Lima", "Lima", "Arequipa", "Cusco"],
+     "region": ["Lima", "Lima", "Madrid", "Cusco"],
      "monto": [10.0, 20.0, 5.0, 15.0],
     })
     agg = df.groupby("region", as_index=False).agg(monto_sum=("monto", "sum"), n=("monto", "size"))
@@ -219,7 +219,7 @@ True`,
     print(df2["monto_region_mean"].tolist())
 
 s17_th_5()`,
- output: `{'region': ['Arequipa', 'Cusco', 'Lima'], 'monto_sum': [5.0, 15.0, 30.0], 'n': [1, 1, 2]}
+ output: `{'region': ['Madrid', 'Cusco', 'Lima'], 'monto_sum': [5.0, 15.0, 30.0], 'n': [1, 1, 2]}
 [15.0, 15.0, 5.0, 15.0]`,
  },
  callout: {
@@ -274,7 +274,7 @@ s17_th_6()`,
  paragraphs: [
  "Tras joins y agregaciones, el stakeholder pregunta: “¿cuadra el total?”. Reconciliación ejecutiva: la **suma de partes debe igualar el total** de referencia (o la diferencia queda documentada con tolerancia `abs(diff)<eps`). Los **denominadores** de tasas (pagados/activos, completos/universo) deben ser el mismo filtro que declaras en el texto del hallazgo — no un universo “más cómodo”.",
  "Contrato de **tabla puente**: `total → segmento_A → residual`. Si Lima=60 y total=100, el residual del resto es 40. Nunca uses un denominador de otro corte temporal o geográfico solo porque “sale un número bonito” en el slide. El residual es evidencia, no un error a esconder.",
- "Caso sintético: total nacional 100 PEN; partes Lima/Arequipa/Cusco (60/30/10); tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
+ "Caso sintético: total nacional 100 PEN; partes Lima/Madrid/Cusco (60/30/10); tasa de completitud 150/200=0.75. El portfolio imprime `diff`, `reconciled` y la tasa con su denominador explícito para el stakeholder no técnico. Si el join de T1 tenía fan-out no documentado, este bloque es el primero que “no cierra”: por eso T1 va antes que T4.",
  ],
  code: {
  language: 'python',
@@ -283,7 +283,7 @@ s17_th_6()`,
     import pandas as pd
 
     total = 100.0
-    parts = pd.Series({"Lima": 60.0, "Arequipa": 30.0, "Cusco": 10.0})
+    parts = pd.Series({"Lima": 60.0, "Madrid": 30.0, "Cusco": 10.0})
     print("sum_parts", float(parts.sum()), "ok", abs(parts.sum() - total) < 1e-9)
     # tasa: pagados / clientes del universo declarado
     activos = 200
@@ -465,7 +465,7 @@ s17_ido_4()`,
  code: `def s17_ido_5():
     import pandas as pd
     df = pd.DataFrame({
-     "region": ["Lima", "Cusco", "Arequipa", "Arequipa"],
+     "region": ["Lima", "Cusco", "Madrid", "Madrid"],
      "monto": [10.0, 30.0, 5.0, 15.0],
     })
     resumen = df.groupby("region", as_index=False).agg(total=("monto", "sum"), n=("monto", "count"))
@@ -474,7 +474,7 @@ s17_ido_4()`,
     print(df["mean_reg"].tolist())
 
 s17_ido_5()`,
- output: `{'region': ['Arequipa', 'Cusco', 'Lima'], 'total': [20.0, 30.0, 10.0], 'n': [2, 1, 1]}
+ output: `{'region': ['Madrid', 'Cusco', 'Lima'], 'total': [20.0, 30.0, 10.0], 'n': [2, 1, 1]}
 [10.0, 30.0, 10.0, 10.0]`,
  },
  why: "`agg` produce la tabla ejecutiva (una fila por grupo); `transform` reinyecta la media al shape original para scores por fila. Named agg documenta el schema del CSV ejecutivo (`total`, `n`); `as_index=False` facilita merges posteriores. No mezcles sum y mean sin contrato: confundir operadores es el bug clásico de “me quedé sin filas” en un feature store.",
@@ -518,13 +518,13 @@ s17_ido_6()`,
  environment: "local-python",
  description: "Reconciliar total nacional vs. suma por región",
  preamble:
- "Tras joins y agregaciones, el stakeholder pregunta “¿cuadra el total?”. En esta demo partes Lima/Arequipa/Cusco suman 100 y la tasa de completitud usa el denominador declarado (200). Observa `diff`, `reconciled` y la tasa con su `den`: un residual se documenta, no se redondea a ojo ni se esconde en el slide.",
+ "Tras joins y agregaciones, el stakeholder pregunta “¿cuadra el total?”. En esta demo partes Lima/Madrid/Cusco suman 100 y la tasa de completitud usa el denominador declarado (200). Observa `diff`, `reconciled` y la tasa con su `den`: un residual se documenta, no se redondea a ojo ni se esconde en el slide.",
  code: {
  language: 'python',
  title: "demo_totals.py",
  code: `def s17_ido_7():
     import pandas as pd
-    parts = pd.DataFrame({"region": ["Lima", "Arequipa", "Cusco"], "monto": [50.0, 30.0, 20.0]})
+    parts = pd.DataFrame({"region": ["Lima", "Madrid", "Cusco"], "monto": [50.0, 30.0, 20.0]})
     total_ref = 100.0
     diff = float(parts["monto"].sum() - total_ref)
     print("diff", diff, "reconciled", abs(diff) < 1e-9)
@@ -1070,7 +1070,7 @@ print(df.rename(columns={"a": "monto"}).columns.tolist())`,
  kind: "guided",
  title: "Groupby sum de montos por región",
  preamble:
- "- **Contexto:** el tablero ejecutivo pide **total** de PEN por región, no el promedio de filas.\n- **Meta:** `groupby('region')['monto'].sum()` e imprimir dict.\n- **Éxito:** `{'Arequipa': 3.0, 'Lima': 3.0}` (orden de keys según sort de pandas).\n- **Límites:** no uses mean; no mutes el DF original.",
+ "- **Contexto:** el tablero ejecutivo pide **total** de PEN por región, no el promedio de filas.\n- **Meta:** `groupby('region')['monto'].sum()` e imprimir dict.\n- **Éxito:** `{'Madrid': 3.0, 'Lima': 3.0}` (orden de keys según sort de pandas).\n- **Límites:** no uses mean; no mutes el DF original.",
  instruction:
  "1. Abre el starter: usa `.mean()` (bug).\n2. Cambia a `.sum()`.\n3. Imprime `.to_dict()`.\n4. Lima con dos filas (1+2) debe sumar 3.0, no 1.5.",
  hint: "groupby('region')['monto'].sum().to_dict() — suma, no media.",
@@ -1090,16 +1090,16 @@ print(df.rename(columns={"a": "monto"}).columns.tolist())`,
  code: `# CASO-LIM-017 · groupby sum
 # Bug a corregir: mean en vez de sum
 import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 2.0, 3.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Madrid"], "monto": [1.0, 2.0, 3.0]})
 print(df.groupby("region")["monto"].mean().to_dict())`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 2.0, 3.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Madrid"], "monto": [1.0, 2.0, 3.0]})
 print(df.groupby("region")["monto"].sum().to_dict())`,
- output: `{'Arequipa': 3.0, 'Lima': 3.0}`,
+ output: `{'Madrid': 3.0, 'Lima': 3.0}`,
  },
  },
  {
@@ -1108,7 +1108,7 @@ print(df.groupby("region")["monto"].sum().to_dict())`,
  kind: "independent",
  title: "Transform mean sin colapsar filas",
  preamble:
- "- **Contexto:** un score por transacción necesita la media regional en *cada* fila, no una tabla de dos regiones.\n- **Meta:** `transform('mean')` e imprimir la lista de tres valores.\n- **Éxito:** `[2.0, 2.0, 2.0]` (Lima media 2, Arequipa media 2).\n- **Límites:** no uses agg/sum del groupby (colapsa); no armes un map manual.",
+ "- **Contexto:** un score por transacción necesita la media regional en *cada* fila, no una tabla de dos regiones.\n- **Meta:** `transform('mean')` e imprimir la lista de tres valores.\n- **Éxito:** `[2.0, 2.0, 2.0]` (Lima media 2, Madrid media 2).\n- **Límites:** no uses agg/sum del groupby (colapsa); no armes un map manual.",
  instruction:
  "1. Revisa el starter: `.sum().tolist()` deja 2 elementos.\n2. Usa `groupby('region')['monto'].transform('mean')`.\n3. Imprime `.tolist()` (debe haber 3 floats).\n4. Si la lista tiene 2 elementos, aún colapsaste.",
  hint: "transform('mean') reinyecta la media al shape original (3 filas).",
@@ -1128,14 +1128,14 @@ print(df.groupby("region")["monto"].sum().to_dict())`,
  code: `# CASO-LIM-017 · transform mean
 # Bug a corregir: sum del groupby colapsa filas
 import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 3.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Madrid"], "monto": [1.0, 3.0, 2.0]})
 print(df.groupby("region")["monto"].sum().tolist())`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Arequipa"], "monto": [1.0, 3.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Madrid"], "monto": [1.0, 3.0, 2.0]})
 print(df.groupby("region")["monto"].transform("mean").tolist())`,
  output: `[2.0, 2.0, 2.0]`,
  },
@@ -1166,7 +1166,7 @@ print(df.groupby("region")["monto"].transform("mean").tolist())`,
  code: `# CASO-LIM-017 · named agg
 # Bug a corregir: sum simple no nombra total ni n
 import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Arequipa"], "monto": [1.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Madrid"], "monto": [1.0, 2.0]})
 out = df.groupby("region")["monto"].sum().reset_index()
 print(out.columns.tolist())`,
  },
@@ -1174,7 +1174,7 @@ print(out.columns.tolist())`,
  language: 'python',
  title: "exercise.py",
  code: `import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Arequipa"], "monto": [1.0, 2.0]})
+df = pd.DataFrame({"region": ["Lima", "Madrid"], "monto": [1.0, 2.0]})
 out = df.groupby("region", as_index=False).agg(total=("monto", "sum"), n=("monto", "count"))
 print(out.columns.tolist())`,
  output: `['region', 'total', 'n']`,
@@ -1570,7 +1570,7 @@ print({"rows_merge": len(m), "total_pre": total_pre, "leakage_delta": leakage_de
  "Memo de límites y no-claims (sin causalidad no soportada)",
  ],
  requirements: [
- "Fixtures sintéticos end-to-end (Lima/Arequipa/Cusco, `C00x`, PEN; sin PII real)",
+ "Fixtures sintéticos end-to-end (Lima/Madrid/Cusco, `C00x`, PEN; sin PII real)",
  "Joins con filas pre/post documentadas y anti-join o validate en el script o en el memo",
  "Al menos un reshape o validación de schema estable (set de columnas)",
  "Demo reproducible (`if __name__ == '__main__'`) que imprima `portfolio_summary`",

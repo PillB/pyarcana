@@ -28,7 +28,7 @@ export const section21: CourseSection = {
  heading: "Reporting Factory y cierre CP-N2-B",
  paragraphs: [
  "Imagina la reunión de operaciones en Lima: el Excel de S20 muestra ticket mediano **28.0 PEN (n=40)** y el DOCX del analista dice **30 PEN** “porque redondeó a mano”. El comité no firma. En analytics y operaciones en Perú, **cerrar CP-N2-B** no es “exportar bonito”: es un **Reporting Factory** con cinco piezas — plantillas Jinja, documentos DOCX/PDF locales, narrativa ejecutiva y paridad numérica con el dashboard (S19) y el Excel (S20) — más provenance y cola de aprobación humana. Las API HTTP se tratan más adelante; aquí el entregable son **archivos locales verificables**.",
- "Una sola corrida produce artefactos alineados: mismos *n* y métricas clave que el EDA de S18 y el factory de S20. Usamos solo datos sintéticos Lima/Cusco (sin PII) y no publicamos el informe sin checklist visual. El hilo del lab es **CASO-LIM-021**: ticket mediano 28 PEN, n=40, cobertura web-only. Si en un artefacto aparece n=32 y en otro n=40, el factory ya falló el criterio de paridad antes de hablar de diseño.",
+ "Una sola corrida produce artefactos alineados: mismos *n* y métricas clave que el EDA de S18 y el factory de S20. Usamos solo datos sintéticos Lima/Madrid (sin PII) y no publicamos el informe sin checklist visual. El hilo del lab es **CASO-LIM-021**: ticket mediano 28 PEN, n=40, cobertura web-only. Si en un artefacto aparece n=32 y en otro n=40, el factory ya falló el criterio de paridad antes de hablar de diseño.",
  "Orden pedagógico (no saltes adelante): **T1 Plantillas** (Jinja, separación datos/presentación, tablas seguras) → **T2 Documentos** (DOCX real; PDF digital vs. imagen/OCR) → **T3 Narrativa** (resumen, método, hallazgos, figuras/tablas, limitaciones) → **T4 Gobernanza** (redacción y a11y, provenance, aprobación). En cada subtema: teoría → demo I Do → tres ejercicios (E1 guiado, E2 con menos andamiaje, E3 de transferencia). Ritmo sugerido (~18 h): sesiones 1–2 en T1; 3–5 en T2 (artefactos reales); 6–7 en T3; 8 en T4 + You Do + self-check. El You Do une las piezas; no es un atajo para saltarte T2.",
  "**Diccionario de la sección** (consúltalo al dudar):\n- **context** = dict versionado que alimenta todas las plantillas.\n- **missing ≠ 0** = celda `—` cuando no hay dato (el mismo glifo `—` también se usa como raya tipográfica en prosa; en tablas significa ausencia).\n- **PDF digital** = texto seleccionable (pypdf extrae).\n- **needs_ocr** = extracción vacía sin inventar texto.\n- **paridad** = mismas métricas clave en dashboard, Excel y documento.\n- **provenance** = run_id + huellas + checklist visual antes de `pending_review`.\n\n**Qué no es el foco:** montar API HTTP, autenticación ni despliegue en la nube — solo el paquete de reportes locales del cierre CP-N2-B.",
  ],
@@ -90,12 +90,12 @@ KPI: &lt;b&gt;28&lt;/b&gt;`,
     tmpl = env.from_string(
         "{% for r in rows %}- {{ r.region }}: {{ '%.2f'|format(r.median) }} PEN\\n{% endfor %}"
     )
-    rows = [{"region": "Lima", "median": 28.0}, {"region": "Cusco", "median": 22.5}]
+    rows = [{"region": "Lima", "median": 28.0}, {"region": "Madrid", "median": 22.5}]
     print(tmpl.render(rows=rows), end="")
 
 s21_th_2()`,
  output: `- Lima: 28.00 PEN
-- Cusco: 22.50 PEN
+- Madrid: 22.50 PEN
 `,
  },
  callout: {
@@ -188,7 +188,7 @@ True True`,
  paragraphs: [
  "Con T2 ya tienes DOCX/PDF reales; T3 les da **voz ejecutiva** sin contaminar el método con opinión. La narrativa separa **resumen ejecutivo**, **método** y **hallazgos**. Cada hallazgo tiene id (H1…) y mapa a evidencia (Tabla1, Fig.1). No mezcles método con opinión; **hallazgo ≠ decisión** (eco de S18): `decision=None` hasta que un humano decida en la cola de aprobación. El comité debe poder ir de la frase al número en el Excel o dashboard en un clic mental.",
  "Contrato: `pack_report(resumen, metodo, hallazgos)` devuelve dict con 3 claves; el resumen debe incluir `n=` (y, en la práctica del lab, unidad PEN) o falla validación. H1 referencia `Tabla1` de forma explícita. Sin id de evidencia, el hallazgo no entra al paquete de aprobación — da igual lo elocuente que suene el párrafo.",
- "Caso CASO-LIM-021: hallazgo H1 “Lima > Cusco en mediana” con evidencia Tabla1 y `decision=None`; resumen con `n=40` y 28 PEN. Si el texto dice “Lima lidera” sin tabla ni n, es eslogan, no hallazgo auditable. Si el hallazgo ya trae “recomendamos subir precios”, has mezclado decisión de negocio en el paquete de evidencia.",
+ "Caso CASO-LIM-021: hallazgo H1 “Lima > Madrid en mediana” con evidencia Tabla1 y `decision=None`; resumen con `n=40` y 28 PEN. Si el texto dice “Lima lidera” sin tabla ni n, es eslogan, no hallazgo auditable. Si el hallazgo ya trae “recomendamos subir precios”, has mezclado decisión de negocio en el paquete de evidencia.",
  ],
  code: {
  language: 'python',
@@ -197,7 +197,7 @@ True True`,
     report = {
      "resumen": ["Ticket mediano Lima 28 PEN en muestra web (n=40)"],
      "metodo": {"fuente": "sintético", "filtros": ["canal=web"], "corte": "2024-06-30"},
-     "hallazgos": [{"id": "H1", "texto": "Lima > Cusco en mediana", "evidencia": "Tabla1"}],
+     "hallazgos": [{"id": "H1", "texto": "Lima > Madrid en mediana", "evidencia": "Tabla1"}],
     }
     print(report["resumen"][0])
     print(report["hallazgos"][0]["evidencia"])
@@ -348,7 +348,7 @@ s21_ido_1()`,
  environment: "local-python",
  description: "Render condicional seguro de tabla con missing como em-dash",
  preamble:
- "En un informe de operaciones, un “0.00” en reclamos se lee como “no hubo reclamos”, no como “no medimos”. Esta demo renderiza filas con Jinja: Lima 28.0 y Cusco sin mediana. Observa la rama `is not none` y el glifo `—`. No escribas aún; predice las dos líneas. Si confundes missing con cero, el Excel y el DOCX mienten de forma distinta y la paridad se rompe en silencio.",
+ "En un informe de operaciones, un “0.00” en reclamos se lee como “no hubo reclamos”, no como “no medimos”. Esta demo renderiza filas con Jinja: Lima 28.0 y Madrid sin mediana. Observa la rama `is not none` y el glifo `—`. No escribas aún; predice las dos líneas. Si confundes missing con cero, el Excel y el DOCX mienten de forma distinta y la paridad se rompe en silencio.",
  code: {
  language: 'python',
  title: "demo_cond_table.py",
@@ -361,18 +361,18 @@ s21_ido_1()`,
     )
     rows = [
      {"region": "Lima", "median": 28.0},
-     {"region": "Cusco", "median": None}
+     {"region": "Madrid", "median": None}
     ]
     print(tmpl.render(rows=rows), end="")
 
 s21_ido_2()`,
  output: `Lima: 28.0
-Cusco: —
+Madrid: —
 `,
  },
  why: "Missing es una decisión de reporting, no un detalle cosmético: el caption o data note debe decir por qué la celda está vacía (cobertura, corte, canal). No uses 0 “para no romper la tabla”: distorsiona totales y engaña al comité. El em-dash es el contrato visual del lab y debe reconciliar con el workbook de S20.",
  retrospective:
- "Missing se declara; no se inventa. El em-dash es el contrato visual del lab y debe cuadrar con el workbook. Si puedes decir por qué “0.00” engaña al comité sin mirar el código, ya tienes el hábito. Pregunta: ¿qué total se distorsiona si Cusco sin dato entra como 0? We Do: celda missing, formato `.2f` y bucle de filas.",
+ "Missing se declara; no se inventa. El em-dash es el contrato visual del lab y debe cuadrar con el workbook. Si puedes decir por qué “0.00” engaña al comité sin mirar el código, ya tienes el hábito. Pregunta: ¿qué total se distorsiona si Madrid sin dato entra como 0? We Do: celda missing, formato `.2f` y bucle de filas.",
  },
  {
  demoId: "S21-T2-A-DEMO",
@@ -446,7 +446,7 @@ True`,
  environment: "local-python",
  description: "Estructurar informe en resumen, método y hallazgos con ids",
  preamble:
- "Con DOCX/PDF reales, falta la **voz ejecutiva** sin contaminar el método con opinión. Esta demo empaqueta resumen con n=40, método (fuente y filtros) y un hallazgo H1 que apunta a Tabla1 con `decision=None`. Observa que el claim (afirmación) “Lima > Cusco” no trae recomendación de precios. No escribas aún; predice las tres líneas de salida. Sin id de evidencia, el párrafo es eslogan, no paquete de aprobación.",
+ "Con DOCX/PDF reales, falta la **voz ejecutiva** sin contaminar el método con opinión. Esta demo empaqueta resumen con n=40, método (fuente y filtros) y un hallazgo H1 que apunta a Tabla1 con `decision=None`. Observa que el claim (afirmación) “Lima > Madrid” no trae recomendación de precios. No escribas aún; predice las tres líneas de salida. Sin id de evidencia, el párrafo es eslogan, no paquete de aprobación.",
  code: {
  language: 'python',
  title: "demo_exec.py",
@@ -460,7 +460,7 @@ True`,
      "filtros": ["monto>0", "canal=web"],
      },
      "hallazgos": [
-     {"id": "H1", "claim": "Lima > Cusco en mediana", "evidencia": "Tabla1", "decision": None}
+     {"id": "H1", "claim": "Lima > Madrid en mediana", "evidencia": "Tabla1", "decision": None}
      ],
     }
     print(informe["resumen"][0])
@@ -482,7 +482,7 @@ decision_none True`,
  environment: "local-python",
  description: "Embeber métricas con fuentes/límites y check de paridad",
  preamble:
- "El corazón de CP-N2-B es **paridad**: dashboard, Excel y documento con la misma mediana Lima 28.0. Esta demo compara tres dicts, adjunta límites (cobertura web, n Cusco bajo) y empaqueta `parity` + `fuente`. Observa que `parity` es un booleano de igualdad de estructuras de métricas, no un “se ve similar”. No escribas aún; predice el bundle. Si el PNG dice 28 y el DOCX 30, el factory ya falló antes de hablar de diseño.",
+ "El corazón de CP-N2-B es **paridad**: dashboard, Excel y documento con la misma mediana Lima 28.0. Esta demo compara tres dicts, adjunta límites (cobertura web, n Madrid bajo) y empaqueta `parity` + `fuente`. Observa que `parity` es un booleano de igualdad de estructuras de métricas, no un “se ve similar”. No escribas aún; predice el bundle. Si el PNG dice 28 y el DOCX 30, el factory ya falló antes de hablar de diseño.",
  code: {
  language: 'python',
  title: "demo_parity.py",
@@ -490,13 +490,13 @@ decision_none True`,
     dash = {"median_Lima": 28.0}
     xlsx = {"median_Lima": 28.0}
     doc = {"median_Lima": 28.0}
-    limits = ["cobertura web", "n Cusco bajo"]
+    limits = ["cobertura web", "n Madrid bajo"]
     parity = dash == xlsx == doc
     bundle = {"parity": parity, "limits": limits, "fuente": "sintético"}
     print(bundle)
 
 s21_ido_6()`,
- output: `{'parity': True, 'limits': ['cobertura web', 'n Cusco bajo'], 'fuente': 'sintético'}`,
+ output: `{'parity': True, 'limits': ['cobertura web', 'n Madrid bajo'], 'fuente': 'sintético'}`,
  },
  why: "Paridad es el gate de cierre del factory: un solo número, tres superficies. Los límites de cobertura deben ser visibles al lector, no solo en un anexo escondido. Sin `fuente` y sin `limits`, el revisor no puede interpretar el n ni la muestra web-only del CASO-LIM-021.",
  retrospective:
@@ -650,20 +650,20 @@ print(Template("{{ m }} PEN (n={{ n }})").render(m=28, n=40))`,
  kind: "transfer",
  title: "Función render_kpi con context dict",
  preamble:
- "- **Contexto:** cada autor del informe no debe inventar su propio string de KPI; el factory centraliza el formato.\n- **Meta:** implementar `render_kpi(ctx)` que use región, mediana y n del dict.\n- **Éxito:** `Cusco: 22.5 PEN (n=18)` (muestra regional distinta; no es fallo de paridad del paquete Lima).\n- **Límites:** no hardcodees Cusco fuera del dict; no omitas n en la plantilla.",
+ "- **Contexto:** cada autor del informe no debe inventar su propio string de KPI; el factory centraliza el formato.\n- **Meta:** implementar `render_kpi(ctx)` que use región, mediana y n del dict.\n- **Éxito:** `Madrid: 22.5 PEN (n=18)` (muestra regional distinta; no es fallo de paridad del paquete Lima).\n- **Límites:** no hardcodees Madrid fuera del dict; no omitas n en la plantilla.",
  instruction:
- "1. Lee el TODO: la plantilla del starter no declara `{{ n }}`.\n2. Completa el Template dentro de `render_kpi` con región, mediana y n.\n3. Pasa el dict completo con `**ctx`.\n4. Imprime el resultado de la prueba Cusco / 22.5 / 18.",
+ "1. Lee el TODO: la plantilla del starter no declara `{{ n }}`.\n2. Completa el Template dentro de `render_kpi` con región, mediana y n.\n3. Pasa el dict completo con `**ctx`.\n4. Imprime el resultado de la prueba Madrid / 22.5 / 18.",
  hint: "Template dentro de la función o reutilizado; pasa el dict completo al render.",
  hints: [
  "Template dentro de la función o reutilizado; pasa el dict completo al render.",
  "Incluye n en la plantilla: sin n el KPI no es auditable.",
  ],
  edgeCases: ["key error"],
- tests: "el print es Cusco: 22.5 PEN (n=18)",
+ tests: "el print es Madrid: 22.5 PEN (n=18)",
  feedback:
- "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. El n=18 es otra muestra (Cusco), no un desfase del paquete Lima n=40.",
+ "Centraliza el template en la función: cada autor del informe no inventa su propio formato de KPI. El n=18 es otra muestra (Madrid), no un desfase del paquete Lima n=40.",
  retrospective:
- "Centralizar el template evita que cada autor invente su string de KPI. Ese n=18 es **otro context** (Cusco), no un bug de paridad del paquete Lima n=40. Pregunta: si hardcodeas “Cusco” fuera del dict, ¿qué pasa al reutilizar la función en Lima? Puente a T1-B: cuando el valor falta, no inventes 0 — usa em-dash.",
+ "Centralizar el template evita que cada autor invente su string de KPI. Ese n=18 es **otro context** (Madrid), no un bug de paridad del paquete Lima n=40. Pregunta: si hardcodeas “Madrid” fuera del dict, ¿qué pasa al reutilizar la función en Lima? Puente a T1-B: cuando el valor falta, no inventes 0 — usa em-dash.",
  starterCode: {
  language: 'python',
  title: "exercise.py",
@@ -673,7 +673,7 @@ from jinja2 import Template
 
 def render_kpi(ctx):
  return Template("{{ region }}: {{ median }} PEN").render(**ctx)
-print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
+print(render_kpi({"region": "Madrid", "median": 22.5, "n": 18}))`,
  },
  solutionCode: {
  language: 'python',
@@ -682,8 +682,8 @@ print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
 
 def render_kpi(ctx):
  return Template("{{ region }}: {{ median }} PEN (n={{ n }})").render(**ctx)
-print(render_kpi({"region": "Cusco", "median": 22.5, "n": 18}))`,
- output: `Cusco: 22.5 PEN (n=18)`,
+print(render_kpi({"region": "Madrid", "median": 22.5, "n": 18}))`,
+ output: `Madrid: 22.5 PEN (n=18)`,
  },
  },
  {
@@ -764,7 +764,7 @@ print(f"{x:.2f}")`,
  kind: "transfer",
  title: "Bucle Jinja de filas region:v",
  preamble:
- "- **Contexto:** el factory serializa filas del context a líneas o celdas; un string único con pipes no es tabla.\n- **Meta:** con un Template Jinja, emitir una línea `region:v` por fila.\n- **Éxito:** dos líneas — `Lima:1` y `Cusco:2` (sin espacios extra).\n- **Límites:** no unir regiones con `|`; no hardcodees las dos líneas fuera del bucle.",
+ "- **Contexto:** el factory serializa filas del context a líneas o celdas; un string único con pipes no es tabla.\n- **Meta:** con un Template Jinja, emitir una línea `region:v` por fila.\n- **Éxito:** dos líneas — `Lima:1` y `Madrid:2` (sin espacios extra).\n- **Límites:** no unir regiones con `|`; no hardcodees las dos líneas fuera del bucle.",
  instruction:
  "1. Reemplaza el template `\"static\"` por un `{% for r in rows %}…{% endfor %}`.\n2. Dentro del bucle: `{{ r.region }}:{{ r.v }}` y salto de línea.\n3. Pasa la lista de dicts en `.render(rows=...)`.\n4. Usa `print(..., end=\"\")` si el template ya trae `\\n` final.",
  hint: "Usa {% for r in rows %} … {% endfor %} con region y v.",
@@ -773,7 +773,7 @@ print(f"{x:.2f}")`,
  "Termina cada fila con salto de línea; evita unir con |.",
  ],
  edgeCases: ["rows vacías"],
- tests: "dos líneas: Lima:1 y Cusco:2",
+ tests: "dos líneas: Lima:1 y Madrid:2",
  feedback:
  "Cada fila del context debe producir su propia línea; un pipe entre regiones no es tabla serializable ni reabre como celdas en el workbook.",
  retrospective:
@@ -785,16 +785,16 @@ print(f"{x:.2f}")`,
 # TODO: itera rows y emite region:v por línea
 from jinja2 import Template
 tmpl = Template("static")
-print(tmpl.render(rows=[{"region": "Lima", "v": 1}, {"region": "Cusco", "v": 2}]), end="")`,
+print(tmpl.render(rows=[{"region": "Lima", "v": 1}, {"region": "Madrid", "v": 2}]), end="")`,
  },
  solutionCode: {
  language: 'python',
  title: "exercise.py",
  code: `from jinja2 import Template
 tmpl = Template("{% for r in rows %}{{ r.region }}:{{ r.v }}\\n{% endfor %}")
-print(tmpl.render(rows=[{"region": "Lima", "v": 1}, {"region": "Cusco", "v": 2}]), end="")`,
+print(tmpl.render(rows=[{"region": "Lima", "v": 1}, {"region": "Madrid", "v": 2}]), end="")`,
  output: `Lima:1
-Cusco:2`,
+Madrid:2`,
  },
  },
  {
@@ -1169,7 +1169,7 @@ print({"needs_ocr": not bool(text.strip()), "n_chars": len(text)})`,
  code: `# Lab CASO-LIM-021 — hallazgo H→evidencia
 # TODO: completa id, evidencia Tabla1 y decision=None; no dejes una decisión de negocio
 h = {
- "claim": "Lima > Cusco en mediana",
+ "claim": "Lima > Madrid en mediana",
  "decision": "subir precios",
 }
 print(h.get("id"), h.get("evidencia"))`,
@@ -1179,7 +1179,7 @@ print(h.get("id"), h.get("evidencia"))`,
  title: "exercise.py",
  code: `h = {
  "id": "H1",
- "claim": "Lima > Cusco en mediana",
+ "claim": "Lima > Madrid en mediana",
  "evidencia": "Tabla1",
  "decision": None,
 }
@@ -1656,7 +1656,7 @@ context = {
     "n_Lima": 40,
     "limits": ["solo web"],
     "hallazgos": [
-        {"id": "H1", "texto": "Lima > Cusco en mediana", "evidencia": "Tabla1", "decision": None},
+        {"id": "H1", "texto": "Lima > Madrid en mediana", "evidencia": "Tabla1", "decision": None},
     ],
 }
 
@@ -1752,7 +1752,7 @@ def manifest(artifacts: dict) -> dict:
  "La evidencia se empaqueta con id y mapa H→tabla; la decisión de negocio la toma un humano en la cola de aprobación (S22), no el factory.",
  },
  {
- question: "Si la mediana de Cusco no está disponible, ¿cómo debe representarse en el informe?",
+ question: "Si la mediana de Madrid no está disponible, ¿cómo debe representarse en el informe?",
  options: ["0.00 para no romper la tabla", "El promedio de Lima", "— (em dash) y documentar missing", "null sin mención en el caption"],
  correctIndex: 2,
  explanation:

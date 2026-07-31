@@ -28,7 +28,7 @@ export const section12: CourseSection = {
       heading: "Mapa de la sección: HTTP, SQL y geodatos responsables",
       paragraphs: [
         "**Diccionario de la sección** (léelo antes de T1; el resto profundiza cada término). **Status code:** el código HTTP que devuelve el servidor (2xx éxito, 4xx error de cliente, 5xx error de servidor). **Timeout:** tiempo máximo de espera por request (cada pedido al servidor) — en un cliente real siempre pasas `timeout=`. **Retry/backoff:** reintentar solo errores **transitorios** (los que se curan solos, como 429 y 503) con espera creciente entre intentos. **Provenance (traza de origen):** metadatos del fetch (los datos que describen cómo se obtuvo la respuesta: `source_url`, `fetched_at`, `status_code`, `cache_hit`) **sin** secretos. **SQL parametrizado:** placeholders `?` en lugar de f-strings (los strings formateados con `f\"...\"`) cuando el input viaja en la consulta. **Geocoder autorizado/mock:** proveedor permitido o simulado en local. **Egress (salida de datos):** qué campos pueden salir de tu sistema hacia un servicio externo. **Geoseñal:** distancia u otra métrica geo que alimenta un score de relación — **no** es parentesco ni fraude. **Fail-closed (falla cerrado):** si el contrato falla, el código se detiene; no se inventan filas ni coordenadas.",
-        "Imagina el onboarding (el alta de un cliente) de un caso sintético en Lima: un proveedor te lista señales por HTTP (el protocolo de la web), tú las guardas en SQLite local (la base de datos en archivo) y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, caché, provenance y fallback offline (una salida de emergencia cuando no hay red). Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`). Si el schema (la forma esperada del JSON o del SQL) no cuadra, **falla cerrado**.",
+        "Imagina el onboarding (el alta de un cliente) de un caso sintético en Madrid: un proveedor te lista señales por HTTP (el protocolo de la web), tú las guardas en SQLite local (la base de datos en archivo) y calculas una distancia a Callao para el score de relación. El hilo conductor es ese **adaptador de señales sintéticas** (entidades, evidencias, coordenadas) con timeout, caché, provenance y fallback offline (una salida de emergencia cuando no hay red). Construyes el incremento de **adquisición y geoevidencia del capstone CP-N1-C**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**. Solo datos sintéticos latam (`example.com`, Madrid/Barcelona, ids `C00x`). Si el schema (la forma esperada del JSON o del SQL) no cuadra, **falla cerrado**.",
         "Orden del aprendizaje: **T1 HTTP** (status, JSON, timeout, paginación, retry) → **T2 Auth/caché/contratos** (secretos en env, provenance, fallback) → **T3 SQL** (CRUD, join, placeholders, transacciones) → **T4 Geodatos responsables** (normalize, egress, Haversine como señal). Gate de la sección (la puerta que debes cruzar): adaptador con status/retry selectivo + join local de caso + geoseñal documentada. En **S13** armarás el dashboard de evidencia; aquí cierras la adquisición. Nunca tokens en logs ni claims de parentesco/fraude. El profiling (la medición de rendimiento) y la concurrencia (ejecutar varias tareas a la vez) de producción se tratan más adelante en el tramo de sistemas; no son el foco de esta semana."
       ],
       callout: {
@@ -214,7 +214,7 @@ def geocode(addr, online=True):
         return {"lat": -12.0464, "lon": -77.0428, "label": addr, "mode": "online"}
     return {"lat": -12.05, "lon": -77.04, "label": addr, "mode": "offline_fallback"}
 
-fix = {"lat": -16.4090, "lon": -71.5375, "label": "Arequipa"}
+fix = {"lat": -16.4090, "lon": -71.5375, "label": "Madrid"}
 print("contract", assert_contract(fix))
 print("online", geocode("Lima", online=True)["mode"])
 print("offline", geocode("Lima", online=False)["mode"])`,
@@ -317,7 +317,7 @@ print(try_batch_unique_doc())`,
       paragraphs: [
         "Con HTTP y SQL listos, la geoevidencia cierra el incremento CP-N1-C — pero con ética de egress (cuidado con qué datos salen). Normaliza direcciones sintéticas: **trim + colapsar espacios** (contrato N1). El title-case es política opcional del proveedor; en los ejercicios de S12 **no** lo exijas a menos que el enunciado lo pida (el mock puede usar `.title()` solo para la **clave de lookup** de ciudad). No inventes campos (distrito, ubigeo) que no vinieron en el payload (los datos que envía el proveedor): el invento silencioso contamina la geoevidencia y el score de S13.",
         "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos, nombres completos si la política lo prohíbe) a proveedores públicos gratuitos. El payload mínimo es ciudad/dirección sintética autorizada. **Egress (salida de datos)** hacia un proveedor externo se gobierna con allowlist de claves: `ALLOWED = {\"address\", \"city\", \"country\"}`. Si aparece `document_id`, `allowed_for_public_geocoder` devuelve `False`.",
-        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles; ciudad desconocida (Cusco en el ejercicio) → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
+        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Madrid, Barcelona) para demos offline reproducibles; ciudad desconocida (Cusco en el ejercicio) → `None` (fail-closed). Caso sintético: `normalize_address(\"  av.  larco  123  \")` → `'av. larco 123'`; `geocode(\"lima\")` → coords de Lima (lookup con `.title()` solo en la clave). **Qué observar:** normalize no cambia capitalización; el geocode de ciudad desconocida no inventa un punto en el mapa."
       ],
       code: {
         language: 'python',
@@ -331,7 +331,7 @@ def normalize_address(s: str) -> str:
 class MockGeocoder:
     TABLE = {
         "Lima": (-12.0464, -77.0428),
-        "Arequipa": (-16.4090, -71.5375),
+        "Madrid": (-16.4090, -71.5375),
     }
     def geocode(self, city: str):
         key = city.strip().title()
@@ -631,14 +631,14 @@ count 0`,
         demoId: "S12-T4-A-DEMO",
         subtopicId: "S12-T4-A",
         environment: "local-python",
-        description: "MockGeocoder autorizado: Lima y Arequipa devuelven lat/lon fijos; Iquitos → None (fail-closed, no inventa punto). Observa provider=authorized_mock y la ausencia de PII en el payload.",
+        description: "MockGeocoder autorizado: Madrid y Barcelona devuelven lat/lon fijos; Barcelona → None (fail-closed, no inventa punto). Observa provider=authorized_mock y la ausencia de PII en el payload.",
         preamble:
-          "La geoevidencia del caso usa un geocoder **autorizado/mock** (un proveedor simulado, no uno público real), offline y sin PII bancaria. Observa: Lima y Arequipa devuelven lat/lon fijos; Iquitos → `None` (fail-closed, no se inventa un pin). No se inventa un pin en el mapa. Predice las tres líneas y nota `provider=authorized_mock`. Datos de demo únicamente.",
+          "La geoevidencia del caso usa un geocoder **autorizado/mock** (un proveedor simulado, no uno público real), offline y sin PII bancaria. Observa: Madrid y Barcelona devuelven lat/lon fijos; Barcelona → `None` (fail-closed, no se inventa un pin). No se inventa un pin en el mapa. Predice las tres líneas y nota `provider=authorized_mock`. Datos de demo únicamente.",
         code: {
           language: 'python',
           title: "mock_cities_demo.py",
           code: `class MockGeocoder:
-    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Madrid": (-16.4090, -71.5375)}
     def geocode(self, city):
         if city not in self.DB:
             return None
@@ -646,14 +646,14 @@ count 0`,
         return {"city": city, "lat": lat, "lon": lon, "provider": "authorized_mock"}
 
 g = MockGeocoder()
-for c in ("Lima", "Arequipa", "Iquitos"):
+for c in ("Lima", "Madrid", "Barcelona"):
     print(c, g.geocode(c))`,
           output: `Lima {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'authorized_mock'}
-Arequipa {'city': 'Arequipa', 'lat': -16.409, 'lon': -71.5375, 'provider': 'authorized_mock'}
-Iquitos None`,
+Madrid {'city': 'Madrid', 'lat': -16.409, 'lon': -71.5375, 'provider': 'authorized_mock'}
+Barcelona None`,
         },
         why:
-          "La interfaz del mock es intercambiable: misma firma `geocode(city)` permite swap a un proveedor autorizado real después. Ciudad desconocida no es «cerca de Lima»; fail-closed devuelve `None` en lugar de inventar un punto. Offline y sin PII en el payload protegen la política de egress de CP-N1-C.",
+          "La interfaz del mock es intercambiable: misma firma `geocode(city)` permite swap a un proveedor autorizado real después. Ciudad desconocida no es «cerca de Madrid»; fail-closed devuelve `None` en lugar de inventar un punto. Offline y sin PII en el payload protegen la política de egress de CP-N1-C.",
         retrospective:
           "Fail-closed en geocode desconocido evita basura en el score de S13. We Do: normalizar espacios, implementar el mock y bloquear `document_id` en egress.",
       },
@@ -1643,7 +1643,7 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
         id: "S12-T4-A-E2",
         subtopicId: "S12-T4-A",
         kind: "independent",
-        title: "MockGeocoder: Lima/Arequipa o None",
+        title: "MockGeocoder: Madrid/Barcelona o None",
         preamble:
           "- **Contexto:** demos offline necesitan coords fijas por ciudad autorizada, sin red.\n- **Meta:** `geocode(city)` → dict con lat/lon/provider o `None`.\n- **Éxito:** lat de Lima `-12.0464`; Cusco → `None`.\n- **Límites:** solo claves de la tabla DB; no rellenes coords «por defecto».",
         instruction:
@@ -1665,7 +1665,7 @@ print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
           code: `# CASO-LIM-012 · MockGeocoder
 # DEFECT: siempre coords de Lima (ignora la ciudad pedida)
 class MockGeocoder:
-    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Madrid": (-16.4090, -71.5375)}
     def geocode(self, city):
         lat, lon = self.DB["Lima"]
         return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
@@ -1678,7 +1678,7 @@ print('ok', True)`,
           language: 'python',
           title: "mock_geocoder.py",
           code: `class MockGeocoder:
-    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Madrid": (-16.4090, -71.5375)}
     def geocode(self, city):
         if city not in self.DB:
             return None
@@ -1883,7 +1883,7 @@ print(as_relationship_signal(1.2))`,
   youDo: {
     title: "Adaptadores HTTP + SQLite + geoevidencia (CP-N1-C)",
     context:
-      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock (simulación del proveedor) con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env (variables de entorno), caché GET y provenance sin tokens. Persiste en SQLite parametrizado (tablas `clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (lista de campos permitidos para salir al proveedor; sin PII bancaria). Solo datos sintéticos Lima/Arequipa e ids `C00x`. El `main()` del starter es un smoke path (un recorrido que verifica que todo cablea): al implementar cada stub (cada función con `NotImplementedError`), debe imprimir `token_len`, `retry`, `entity`, `cache_hits`, `provenance`, `normalize`, `egress ok/bad`, `geo`, `km` y `case_row`. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard. Antes de marcar listo, responde las tres preguntas de la retrospectiva y alinea las capturas del portfolioNote.",
+      "Integra el hilo completo de S12 en un solo script de adquisición: cliente HTTP mock (simulación del proveedor) con timeout/paginación/retry selectivo (política N1: solo 429/503), secretos por env (variables de entorno), caché GET y provenance sin tokens. Persiste en SQLite parametrizado (tablas `clients` / `transactions` / `evidence`) y geocodifica con **MockGeocoder** + allowlist de egress (lista de campos permitidos para salir al proveedor; sin PII bancaria). Solo datos sintéticos Madrid/Barcelona e ids `C00x`. El `main()` del starter es un smoke path (un recorrido que verifica que todo cablea): al implementar cada stub (cada función con `NotImplementedError`), debe imprimir `token_len`, `retry`, `entity`, `cache_hits`, `provenance`, `normalize`, `egress ok/bad`, `geo`, `km` y `case_row`. En **S13** se cierra el dashboard de evidencia y la regresión de nivel 1 — aquí no construyas el dashboard. Antes de marcar listo, responde las tres preguntas de la retrospectiva y alinea las capturas del portfolioNote.",
     objectives: [
       "Cliente get_entity + should_retry N1 (429/503) y timeout en la interfaz",
       "Caché GET + min_provenance sin secretos",
@@ -1896,7 +1896,7 @@ print(as_relationship_signal(1.2))`,
       "SQL solo con placeholders `?`",
       "Sin tokens en logs/provenance",
       "Geocoder mock/autorizado; sin PII bancaria a servicios públicos",
-      "Datos sintéticos latam (example.com / Lima / Arequipa)",
+      "Datos sintéticos latam (example.com / Lima / Madrid)",
       "Demo offline reproducible (fallback local)",
     ],
     starterCode: `"""cp_n1c_acquisition.py — CP-N1-C incremento S12
@@ -1951,7 +1951,7 @@ def allowed_for_public_geocoder(payload: dict) -> bool:
 
 
 class MockGeocoder:
-    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    DB = {"Lima": (-12.0464, -77.0428), "Madrid": (-16.4090, -71.5375)}
 
     def geocode(self, city: str) -> Optional[dict]:
         # DEFECT: NotImplemented — dict con lat/lon/provider o None
@@ -1996,7 +1996,7 @@ def main() -> None:
     print("prov", min_provenance("https://api.example.com/s", 200, hit2))
     print("norm", normalize_address("  av  larco  1 "))
     print("egress_ok", allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
-    print("egress_bad", allowed_for_public_geocoder({"city": "Arequipa", "document_id": "D1"}))
+    print("egress_bad", allowed_for_public_geocoder({"city": "Madrid", "document_id": "D1"}))
     print("geo", MockGeocoder().geocode("Lima"))
     km = round(haversine_km((-12.0464, -77.0428), (-12.05, -77.125)), 2)
     print("km", km)

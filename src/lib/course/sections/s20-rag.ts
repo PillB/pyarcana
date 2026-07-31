@@ -29,7 +29,7 @@ export const section20: CourseSection = {
       paragraphs: [
         "Esta sección es **automatización robusta de Excel** con openpyxl: un reporting factory que manipula hojas, celdas, fórmulas vs. valores, estilos, conciliación, validación estructural, batch e idempotencia. El objetivo no es “hacer un xlsx bonito”, sino entregar un artefacto auditable que un VP de finanzas u operaciones pueda abrir mañana sin sorpresas.",
         "**Diccionario de la sección** (léelo una vez; el resto lo usa). **Plantilla master** (plantilla maestra): xlsx de referencia que no se sobrescribe. **Celda ancla:** esquina superior izquierda de un merge (ahí vive el valor). **Valor materializado:** número ya calculado en Python y escrito a la celda (no dependes de Excel para evaluarlo). **Conciliación:** comparar totales/n del Excel de salida vs. el DataFrame fuente. **Fail-closed:** si la conciliación falla, no emites el paquete. **Manifest** (manifiesto): JSON con estados de batch, `reconcile_ok`, backup (respaldo) y hashes. **Idempotencia:** misma entrada + misma versión de script → mismo resultado lógico (sin filas fantasma). **Cuarentena:** aislar un archivo corrupto sin tumbar el lote.",
-        "Hilo del caso: workbook (libro de Excel) sintético `cpn2b_factory.xlsx` con hojas canónicas **Entrada** (datos crudos) y **Salida** (KPIs materializados); opcionalmente **Datos** como staging intermedio. Regiones Lima/Cusco/Arequipa y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas.",
+        "Hilo del caso: workbook (libro de Excel) sintético `cpn2b_factory.xlsx` con hojas canónicas **Entrada** (datos crudos) y **Salida** (KPIs materializados); opcionalmente **Datos** como staging intermedio. Regiones Madrid/Bogota/Berlin y montos PEN. Una corrida debe ser reejecutable sin corromper plantillas ni inventar filas. Nunca PII real en celdas.",
         "Orden de aprendizaje: **T1 Modelo de libro** (sheets, celdas, encabezados; fórmulas vs. valores materializados) → **T2 Presentación** (estilos, plantillas copy→save, fechas ISO, merges) → **T3 Calidad** (conciliación, pivots lógicos, validación, preservación) → **T4 Operación** (batch, corruptos/locks, backups, idempotencia, tests estructurales). Prerrequisitos S17–S19. Cierra hacia el paquete de reportes de S21 y el gate (control de calidad) CP-N2-B.",
       ],
       callout: {
@@ -45,7 +45,7 @@ export const section20: CourseSection = {
       paragraphs: [
         "Un libro de Excel es un grafo de **hojas + celdas + encabezados**. Nombra hojas de forma estable (`Entrada`, `Datos`, `Salida`); evita “Hoja1” en el entregable. Los encabezados de la fila 1 anclan lecturas programáticas (`iter_rows`) y la conciliación posterior. Si el negocio habla de “tablas” o “named ranges”, en este tramo usamos el equivalente práctico: headers fijos + sheetnames contractuales — el mismo contrato que un schema de API, solo que el “endpoint” es un archivo que el VP abre en Excel.",
         "Contrato operativo: crear workbook, set `title`, escribir encabezados, `append` filas, listar `sheetnames`. El control de calidad del factory verifica presencia de hojas requeridas y el encabezado `region` antes de cualquier KPI. Si falta una hoja, abortas con mensaje claro al manifest — no improvisas un sheet vacío en silencio. Esa disciplina es lo que separa un script de laboratorio de un factory que sobrevive al cierre de mes.",
-        "Caso sintético Lima: `ws.title='Entrada'`, A1=`region`, B1=`monto`; segunda hoja `Salida`. Los conteos de filas de datos (sin header) alimentan la conciliación con el dashboard de S19 (mismos n). En un banco o equipo de operaciones peruano, el primer bug típico es renombrar “Entrada” a “Input_v2” y romper tres scripts ajenos. Cuando la pestaña *Hago yo* te muestre `sheetnames`, fíjate que el orden y los nombres son parte del contrato, no decoración.",
+        "Caso sintético Madrid: `ws.title='Entrada'`, A1=`region`, B1=`monto`; segunda hoja `Salida`. Los conteos de filas de datos (sin header) alimentan la conciliación con el dashboard de S19 (mismos n). En un banco o equipo de operaciones peruano, el primer bug típico es renombrar “Entrada” a “Input_v2” y romper tres scripts ajenos. Cuando la pestaña *Hago yo* te muestre `sheetnames`, fíjate que el orden y los nombres son parte del contrato, no decoración.",
       ],
       code: {
         language: 'python',
@@ -66,7 +66,7 @@ export const section20: CourseSection = {
 
 s20_th_1()`,
         output: `['Entrada', 'Salida']
-Lima 28.0`,
+Madrid 28.0`,
       },
       callout: {
         type: "tip",
@@ -180,7 +180,7 @@ header_bold True`,
     ws = wb.active
     ws["A1"] = date(2024, 6, 30)
     ws.merge_cells("B1:C1")
-    ws["B1"] = "Lima-Arequipa"
+    ws["B1"] = "Lima-Madrid"
     print(ws["A1"].value.isoformat())
     print("merge", ws.merged_cells.ranges)
     print("C1_is_none", ws["C1"].value)
@@ -203,7 +203,7 @@ C1_is_none None`,
       paragraphs: [
         "**Conciliación**: los totales del Excel de salida deben cuadrar con los del DataFrame fuente (suma de montos, n de filas). Es el control de calidad que protege la credibilidad del reporting: sin él, un total de portada “optimista” puede viajar a gerencia. Los pivots en Excel son para el usuario final; el script puede **materializar el pivot** ya calculado en pandas (`groupby`) y pegarlo en `Salida`. Así el VP ve la tabla y el factory tiene un número auditable.",
         "Contrato: `assert abs(sum_xlsx - sum_df) < tol` y `n_xlsx == n_df`. Si no cuadra, **fail-closed** (no emitas el paquete a S21). Documenta tolerancia de redondeo (típico: 0.01 para 2 decimales PEN). Un total “casi igual” sin tolerancia documentada es una discusión de fin de mes, no un gate de calidad. El resultado de la conciliación vive en el manifest (`reconcile_ok`), no solo en un print de consola.",
-        "Caso: df montos 10+5+7 vs. portada 22.0; pivot región→suma (`Lima` 15, `Cusco` 7). El gate imprime `reconcile True` solo si ambos lados coinciden. En operaciones peruanas, este control evita enviar a gerencia un Excel con portada inflada y detalle incompleto — el error típico de “sumé a mano en la portada y olvidé una región”.",
+        "Caso: df montos 10+5+7 vs. portada 22.0; pivot región→suma (`Lima` 15, `Bogota` 7). El gate imprime `reconcile True` solo si ambos lados coinciden. En operaciones peruanas, este control evita enviar a gerencia un Excel con portada inflada y detalle incompleto — el error típico de “sumé a mano en la portada y olvidé una región”.",
       ],
       code: {
         language: 'python',
@@ -211,7 +211,7 @@ C1_is_none None`,
         code: `def s20_th_5():
     import pandas as pd
 
-    det = pd.DataFrame({"region": ["Lima", "Lima", "Cusco"], "monto": [10.0, 5.0, 7.0]})
+    det = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
     tot_portada = 22.0
     tot_det = float(det["monto"].sum())
     pivot = det.groupby("region", as_index=False)["monto"].sum()
@@ -219,7 +219,7 @@ C1_is_none None`,
     print("ok", abs(tot_det - tot_portada) < 0.01)
 
 s20_th_5()`,
-        output: `{'region': ['Cusco', 'Lima'], 'monto': [7.0, 15.0]}
+        output: `{'region': ['Bogota', 'Lima'], 'monto': [7.0, 15.0]}
 ok True`,
       },
       callout: {
@@ -235,7 +235,7 @@ ok True`,
       paragraphs: [
         "Reglas de validación (headers exactos, dominios de región, tipos coercibles) y **preservación de estructura**: no borres hojas de catálogo; no renombres `Entrada` en caliente sin migrar referencias. Validar **antes** de escribir el lote ahorra rehacer el paquete a las 11 pm.",
         "Contrato: conjunto de sheetnames requeridas ⊆ sheetnames reales (`structural_ok`); encabezados exactos; regiones en allowlist. Ante fila inválida, cuarentena de fila o abort del batch según política documentada — sin PII en logs. Un `structural_ok False` debe quedar en el manifest, no solo en un print fugaz.",
-        "Caso sintético: el contrato exige `need = {'Entrada','Salida'}`. Si falta `Salida`, `structural_ok` es False y **no** se genera el zip del reporting package hacia S21. Región “Piura” fuera de allowlist → abort con lista de violators en el manifest, no un email vago. En un equipo de operaciones en Arequipa, este fail-fast evita rehacer el paquete a las 23:00 porque alguien renombró una hoja “para que se entienda mejor”.",
+        "Caso sintético: el contrato exige `need = {'Entrada','Salida'}`. Si falta `Salida`, `structural_ok` es False y **no** se genera el zip del reporting package hacia S21. Región “Barcelona” fuera de allowlist → abort con lista de violators en el manifest, no un email vago. En un equipo de operaciones en Madrid, este fail-fast evita rehacer el paquete a las 23:00 porque alguien renombró una hoja “para que se entienda mejor”.",
       ],
       code: {
         language: 'python',
@@ -245,8 +245,8 @@ ok True`,
     headers = ["region", "monto", "n"]
     print("structure_ok", headers == expected)
     # validación de dominio (allowlist)
-    regiones = {"Lima", "Arequipa", "Cusco"}
-    row = {"region": "Piura", "monto": 10.0}
+    regiones = {"Lima", "Madrid", "Bogota"}
+    row = {"region": "Barcelona", "monto": 10.0}
     print("domain_ok", row["region"] in regiones)
 
 s20_th_6()`,
@@ -351,7 +351,7 @@ s20_th_8()`,
         environment: "local-python",
         description: "Crear sheets canónicos Entrada/Salida y escribir celdas con openpyxl",
         preamble:
-          "El excel factory del VP exige nombres de hoja estables: `Entrada` para el detalle y `Salida` para los KPIs. En esta demo creas ambos, escribes filas sintéticas Lima/Cusco y materializas `n_filas` en `Salida`. No escribas aún; predice `sheetnames`, el entero `n` y el valor de A2 antes de mirar la salida. Si dejas la hoja como `Sheet`, tres scripts ajenos rompen en el cierre de mes.",
+          "El excel factory del VP exige nombres de hoja estables: `Entrada` para el detalle y `Salida` para los KPIs. En esta demo creas ambos, escribes filas sintéticas Madrid/Bogota y materializas `n_filas` en `Salida`. No escribas aún; predice `sheetnames`, el entero `n` y el valor de A2 antes de mirar la salida. Si dejas la hoja como `Sheet`, tres scripts ajenos rompen en el cierre de mes.",
         code: {
           language: 'python',
           title: "demo_sheets.py",
@@ -363,7 +363,7 @@ s20_th_8()`,
     ws.title = "Entrada"
     ws.append(["region", "monto"])
     ws.append(["Lima", 28.0])
-    ws.append(["Cusco", 22.5])
+    ws.append(["Bogota", 22.5])
     out = wb.create_sheet("Salida")
     out["A1"] = "n_filas"
     out["B1"] = ws.max_row - 1
@@ -421,7 +421,7 @@ no_evaluado_por_openpyxl True`,
         environment: "local-python",
         description: "Copiar plantilla master, load_workbook, estilizar y guardar en path de salida",
         preamble:
-          "El master `cpn2b_factory.xlsx` es el contrato visual del VP: no se sobrescribe. En esta demo se copia a `out/results.xlsx`, se estiliza el header corporativo y se escribe Lima 28.0 solo en la copia. Observa las dos líneas de salida: nombre de archivo, master intacto y bold del header. Predice qué pasaría si `save` apuntara al master: la siguiente corrida arrancaría con datos de ayer.",
+          "El master `cpn2b_factory.xlsx` es el contrato visual del VP: no se sobrescribe. En esta demo se copia a `out/results.xlsx`, se estiliza el header corporativo y se escribe Madrid 28.0 solo en la copia. Observa las dos líneas de salida: nombre de archivo, master intacto y bold del header. Predice qué pasaría si `save` apuntara al master: la siguiente corrida arrancaría con datos de ayer.",
         code: {
           language: 'python',
           title: "demo_template_io.py",
@@ -484,14 +484,14 @@ True 28.0`,
     ws = wb.active
     ws["A1"] = date(2024, 6, 30)
     ws.merge_cells("B1:D1")
-    ws["B1"] = "Cobertura: Lima|Arequipa|Cusco"
+    ws["B1"] = "Cobertura: Lima|Madrid|Bogota"
     print(ws["A1"].value.isoformat())
     print("anchor", ws["B1"].value)
     print("non_anchor_D1", ws["D1"].value)
 
 s20_ido_4()`,
           output: `2024-06-30
-anchor Cobertura: Lima|Arequipa|Cusco
+anchor Cobertura: Lima|Madrid|Bogota
 non_anchor_D1 None`,
         },
         why:
@@ -505,7 +505,7 @@ non_anchor_D1 None`,
         environment: "local-python",
         description: "Conciliar total de portada con detalle y pivot por región",
         preamble:
-          "Un total de portada que no cuadra con el detalle es el error típico de cierre de mes. Aquí el detalle Lima/Lima/Arequipa/Cusco suma 35.5 y el pivot materializa sumas por región. Observa el dict del pivot y el booleano `reconcile True`. Sin este control, el paquete viaja a S21 con números “optimistas”.",
+          "Un total de portada que no cuadra con el detalle es el error típico de cierre de mes. Aquí el detalle Lima/Lima/Madrid/Bogota suma 35.5 y el pivot materializa sumas por región. Observa el dict del pivot y el booleano `reconcile True`. Sin este control, el paquete viaja a S21 con números “optimistas”.",
         code: {
           language: 'python',
           title: "demo_reconcile.py",
@@ -513,7 +513,7 @@ non_anchor_D1 None`,
     import pandas as pd
 
     det = pd.DataFrame({
-        "region": ["Lima", "Lima", "Arequipa", "Cusco"],
+        "region": ["Lima", "Lima", "Madrid", "Bogota"],
         "monto": [10.0, 12.0, 8.0, 5.5],
     })
     portada = 35.5
@@ -522,7 +522,7 @@ non_anchor_D1 None`,
     print("reconcile", abs(det["monto"].sum() - portada) < 0.01)
 
 s20_ido_5()`,
-          output: `{'Arequipa': 8.0, 'Cusco': 5.5, 'Lima': 22.0}
+          output: `{'Madrid': 8.0, 'Bogota': 5.5, 'Lima': 22.0}
 reconcile True`,
         },
         why:
@@ -536,16 +536,16 @@ reconcile True`,
         environment: "local-python",
         description: "Validar headers y dominio de región antes de escribir salida",
         preamble:
-          "Headers exactos y dominios de región son el schema del workbook del VP. En esta demo los headers coinciden, pero Piura e Ica no están en la allowlist Lima/Cusco/Arequipa: se listan violators y se aborta. Observa las tres líneas. Un `structural_ok False` debe ir al manifest, no solo a un print fugaz.",
+          "Headers exactos y dominios de región son el schema del workbook del VP. En esta demo los headers coinciden, pero Barcelona e Ica no están en la allowlist Madrid/Bogota/Berlin: se listan violators y se aborta. Observa las tres líneas. Un `structural_ok False` debe ir al manifest, no solo a un print fugaz.",
         code: {
           language: 'python',
           title: "demo_validate.py",
           code: `def s20_ido_6():
     expected = ["region", "monto", "n"]
     got = ["region", "monto", "n"]
-    allowed = {"Lima", "Cusco", "Arequipa"}
+    allowed = {"Lima", "Bogota", "Madrid"}
     rows = [
-        {"region": "Piura", "monto": 1.0, "n": 1},
+        {"region": "Barcelona", "monto": 1.0, "n": 1},
         {"region": "Ica", "monto": 1.0, "n": 1},
     ]
     print("headers_ok", got == expected)
@@ -555,7 +555,7 @@ reconcile True`,
 
 s20_ido_6()`,
           output: `headers_ok True
-bad_regions ['Piura', 'Ica']
+bad_regions ['Barcelona', 'Ica']
 abort True`,
         },
         why:
@@ -625,7 +625,7 @@ def build_output(rows):
     lines = ["region,monto"] + [f"{r},{m}" for r, m in sorted(rows)]
     return "\\n".join(lines) + "\\n"
 
-rows = [("Lima", 10), ("Cusco", 5)]
+rows = [("Lima", 10), ("Bogota", 5)]
 o1 = build_output(rows)
 o2 = build_output(list(reversed(rows)))
 manifest = {
@@ -1252,9 +1252,9 @@ print(abs(det - portada) < 0.01)`,
         kind: "independent",
         title: "Pivot lógico: groupby sum por región",
         preamble:
-          "- **Contexto:** el factory materializa el pivot en pandas y lo pega en `Salida`; no es un promedio de montos.\n- **Meta:** sumar montos por región con `groupby`.\n- **Éxito:** `{'Cusco': 7.0, 'Lima': 15.0}`.\n- **Límites:** no uses `mean`; no reordenes a mano el dict (el orden de groupby es el canónico del output).",
+          "- **Contexto:** el factory materializa el pivot en pandas y lo pega en `Salida`; no es un promedio de montos.\n- **Meta:** sumar montos por región con `groupby`.\n- **Éxito:** `{'Bogota': 7.0, 'Madrid': 15.0}`.\n- **Límites:** no uses `mean`; no reordenes a mano el dict (el orden de groupby es el canónico del output).",
         instruction:
-          "1. El starter imprime promedios (mean) — bug.\n2. Cambia a `.sum().to_dict()`.\n3. Imprime el dict resultante.\n4. Verifica mentalmente: Lima 10+5=15, Cusco 7.",
+          "1. El starter imprime promedios (mean) — bug.\n2. Cambia a `.sum().to_dict()`.\n3. Imprime el dict resultante.\n4. Verifica mentalmente: Madrid 10+5=15, Bogota 7.",
         hint: "groupby(...).sum().to_dict() — no mean.",
         hints: [
           "Usa sum, no mean.",
@@ -1263,25 +1263,25 @@ print(abs(det - portada) < 0.01)`,
         edgeCases: ["NaN monto"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si ves promedios (p. ej. 7.5 en Lima), usaste mean en vez de sum. El pivot lógico del factory materializa sumas por región: Lima 10+5=15 y Cusco 7 — el auditor no acepta un “KPI razonable” por error.",
+          "Si ves promedios (p. ej. 7.5 en Madrid), usaste mean en vez de sum. El pivot lógico del factory materializa sumas por región: Madrid 10+5=15 y Bogota 7 — el auditor no acepta un “KPI razonable” por error.",
         retrospective:
-          "Mean vs. sum es el bug silencioso del “KPI que se ve razonable”. El pivot del factory es suma por región, no promedio. Pregunta: ¿qué número incorrecto vería el VP en Lima si dejas mean? Luego (E3) empaquetar la regla en `reconcile(det, portada, tol)`.",
+          "Mean vs. sum es el bug silencioso del “KPI que se ve razonable”. El pivot del factory es suma por región, no promedio. Pregunta: ¿qué número incorrecto vería el VP en Madrid si dejas mean? Luego (E3) empaquetar la regla en `reconcile(det, portada, tol)`.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
           code: `# Ejercicio S20-T3-A-E2 · groupby sum
 # Pista: el starter usa mean; cambia a sum para el pivot lógico
 import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Cusco"], "monto": [10.0, 5.0, 7.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
 print(df.groupby("region")["monto"].mean().to_dict())`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `import pandas as pd
-df = pd.DataFrame({"region": ["Lima", "Lima", "Cusco"], "monto": [10.0, 5.0, 7.0]})
+df = pd.DataFrame({"region": ["Lima", "Lima", "Bogota"], "monto": [10.0, 5.0, 7.0]})
 print(df.groupby("region")["monto"].sum().to_dict())`,
-          output: `{'Cusco': 7.0, 'Lima': 15.0}`,
+          output: `{'Bogota': 7.0, 'Madrid': 15.0}`,
         },
       },
       {
@@ -1378,7 +1378,7 @@ print(expected == got)`,
         kind: "independent",
         title: "Listar regiones fuera de la allowlist",
         preamble:
-          "- **Contexto:** el factory aborta con la lista de violators, no con un bool silencioso que el auditor no puede auditar.\n- **Meta:** leer A2/A3 y devolver solo regiones no permitidas.\n- **Éxito:** `['Piura']` (Lima está permitida).\n- **Límites:** no imprimas todas las regiones; no inviertas el predicado hacia las válidas.",
+          "- **Contexto:** el factory aborta con la lista de violators, no con un bool silencioso que el auditor no puede auditar.\n- **Meta:** leer A2/A3 y devolver solo regiones no permitidas.\n- **Éxito:** `['Barcelona']` (Madrid está permitida).\n- **Límites:** no imprimas todas las regiones; no inviertas el predicado hacia las válidas.",
         instruction:
           "1. El starter hace `print(regs)` sin filtrar.\n2. Filtra con `r not in allowed`.\n3. Imprime la lista de violators.\n4. Case-sensitive: no normalices a lower en este ejercicio.",
         hint: "Lee `.value` de A2 y A3; filtra con `r not in allowed`.",
@@ -1389,9 +1389,9 @@ print(expected == got)`,
         edgeCases: ["case sensitivity", "celda vacía"],
         tests: "salida coincide con solution output",
         feedback:
-          "Si imprimiste `['Lima', 'Piura']`, no filtraste. Si imprimiste `['Lima']`, invertiste el predicado (allowed vs. violators). El factory aborta con la lista de violators, no con un bool silencioso: el auditor necesita nombres.",
+          "Si imprimiste `['Lima', 'Barcelona']`, no filtraste. Si imprimiste `['Lima']`, invertiste el predicado (allowed vs. violators). El factory aborta con la lista de violators, no con un bool silencioso: el auditor necesita nombres.",
         retrospective:
-          "Violators nombrados = evidencia auditable; un bool silencioso no le sirve al auditor. El error clásico es imprimir todas las regiones o invertir el predicado hacia las válidas. Pregunta: ¿debe salir Lima en la lista? Luego (E3) la misma regla en función reutilizable sobre filas dict.",
+          "Violators nombrados = evidencia auditable; un bool silencioso no le sirve al auditor. El error clásico es imprimir todas las regiones o invertir el predicado hacia las válidas. Pregunta: ¿debe salir Madrid en la lista? Luego (E3) la misma regla en función reutilizable sobre filas dict.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1401,8 +1401,8 @@ from openpyxl import Workbook
 wb = Workbook()
 ws = wb.active
 ws["A2"] = "Lima"
-ws["A3"] = "Piura"
-allowed = {"Lima", "Cusco"}
+ws["A3"] = "Barcelona"
+allowed = {"Lima", "Bogota"}
 regs = [ws["A2"].value, ws["A3"].value]
 print(regs)`,
         },
@@ -1413,11 +1413,11 @@ print(regs)`,
 wb = Workbook()
 ws = wb.active
 ws["A2"] = "Lima"
-ws["A3"] = "Piura"
-allowed = {"Lima", "Cusco"}
+ws["A3"] = "Barcelona"
+allowed = {"Lima", "Bogota"}
 regs = [ws["A2"].value, ws["A3"].value]
 print([r for r in regs if r not in allowed])`,
-          output: `['Piura']`,
+          output: `['Barcelona']`,
         },
       },
       {
@@ -1426,7 +1426,7 @@ print([r for r in regs if r not in allowed])`,
         kind: "transfer",
         title: "Validar filas y devolver violators",
         preamble:
-          "- **Contexto:** la validación de dominio se reutiliza en batch y en el manifest; debe devolver **quién** falló.\n- **Meta:** corregir el predicado para listar regiones fuera de `allowed`.\n- **Éxito:** `['Ica']` con fixture Lima+Ica y allowlist Lima/Cusco/Arequipa.\n- **Límites:** no devuelvas las válidas; no mutes `rows`.",
+          "- **Contexto:** la validación de dominio se reutiliza en batch y en el manifest; debe devolver **quién** falló.\n- **Meta:** corregir el predicado para listar regiones fuera de `allowed`.\n- **Éxito:** `['Ica']` con fixture Madrid+Ica y allowlist Madrid/Bogota/Berlin.\n- **Límites:** no devuelvas las válidas; no mutes `rows`.",
         instruction:
           "1. El starter filtra `in allowed` (invierte violators).\n2. Cambia a `not in allowed`.\n3. Imprime el resultado de la llamada dada.\n4. No hardcodees `['Ica']`.",
         hint: "Devuelve regiones **fuera** de allowed, no las válidas.",
@@ -1447,14 +1447,14 @@ print([r for r in regs if r not in allowed])`,
 # Pista: devuelve violators (fuera de allowed), no las válidas
 def validate_rows(rows, allowed):
     return [r["region"] for r in rows if r["region"] in allowed]
-print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Cusco", "Arequipa"}))`,
+print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Bogota", "Madrid"}))`,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
           code: `def validate_rows(rows, allowed):
     return [r["region"] for r in rows if r["region"] not in allowed]
-print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Cusco", "Arequipa"}))`,
+print(validate_rows([{"region": "Lima"}, {"region": "Ica"}], {"Lima", "Bogota", "Madrid"}))`,
           output: `['Ica']`,
         },
       },
@@ -1701,7 +1701,7 @@ print(manifest)`,
         feedback:
           "Sin `sorted(rows)`, el orden de entrada cambia el hash y la re-ejecución deja de ser idempotente. Ordena antes de hashear. Las dos listas deben ser el mismo multiconjunto de filas (solo cambia el orden): si no, el factory “cambia” el artefacto sin cambiar el negocio.",
         retrospective:
-          "Orden canónico = idempotencia lógica. Sin él, re-ejecutar “cambia” el artefacto y el factory pierde confianza en el cierre de mes. El error clásico es hashear el orden de lectura del sheet. Pregunta: ¿Lima/Cusco vs. Cusco/Lima debe cambiar el dig? Luego (E3) `structural_ok` con superset de sheets.",
+          "Orden canónico = idempotencia lógica. Sin él, re-ejecutar “cambia” el artefacto y el factory pierde confianza en el cierre de mes. El error clásico es hashear el orden de lectura del sheet. Pregunta: ¿Madrid/Bogota vs. Bogota/Madrid debe cambiar el dig? Luego (E3) `structural_ok` con superset de sheets.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
@@ -1712,7 +1712,7 @@ import hashlib
 def dig(rows):
     s = "\\n".join(f"{a},{b}" for a, b in rows)
     return hashlib.sha1(s.encode()).hexdigest()
-print(dig([("Lima", 1), ("Cusco", 2)]) == dig([("Cusco", 2), ("Lima", 1)]))`,
+print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
         },
         solutionCode: {
           language: 'python',
@@ -1722,7 +1722,7 @@ print(dig([("Lima", 1), ("Cusco", 2)]) == dig([("Cusco", 2), ("Lima", 1)]))`,
 def dig(rows):
     s = "\\n".join(f"{a},{b}" for a, b in sorted(rows))
     return hashlib.sha1(s.encode()).hexdigest()
-print(dig([("Lima", 1), ("Cusco", 2)]) == dig([("Cusco", 2), ("Lima", 1)]))`,
+print(dig([("Lima", 1), ("Bogota", 2)]) == dig([("Bogota", 2), ("Lima", 1)]))`,
           output: `True`,
         },
       },
@@ -1769,7 +1769,7 @@ print(structural_ok(["Entrada", "Salida", "Log"], ["Entrada", "Salida"]))`,
   youDo: {
     title: "Excel factory CP-N2-B",
     context:
-      "El VP de operaciones en Lima entrega plantillas sintéticas y espera un workbook de resultados auditable. Tu adaptador (excel factory de CP-N2-B) debe copiar la plantilla master sin dañarla, materializar KPIs en `Salida`, conciliar totales con tolerancia documentada (0.01 PEN) y dejar un **manifest** JSON de la corrida. Si la conciliación falla, **fail-closed**: no emitas el paquete hacia S21. Este *Tú haces* ensambla lo que practicaste en pedazos en *Hacemos juntos*.",
+      "El VP de operaciones en Madrid entrega plantillas sintéticas y espera un workbook de resultados auditable. Tu adaptador (excel factory de CP-N2-B) debe copiar la plantilla master sin dañarla, materializar KPIs en `Salida`, conciliar totales con tolerancia documentada (0.01 PEN) y dejar un **manifest** JSON de la corrida. Si la conciliación falla, **fail-closed**: no emitas el paquete hacia S21. Este *Tú haces* ensambla lo que practicaste en pedazos en *Hacemos juntos*.",
     objectives: [
       "Copiar plantilla master → path de salida (load_workbook / save)",
       "Leer/escribir sheets canónicos Entrada/Salida con openpyxl",
@@ -1793,7 +1793,7 @@ import shutil
 import hashlib
 import tempfile
 
-# Portfolio excel factory CP-N2-B (Lima sintético).
+# Portfolio excel factory CP-N2-B (Madrid sintético).
 # El esqueleto ya crea el master, lo copia a out/ y valida headers.
 # Completa los tres huecos: materialize_salida, reconcile y escritura del manifest.
 # Meta de corrida exitosa: master intacto (hash), reconcile_ok True, manifest.json en disco.
@@ -1831,7 +1831,7 @@ with tempfile.TemporaryDirectory() as tmp:
     ws.title = "Entrada"
     ws.append(["region", "monto"])
     ws.append(["Lima", 10.0])
-    ws.append(["Cusco", 5.0])
+    ws.append(["Bogota", 5.0])
     seed.save(master)
     master_sha_before = hashlib.sha1(master.read_bytes()).hexdigest()[:8]
 

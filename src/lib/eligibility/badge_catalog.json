@@ -555,8 +555,8 @@
     },
     {
       "badge_id": "progress_phase3_walked",
-      "version": "1.0.0",
-      "name": "Phase 3 — Mastery Walked",
+      "version": "1.1.0",
+      "name": "Phase 3 — Integrated Synthesis",
       "public_claim": "The learner has completed all 13 sections of PyArcana Phase 3 (Integrated Mastery): S40 through S52, including the You Do project, self-check, and section exam for each section.",
       "non_claims": [
         "Motivational marker only; NOT proof of mastery.",
@@ -3804,8 +3804,8 @@
     },
     {
       "badge_id": "integrated_data_analyst_practice",
-      "version": "1.0.0",
-      "name": "Integrated Data Analyst Practice",
+      "version": "1.1.0",
+      "name": "Integrated Data Analysis Practice",
       "public_claim": "The learner has independently synthesized Python data foundations, independent data preparation, applied analytical reasoning, and applied SQL query development into a single integrated Data Analyst-style project with a documented business framing, a reproducible pipeline, and an audience-tuned writeup.",
       "non_claims": [
         "Does not certify the learner as a Data Analyst at any seniority level (Junior, Mid, Senior, Lead, etc.).",
@@ -4217,8 +4217,8 @@
     },
     {
       "badge_id": "integrated_ml_engineering_practice",
-      "version": "1.0.0",
-      "name": "Integrated ML Engineering Practice",
+      "version": "1.1.0",
+      "name": "Integrated Applied ML Systems",
       "public_claim": "The learner has independently synthesized Python data foundations, applied analytical reasoning, responsible ML evaluation, RAG/LLM service development, and applied MLOps pipeline delivery into a single integrated ML-Engineering-style project with a deployed model, a drift-monitoring stub, and an audience-tuned handoff document.",
       "non_claims": [
         "Does not certify the learner as an AI/ML Engineer at any seniority level (Junior, Mid, Senior, Staff, Principal).",
@@ -4422,8 +4422,8 @@
     },
     {
       "badge_id": "integrated_automation_engineering_practice",
-      "version": "1.0.0",
-      "name": "Integrated Automation Engineering Practice",
+      "version": "1.1.0",
+      "name": "Integrated Automation Systems Practice",
       "public_claim": "The learner has independently synthesized Python data foundations, reliable automation development, and RAG/LLM service development into a single integrated Automation-Engineering-style project with a process-decomposition memo, a UI-change-resilient bot, and an audience-tuned handoff document.",
       "non_claims": [
         "Does not certify the learner as an RPA Developer at any seniority level (Junior, Mid, Senior, Lead).",
@@ -5543,8 +5543,8 @@
     },
     {
       "badge_id": "integrated_python_ai_capstone_integrated_mastery",
-      "version": "1.0.0",
-      "name": "Integrated Python and AI Capstone — Integrated Mastery",
+      "version": "1.1.0",
+      "name": "Integrated Python and AI Capstone — Synthesis",
       "public_claim": "The learner has completed and defended the three Phase 3 capstones (CP-N4-A, CP-N4-B, CP-N4-C) at rubric performance above the provisional floor, with a synthesis writeup demonstrating integrated-mastery-level capability across architecture decisions, LLMOps, multimodal systems, infrastructure-as-code, GPU computing, open-source practice, AI governance, data contracts, and tech leadership.",
       "non_claims": [
         "Does not certify the learner as a Master, Senior, Staff, Principal, or Distinguished Engineer.",

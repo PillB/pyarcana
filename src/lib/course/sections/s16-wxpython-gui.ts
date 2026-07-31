@@ -28,7 +28,7 @@ export const section16: CourseSection = {
       heading: "Mapa de la sección: del CSV tipado al quality gate",
       paragraphs: [
         "En S15 leíste clientes y transacciones con dtypes controlados. Imagina el lunes siguiente: alguien hace `monto.fillna(0)` «para que no falle el job». El KPI (indicador clave de desempeño) de ticket promedio se infla y, en la reunión de gerencia, nadie puede decir **cuántas filas se inventaron**.\n\nEn **S16** construyes el **quality gate de CP-N2-A** (la etapa A del capstone *Executive Data Quality & EDA* del nivel Competente) para que eso no pase. Abarca seis frentes: políticas de null, imputación limitada con indicadores, duplicados vs. conflictos, normalización y outliers. Suma contratos de schema/cross-field y una cuarentena con audit trail (rastro de auditoría append-only: solo se agregan eventos, nunca se modifican ni borran).",
-        "Regla de oro: **nunca “arreglar” en silencio**. Toda transformación deja una métrica, un indicador o una fila en cuarentena. **Fail-closed** significa que, si el contrato se rompe, el job **no** aprueba en silencio: publica métricas y termina con error (exit code ≠ 0). Los datos son sintéticos — regiones Lima/Arequipa/Cusco, prefijos `S/`, ids `C00x` — y nunca incluyen PII real ni DNI de personas.",
+        "Regla de oro: **nunca “arreglar” en silencio**. Toda transformación deja una métrica, un indicador o una fila en cuarentena. **Fail-closed** significa que, si el contrato se rompe, el job **no** aprueba en silencio: publica métricas y termina con error (exit code ≠ 0). Los datos son sintéticos — regiones Lima/Madrid/Cusco, prefijos `S/`, ids `C00x` — y nunca incluyen PII real ni DNI de personas.",
         "Orden pedagógico: **T1 Ausencia** (required/optional, indicadores, cap de imputación) → **T2 Duplicados** (exactos vs. conflictos, evidencia de clave) → **T3 Normalización** (strings, números, fechas y categorías; outliers) → **T4 Contratos** (schema, cross-field, métricas y audit). Solo pandas + stdlib de S01–S16. El conjunto limpio alimenta los joins y el portfolio de **S17**.",
       ],
       callout: {
@@ -121,7 +121,7 @@ s16_th_2()`,
       paragraphs: [
         "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
         "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
-        "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs. Arequipa. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
+        "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs. Madrid. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo.",
       ],
       code: {
         language: 'python',
@@ -131,7 +131,7 @@ s16_th_2()`,
 
     df = pd.DataFrame({
         "cliente_id": ["C001", "C001", "C002", "C002"],
-        "region": ["Lima", "Lima", "Cusco", "Arequipa"],
+        "region": ["Lima", "Lima", "Cusco", "Madrid"],
         "score": [0.9, 0.9, 0.5, 0.5],
     })
     exact = df.duplicated(keep=False)
@@ -218,7 +218,7 @@ evidence_cols ['cliente_id', 'score', 'src']`,
             s = s.replace(" ", "")
         return float(re.sub(r"[^0-9.\\-]", "", s) or "nan")
 
-    cat_map = {"LIM": "Lima", "AQP": "Arequipa", "CUZ": "Cusco"}
+    cat_map = {"LIM": "Lima", "MAD": "Madrid", "CUZ": "Cusco"}
 
     def parse_fecha(x):
         # Multi-formato documentado: prueba formatos; no adivines con un solo format.
@@ -230,7 +230,7 @@ evidence_cols ['cliente_id', 'score', 'src']`,
         return pd.NaT
 
     df = pd.DataFrame({
-        "region_raw": [" lima ", "LIM", "AREQUIPA"],
+        "region_raw": [" lima ", "LIM", "MADRID"],
         "monto_raw": ["S/ 10.50", "3,00", "1.250,5"],
         "fecha_raw": ["01/03/2024", "2024-03-15", "15-03-2024"],
     })
@@ -242,7 +242,7 @@ evidence_cols ['cliente_id', 'score', 'src']`,
     print("fechas", df["fecha"].dt.strftime("%Y-%m-%d").tolist())
 
 s16_th_5()`,
-        output: `{'region': ['Lima', 'Lima', 'Arequipa'], 'monto': [10.5, 3.0, 1250.5]}
+        output: `{'region': ['Lima', 'Lima', 'Madrid'], 'monto': [10.5, 3.0, 1250.5]}
 fechas ['2024-03-01', '2024-03-15', '2024-03-15']`,
       },
       callout: {
@@ -437,7 +437,7 @@ s16_ido_2()`,
         environment: "local-python",
         description: "Detectar duplicados exactos vs. conflictos de región por cliente_id",
         preamble:
-          "En un maestro de clientes, C001 se repite idéntico y C002 aparece con Cusco y Arequipa. Si haces `drop_duplicates` ciego, puedes borrar el único rastro del conflicto. En esta demo no escribas: cuenta mentalmente filas exactas y lista de ids en conflicto, luego compara con la salida. Observa que la acción de limpieza **depende** de la clase.",
+          "En un maestro de clientes, C001 se repite idéntico y C002 aparece con Cusco y Madrid. Si haces `drop_duplicates` ciego, puedes borrar el único rastro del conflicto. En esta demo no escribas: cuenta mentalmente filas exactas y lista de ids en conflicto, luego compara con la salida. Observa que la acción de limpieza **depende** de la clase.",
         code: {
           language: 'python',
           title: "demo_dups.py",
@@ -445,7 +445,7 @@ s16_ido_2()`,
     import pandas as pd
     df = pd.DataFrame({
         "cliente_id": ["C001", "C001", "C002", "C002", "C003"],
-        "region": ["Lima", "Lima", "Cusco", "Arequipa", "Lima"],
+        "region": ["Lima", "Lima", "Cusco", "Madrid", "Lima"],
         "score": [0.5, 0.5, 0.7, 0.7, 0.9],
     })
     exact_n = int(df.duplicated(keep=False).sum())
@@ -513,7 +513,7 @@ quarantine {'cliente_id': ['C001', 'C001'], 'score': [0.9, 0.1], 'batch': ['b1',
         return float(s)
 
     df = pd.DataFrame({
-        "region_raw": [" lima", "AREQUIPA "],
+        "region_raw": [" lima", "MADRID "],
         "monto_raw": ["S/12.5", "3,00"],
     })
     df["region"] = df["region_raw"].str.strip().str.title()
@@ -521,7 +521,7 @@ quarantine {'cliente_id': ['C001', 'C001'], 'score': [0.9, 0.1], 'batch': ['b1',
     print(df.to_dict(orient="list"))
 
 s16_ido_5()`,
-          output: `{'region_raw': [' lima', 'AREQUIPA '], 'monto_raw': ['S/12.5', '3,00'], 'region': ['Lima', 'Arequipa'], 'monto': [12.5, 3.0]}`,
+          output: `{'region_raw': [' lima', 'MADRID '], 'monto_raw': ['S/12.5', '3,00'], 'region': ['Lima', 'Madrid'], 'monto': [12.5, 3.0]}`,
         },
         why: "Normalizar no es imputar: no inventas valores, solo canonicidad. Conservar raw al lado permite disputar el transform ante auditoría. El contrato de coma/punto evita convertir `3,00` en 300 y envenenar el ticket promedio. `strip` + `title` unifican regiones PE antes de mapas de sinónimos. En We Do practicarás cada pieza: strings, locale PEN y no-overwrite del raw.",
         retrospective:
@@ -1643,7 +1643,7 @@ print(metrics["pass"])`,
   youDo: {
     title: "Quality gate explicable ante schema drift",
     context:
-      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Arequipa y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- outliers de dominio e IQR (rango intercuartílico)\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
+      "Tú lo haces (You Do). Implementa una suite de checks (verificaciones) sobre un dataset sintético de clientes y transacciones. Las regiones son Lima, Madrid y Cusco; los montos son PEN ficticios.\n\nLa suite debe cubrir:\n\n- null policies required/optional (políticas de nulos obligatorias u opcionales por campo)\n- duplicados exactos vs. conflictos, con evidencia\n- normalización con columna raw (valor original) lateral\n- outliers de dominio e IQR (rango intercuartílico)\n- contratos de schema y cross-field (reglas entre columnas)\n- cuarentena con audit trail append-only (rastro de auditoría donde solo se agregan eventos)\n\nEl conjunto limpio alimenta S17 y CP-N2-A. El gate es fail-closed (fallar de forma segura): si el contrato se rompe, el job no aprueba en silencio. Nunca arregles un dato sin métrica ni uses PII real (datos personales identificables).\n\nAceptación mínima del fixture del starter:\n\n1. cliente_id null en la fila 3 → el gate detecta null_required y manda la fila a cuarentena. No uses fillna mágico.\n2. C001 con Lima y Cusco → el gate detecta conflict_region (o etiqueta similar). No uses drop_duplicates ciego.\n3. monto -1.0 en C003 → el gate detecta domain_error. No borres solo por IQR.\n4. Resultado del run → metrics.pass == False y el JSON contiene rows_in, rows_clean y rows_quarantine.",
     objectives: [
       "Suite de checks que falla explicablemente ante drift, null required y domain_error",
       "Cuantificar pérdida de filas/campos con metrics.rows_in / rows_clean / rows_quarantine",
@@ -1686,7 +1686,7 @@ def run_quality_gate(df: pd.DataFrame, schema: dict) -> dict[str, Any]:
 if __name__ == "__main__":
     df = pd.DataFrame({
         "cliente_id": ["C001", "C001", None, "C003"],
-        "region": ["Lima", "Cusco", "Lima", "Arequipa"],
+        "region": ["Lima", "Cusco", "Lima", "Madrid"],
         "monto": [10.0, 10.0, 5.0, -1.0],
     })
     schema = {"cliente_id": "required", "monto": "required", "region": "optional"}
