@@ -41,8 +41,20 @@ const CAPSTONE_IDS = ['rpa-automation', 'integrator-phase1', 'integrator-phase2'
 // 5 sub-steps that MUST be present in every section
 const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz']
 
+async function dismissTour(page: Page) {
+  try {
+    const skip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
+    await skip.waitFor({ state: 'visible', timeout: 2000 })
+    await skip.click()
+    await page.waitForTimeout(500)
+  } catch {
+    // Tour may not appear
+  }
+}
+
 async function openSection(page: Page, sectionId: string) {
   await page.goto(`${BASE_URL}/#${sectionId}`, { waitUntil: 'domcontentloaded' })
+  await dismissTour(page)
   await expect(page.getByTestId('section-root')).toHaveAttribute(
     'data-section-id',
     sectionId,
