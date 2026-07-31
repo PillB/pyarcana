@@ -42,6 +42,7 @@ const CAPSTONE_IDS = ['rpa-automation', 'integrator-phase1', 'integrator-phase2'
 const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz']
 
 async function dismissTour(page: Page) {
+  // Try clicking the skip button if the tour appeared
   try {
     const skip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
     await skip.waitFor({ state: 'visible', timeout: 2000 })
@@ -53,6 +54,10 @@ async function dismissTour(page: Page) {
 }
 
 async function openSection(page: Page, sectionId: string) {
+  // Set localStorage before navigation to prevent tour from appearing
+  await page.addInitScript(() => {
+    localStorage.setItem('pyarcana:tourCompleted', '1')
+  })
   await page.goto(`${BASE_URL}/#${sectionId}`, { waitUntil: 'domcontentloaded' })
   await dismissTour(page)
   await expect(page.getByTestId('section-root')).toHaveAttribute(

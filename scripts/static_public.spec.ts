@@ -2,11 +2,14 @@ import { expect, test } from '@playwright/test'
 
 test.describe('PyArcana public GitHub Pages edition', () => {
   test.beforeEach(async ({ page }) => {
+    // Set localStorage before navigation to prevent tour from appearing
+    await page.addInitScript(() => {
+      localStorage.setItem('pyarcana:tourCompleted', '1')
+    })
     await page.goto('/pyarcana/')
     // Wait for page to hydrate — the heading may take time on CI
     await page.waitForLoadState('domcontentloaded')
     // Dismiss the interactive tour if it appears (first-visit overlay)
-    // The tour uses a Dialog or Popover with Skip/Saltar button
     try {
       const tourSkip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
       await tourSkip.waitFor({ state: 'visible', timeout: 3000 })

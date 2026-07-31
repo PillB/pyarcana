@@ -97,6 +97,10 @@ test.describe('Code rendering fidelity', () => {
     const manifest: ManifestEntry[] = []
     let surfaceNumber = 0
 
+    // Set localStorage before navigation to prevent tour from appearing
+    await page.addInitScript(() => {
+      localStorage.setItem('pyarcana:tourCompleted', '1')
+    })
     await page.goto('/#setup', { waitUntil: 'domcontentloaded' })
     // Dismiss interactive tour if present
     try {
