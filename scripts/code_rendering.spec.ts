@@ -91,7 +91,7 @@ async function captureSurface(
 
 test.describe('Code rendering fidelity', () => {
   test('S01-S52 code, terminal, output, and playground text matches its source', async ({ page }, testInfo) => {
-    test.setTimeout(480_000)
+    test.setTimeout(300_000)
     const outputDir = testInfo.outputPath('code-fidelity')
     await mkdir(outputDir, { recursive: true })
     const manifest: ManifestEntry[] = []
