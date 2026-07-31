@@ -705,9 +705,10 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-300" />
             <span>
               {english
-                ? 'PyArcana is an educational project. Badges and section completions are markers of practice, not professional certifications or employment guarantees. Read:'
-                : 'PyArcana es un proyecto educativo. Los badges y completados de sección son marcadores de práctica, no certificaciones profesionales ni garantías de empleo. Lee:'}
+                ? 'Badges show what you practised. Verified credentials show what you demonstrated. See:'
+                : 'Los badges muestran lo que practicaste. Las credenciales verificadas muestran lo que demostraste. Lee:'}
             </span>
+            <Link href="/credential-policy" className="font-medium text-foreground underline-offset-2 hover:underline">Política de credenciales</Link>·
             <Link href="/privacy" className="font-medium text-foreground underline-offset-2 hover:underline">Privacidad</Link>·
             <Link href="/terms" className="font-medium text-foreground underline-offset-2 hover:underline">Términos</Link>·
             <Link href="/cookies" className="font-medium text-foreground underline-offset-2 hover:underline">Cookies</Link>·
@@ -773,25 +774,17 @@ function BadgeExplainer({ isSignedIn, english }: { isSignedIn: boolean; english:
             <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-rose-700 dark:text-rose-300">
                 <HelpCircle className="h-4 w-4" />
-                {english ? 'What a badge does NOT prove' : 'Lo que un badge NO prueba'}
+                {english ? 'Credential boundaries' : 'Límites de la credencial'}
               </h3>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
-                <li>
-                  {english
-                    ? 'It is not a professional certification or accredited credential.'
-                    : 'No es una certificación profesional ni una credencial acreditada.'}
-                </li>
-                <li>
-                  {english
-                    ? 'It does not guarantee employment, interviews or salary.'
-                    : 'No garantiza empleo, entrevistas ni salario.'}
-                </li>
-                <li>
-                  {english
-                    ? 'It is not equivalent to third-party credentials (CS50, AWS, Google, Microsoft, etc.).'
-                    : 'No es equivalente a credenciales de terceros (CS50, AWS, Google, Microsoft, etc.).'}
-                </li>
-              </ul>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {english
+                  ? 'Badges and verified credentials describe evidence demonstrated within the course. They do not constitute accredited professional certification or guarantee employment. See the '
+                  : 'Los badges y credenciales verificadas describen evidencia demostrada dentro del curso. No constituyen certificación profesional acreditada ni garantizan empleo. Consulta la '}
+                <Link href="/credential-policy" className="font-medium text-foreground underline-offset-2 hover:underline">
+                  {english ? 'credential policy' : 'política de credenciales'}
+                </Link>
+                {english ? ' for details.' : ' para más detalles.'}
+              </p>
             </div>
           </div>
 
