@@ -7,7 +7,7 @@
 - **Problema:** Producir un paquete analítico reproducible con diccionario, profiling, missingness, reconciliación, distribuciones, comparaciones por segmento, outliers con justificación, supuestos, limitaciones y memo ejecutivo que distinga observación/asociación/hipótesis/recomendación/limitación.
 
 ## Prerrequisitos
-CP-N1-C. S14 (seguridad), S15 (stdlib deep), S16 (wxPython GUI), S17 (packaging).
+CP-N1-C. S14 (NumPy y cómputo vectorizado), S15 (stdlib deep), S16 (wxPython GUI), S17 (packaging).
 
 ## Secciones que contribuyen
 S14, S15, S16, S17

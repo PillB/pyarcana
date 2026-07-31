@@ -8,7 +8,7 @@ export const section32: CourseSection = {
   tagline:
     "Tabla de features versionada con train≡serve, sin futuro ni labels de decisión. Ritmo sugerido: ~10–12 h de núcleo (T1–T4 + labs E1), 14–16 h con E2/E3 y You Do, 18 h si profundizas skew y versionado hacia S33.",
   estimatedHours: 18,
-  level: "Competente a experto",
+  level: "Integración avanzada",
   phase: 2,
   icon: "TableProperties",
   accentColor: "bg-gradient-to-br from-indigo-500 to-violet-800",

@@ -7,7 +7,7 @@ export const section42: CourseSection = {
   shortTitle: "Schemas y seguridad",
   tagline: "Threat model y pruebas de permisos: un usuario no lee el caso de otro ni recupera datos redactados",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Share2",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

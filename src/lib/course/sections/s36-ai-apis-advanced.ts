@@ -7,7 +7,7 @@ export const section36: CourseSection = {
  shortTitle: "Clustering y anomalías",
  tagline: "Señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida.",
  estimatedHours: 19,
- level: "Competente a experto",
+ level: "Integración avanzada",
  phase: 2,
  icon: "ScanSearch",
  accentColor: "bg-gradient-to-br from-indigo-400 to-violet-900",

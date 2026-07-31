@@ -7,7 +7,7 @@ export const section43: CourseSection = {
   shortTitle: "Contenedores",
   tagline: "Governed Python Service Platform: un comando, tests/health, non-root, configuración y recuperación documentadas.",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Package",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

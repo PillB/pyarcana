@@ -7,7 +7,7 @@ export const section50: CourseSection = {
   shortTitle: "Evals y red team",
   tagline: "Suite repetible baseline/candidato con holdout, jueces calibrados, red team y SLO: bloquea regresiones P0/P1 y tool misuse en la trayectoria",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

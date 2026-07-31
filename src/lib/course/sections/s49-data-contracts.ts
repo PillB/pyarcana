@@ -7,7 +7,7 @@ export const section49: CourseSection = {
   shortTitle: "Agentes y tools",
   tagline: "Agente acotado que consulta casos y reportes y prepara propuestas; no envía, no modifica prod ni decide riesgo sin aprobación.",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "FileCheck",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

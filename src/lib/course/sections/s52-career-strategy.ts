@@ -7,7 +7,7 @@ export const section52: CourseSection = {
   shortTitle: "Capstone FINAL",
   tagline: "CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV",
   estimatedHours: 80,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Rocket",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

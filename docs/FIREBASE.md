@@ -10,7 +10,7 @@ User-generated data is **mirrored** to **Cloud Firestore** when Firebase Admin c
 | Firebase project | `coderhouse-react-8063a` (alias `default`) |
 | Display name | Coderhouse-React |
 | Firestore DB | `(default)` — **FIRESTORE_NATIVE**, location `nam5`, free tier |
-| Authenticated CLI user | `pillescasdies@gmail.com` |
+| Authenticated CLI user | `(redacted — maintainer email, not for public disclosure)` |
 
 Also created (empty, **billing required** for Firestore): project `pyarcana`. Switch later with:
 

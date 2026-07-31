@@ -8,7 +8,7 @@ export const section27: CourseSection = {
   tagline:
     "Convertir supuestos de normalización y matching en contratos ejecutables con pytest; cada bug reproducido deja un test de regresión",
   estimatedHours: 19,
-  level: "Senior",
+  level: "Integración avanzada",
   phase: 2,
   icon: "FlaskConical",
   accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",

@@ -8,7 +8,7 @@ export const section34: CourseSection = {
   tagline:
     "De scores del baseline a una cola humana calibrada: métricas honestas, thr versionado y abstención — nunca autofraude",
   estimatedHours: 18,
-  level: "Competente a experto",
+  level: "Integración avanzada",
   phase: 2,
   icon: "Gauge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",

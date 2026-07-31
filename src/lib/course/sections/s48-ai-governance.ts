@@ -7,7 +7,7 @@ export const section48: CourseSection = {
   shortTitle: "RAG con evidencia",
   tagline: "Asistente sobre documentos autorizados, citas verificables y abstención cuando el retrieval no sostiene la respuesta.",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Scale",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

@@ -7,7 +7,7 @@ export const section16: CourseSection = {
   shortTitle: "Calidad y contratos",
   tagline: "Suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
   estimatedHours: 18,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 1,
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

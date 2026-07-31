@@ -7,7 +7,7 @@ export const section46: CourseSection = {
   shortTitle: "Data eng producción",
   tagline: "Pipeline incremental y backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

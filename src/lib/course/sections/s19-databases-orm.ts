@@ -7,7 +7,7 @@ export const section19: CourseSection = {
  shortTitle: "Viz accesible",
  tagline: "Cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a la evidencia y versión no visual equivalente.",
  estimatedHours: 19,
- level: "Competente",
+ level: "Práctica independiente",
  phase: 1,
  icon: "BarChart3",
  accentColor: "bg-gradient-to-br from-teal-500 to-cyan-700",

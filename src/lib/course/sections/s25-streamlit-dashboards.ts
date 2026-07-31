@@ -7,7 +7,7 @@ export const section25: CourseSection = {
   shortTitle: "IA endpoints y prompts",
   tagline: "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
   estimatedHours: 19,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 1,
   icon: "Sparkles",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

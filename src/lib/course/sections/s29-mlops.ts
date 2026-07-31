@@ -8,7 +8,7 @@ export const section29: CourseSection = {
   tagline:
     "Almacén relacional del ER: fuentes, entidades, pares, decisiones append-only y evidencia — con constraints, consultas de cola y transacciones atómicas en SQLite de laboratorio",
   estimatedHours: 18,
-  level: "Competente a experto",
+  level: "Integración avanzada",
   phase: 2,
   icon: "Database",
   accentColor: "bg-gradient-to-br from-sky-500 to-blue-800",

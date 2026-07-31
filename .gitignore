@@ -81,3 +81,8 @@ playwright-report/
 
 # Local research only — never publish
 trainee_research_attempt/
+
+# Exemplar notebooks (full solutions) — NEVER publish
+# These are private reference notebooks for capstone exemplars.
+exemplars_private/
+exemplars_private/

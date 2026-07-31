@@ -7,7 +7,7 @@ export const section38: CourseSection = {
   shortTitle: "Concurrencia y resiliencia",
   tagline: "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
   estimatedHours: 19,
-  level: "Competente a experto",
+  level: "Integración avanzada",
   phase: 2,
   icon: "Activity",
   accentColor: "bg-gradient-to-br from-fuchsia-400 to-indigo-900",

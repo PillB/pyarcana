@@ -7,7 +7,7 @@ export const section40: CourseSection = {
   shortTitle: "Arquitectura y DDD",
   tagline: "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Network",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

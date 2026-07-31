@@ -7,7 +7,7 @@ export const section45: CourseSection = {
   shortTitle: "Cloud y colas",
   tagline: "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Cloud",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

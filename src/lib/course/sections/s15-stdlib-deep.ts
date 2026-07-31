@@ -7,7 +7,7 @@ export const section15: CourseSection = {
   shortTitle: "Pandas ingesta",
   tagline: "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
   estimatedHours: 18,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 1,
   icon: "Table2",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

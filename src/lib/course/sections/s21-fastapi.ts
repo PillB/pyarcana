@@ -7,7 +7,7 @@ export const section21: CourseSection = {
  shortTitle: "Reportes trazables",
  tagline: "Una corrida genera dashboard, DOCX/PDF y workbook con números reconciliados, provenance y revisión visual",
  estimatedHours: 18,
- level: "Competente",
+ level: "Práctica independiente",
  phase: 1,
  icon: "FileStack",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

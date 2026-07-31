@@ -7,7 +7,7 @@ export const section17: CourseSection = {
  shortTitle: "Joins · groupby · cierre",
  tagline: "Portfolio ejecutivo de calidad + EDA: dataset limpio, script reproducible, reconciliación y preguntas de negocio",
  estimatedHours: 18,
- level: "Competente",
+ level: "Práctica independiente",
  phase: 1,
  icon: "GitMerge",
  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

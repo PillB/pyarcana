@@ -8,7 +8,7 @@ export const section28: CourseSection = {
   tagline:
     "Suite que caza errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
   estimatedHours: 19,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 2,
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",

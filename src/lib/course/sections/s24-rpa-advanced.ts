@@ -7,7 +7,7 @@ export const section24: CourseSection = {
   shortTitle: "OCR Document AI",
   tagline: "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
   estimatedHours: 19,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 1,
   icon: "Bot",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

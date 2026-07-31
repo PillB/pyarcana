@@ -7,7 +7,7 @@
 - **Problema:** Construir un tablero accesible con plantillas reutilizables, exportación de tablas y gráficos, lógica de filtros, trazabilidad fuente-claim, indicadores de frescura, estados de error y vacío, etiquetas accesibles, operación por teclado, salida PDF, y verificaciones automatizadas.
 
 ## Prerrequisitos
-CP-N2-A. S18 (data engineering), S19 (databases/ORM), S20 (RAG (esto es, Generación Aumentada por Recuperación: antes de responder, el sistema busca documentos y cita de dónde sacó cada afirmación)), S21 (FastAPI).
+CP-N2-A. S18 (data engineering), S19 (Visualización y comunicación accesible), S20 (RAG (esto es, Generación Aumentada por Recuperación: antes de responder, el sistema busca documentos y cita de dónde sacó cada afirmación)), S21 (FastAPI).
 
 ## Secciones que contribuyen
 S18, S19, S20, S21

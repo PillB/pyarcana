@@ -7,7 +7,7 @@ export const section23: CourseSection = {
   shortTitle: "Playwright RPA",
   tagline: "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y retries selectivos con handoff",
   estimatedHours: 19,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 1,
   icon: "Monitor",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

@@ -7,7 +7,7 @@ export const section41: CourseSection = {
   shortTitle: "API FastAPI",
   tagline: "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Server",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

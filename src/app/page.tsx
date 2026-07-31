@@ -108,13 +108,22 @@ export default function Home() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } else {
-      setActiveSectionId(id)
+      // Accept both slug IDs ("setup") and S## IDs ("S04") from the capstones
+      // catalog gateSection field. Map S## to the section with matching index.
+      let resolvedId = id
+      const sMatch = /^S(\d{2})$/i.exec(id)
+      if (sMatch) {
+        const idx = parseInt(sMatch[1], 10)
+        const found = COURSE_SECTIONS.find((s) => s.index === idx)
+        if (found) resolvedId = found.id
+      }
+      setActiveSectionId(resolvedId)
       setView('section')
-      updateUrl(id, 'section')
+      updateUrl(resolvedId, 'section')
       // Scroll restore/top is handled by SectionView on section.id change.
       // Force top only when opening a section with no registered offset.
       if (typeof window !== 'undefined') {
-        const saved = sessionStorage.getItem(`pyarcana:sectionScroll:${id}`)
+        const saved = sessionStorage.getItem(`pyarcana:sectionScroll:${resolvedId}`)
         if (saved == null || Number(saved) <= 0) {
           window.scrollTo({ top: 0, behavior: 'smooth' })
         }

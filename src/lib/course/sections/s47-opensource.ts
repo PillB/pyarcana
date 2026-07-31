@@ -7,7 +7,7 @@ export const section47: CourseSection = {
   shortTitle: "MLOps serving",
   tagline: "Production Data/ML Platform: del experimento al servicio con gates, lineage y rollback (CF-4)",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "Server",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

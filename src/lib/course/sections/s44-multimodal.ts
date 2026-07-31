@@ -7,7 +7,7 @@ export const section44: CourseSection = {
   shortTitle: "CI/CD supply chain",
   tagline: "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
   estimatedHours: 20,
-  level: "Master",
+  level: "Producción gobernada",
   phase: 3,
   icon: "GitBranch",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",

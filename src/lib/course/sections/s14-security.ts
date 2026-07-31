@@ -7,7 +7,7 @@ export const section14: CourseSection = {
   shortTitle: "NumPy vectorizado",
   tagline: "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
   estimatedHours: 18,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 1,
   icon: "Binary",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",

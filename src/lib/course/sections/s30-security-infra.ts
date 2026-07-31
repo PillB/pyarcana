@@ -7,7 +7,7 @@ export const section30: CourseSection = {
   shortTitle: "ER probabilístico",
   tagline: "Motor de entity resolution testeable: benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
   estimatedHours: 18,
-  level: "Competente",
+  level: "Práctica independiente",
   phase: 2,
   icon: "GitMerge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
