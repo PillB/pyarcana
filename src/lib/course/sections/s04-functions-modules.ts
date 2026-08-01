@@ -1817,7 +1817,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué produce list(range(3))?",
-        options: ["[1,2,3]", "[0,1,2,3]", "[3]", "[0,1,2]"],
+        options: ["1,2,3 (empieza en 1)", "0,1,2,3 (incluye el stop)", "3 (solo el argumento)", "0,1,2 (empieza en 0, excluye stop)"],
         correctIndex: 3,
         explanation:
           "`range(stop)` empieza en 0 y se detiene antes de `stop`. Por eso tres posiciones son 0, 1 y 2; el valor 3 sería una cuarta posición. Este límite exclusivo encaja con los índices válidos de una lista de longitud 3.",

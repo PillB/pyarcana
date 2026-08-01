@@ -2270,7 +2270,7 @@ if __name__ == "__main__":
       },
       {
         question: '¿En qué archivo se configura Ruff para un proyecto?',
-        options: ['ruff.json', '.ruffrc', 'setup.cfg', 'pyproject.toml (sección [tool.ruff])'],
+        options: ['ruff.json', '.ruffrc', 'setup.cfg', 'pyproject.toml (sección tool.ruff)'],
         correctIndex: 3,
         explanation:
           'Ruff lee `[tool.ruff]` y `[tool.ruff.lint]` desde `pyproject.toml`. Al versionar esa configuración, el editor, la terminal y CI comparten el mismo criterio; una preferencia local se convierte en un contrato comprobable del repo.',

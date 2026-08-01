@@ -1928,7 +1928,7 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
-        options: ["[1,2]", "[3,4]", "[4]", "Error"],
+        options: ["1,2 (primeros dos)", "3,4 (ultimos dos)", "4 (solo el ultimo)", "Error"],
         correctIndex: 1,
         explanation:
           "`-2` señala el penúltimo elemento y `:` pide una ventana desde allí hasta el final, por eso obtienes `[3, 4]`. La opción `[4]` confunde slice con índice; `xs[-1]` sí devolvería un solo valor. El slice conserva una lista y no modifica `xs`.",
@@ -1977,7 +1977,7 @@ if __name__ == "__main__":
       },
       {
         question: "Si falta la clave `\"x\"` en el dict `d`, ¿qué diferencia hay entre `d.get(\"x\", \"N/A\")` y `d[\"x\"]`?",
-        options: ["Ambos lanzan KeyError", "get lanza KeyError; d[\"x\"] devuelve None", "get devuelve \"N/A\"; d[\"x\"] lanza KeyError", "Ambos devuelven None siempre"],
+        options: ["Ambos lanzan KeyError", "get devuelve None; d x lanza KeyError", "get devuelve N/A; d x lanza KeyError", "Ambos devuelven None siempre"],
         correctIndex: 2,
         explanation:
           "`d.get(\"x\", \"N/A\")` modela una ausencia esperada y devuelve el default. `d[\"x\"]` expresa que la clave es obligatoria y lanza `KeyError` si falta. Elegir siempre `get` no es automáticamente más seguro: podría ocultar un error de programación donde el contrato exigía la clave.",

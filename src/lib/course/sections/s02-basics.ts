@@ -2271,7 +2271,7 @@ if __name__ == "__main__":
       },
       {
         question: 'Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?',
-        options: ['[1, 2]', '[3]', '[1, 2, 3]', 'Error'],
+        options: ['1, 2 (lista original)', '3 (solo el nuevo)', '1, 2, 3 (ambos nombres ven el cambio)', 'Error'],
         correctIndex: 2,
         explanation:
           '`b = a` crea otro nombre para la misma lista, no una copia. Por eso `append` aparece al mirar desde ambos nombres. `copy()` o `[:]` crea una lista independiente cuando esa es la intención.',

@@ -1771,7 +1771,7 @@ if __name__ == "__main__":
       },
       {
         question: "axis=0 en una reducción sobre una matriz 2D suele agregar:",
-        options: ["Por columna (colapsa filas)", "Por fila (colapsa columnas)", "Solo el elemento [0,0]", "Nada; axis solo existe en pandas"],
+        options: ["Por columna (colapsa filas)", "Por fila (colapsa columnas)", "Solo el elemento 0,0", "Nada; axis solo existe en pandas"],
         correctIndex: 0,
         explanation:
           "axis=0 reduce a lo largo de las filas → un valor por columna.",
