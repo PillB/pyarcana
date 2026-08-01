@@ -89,6 +89,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-PE" suppressHydrationWarning>
+      <head>
+        {/* ChunkLoadError guard — inlined directly in <head> so it runs BEFORE
+            any Next.js bundle. On a static export, next/script's
+            "beforeInteractive" strategy loads via the Next.js runtime, which
+            is too late if the runtime itself fails (the exact ChunkLoadError
+            case). Inlining here guarantees the window listener is registered
+            before webpack's chunk loader runs.
+            Auto-reloads with a 30s cooldown + max 3 reloads per session. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){if(typeof window==='undefined')return;try{var P=['ChunkLoadError','Loading chunk','Loading CSS chunk','Failed to fetch dynamically imported module','module factory is not available'];var K='pyarcana-chunk-guard-last-reload';var C='pyarcana-chunk-guard-reload-count';var CD=30000;var M=3;function m(x){if(!x)return false;x=String(x);for(var i=0;i<P.length;i++){if(x.indexOf(P[i])!==-1)return true}return false}function r(){try{var c=Number(window.sessionStorage.getItem(C)||0);if(c>=M)return;var l=Number(window.sessionStorage.getItem(K)||0);if(Date.now()-l<CD)return;window.sessionStorage.setItem(K,String(Date.now()));window.sessionStorage.setItem(C,String(c+1))}catch(e){}window.location.reload()}window.addEventListener('error',function(e){var x=(e.error&&e.error.message)||e.message;if(m(x)){e.preventDefault();r()}},true);window.addEventListener('unhandledrejection',function(e){var x=e.reason;var msg=(x&&x.message)||x;if(m(msg)){e.preventDefault();r()}})}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable} ${marcellus.variable} antialiased bg-background text-foreground`}
       >
