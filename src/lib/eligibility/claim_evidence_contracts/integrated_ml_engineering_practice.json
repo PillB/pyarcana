@@ -1,0 +1,47 @@
+{
+  "credential_id": "integrated_ml_engineering_practice",
+  "version": "1.1.0",
+  "status": "pilot",
+  "credential_class": "C",
+  "credential_class_name": "Integrated Capability Badge",
+  "public_name": "Integrated Applied ML Systems",
+  "capability_statement": "El aprendiz demostró transferencia integrada de ML Systems mediante un proyecto realista, recuperación de fallos, reproducibilidad y revisión independiente, bajo la especificación PyArcana 1.1.0.",
+  "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
+  "market_task_mappings": [],
+  "prerequisites": [
+    "python_data_foundations",
+    "applied_analytical_reasoning",
+    "responsible_machine_learning_evaluation",
+    "applied_rag_llm_service_development",
+    "applied_mlops_pipeline_delivery"
+  ],
+  "required_sections": [
+    "S09",
+    "S10",
+    "S20",
+    "S21",
+    "S23",
+    "S29",
+    "S43"
+  ],
+  "required_activities": [
+    "S09-YOUDO",
+    "S10-YOUDO",
+    "S20-YOUDO",
+    "S21-YOUDO",
+    "S23-YOUDO",
+    "S29-YOUDO",
+    "S43-YOUDO"
+  ],
+  "critical_gates": [
+    "leakage_prevention",
+    "mlops_fluency",
+    "reproducibility_determinism",
+    "communication_audience_tuned",
+    "business_framing_judgment"
+  ],
+  "non_compensatory": true,
+  "minimum_overall_score": 85,
+  "verification_mode": "server_verified",
+  "specification_hash": "sha256:integrated_ml_engineering_practice:1.1.0"
+}

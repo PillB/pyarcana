@@ -5032,7 +5032,7 @@
         ],
         "migration_path": "Learners with legacy progress receive an automatic 'progress_*' badge for each phase they completed. To earn any competency badge or capstone credential, they must (a) meet the badge's prerequisite_badges chain, (b) re-evaluate their existing You Do projects against the current rubric, (c) re-take any section exam scoring below 85%, and (d) complete the badge integrator project (and defense, for verified_credential). No shortcut."
       },
-      "verification_mode": "server_verified",
+      "verification_mode": "server_authoritative",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
       "newbie_friendly_description": "You completed all three Phase 0 capstones (CP-N1-A, CP-N1-B, CP-N1-C — these are the larger projects at the end of Foundations that pull together everything you learned about Python, data, automation, and visualization), passed them at the rubric floor, and wrote a synthesis document that connects them. 'Capstone credential' is heavier than a 'badge' — it requires synthesis across multiple sub-projects and a defense (an oral or written explanation of your choices). 'Foundational' here means 'can apply with guidance' — NOT 'can apply independently in a production setting'.",
@@ -5278,7 +5278,7 @@
         ],
         "migration_path": "Learners with legacy progress receive an automatic 'progress_*' badge for each phase they completed. To earn any competency badge or capstone credential, they must (a) meet the badge's prerequisite_badges chain, (b) re-evaluate their existing You Do projects against the current rubric, (c) re-take any section exam scoring below 85%, and (d) complete the badge integrator project (and defense, for verified_credential). No shortcut."
       },
-      "verification_mode": "server_verified",
+      "verification_mode": "server_authoritative",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
       "newbie_friendly_description": "You completed all three Phase 1 capstones (CP-N2-A, CP-N2-B, CP-N2-C — the integrator projects at the end of Independent Practitioner that pull together security, packaging, SQL, RAG, deep learning, and automation), passed them at the rubric floor, and wrote a synthesis document with explicit business framing. 'Independent practitioner' means you can do the work without step-by-step help, but you'd still ask a senior engineer to review your design before shipping it to production. NOTE: SQL performance tuning and leakage prevention are curriculum gaps, so they're not graded here.",
@@ -5526,7 +5526,7 @@
         ],
         "migration_path": "Learners with legacy progress receive an automatic 'progress_*' badge for each phase they completed. To earn any competency badge or capstone credential, they must (a) meet the badge's prerequisite_badges chain, (b) re-evaluate their existing You Do projects against the current rubric, (c) re-take any section exam scoring below 85%, and (d) complete the badge integrator project (and defense, for verified_credential). No shortcut."
       },
-      "verification_mode": "server_verified",
+      "verification_mode": "server_authoritative",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
       "newbie_friendly_description": "You completed all three Phase 2 capstones (CP-N3-A, CP-N3-B, CP-N3-C — the integrator projects at the end of Advanced Applied that pull together async Python, MLOps, security infrastructure, microservices, system design, and post-mortem practice), passed them at the rubric floor, and wrote a synthesis document with explicit business framing and metric design. 'Advanced applied' means you can diagnose problems in an existing system and design changes to fix them — but you'd still consult peers before setting strategy. A 'post-mortem' is a blameless writeup of what went wrong after an incident.",
@@ -5774,7 +5774,7 @@
         ],
         "migration_path": "Learners with legacy progress receive an automatic 'progress_*' badge for each phase they completed. To earn any competency badge or capstone credential, they must (a) meet the badge's prerequisite_badges chain, (b) re-evaluate their existing You Do projects against the current rubric, (c) re-take any section exam scoring below 85%, and (d) complete the badge integrator project (and defense, for verified_credential). No shortcut."
       },
-      "verification_mode": "server_verified",
+      "verification_mode": "server_authoritative",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
       "newbie_friendly_description": "You completed all three Phase 3 capstones (CP-N4-A, CP-N4-B, CP-N4-C — the integrator projects at the end of Phase 3 that pull together architecture decisions, LLMOps, multimodal systems, infrastructure-as-code, GPU computing, open-source practice, AI governance, data contracts, and tech leadership), passed them at the rubric floor, and wrote a synthesis document with explicit business framing, metric design, and tradeoff articulation. 'Integrated mastery' is PyArcana's curriculum-internal label for the highest cognitive-load level — it is NOT an industry title. You should NOT call yourself a 'Master Engineer' or 'Senior Engineer' on the basis of this credential alone; those are job titles that depend on the company.",
@@ -5979,7 +5979,7 @@
         ],
         "migration_path": "Learners with legacy progress receive an automatic 'progress_*' badge for each phase they completed. To earn any competency badge or capstone credential, they must (a) meet the badge's prerequisite_badges chain, (b) re-evaluate their existing You Do projects against the current rubric, (c) re-take any section exam scoring below 85%, and (d) complete the badge integrator project (and defense, for verified_credential). No shortcut."
       },
-      "verification_mode": "server_verified",
+      "verification_mode": "server_authoritative",
       "issuer": "PyArcana Industry Alignment Campaign (issuer of record: PyArcana maintainers)",
       "status": "active",
       "newbie_friendly_description": "You completed CP-FINAL — the cross-curriculum integrator capstone at S52 — and defended it against ALL EIGHT non-compensatory critical competencies in the PyArcana stack: SQL, leakage prevention, selector resilience, type safety + production hardening, MLOps fluency, business framing, communication, and reproducibility. 'Non-compensatory' means you cannot pass by being strong in seven and weak in one — all eight must meet the floor. This is the heaviest credential PyArcana issues. NOTE: It is NOT an industry certification (like AWS or Google Cloud certs). It is PyArcana's internal synthesis credential. NOTE: For competencies where the curriculum has gaps (leakage prevention, type safety, SQL performance tuning), you must demonstrate the competency via a supplementary independent exercise specified in the rubric.",

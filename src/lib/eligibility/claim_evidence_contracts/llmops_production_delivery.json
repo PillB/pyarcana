@@ -1,0 +1,36 @@
+{
+  "credential_id": "llmops_production_delivery",
+  "version": "1.0.0",
+  "status": "active",
+  "credential_class": "B",
+  "credential_class_name": "Assessed Skill Badge",
+  "public_name": "LLMOps Production Delivery",
+  "capability_statement": "The learner has independently demonstrated LLMOps production delivery — fine-tuning, graph-RAG, drift monitoring, observability — through You Do projects and section exams above the provisional floor.",
+  "boundary": "This assertion covers the capabilities and assessment conditions shown in its verification record.",
+  "market_task_mappings": [],
+  "prerequisites": [
+    "applied_rag_llm_service_development",
+    "applied_mlops_pipeline_delivery"
+  ],
+  "required_sections": [
+    "S41",
+    "S42",
+    "S43"
+  ],
+  "required_activities": [
+    "S41-YOUDO",
+    "S41-EXAM",
+    "S42-YOUDO",
+    "S42-EXAM",
+    "S43-YOUDO",
+    "S43-EXAM"
+  ],
+  "critical_gates": [
+    "mlops_fluency",
+    "reproducibility_determinism"
+  ],
+  "non_compensatory": true,
+  "minimum_overall_score": 85,
+  "verification_mode": "server_verified",
+  "specification_hash": "sha256:llmops_production_delivery:1.0.0"
+}

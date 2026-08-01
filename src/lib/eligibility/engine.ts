@@ -380,15 +380,19 @@ export class EligibilityEngine implements EligibilityEngineInterface {
       }
     }
 
-    // --- Gate 7: pilot badges require supplementary exercise for gap-affected competencies ---
-    if (spec.status === 'pilot') {
+    // --- Gate 7: gap-affected competencies require supplementary exercises ---
+    // Enforce for ALL badges (pilot and active) that have gap-affected
+    // critical competencies. The final capstone (evidence_grounded_ai_systems_capstone)
+    // has status='active' but still has 4 gap-affected competencies that require
+    // supplementary exercises. The gate must not depend solely on pilot status.
+    if (spec.gap_affected_competencies.length > 0) {
       for (const comp_id of spec.gap_affected_competencies) {
         const supp_id = `BADGE:${badge_id}:supplementary:${comp_id}`
         if (progress.project_results[supp_id] === undefined) {
           blockingReasons.push(
-            `This badge is at 'pilot' status because the curriculum has a known gap ` +
-              `in '${comp_id}'. You need to complete a supplementary exercise ` +
-              `(${supp_id}) before this badge can be awarded.`,
+            `This badge requires a supplementary exercise for gap-affected ` +
+              `competency '${comp_id}'. You need to complete ${supp_id} ` +
+              `before this badge can be awarded.`,
           )
           requirements.push({
             requirement_id: `supplementary_exercise:${comp_id}`,
