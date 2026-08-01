@@ -1,0 +1,47 @@
+{
+  "id": "CP-N2-A",
+  "version": "2.0.0",
+  "name": "Portafolio Ejecutivo de Calidad de Datos y EDA",
+  "level": 2,
+  "gate_section": "S17",
+  "scale": "0-3",
+  "criteria": {
+    "correctness": {
+      "weight": 0.35,
+      "focus": "Cumple el comportamiento principal en casos normales, de borde y de error."
+    },
+    "robustness": {
+      "weight": 0.2,
+      "focus": "Maneja entradas imperfectas y casos límite sin caer."
+    },
+    "maintainability": {
+      "weight": 0.25,
+      "focus": "Diseño limpio, modular, testeable y documentado."
+    },
+    "responsible_use": {
+      "weight": 0.2,
+      "focus": "Controles de seguridad, privacidad y uso responsable presentes."
+    }
+  },
+  "gate_rule": "Promedio ponderado >= 2.4/3 y ningún criterio crítico < 2; cero P0.",
+  "critical_failures": [
+    "Interpretación causal no soportada",
+    "Sin reproducibilidad",
+    "Sin memo ejecutivo",
+    "Sin limitaciones"
+  ],
+  "prohibitions": [
+    "No real PII",
+    "No hardcoded secrets",
+    "Synthetic or legally reusable data only",
+    "No unsupported adverse/fraud inference"
+  ],
+  "package_version": "2.0.0",
+  "tests_required": [
+    "profiling produce diccionario + distribuciones",
+    "missingness reportado por columna",
+    "no hay interpretación causal sin soporte",
+    "mismo seed → mismo reporte",
+    "memo tiene 5 categorías"
+  ]
+}

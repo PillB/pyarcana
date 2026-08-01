@@ -19,7 +19,7 @@
  *  - Fully keyboard-navigable and mobile-responsive.
  */
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -64,6 +64,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
+import { siteAsset } from '@/lib/runtime-mode'
 import { useI18n, t } from '@/lib/i18n'
 import {
   CAPSTONES,
@@ -659,7 +660,39 @@ function PathDialog({
   const tr = useTr()
   const { kind, cap } = state
   const title = kind === 'rubric' ? tr('capstones.viewRubric') : tr('capstones.viewBrief')
-  const path = cap ? (kind === 'rubric' ? cap.rubricPath : cap.briefPath) : ''
+  const capId = cap?.id || ''
+  const fileName = kind === 'rubric' ? `${capId}_RUBRIC.json` : `${capId}_BRIEF.md`
+  const fetchUrl = siteAsset(`/capstones/${fileName}`)
+  const [content, setContent] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!state.open || !capId) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setContent(null)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setError(null)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLoading(true)
+    fetch(fetchUrl)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.text()
+      })
+      .then(text => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setContent(text)
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLoading(false)
+      })
+      .catch(err => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setError(err.message)
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLoading(false)
+      })
+  }, [state.open, capId, kind, fetchUrl])
   return (
     <Dialog open={state.open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-lg">
@@ -682,12 +715,20 @@ function PathDialog({
         <div className="space-y-2 text-sm">
           <p className="text-muted-foreground">
             {kind === 'rubric'
-              ? 'La rúbrica de evaluación define los criterios y los bloqueantes críticos de este proyecto. Se encuentra en el repositorio del curso:'
-              : 'El brief describe el alcance, los entregables y el escenario del proyecto. Se encuentra en el repositorio del curso:'}
+              ? 'La rúbrica de evaluación define los criterios y los bloqueantes críticos de este proyecto.'
+              : 'El brief describe el alcance, los entregables y el escenario del proyecto.'}
           </p>
-          <pre className="overflow-x-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11px] text-foreground/90">
-            {path}
-          </pre>
+          {loading && (
+            <p className="text-muted-foreground">Cargando…</p>
+          )}
+          {error && (
+            <p className="text-rose-600 dark:text-rose-400">No se pudo cargar: {error}</p>
+          )}
+          {content && (
+            <pre className="max-h-80 overflow-y-auto rounded-md border border-border bg-muted/50 px-3 py-2 font-mono text-[11px] leading-relaxed text-foreground/90">
+              {content}
+            </pre>
+          )}
           <p className="text-xs text-muted-foreground">
             Estado de evidencia: <span className="font-medium text-foreground/80">{tr('capstones.notRegistered')}</span>. La rúbrica y el brief definen qué se espera; no constituyen por sí mismos una aprobación.
           </p>
