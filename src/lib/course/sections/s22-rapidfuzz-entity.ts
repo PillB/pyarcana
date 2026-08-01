@@ -2011,7 +2011,7 @@ print("audit_n", len(audit))
       },
       {
         label: "OAuth 2.0 RFC 6749",
-        url: "https://datatracker.ietf.org/doc/html/rfc6749",
+        url: "https://www.rfc-editor.org/rfc/rfc6749",
         note: "scopes y consentimiento",
       },
       {
@@ -2053,12 +2053,12 @@ print("audit_n", len(audit))
       },
       {
         label: "RFC 5322 — Internet Message Format",
-        url: "https://datatracker.ietf.org/doc/html/rfc5322",
+        url: "https://www.rfc-editor.org/rfc/rfc5322",
         note: "headers y estructura de mensajes",
       },
       {
         label: "RFC 2045 — MIME Part One",
-        url: "https://datatracker.ietf.org/doc/html/rfc2045",
+        url: "https://www.rfc-editor.org/rfc/rfc2045",
         note: "multiparte, encoding y Content-Type",
       },
       {

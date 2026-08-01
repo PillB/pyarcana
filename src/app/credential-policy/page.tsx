@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { LegalPage } from '@/components/legal/LegalPage'
 
 export default function CredentialPolicyPage() {
@@ -59,8 +60,11 @@ export default function CredentialPolicyPage() {
           <p className="text-sm text-muted-foreground">
             Las credenciales de PyArcana describen evidencia demostrada dentro del curso.
             No constituyen certificación profesional acreditada, licencia, ni garantía de
-            empleo. Para verificación de una credencial específica, consulta el registro
-            público de verificación.
+            empleo. Para verificación de una credencial específica, consulta el{' '}
+            <Link href="/verify" className="font-medium text-foreground underline-offset-2 hover:underline">
+              registro público de verificación
+            </Link>
+            .
           </p>
         </section>
 

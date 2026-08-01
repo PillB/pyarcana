@@ -2552,7 +2552,7 @@ assert not missing
       },
       {
         label: "OAuth 2.0 RFC 6749",
-        url: "https://datatracker.ietf.org/doc/html/rfc6749",
+        url: "https://www.rfc-editor.org/rfc/rfc6749",
         note: "Scopes y autorización",
       },
       {

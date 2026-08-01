@@ -2160,7 +2160,7 @@ assert status in {"READY", "BLOCKED"}
     docs: [
       {
         label: "OpenAI Cookbook — RAG",
-        url: "https://cookbook.openai.com/examples/parse_pdf_docs_for_rag",
+        url: "https://github.com/openai/openai-cookbook/blob/main/examples/Parse_PDF_docs_for_RAG.ipynb",
         note: "Patrones de ingesta, retrieval y grounding",
       },
       {

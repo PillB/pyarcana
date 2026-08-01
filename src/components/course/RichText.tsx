@@ -7,6 +7,7 @@ import { CodePlayground } from './CodePlayground'
 import { InlineAnnotated } from './InlineAnnotated'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
 import { GLOSSARY_TERMS, termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
+import { SITE_BASE_PATH } from '@/lib/runtime-mode'
 
 interface RichTextProps {
   content: string
@@ -257,10 +258,23 @@ function renderInline(text: string): string {
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   // italic
   out = out.replace(/\*([^*]+)\*/g, '<em>$1</em>')
-  // links [text](url)
+  // links [text](url) — basePath-aware: root-absolute URLs (e.g. "/security")
+  // get the SITE_BASE_PATH prefix so they resolve correctly under /pyarcana on
+  // GitHub Pages. External (http(s)://), protocol-relative (//), anchor (#),
+  // mailto:, and other schemes are left untouched.
   out = out.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline decoration-primary/40 hover:decoration-primary">$1</a>'
+    (_, text: string, url: string) => {
+      const trimmed = url.trim()
+      const isInternalRootAbsolute =
+        trimmed.startsWith('/') &&
+        !trimmed.startsWith('//') &&
+        !trimmed.startsWith('/#')
+      const href = isInternalRootAbsolute ? `${SITE_BASE_PATH}${trimmed}` : trimmed
+      const isExternal = /^https?:\/\//i.test(trimmed)
+      const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : ''
+      return `<a href="${href}"${targetAttr} class="text-primary underline decoration-primary/40 hover:decoration-primary">${text}</a>`
+    }
   )
   // Restore markers; escape only the inner matched text later via InlineAnnotated
   out = out.replace(/\u0001(\d+)\u0001/g, (_, i) => markers[Number(i)])
