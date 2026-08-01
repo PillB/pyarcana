@@ -41,6 +41,34 @@ export const metadata: Metadata = {
     shortcut: `${SITE_BASE_PATH}/favicon.svg`,
     apple: `${SITE_BASE_PATH}/logo.svg`,
   },
+  // Content-Security-Policy via <meta> tag. GitHub Pages doesn't support
+  // custom HTTP headers, so a <meta> tag is the only way to ship a CSP on the
+  // static export. Next.js static export uses inline scripts for hydration,
+  // so 'unsafe-inline' is required for script-src (this is a known Next.js
+  // limitation — see next.js discussion #91816). We still gain:
+  //   - object-src 'none': blocks Flash/Java/plugin-based XSS
+  //   - base-uri 'self': blocks <base> tag injection
+  //   - frame-ancestors 'none': blocks clickjacking (the site is not meant
+  //     to be framed)
+  //   - form-action 'self': blocks form submissions to external origins
+  //   - img-src/style-src/font-src restricted to self + the Pyodide CDN
+  //   - connect-src 'self' + Firebase + Pyodide CDN + GitHub Pages origin
+  // When the dynamic LMS ships, replace unsafe-inline with nonces/hashes.
+  other: {
+    "Content-Security-Policy": [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: https:",
+      "font-src 'self' data:",
+      "connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://cdn.jsdelivr.net",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
+    ].join("; "),
+  },
   openGraph: {
     title: "PyArcana · De cero a Data Analyst/Scientist",
     description: "PyArcana — curso online de Python para Data Analysis y Data Science en español peruano.",

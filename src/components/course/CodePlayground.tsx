@@ -27,6 +27,12 @@ function loadPyodide(): Promise<any> {
       script.id = 'pyodide-script'
       script.src = `${PYODIDE_CDN}pyodide.js`
       script.async = true
+      // Subresource Integrity: if the CDN is compromised or a MITM swaps the
+      // script, the browser will refuse to execute it. Hash computed from the
+      // exact bytes at the URL above (v0.26.2). Recompute when bumping
+      // PYODIDE_VERSION: `curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A`.
+      script.integrity = 'sha384-tVslJOEkg7nVRW3Y3/ReGX0NnonNrbcmt1R5qFbQXQdGa2chRkoJYHAjAsv3zoTq'
+      script.crossOrigin = 'anonymous'
       script.onload = async () => {
         try {
           // @ts-ignore - loadPyodide is injected by the script

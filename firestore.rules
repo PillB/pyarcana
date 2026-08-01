@@ -34,16 +34,30 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userIdField;
     }
     function isSupervisorOf(userIdField) {
-      // A supervisor may read learner data when there exists a cohortMembers
-      // document whose id is `${cohortId}__${supervisorUid}` and whose
-      // role == 'supervisor', AND another cohortMembers document whose id is
-      // `${cohortId}__${userIdField}` for the same cohortId.
+      // A supervisor may read learner data ONLY when the caller and the target
+      // learner are members of the SAME cohort, and the caller's membership
+      // record in that cohort has role == 'supervisor'.
+      //
+      // cohortMembers document IDs follow the convention `${cohortId}__${userId}`.
+      // We cannot do a join in Firestore rules, so we rely on the target
+      // document carrying a `cohortId` field (progress/examAttempts/badges all
+      // store the learner's cohortId at creation time). Given that cohortId, we
+      // check two things:
+      //   1. The caller has a cohortMembers doc in that cohort.
+      //   2. That doc has role == 'supervisor'.
+      //
+      // PREVIOUS BUG: the old implementation called exists() twice on the SAME
+      // path (the caller's own cohortMembers doc) — a no-op tautology that let
+      // ANY signed-in cohort member read ANY learner's data. This is fixed here.
+      //
+      // Note: this helper reads `cohortId` from `resource.data`, so it MUST be
+      // called in the context of a document that has a `cohortId` field
+      // (progress, examAttempts, exerciseAttempts, badges). For collections
+      // without cohortId, supervisor access is not granted.
       return isSignedIn()
-        && exists(/databases/$(database)/documents/cohortMembers/$(request.auth.uid))
-        ? exists(
-            /databases/$(database)/documents/cohortMembers/$(request.auth.uid)
-          )
-        : false;
+        && resource.data.cohortId is string
+        && exists(/databases/$(database)/documents/cohortMembers/$(resource.data.cohortId)__$(request.auth.uid))
+        && get(/databases/$(database)/documents/cohortMembers/$(resource.data.cohortId)__$(request.auth.uid)).data.role == 'supervisor';
     }
     function isAdmin() {
       return isSignedIn()

@@ -33,7 +33,20 @@ interface IssuedCredential {
 
 function getSigningKey(): string {
   const key = process.env.CREDENTIAL_SIGNING_KEY
-  if (!key) return 'dev-only-key-not-for-production-use'
+  if (!key) {
+    // Fail-fast in production: without a real signing key, every issued
+    // credential would be signed with the publicly-known dev fallback
+    // ('dev-only-key-not-for-production-use', visible in this repo), allowing
+    // anyone to forge valid-looking credentials offline. The dynamic LMS must
+    // not launch without setting this env var.
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(
+        'CREDENTIAL_SIGNING_KEY must be set in production. The dev fallback ' +
+          'was removed to prevent credential forgery on misconfigured deploys.'
+      )
+    }
+    return 'dev-only-key-not-for-production-use'
+  }
   return key
 }
 

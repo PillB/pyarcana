@@ -262,6 +262,12 @@ function renderInline(text: string): string {
   // get the SITE_BASE_PATH prefix so they resolve correctly under /pyarcana on
   // GitHub Pages. External (http(s)://), protocol-relative (//), anchor (#),
   // mailto:, and other schemes are left untouched.
+  //
+  // Security: the URL is HTML-attribute-escaped (quotes) to prevent breaking
+  // out of the href attribute, and a scheme allowlist rejects javascript:,
+  // data:, vbscript: URLs that would execute script in the click context.
+  //   [x](javascript:alert(1))      → link text rendered, href stripped
+  //   [x](http://evil" onmouseover="alert(1))  → quotes escaped, no injection
   out = out.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
     (_, text: string, url: string) => {
@@ -271,9 +277,17 @@ function renderInline(text: string): string {
         !trimmed.startsWith('//') &&
         !trimmed.startsWith('/#')
       const href = isInternalRootAbsolute ? `${SITE_BASE_PATH}${trimmed}` : trimmed
+      // Reject dangerous URL schemes that could execute script.
+      const isDangerousScheme = /^(javascript|data|vbscript|file):/i.test(trimmed)
+      if (isDangerousScheme) {
+        // Render the text but drop the href so nothing executes.
+        return `<span class="text-muted-foreground" title="enlace bloqueado por seguridad">${text}</span>`
+      }
+      // Escape quotes to prevent attribute-breakout XSS.
+      const safeHref = href.replace(/"/g, '&quot;')
       const isExternal = /^https?:\/\//i.test(trimmed)
       const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : ''
-      return `<a href="${href}"${targetAttr} class="text-primary underline decoration-primary/40 hover:decoration-primary">${text}</a>`
+      return `<a href="${safeHref}"${targetAttr} class="text-primary underline decoration-primary/40 hover:decoration-primary">${text}</a>`
     }
   )
   // Restore markers; escape only the inner matched text later via InlineAnnotated

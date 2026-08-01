@@ -29,6 +29,62 @@ interface ProgressState {
   }) => void
 }
 
+// ── Persisted-state sanitization ───────────────────────────────────────────
+// localStorage is user-writable and can be corrupted (intentionally by an
+// attacker on a shared computer, or accidentally by a buggy extension). If we
+// blindly trust the persisted JSON, malformed shapes (e.g.
+// `completedSections: 42` or `bookmarks: null`) crash the app on next load
+// with "a client-side exception has occurred" and the user cannot recover
+// without DevTools knowledge.
+//
+// This sanitizer coerces any persisted value back to a safe default shape
+// before Zustand hydrates the store. Corruption is logged to console (for
+// debugging) but never crashes the UI.
+function isStringArray(v: unknown): v is string[] {
+  return Array.isArray(v) && v.every((x) => typeof x === 'string')
+}
+function isStringRecord(v: unknown): v is Record<string, string[]> {
+  return (
+    typeof v === 'object' && v !== null && !Array.isArray(v) &&
+    Object.entries(v).every(
+      ([k, val]) => typeof k === 'string' && isStringArray(val)
+    )
+  )
+}
+function isNumberRecord(v: unknown): v is Record<string, number> {
+  return (
+    typeof v === 'object' && v !== null && !Array.isArray(v) &&
+    Object.entries(v).every(
+      ([k, val]) => typeof k === 'string' && typeof val === 'number' && !Number.isNaN(val)
+    )
+  )
+}
+
+function sanitizePersisted(raw: unknown): Partial<ProgressState> {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) {
+    console.warn('[progress-store] persisted state was not an object; resetting to defaults.')
+    return {}
+  }
+  const obj = raw as Record<string, unknown>
+  const out: Partial<ProgressState> = {}
+  if (isStringArray(obj.completedSections)) out.completedSections = obj.completedSections
+  else if ('completedSections' in obj) console.warn('[progress-store] completedSections invalid; ignoring.')
+  if (isStringRecord(obj.completedSubSteps)) out.completedSubSteps = obj.completedSubSteps
+  else if ('completedSubSteps' in obj) console.warn('[progress-store] completedSubSteps invalid; ignoring.')
+  if (isNumberRecord(obj.quizScores)) out.quizScores = obj.quizScores
+  else if ('quizScores' in obj) console.warn('[progress-store] quizScores invalid; ignoring.')
+  if (typeof obj.lastVisited === 'string' || obj.lastVisited === null) out.lastVisited = obj.lastVisited as string | null
+  if (isStringArray(obj.bookmarks)) out.bookmarks = obj.bookmarks
+  else if ('bookmarks' in obj) console.warn('[progress-store] bookmarks invalid; ignoring.')
+  if (typeof obj.startDate === 'string' || obj.startDate === null) out.startDate = obj.startDate as string | null
+  if (typeof obj.isHydratedFromServer === 'boolean') out.isHydratedFromServer = obj.isHydratedFromServer
+  return out
+}
+
+// Custom storage logic is inlined in the `storage` option below (direct
+// localStorage access) so TypeScript infers the correct return type without
+// the StateStorage union getting in the way.
+
 export const useProgressStore = create<ProgressState>()(
   persist(
     (set) => ({
@@ -103,7 +159,46 @@ export const useProgressStore = create<ProgressState>()(
           isHydratedFromServer: true,
         }),
     }),
-    { name: 'python-ds-progress' }
+    {
+      name: 'python-ds-progress',
+      storage: {
+        getItem: (name) => {
+          // Direct localStorage access (not via safeStorage) so TS infers
+          // string | null (not the StateStorage union with Promise).
+          if (typeof window === 'undefined') return null
+          let raw: string | null = null
+          try {
+            raw = window.localStorage.getItem(name)
+          } catch {
+            return null
+          }
+          if (!raw) return null
+          try {
+            const parsed = JSON.parse(raw)
+            if (typeof parsed !== 'object' || parsed === null) return null
+            const clean = sanitizePersisted((parsed as any).state)
+            return { state: clean, version: (parsed as any).version ?? 0 }
+          } catch (e) {
+            console.warn('[progress-store] failed to parse persisted state; resetting.', e)
+            return null
+          }
+        },
+        setItem: (name, value) => {
+          try {
+            window.localStorage.setItem(name, JSON.stringify(value))
+          } catch (e) {
+            console.warn('[progress-store] could not persist state (storage unavailable).', e)
+          }
+        },
+        removeItem: (name) => {
+          try {
+            window.localStorage.removeItem(name)
+          } catch {
+            // ignore
+          }
+        },
+      },
+    }
   )
 )
 
