@@ -26,6 +26,9 @@ The interface can be switched between Peruvian Spanish (`es-PE`), neutral Spanis
 | Accounts and server progress | No | Yes |
 | Server exam attempts | No | Yes |
 | Private feedback, pricing, admin | No | Yes |
+| Credential verification (`/verify`) | Static page | Full API |
+| Credential issuance (`/api/credentials/issue`) | No | Yes |
+| Credential policy (`/credential-policy`) | Yes | Yes |
 
 GitHub Pages cannot run Next.js API routes. The static build therefore removes API routes only from a disposable build copy and hides controls that would otherwise be dead or misleading. It never renames tracked source directories. The dynamic build preserves the full LMS.
 
@@ -55,6 +58,24 @@ NEXT_PUBLIC_BASE_PATH=/pyarcana bun run build:static
 ```
 
 The static command copies only the required application files into a temporary directory, excludes `src/app/api` there, runs the export, copies `out/` back, and removes the temporary directory in a `finally` block.
+
+## Credential system
+
+PyArcana uses a four-class credential taxonomy:
+
+| Class | Name | Evidence | Verification |
+|-------|------|----------|-------------|
+| A | Learning milestone | Browser-local completion | Local only |
+| B | Assessed skill badge | Independent practical task + hidden tests | Server-authoritative |
+| C | Integrated capability badge | Cross-section project + defense | Server-authoritative |
+| D | Verified PyArcana credential | Capstone + identity + HMAC signature | Public verification |
+
+- Credential policy: [`/credential-policy`](https://pillb.github.io/pyarcana/credential-policy)
+- Public verification: [`/verify`](https://pillb.github.io/pyarcana/verify)
+- Badge catalog: [`src/lib/eligibility/badge_catalog.json`](./src/lib/eligibility/badge_catalog.json) (31 badges, 5 Class A, 16 Class B, 5 Class C, 5 Class D)
+- Claim-evidence contracts: [`src/lib/eligibility/claim_evidence_contracts/`](./src/lib/eligibility/claim_evidence_contracts/) (31 executable contracts)
+
+Credentials describe evidence demonstrated within the course. They do not constitute accredited professional certification or guarantee employment.
 
 ## Validation
 

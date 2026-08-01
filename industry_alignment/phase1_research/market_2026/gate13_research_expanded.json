@@ -1,0 +1,290 @@
+[
+  {
+    "source_file": "g13_aws_ml.json",
+    "host": "aws.amazon.com",
+    "title": "AWS Certified Machine Learning Specialty",
+    "snippet": "This certification is being retired. The last day to take this exam is March 31, 2026 . Certification holders will still have an active certification for 3 years\nReview the scope of the exam. Explore each exam domain's topics and how they align to AWS services. Reinforce your knowledge and identify ",
+    "url": "https://aws.amazon.com/certification/certified-machine-learning-specialty",
+    "date": ""
+  },
+  {
+    "source_file": "g13_aws_ml.json",
+    "host": "dev.to",
+    "title": "AWS Certified Machine Learning Specialty (MLS-C01)",
+    "snippet": "Feb 25, 2026 — The certification content is organized across four weighted domains : Domain 1: Data Engineering (20%) Amazon Kinesis ecosystem (Streams, ...\nFeb 25, 2026 — Four Exam Domains . The certification content is organized across four weighted domains: Domain 1: Data Engineering (20%). Amazo",
+    "url": "https://dev.to/mgonzalezo/aws-mlgenai-trifecta-part-3-aws-certified-machine-learning-specialty-mls-c01-1pa3",
+    "date": ""
+  },
+  {
+    "source_file": "g13_aws_ml.json",
+    "host": "tiffanyjachja.medium.com",
+    "title": "How to pass the AWS Machine Learning Speciality Exam",
+    "snippet": "Domain 1: Data Engineering (20% of scored content ) · Domain 2: Exploratory Data Analysis (24% of scored ... Read more\nDomain 1: Data Engineering (20% of scored content ) Domain 2: Exploratory Data Analysis (24% of scored content) Domain 3: Modeling (36% of ...",
+    "url": "https://tiffanyjachja.medium.com/how-to-pass-the-aws-machine-learning-speciality-exam-other-aws-certification-exams-3eefba3f504e",
+    "date": ""
+  },
+  {
+    "source_file": "g13_azure.json",
+    "host": "learn.microsoft.com",
+    "title": "Study guide for Exam AI-102: Designing and Implementing",
+    "snippet": "Dec 23, 2025 — This study guide should help you understand what to expect on the exam and includes a summary of the topics the exam might cover and links to additional ... Read more",
+    "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-102",
+    "date": ""
+  },
+  {
+    "source_file": "g13_azure.json",
+    "host": "mammothclub.com",
+    "title": "Azure AI Engineer Associate Certification Guide 2026",
+    "snippet": "Dec 21, 2025 — The exam for the azure ai engineer associate certification tests six main domains . Domain Key Focus Areas Generative AI App development, ...",
+    "url": "https://mammothclub.com/blog/azure-ai-engineer-associate-certification",
+    "date": ""
+  },
+  {
+    "source_file": "g13_azure.json",
+    "host": "sailor.sh",
+    "title": "AI-102 Exam Guide 2026: Microsoft Azure AI Engineer",
+    "snippet": "May 25, 2026 — Domains (Current 2026 Objectives) Domain 1: Plan and Manage an Azure AI Solution . AI Foundry, Azure OpenAI, Azure AI Search, Azure AI Services. ...\nComplete AI-102 exam guide: domains, prerequisites, hands-on coding requirements, study plan, and how to prepare for the Azure AI Engine",
+    "url": "https://sailor.sh/blog/ai-102-exam-guide-2026",
+    "date": ""
+  },
+  {
+    "source_file": "g13_codesignal.json",
+    "host": "codesignal.com",
+    "title": "30 data science interview questions (and answers) from",
+    "snippet": "CodeSignal Learn's Data Analysis 101 with R learning path is an accessible and engaging introduction to the R programming language relevant to data scientists. Read more",
+    "url": "https://codesignal.com/blog/30-data-science-interview-questions-basic-to-senior-level",
+    "date": ""
+  },
+  {
+    "source_file": "g13_codesignal.json",
+    "host": "www.reddit.com",
+    "title": "Code Signal Data Analytics Framework Questions",
+    "snippet": "Was wondering if anyone gave the Data Analytics Framework assessment.\n\nTime crunch is a major factor I feel. The last of the questions and ability not ...",
+    "url": "https://www.reddit.com/r/datascience/comments/16z0gck/code_signal_data_analytics_framework_questions",
+    "date": ""
+  },
+  {
+    "source_file": "g13_codesignal.json",
+    "host": "www.hackingthecaseinterview.com",
+    "title": "BCG X Data Scientist Interview: Complete Guide (2026)",
+    "snippet": "Mar 30, 2026 — The first part is a 15 minute live coding exercise via CodeSignal . You will solve two data manipulation tasks by writing Python code in real ... Read more\nYou will be tested on Python coding, machine learning fundamentals, technical case interviews, and your ability to connect data s",
+    "url": "https://www.hackingthecaseinterview.com/pages/bcg-x-data-scientist-interview",
+    "date": ""
+  },
+  {
+    "source_file": "g13_gcp_ml.json",
+    "host": "cloud.google.com",
+    "title": "Professional ML Engineer Certification | Learn",
+    "snippet": "The exam guide contains a complete list of topics that may be included on the exam . Review the exam guide to determine if your skills align with the topics on ...\nLength: Two hours Registration fee: $200. Languages: English, Japanese Exam format: 50-60 multiple choice and multiple select questions.",
+    "url": "https://cloud.google.com/learn/certification/machine-learning-engineer",
+    "date": ""
+  },
+  {
+    "source_file": "g13_gcp_ml.json",
+    "host": "services.google.com",
+    "title": "Professional Machine Learning Engineer Exam Guide",
+    "snippet": "The ML Engineer is proficient in the areas of model architecture, data and ML pipeline creation,. MLOps, and metrics interpretation. The ML Engineer is familiar ... Read more 5 pages\nProfessional Machine Learning Engineer . Certification exam guide. A Professional Machine Learning (ML) Engineer buil",
+    "url": "https://services.google.com/fh/files/misc/professional_machine_learning_engineer_exam_guide_english.pdf",
+    "date": ""
+  },
+  {
+    "source_file": "g13_gcp_ml.json",
+    "host": "www.youtube.com",
+    "title": "Google Cloud Professional Machine Learning Engineer",
+    "snippet": "Exam Structure: 50–60 questions (2 hrs, ~2.5 min/q), 70–75% passing score. Review the entire 5-page exam guide to understand all topics. 2. ...",
+    "url": "https://www.youtube.com/watch?v=x4zDleHR4S8",
+    "date": ""
+  },
+  {
+    "source_file": "g13_hackerrank.json",
+    "host": "www.hackerrank.com",
+    "title": "HackerRank - Online Coding Tests and Technical Interviews",
+    "snippet": "HackerRank is the market-leading coding test and interview solution for hiring developers. Start hiring at the pace of innovation!",
+    "url": "https://www.hackerrank.com",
+    "date": ""
+  },
+  {
+    "source_file": "g13_hackerrank.json",
+    "host": "www.linkedin.com",
+    "title": "HackerRank",
+    "snippet": "HackerRank is a technology hiring platform that is the standard for assessing developer skills for 2500+ companies around the world.",
+    "url": "https://www.linkedin.com/company/hackerrank",
+    "date": ""
+  },
+  {
+    "source_file": "g13_hackerrank.json",
+    "host": "en.wikipedia.org",
+    "title": "HackerRank",
+    "snippet": "HackerRank is a technology company that offers competitive programming services where computer programmers compete by writing programs according to provided ...",
+    "url": "https://en.wikipedia.org/wiki/HackerRank",
+    "date": ""
+  },
+  {
+    "source_file": "g13_pcap.json",
+    "host": "pythoninstitute.org",
+    "title": "PCEP™ – Certified Entry-Level Python Programmer",
+    "snippet": "PCEP-30-0x Exam Syllabus – Click here to view Exam Syllabus. Associated Certifications, PCAP – Certified Associate in Python Programming (Exam PCAP-31-0x) Read more",
+    "url": "https://pythoninstitute.org/pcep",
+    "date": ""
+  },
+  {
+    "source_file": "g13_pcap.json",
+    "host": "pythoninstitute.org",
+    "title": "PCAP™ – Certified Associate Python Programmer",
+    "snippet": "A professional, high-stakes credential that measures the candidate's ability to perform intermediate-level coding tasks in the Python language. Read more",
+    "url": "https://pythoninstitute.org/pcap",
+    "date": ""
+  },
+  {
+    "source_file": "g13_pcap.json",
+    "host": "www.certlibrary.com",
+    "title": "PCEP-30-02 Exam Questions and Answers",
+    "snippet": "The PCEP -30-02 examination covers four primary content sections that collectively define what the Python Institute considers foundational Python programming ... Read more",
+    "url": "https://www.certlibrary.com/info/PCEP-30-02",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile1.json",
+    "host": "openai.com",
+    "title": "Research",
+    "snippet": "We use Deep Learning to leverage large amounts of data and advanced reasoning to train AI systems for task completion. Read more\nWe use Deep Learning to leverage large amounts of data and advanced reasoning to train AI systems for task completion. OpenAI’s GPT series models are fast, versatile, and ",
+    "url": "https://openai.com/research",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile1.json",
+    "host": "www.reddit.com",
+    "title": "AMA: the OpenAI Research Team : r/MachineLearning",
+    "snippet": "The OpenAI research team will be answering your questions. We are (our usernames are): Andrej Karpathy (badmephisto), Durk Kingma (dpkingma), Greg Brockman ( ... Read more",
+    "url": "https://www.reddit.com/r/MachineLearning/comments/404r9m/ama_the_openai_research_team",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile1.json",
+    "host": "www.mdpi.com",
+    "title": "Machine Learning in Python: Main Developments and",
+    "snippet": "2020 · Cited by 1336 — This survey offers insight into the field of machine learning with Python , taking a tour through important topics to identify some of the core hardware and ... Read more",
+    "url": "https://www.mdpi.com/2078-2489/11/4/193",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile2.json",
+    "host": "www.bytedance.com",
+    "title": "ByteDance - Inspire Creativity, Enrich Life",
+    "snippet": "ByteDance is a technology company operating a range of content platforms that inform, educate, entertain and inspire people across languages, cultures and ...",
+    "url": "https://www.bytedance.com/en",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile2.json",
+    "host": "en.wikipedia.org",
+    "title": "ByteDance",
+    "snippet": "ByteDance is a Chinese internet technology company head quartered in Haidian, Beijing. ByteDance developed the video-sharing app TikTok/Douyin. The company is ...",
+    "url": "https://en.wikipedia.org/wiki/ByteDance",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile2.json",
+    "host": "joinbytedance.com",
+    "title": "ByteDance Careers",
+    "snippet": "ByteDance&#39;s mission is to inspire creativity and enrich life . As ByteDancers, we lead with curiosity, humility, and a desire to make impact in a rapidly ...",
+    "url": "https://joinbytedance.com",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile3.json",
+    "host": "www.anthropic.com",
+    "title": "Careers",
+    "snippet": "About half our technical staff had no prior ML experience; about half have PhDs, but plenty of brilliant colleagues never went to college.\nOne thing worth knowing: engineers here do lots of research, and researchers do lots of engineering. If you have an engineering background, apply as an engineer—",
+    "url": "https://www.anthropic.com/careers",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile3.json",
+    "host": "www.anthropic.com",
+    "title": "When AI builds itself",
+    "snippet": "Anthropic engineers on average ship 8x as much code per quarter as they did from 2021-2025. The technical trends discussed in this piece suggest that AI systems",
+    "url": "https://www.anthropic.com/institute/recursive-self-improvement",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile3.json",
+    "host": "kantrowitz.medium.com",
+    "title": "The Making Of Anthropic CEO Dario Amodei - Medium",
+    "snippet": "He's seen by some as a technological visionary who pioneered OpenAI's GPT-3 project (the seeds of ChatGPT) and a safety-minded leader who broke ...",
+    "url": "https://kantrowitz.medium.com/the-making-of-anthropic-ceo-dario-amodei-449777529dd6",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile4.json",
+    "host": "www.linkedin.com",
+    "title": "Deepseek's R1 model has been peer reviewed.",
+    "snippet": "Deepseek's R1 model became the first peer reviewed LLM , which was published last week in Nature. This is a remarkable milestone towards ... Read more",
+    "url": "https://www.linkedin.com/posts/magdalena-skipper-1b5b9a8_deepseeks-r1-model-has-been-peer-reviewed-activity-7374480563379789825-JRPk",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile4.json",
+    "host": "github.com",
+    "title": "DeepSeek LLM: Let there be answers",
+    "snippet": "Nov 15, 2023 — Introducing DeepSeek LLM , an advanced language model comprising 67 billion parameters. It has been trained from scratch on a vast dataset of ... Read more",
+    "url": "https://github.com/deepseek-ai/deepseek-LLM",
+    "date": ""
+  },
+  {
+    "source_file": "g13_profile4.json",
+    "host": "www.nature.com",
+    "title": "Bring us your LLMs: why peer review is good for AI models",
+    "snippet": "Sep 17, 2025 — DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement learning AI can learn to show its workings through trial and error",
+    "url": "https://www.nature.com/articles/d41586-025-02979-9",
+    "date": ""
+  },
+  {
+    "source_file": "g13_tf_cert.json",
+    "host": "medium.com",
+    "title": "Don't Be Afraid to Take TensorFlow Developer Exam",
+    "snippet": "It consists of four courses: Introduction; Convolutional Neural Networks; Natural Language Processing; Time Series and Sequence Models.",
+    "url": "https://medium.com/@andimid/dont-be-afraid-to-take-the-tensorflow-developer-exam-by-google-e083fb26eecf",
+    "date": ""
+  },
+  {
+    "source_file": "g13_tf_cert.json",
+    "host": "www.youtube.com",
+    "title": "Course Outline for TensorFlow Developer Certificate in 2026",
+    "snippet": "Learn TensorFlow, pass the TensorFlow Developer Certificate exam and get hired as a TensorFlow developer making $100,000+ a year.",
+    "url": "https://www.youtube.com/watch?v=WqiInaRRuhk",
+    "date": "Aug 2, 2021"
+  },
+  {
+    "source_file": "g13_tf_cert.json",
+    "host": "www.certsqill.com",
+    "title": "TensorFlow Developer Certificate Exam Guide 2026 - Certsqill",
+    "snippet": "Complete TensorFlow Developer Certificate exam guide 2026: domain breakdown, study plan, common mistakes, and practice questions.",
+    "url": "https://www.certsqill.com/exam-guides/tensorflow-developer",
+    "date": ""
+  },
+  {
+    "source_file": "g13_triplebyte.json",
+    "host": "www.joinnextdev.com",
+    "title": "Triplebyte Review: Is It Still Worth It in 2026?",
+    "snippet": "Jun 1, 2026 — But a dataset built on AI-free assessments does not tell you who your best hire is in 2026 . The top engineers in Nextdev's pool are being ... Read more",
+    "url": "https://www.joinnextdev.com/blog/triplebyte-review-is-it-still-worth-it-in-2026",
+    "date": ""
+  },
+  {
+    "source_file": "g13_triplebyte.json",
+    "host": "www.youtube.com",
+    "title": "A Major Shift in Data Analyst Interviews IS HAPPENING in 2026",
+    "snippet": "A Major Shift in Data Analyst Interviews IS HAPPENING in 2026 . FASTEST Data Analyst Roadmap for Career Changers in 2026 [FREE COURSE]",
+    "url": "https://www.youtube.com/watch?v=BefPHWmp-TI",
+    "date": ""
+  },
+  {
+    "source_file": "g13_triplebyte.json",
+    "host": "www.kaggle.com",
+    "title": "SPLxUTSPAN 2026 Data Challenge",
+    "snippet": "The data for this year's challenge is markerless motion capture data captured from 458 total basketball free throws completed by five (5) participants",
+    "url": "https://www.kaggle.com/competitions/spl-utspan-data-challenge-2026/overview",
+    "date": ""
+  }
+]
