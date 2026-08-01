@@ -1,0 +1,331 @@
+{
+  "agent": "b",
+  "section_index": 46,
+  "recorded_at": "2026-08-01T15:25:52.720499+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          8.45,
+          8.45,
+          3.0,
+          7.45
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "emitir QUARANTINE_DATASET y conservar evidencia",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          10.6,
+          8.6,
+          10.6,
+          7.45
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "LATE (o side-output) si 110 − 100 > 5; ALLOWED_LATE si la gracia alcanza",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          5.15,
+          8.0,
+          6.15
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          5.0,
+          3.0,
+          5.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S46-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` aprueba late/out-of-windo",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: missing está bien; el predicado de domin",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `allowed_lateness` → `WAIT_FOR_WATERMA",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: compara `len` o aprueba sin policy (bug).n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva el bloque missing.n2. Corrige la decisión: set equ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → CHOOSE_LATE_POLICY.n2. Con campos completos, pred",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: predicado invertido y sin detección de c",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.n2. Importa/define `is_acyclic` como en el",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → DECLARE_ASSET_DEPENDENCY.n2. Con record completo,",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Ordena intervalos por start.n2. `computed_overlap = any(end",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-HYO-046 · assess STOP_OVERLAPPING_BACKFILL\n# DEFECT: no calcula solape; confía en comparación invertida de resume\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"intervals\", \"checkpoint\", \"resume_from\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return (\n        \"PASS\"\n        if record[\"checkpoint\"] != record[\"resume_from\"]\n        else \"STOP_OVERLAPPING_BACKFILL\"\n    )\n\nvalid = {\"case_id\": \"CASO-HYO-046-2B\", \"intervals\": [[1, 3], [4, 6]], \"checkpoint\": \"2026-07-01\", \"resume_from\": \"2026-07-01\"}\ninvalid = {\"case_id\": \"CASO-HYO-046-2B\", \"intervals\": [[1, 4], [3, 6]], \"checkpoint\": \"2026-07-01\", \"resume_from\": \"start\"}\nincomplete = {**valid}\nincomplete.pop(\"resume_from\")\nprint(* (assess(valid), assess(invalid), assess(incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "contrato",
+          "ordenados",
+          "s46",
+          "salida",
+          "rutas",
+          "tres",
+          "imprime",
+          "sobre"
+        ]
+      },
+      {
+        "exercise_id": "S46-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → RECOVER_CHECKPOINT.n2. Calcula solape half-open.n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido (y sin owner).n2. Exig",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-HYO-046 · assess QUARANTINE_DATASET\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"schema\", \"observed_schema\", \"freshness_min\", \"slo_min\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return (\n        \"PASS\"\n        if record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"]\n        else \"QUARANTINE_DATASET\"\n    )\n\nvalid = {\"case_id\": \"CASO-HYO-046-3A\", \"schema\": {\"case_id\": \"str\", \"event_time\": \"int\"}, \"observed_schema\": {\"case_id\": \"str\", \"event_time\": \"int\"}, \"freshness_min\": 8, \"slo_min\": 15, \"owner\": \"data-ops\"}\ninvalid = {\"case_id\": \"CASO-HYO-046-3A\", \"schema\": {\"case_id\": \"str\", \"event_time\": \"int\"}, \"observed_schema\": {\"case_id\": \"int\"}, \"freshness_min\": 80, \"slo_min\": 15, \"owner\": \"\"}\nincomplete = {**valid}\nincomplete.pop(\"owner\")\nprint(* (assess(valid), assess(invalid), assess(incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "contrato",
+          "s46",
+          "salida",
+          "rutas",
+          "tres",
+          "imprime",
+          "debe",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S46-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → PAGE_DATA_OWNER.n2. Predicado de E1/E2 con campos",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido.n2. startswith(\"run-\")",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Conserva missing.n2. Aplica predicado completo de E1.n3. Si",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing → TRACE_LINEAGE.n2. Predicado completo si hay campo",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido e incompleto.n2. Exige",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-HYO-046 · assess REBUILD_PARTITION\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"partition\", \"source_keys\", \"target_keys\", \"second_run_changes\", \"small_files\", \"max_small_files\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return (\n        \"PASS\"\n        if record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0\n        else \"REBUILD_PARTITION\"\n    )\n\nvalid = {\"case_id\": \"CASO-HYO-046-4A\", \"partition\": \"2026-07-22\", \"source_keys\": {\"a\", \"b\", \"c\"}, \"target_keys\": {\"a\", \"b\", \"c\"}, \"second_run_changes\": 0, \"small_files\": 2, \"max_small_files\": 5}\ninvalid = {\"case_id\": \"CASO-HYO-046-4A\", \"partition\": \"all\", \"source_keys\": {\"a\", \"b\", \"c\"}, \"target_keys\": {\"a\"}, \"second_run_changes\": 3, \"small_files\": 30, \"max_small_files\": 5}\nincomplete = {**valid}\nincomplete.pop(\"max_small_files\")\nprint(* (assess(valid), assess(invalid), assess(incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "contrato",
+          "s46",
+          "salida",
+          "rutas",
+          "max",
+          "iguales",
+          "tres",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S46-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-HYO-046 · decide REBUILD_PARTITION\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"partition\", \"source_keys\", \"target_keys\", \"second_run_changes\", \"small_files\", \"max_small_files\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return (\n        \"CONTINUE\"\n        if record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0\n        else \"REBUILD_PARTITION\"\n    )\n\nvalid = {\"case_id\": \"CASO-HYO-046-4A\", \"partition\": \"2026-07-22\", \"source_keys\": {\"a\", \"b\", \"c\"}, \"target_keys\": {\"a\", \"b\", \"c\"}, \"second_run_changes\": 0, \"small_files\": 2, \"max_small_files\": 5}\ninvalid = {\"case_id\": \"CASO-HYO-046-4A\", \"partition\": \"all\", \"source_keys\": {\"a\", \"b\", \"c\"}, \"target_keys\": {\"a\"}, \"second_run_changes\": 3, \"small_files\": 30, \"max_small_files\": 5}\nuncertain = {**valid}\nuncertain.pop(\"max_small_files\")\nprint(* [decide(item) for item in (valid, invalid, uncertain)])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "predicado",
+          "contrato",
+          "s46",
+          "pass",
+          "salida",
+          "PASS",
+          "orden",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S46-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S46-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: predicado invertido e incompleto.n2. Compa",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S46-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-HYO-046 · assess DECLARE_DATA_INCIDENT\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"freshness_sli\", \"freshness_slo\", \"rto_minutes\", \"target_rto_minutes\", \"postmortem_actions\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return (\n        \"PASS\"\n        if record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"]\n        else \"DECLARE_DATA_INCIDENT\"\n    )\n\nvalid = {\"case_id\": \"CASO-HYO-046-4B\", \"freshness_sli\": 0.995, \"freshness_slo\": 0.99, \"rto_minutes\": 25, \"target_rto_minutes\": 30, \"postmortem_actions\": 3, \"owner\": \"data-oncall\"}\ninvalid = {\"case_id\": \"CASO-HYO-046-4B\", \"freshness_sli\": 0.8, \"freshness_slo\": 0.99, \"rto_minutes\": 90, \"target_rto_minutes\": 30, \"postmortem_actions\": 0, \"owner\": \"\"}\nincomplete = {**valid}\nincomplete.pop(\"owner\")\nprint(* (assess(valid), assess(invalid), assess(incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "contrato",
+          "s46",
+          "salida",
+          "rutas",
+          "tres",
+          "imprime",
+          "debe",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S46-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-HYO-046 · decide DECLARE_DATA_INCIDENT\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"freshness_sli\", \"freshness_slo\", \"rto_minutes\", \"target_rto_minutes\", \"postmortem_actions\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return (\n        \"CONTINUE\"\n        if record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"]\n        else \"DECLARE_DATA_INCIDENT\"\n    )\n\nvalid = {\"case_id\": \"CASO-HYO-046-4B\", \"freshness_sli\": 0.995, \"freshness_slo\": 0.99, \"rto_minutes\": 25, \"target_rto_minutes\": 30, \"postmortem_actions\": 3, \"owner\": \"data-oncall\"}\ninvalid = {\"case_id\": \"CASO-HYO-046-4B\", \"freshness_sli\": 0.8, \"freshness_slo\": 0.99, \"rto_minutes\": 90, \"target_rto_minutes\": 30, \"postmortem_actions\": 0, \"owner\": \"\"}\nuncertain = {**valid}\nuncertain.pop(\"owner\")\nprint(* [decide(item) for item in (valid, invalid, uncertain)])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "métricas",
+          "predicado",
+          "pass",
+          "salida",
+          "rotas",
+          "s46",
+          "contrato",
+          "DECLARE"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "95cfbcf0877ec355"
+  }
+}

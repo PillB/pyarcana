@@ -1,0 +1,503 @@
+{
+  "agent": "a",
+  "section_index": 4,
+  "recorded_at": "2026-08-01T15:19:06.991357+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "0,1,2 (empieza en 0, excluye stop)",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Lanza ValueError",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "n_total de registros procesados (intentados)",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          1.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "Salta al siguiente ciclo del bucle",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "O(log n)",
+        "confidence": 0.42,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 1,
+        "chosen_text": "Actualizar el estado (p. ej. avanzar el índice) y comprobar el centinela",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.15,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 2,
+        "chosen_text": "continue salta a la siguiente iteración; break termina el bucle actual",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.3,
+          7.3,
+          8.3,
+          6.3
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 0,
+        "chosen_text": "Numera filas desde 1 para humanos sin armar el índice a mano",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          1.0,
+          3.0,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S04-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · for sobre lista\n# DEFECT: no imprime range(3)\nregiones = [\"Quito\", \"Bogotá\", \"Madrid\"]\nfor r in regiones:\n    print(r)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "esperada",
+          "starter",
+          "revisa",
+          "extra",
+          "sin",
+          "ese",
+          "list",
+          "compara"
+        ]
+      },
+      {
+        "exercise_id": "S04-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · contar >=18\n# DEFECT: cuenta todos\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    n += 1\nprint(n)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "incrementa",
+          "starter",
+          "contador",
+          "imprime",
+          "sin",
+          "únicamente",
+          "todas",
+          "solo"
+        ]
+      },
+      {
+        "exercise_id": "S04-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · filtrar montos >0\n# DEFECT: incluye 0 y negativos\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    print(reg[\"id\"], reg[\"monto\"])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "demostrar",
+          "starter",
+          "imprime",
+          "cuando",
+          "mutaste",
+          "todos",
+          "solo",
+          "ids"
+        ]
+      },
+      {
+        "exercise_id": "S04-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · enumerate start=1\n# DEFECT: start=0\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids):\n    print(f\"fila {i}: {x}\")\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "starter",
+          "sin",
+          "usa",
+          "mantén",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S04-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · zip nombres edades\n# DEFECT: nested loops (producto cartesiano)\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n in nombres:\n    for e in edades:\n        print(f\"{n}={e}\")\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "nombre",
+          "starter",
+          "ver",
+          "líneas",
+          "list",
+          "recorre",
+          "edad"
+        ]
+      },
+      {
+        "exercise_id": "S04-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · zip_strict\ndef zip_strict(a, b):\n    # DEFECT: no valida longitudes\n    return list(zip(a, b))\n\ntry:\n    print(zip_strict([1, 2, 3], [10, 20]))\nexcept ValueError:\n    print(\"DESALINEADO\")\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "completa",
+          "lanza",
+          "primer",
+          "listas",
+          "captura",
+          "intento",
+          "segundo",
+          "longitud"
+        ]
+      },
+      {
+        "exercise_id": "S04-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · while break en blank\n# DEFECT: continue en blank (no corta)\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        continue\n    out.append(line)\nprint(out)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "hace",
+          "imprime",
+          "cuando",
+          "solo",
+          "come",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S04-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · reintentos while\n# DEFECT: no imprime intentos\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\nprint(\"done\", intentos)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "incrementa",
+          "starter",
+          "pero",
+          "reporta",
+          "mantén"
+        ]
+      },
+      {
+        "exercise_id": "S04-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · cola con pause\n# DEFECT: no imprime PAUSE\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        break\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "pero",
+          "hace",
+          "fuera",
+          "parcial",
+          "tras",
+          "restante",
+          "jobs"
+        ]
+      },
+      {
+        "exercise_id": "S04-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · continue blanks\n# DEFECT: imprime blanks\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    print(x)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "también"
+        ]
+      },
+      {
+        "exercise_id": "S04-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · break en 5xx\n# DEFECT: no break\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        print(\"ERR\")\n    else:\n        print(\"ok\")\n        n_ok += 1\nprint(n_ok)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "incrementa",
+          "starter",
+          "imprime",
+          "último",
+          "sigue",
+          "cuenta",
+          "etiqueta"
+        ]
+      },
+      {
+        "exercise_id": "S04-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-004 · while True + END\n# BUG intencional: no rompe en END\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    out.append(item)\nprint(out)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "starter",
+          "incluido",
+          "defect",
+          "haz",
+          "mantén",
+          "DEFECT",
+          "leer",
+          "tras"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · conteo accept/reject\n# DEFECT: no incrementa n_total bien\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "inicio",
+          "starter",
+          "imprime",
+          "ese",
+          "tres",
+          "orden",
+          "mantén",
+          "toca"
+        ]
+      },
+      {
+        "exercise_id": "S04-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-004 · tasa_reject\ndef tasa_reject(sts):\n    # BUG intencional: división por cero no manejada; cuenta accept como reject\n    n_total = len(sts)\n    n_reject = sum(1 for s in sts if s == \"accept\")\n    return n_reject / n_total\n\nprint(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\nprint(tasa_reject([]))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "starter",
+          "defect",
+          "imprime",
+          "doble",
+          "fueran",
+          "primer",
+          "además",
+          "accepts"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · primer review index\n# DEFECT: busca accept\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"accept\":\n        idx = i\n        break\nprint(idx)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "solo",
+          "condición",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S04-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · list comps\n# DEFECT: solo identity\nnums = [1, 2, 3, 4, 5]\nprint([x for x in nums])\nprint([x for x in nums if x > 10])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "segunda",
+          "imprime",
+          "imposible",
+          "línea",
+          "lista",
+          "identidad",
+          "cuadrados"
+        ]
+      },
+      {
+        "exercise_id": "S04-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · set de status\n# DEFECT: lista con duplicados\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint([r[\"status\"] for r in rows])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "envuélvelo",
+          "imprime",
+          "repite",
+          "comprehension",
+          "usa",
+          "list",
+          "ordenada"
+        ]
+      },
+      {
+        "exercise_id": "S04-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · dict id→status\n# DEFECT: solo ids; fixture incompleto\nrows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"accept\"},\n    {\"id\": \"C4\", \"status\": \"reject\"},\n]\nprint([r[\"id\"] for r in rows])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "filas",
+          "desde",
+          "trae",
+          "cuatro",
+          "reduzcas",
+          "construye",
+          "arma"
+        ]
+      },
+      {
+        "exercise_id": "S04-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · running sum positivos\n# DEFECT: suma todos\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    s += val\n    print(i, val, s)\nprint(\"final\", s)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "valores",
+          "mantén",
+          "envuelve",
+          "baja"
+        ]
+      },
+      {
+        "exercise_id": "S04-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · conteo filas\n# DEFECT: n se incrementa dos veces por fila\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\n    n += 1  # bug: doble conteo\nprint(n)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "imprime",
+          "elimina",
+          "incrementos",
+          "traza",
+          "visible",
+          "mental"
+        ]
+      },
+      {
+        "exercise_id": "S04-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · counts por status\n# DEFECT: no usa get\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = 1  # pisa\nprint(counts)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "contador",
+          "iteración"
+        ]
+      },
+      {
+        "exercise_id": "S04-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · lineal vs. cuadrático\n# DEFECT: ambos usan un solo bucle\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\n    quad += 1\nprint(lin, quad)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "anidado",
+          "doble",
+          "imprime",
+          "está",
+          "deja",
+          "añade",
+          "mismo"
+        ]
+      },
+      {
+        "exercise_id": "S04-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-004 · off-by-one\n# BUG intencional: range(1, len+1) provoca IndexError en el último índice\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(1, len(data) + 1):\n    print(data[i])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cada",
+          "starter",
+          "defect",
+          "imprime",
+          "usa",
+          "paso",
+          "DEFECT",
+          "intenta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-004 · n_reject O(n)\n# DEFECT: O(n^2) pairs\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\npairs = 0\nfor i in range(len(sts)):\n    for j in range(len(sts)):\n        if sts[i] == \"reject\":\n            pairs += 1\nprint(pairs)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "starter",
+          "mal",
+          "round",
+          "anida",
+          "solo",
+          "simple",
+          "pase"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "10685e20e70a001e"
+  }
+}

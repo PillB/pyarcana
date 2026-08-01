@@ -1,0 +1,436 @@
+{
+  "agent": "b",
+  "section_index": 37,
+  "recorded_at": "2026-08-01T15:18:04.894421+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Reemplazar la mediana por un solo run frío",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "La necesidad de medir recall de pares útiles",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "Falla si se rompe el límite acordado sobre el fixture",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Teatro; prioriza claridad y cambios algorítmicos medidos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S37-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — wall con n (Red Andina sintético, sin PII real)\n# DEFECT: mide wall pero reporta n=0 (el fixture n no viaja al reporte)\nimport time\nn = 1000\n\ndef work(n: int) -> int:\n    return sum(range(n))\n\nt0 = time.perf_counter()\nresult = work(n)\nwall_ms = round((time.perf_counter() - t0) * 1000, 3)\nprint(\"n\", 0)  # DEFECT: debe ser n\nprint(\"metric\", \"wall\")\nprint(\"ok\", result >= 0 and wall_ms >= 0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "ese",
+          "starter",
+          "resultado",
+          "abre",
+          "reportar",
+          "mantén",
+          "orden"
+        ]
+      },
+      {
+        "exercise_id": "S37-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: solo hay wall; `cpu_ok`/`peak_ok` están en `False` y `n` en `0`.n2. Mide CPU con `process_time` al",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S37-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — same_result es predicado medible (sintético, sin PII)\n# DEFECT: after_fn cambia el resultado funcional\nx = 10\n\ndef before_fn(v):\n    return v * 2\n\ndef after_fn(v):  # DEFECT: «optimiza» cambiando semántica\n    return v + 2\n\nsame_result = before_fn(x) == after_fn(x)\nprint(\"same_result\", same_result)\nprint(\"ok\", same_result)  # queda False hasta corregir after_fn\nprint(\"n\", 1)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hace",
+          "starter",
+          "ese",
+          "lee",
+          "alinea",
+          "igual",
+          "calcula",
+          "lugar"
+        ]
+      },
+      {
+        "exercise_id": "S37-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — mediana de runs reales (sintético, sin PII)\n# DEFECT: mean de enteros inventados; sin warmup ni medición\nimport time, statistics\n\ndef work():\n    return sum(i * i for i in range(2000))\n\nvals = [5, 1, 4]  # DEFECT: no son tiempos medidos\nprint(statistics.mean(vals))\nprint(\"n_runs\", 3)\nprint(\"warmup\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "true",
+          "convierte",
+          "starter",
+          "está",
+          "mide",
+          "abre",
+          "llama",
+          "descartada"
+        ]
+      },
+      {
+        "exercise_id": "S37-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — warmup de bench (sintético, sin PII)\n# DEFECT: no descarta el primer run; warmup False\nimport time\n\ndef work():\n    return sum(range(2000))\n\ntimes = []\nfor _ in range(3):\n    t0 = time.perf_counter()\n    work()\n    times.append(time.perf_counter() - t0)\nprint(\"warmup\", False)\nprint(\"discard_first\", False)\nprint(\"n_runs\", len(times))\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "corrida",
+          "corridas",
+          "solo",
+          "publica",
+          "ejecuta",
+          "mide",
+          "siguientes"
+        ]
+      },
+      {
+        "exercise_id": "S37-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — proxy de cola + spread (sintético, sin PII)\nxs = [1, 2, 9]\n# DEFECT: usa min y no calcula spread\nprint(min(xs))\nprint(\"spread\", 0)\nprint(\"proxy\", \"p95_small_n\")\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "lee",
+          "nombre",
+          "tail",
+          "mantén",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — pares n*(n-1)/2 (sintético, sin PII)\nn = 10\n# DEFECT: usa n*n (cuenta diagonales / dobles)\nprint(n * n)\nprint(\"n\", n)\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "starter",
+          "pairs"
+        ]
+      },
+      {
+        "exercise_id": "S37-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — reducción por blocking (sintético, sin PII)\nall_p, blocked = 45, 10\n# DEFECT: reporta blocked/all_p en vez de 1 - blocked/all_p\nprint(round(blocked / all_p, 3))\nprint(\"ok\", True)\nprint(\"blocking\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S37-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — preferir blocking a microopt (sintético, sin PII)\n# DEFECT: prefiere microoptimización sin comparar pares\nall_pairs, blocked, micro_pairs = 4950, 450, 4900\nprefer = \"microopt\"  # DEFECT: no usa blocked < micro_pairs\nmicro = True\nprint(\"prefer\", prefer)\nprint(\"ok\", blocked < all_pairs)\nprint(\"micro\", micro)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "asigna",
+          "all",
+          "fija",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — estructura de índice (sintético, sin PII)\n# DEFECT: membership sobre list y reporta list_scan (diseño O(n) repetible)\nids = [1, 2, 3, 4, 5]\ntarget = 4\nfound = target in ids  # list membership; el diseño documenta list_scan\nprint(\"structure\", \"list_scan\")\nprint(\"found\", found)\nprint(\"scan\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hace",
+          "starter",
+          "lista",
+          "index",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — count Lima rows (sintético, sin PII)\n# DEFECT: count queda en 0 (no filtra por ciudad Lima)\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = 0\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "deja",
+          "conteo",
+          "starter",
+          "donde",
+          "filtrar",
+          "filas",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — orden block → score (sintético, sin PII)\n# DEFECT: invierte el orden y no reduce pares\nn, blocks = 10, 5\nall_pairs = n * (n - 1) // 2\nsize = n // blocks\nblocked = blocks * size * (size - 1) // 2\norder = [\"score\", \"block\"]  # DEFECT\npairs_after = all_pairs     # DEFECT: puntúa el cartesiano\nprint(\"order\", order)\nprint(\"pairs_after_block\", pairs_after)\nprint(\"ok\", pairs_after < all_pairs)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pone",
+          "asigna",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S37-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — número de chunks (sintético, sin PII)\nn, size = 10, 4\n# DEFECT: truncamiento n//size (pierde el resto)\nprint(n // size)\nprint(\"size\", size)\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "starter",
+          "n_chunks",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — subset columnar (sintético, sin PII)\n# DEFECT: carga todas las columnas\nrow = {\"id\": 1, \"amt\": 10, \"blob\": \"xx\", \"notes\": \"n/a\"}\ncols = list(row.keys())  # DEFECT: sin proyección\nprint(cols)\nprint(\"ok\", True)\nprint(\"columnar\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hace",
+          "starter",
+          "claves",
+          "keep",
+          "imprime",
+          "hay",
+          "sobre"
+        ]
+      },
+      {
+        "exercise_id": "S37-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — dtype estrecho (sintético, sin PII)\n# DEFECT: usa int64 por defecto sin comparar itemsize\nimport array\ni32 = array.array(\"i\", [1, 2, 3]).itemsize\ni64 = array.array(\"q\", [1, 2, 3]).itemsize\ndtype = \"int64\"  # DEFECT\nmem = \"higher\"\nprint(\"dtype\", dtype)\nprint(\"ok\", True)\nprint(\"mem\", mem)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "deja",
+          "starter",
+          "compara",
+          "imprime",
+          "según"
+        ]
+      },
+      {
+        "exercise_id": "S37-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — cache key con cutoff (sintético, sin PII)\n# DEFECT: key sin cutoff → miss falso\nkey = (\"fs-v1\",)\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "starter",
+          "incluye",
+          "falla",
+          "calcula",
+          "len",
+          "imprime",
+          "tupla"
+        ]
+      },
+      {
+        "exercise_id": "S37-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — invalidación por versión (sintético, sin PII)\n# DEFECT: no detecta miss tras cambio de versión\nstore = {(\"fs-v1\", \"cut\"): {\"n_pairs\": 100}}\nnew_key = (\"fs-v2\", \"cut\")\nhit = new_key in store\nprint(\"keep_forever\")\nprint(\"hit\", True)  # DEFECT\nprint(\"stale\", False)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "starter",
+          "fuerza"
+        ]
+      },
+      {
+        "exercise_id": "S37-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — out-of-core (sintético, sin PII)\n# DEFECT: asume todo en RAM\ndata = list(range(10))\nsize = 4\n# DEFECT: load_all\nprint(\"ooc\", \"load_all\")\nprint(\"max_chunk\", len(data))\nprint(\"ram\", \"unbounded\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "tres",
+          "bounded",
+          "parte",
+          "calcula",
+          "ventanas",
+          "campos",
+          "longitud"
+        ]
+      },
+      {
+        "exercise_id": "S37-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — budget pass bajo umbral (sintético, sin PII)\nbudget, measured = 10, 9\n# DEFECT: compara al revés\nprint(measured > budget)\nprint(\"budget\", budget)\nprint(\"measured\", measured)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "caso",
+          "booleano",
+          "cambia",
+          "incorrecto",
+          "false",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — budget fail sobre umbral (sintético, sin PII)\nbudget, measured = 10, 12\n# DEFECT: hardcodea True aunque measured>budget\nprint(True)\nprint(\"budget\", budget)\nprint(\"measured\", measured)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "números",
+          "starter",
+          "hace",
+          "booleano",
+          "ambos",
+          "mismo",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — dimensiones del budget (sintético, sin PII)\n# DEFECT: solo budgetea latency y hardcodea all_pass\nbudget = {\"latency_p95\": 50}\nmeasured = {\"latency_p95\": 12, \"memory\": 400, \"pairs\": 8000}\nkeys = list(budget.keys())\nprint(keys)\nprint(\"all_pass\", True)  # DEFECT: no compara las tres métricas\nprint(\"n\", len(keys))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "deja",
+          "starter",
+          "completa",
+          "fuerza",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S37-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — speedup before/after (sintético, sin PII)\nbefore, after = 80, 20\n# DEFECT: after/before (inverso) y marca micro_only\nprint(after / before)\nprint(\"ok\", True)\nprint(\"micro_only\", True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S37-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — claridad > shave 2% (sintético, sin PII)\n# DEFECT: prefiere micro-shave sin aplicar la regla de gains\nalgo_gain, micro_gain = 0.80, 0.02\nprefer = \"micro_shave\"  # DEFECT: ignora algo_gain > micro_gain y umbral 0.05\nshave = \"2pct_yes\"\nprint(\"prefer\", prefer)\nprint(\"ok\", algo_gain > micro_gain)\nprint(\"shave\", shave)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "condición",
+          "deriva",
+          "comparación",
+          "fija",
+          "imprime",
+          "aplica"
+        ]
+      },
+      {
+        "exercise_id": "S37-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# E3 — reporte before/after completo (sintético, sin PII)\n# DEFECT: omite dataset y hardware\nreport = {\"before\": 100, \"after\": 20}\nkeys = list(report.keys())\nprint(keys)\nprint(\"ok\", True)\nprint(\"n\", len(keys))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "coincide",
+          "canónica",
+          "starter",
+          "lista",
+          "solo",
+          "publica",
+          "tiene",
+          "set"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "cf6905d20e7e303f"
+  }
+}

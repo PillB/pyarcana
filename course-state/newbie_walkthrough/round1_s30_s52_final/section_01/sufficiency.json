@@ -1,0 +1,50 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.71,
+    "correct_preview": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de vers"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": ".venv/ (o venv/)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.4,
+    "correct_preview": "\"feat: agregar cálculo de churn por segmento\""
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "python -m pip install -r requirements.txt"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.9,
+    "correct_preview": "Porque suele contener credenciales (API keys, passwords, tokens) que son secreto"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fallo controlado o error"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "pyproject.toml (sección tool.ruff)"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Porque puede borrar commits ajenos del historial compartido"
+  }
+]

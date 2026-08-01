@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Barras con baseline 0"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Repetir los mismos números clave del chart"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "Sobreclaim / generalización indebida"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Unidad, fuente y limitaciones"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.88,
+    "correct_preview": "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación exp"
+  }
+]

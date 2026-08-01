@@ -1,0 +1,50 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Provocar violación/cuarentena o fail del gate"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Auditar y disputar la forma canónica sin perder el valor original"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Publicar métricas y cuarentena aunque pass=False"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "3.0 (decimal latino)"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Si el contrato se rompe, el job no aprueba en silencio: falla con métricas y cua"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Clasificar como conflicto, conservar evidencia en cuarentena y documentar la reg"
+  }
+]

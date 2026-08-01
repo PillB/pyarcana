@@ -1,0 +1,289 @@
+{
+  "agent": "b",
+  "section_index": 43,
+  "recorded_at": "2026-08-01T15:25:37.700378+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "dos builds con el mismo lock producen el mismo digest lógico de deps",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          10.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "emitir el código de breach del subtema (p. ej. `REBUILD_NONROOT` o `DRAIN_AND_ISOLATE`) y conservar evidencia",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          10.0,
+          3.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "build repetible, usuario no root, límites de recursos y shutdown limpio pasan en entorno nuevo",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          11.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "hornear la API key en una capa ENV del Dockerfile",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          8.0,
+          5.15,
+          6.15,
+          7.3
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "invalida el caché de deps en cada commit de código (reorder a deps_before_app)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          3.0,
+          7.0,
+          6.15
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S43-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `not dependency_layer",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T1-A-E2 · 1. Revisa el starter: PASS si no reusa capa y rebuilds > 3 (DEFECT).n2. Corrige al predicado de T1-A (lock",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Lee el DEFECT: None devuelve CONTINUE y el orden usa `src <",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Revisa: `meets_contract` es True con uid 0 o capabilities n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-TRU-043 · assess REBUILD_NONROOT\n# DEFECT: PASS con root o caps extra\n# TAREA: corrige la condición defectuosa; no cambies los datos del fixture\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"base_pinned\", \"uid\", \"capabilities\", \"runtime_mb\", \"max_mb\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uid\"] == 0 or bool(record[\"capabilities\"]) else \"REBUILD_NONROOT\"\n\nvalid = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":True,\"uid\":10001,\"capabilities\":set(),\"runtime_mb\":118,\"max_mb\":150}}\ninvalid = {\"case_id\": \"CASO-TRU-043-1B\", **{\"base_pinned\":False,\"uid\":0,\"capabilities\":{\"SYS_ADMIN\"},\"runtime_mb\":490,\"max_mb\":150}}\nincomplete = {**valid}\nincomplete.pop(\"max_mb\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "tres",
+          "devolver",
+          "runtime",
+          "vacías",
+          "pinned",
+          "salida",
+          "max"
+        ]
+      },
+      {
+        "exercise_id": "S43-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. None de max_mb → `SELECT_PATCHABLE_BASE` (no CONTINUE).n2. ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. El DEFECT premia `secret_baked` o `\"db\" in ephemeral`.n2. I",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido del starter.n2. Exige no bak",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. None de ephemeral → CLASSIFY_VOLUME.n2. ok = no baked + db ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: PASS cuando falta readiness o no drena.n2. Exige lo",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.n2. Exige private + readiness +",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-TRU-043 · audit probe/SIGTERM log text\n# DEFECT: None→CONTINUE; log adverso se aprueba\n# TAREA: corrige la condición defectuosa; no cambies los datos del fixture\nGOOD_LOG = \"\"\"\nnetwork=private\nGET /readyz db_ok=true status=200\nGET /healthz live=true status=200\nsignal=SIGTERM open_requests=0 grace_seconds=30 drained=true\n\"\"\"\nBAD_LOG = \"\"\"\nnetwork=public\nGET /readyz db_ok=false status=200\nGET /healthz live=true status=200\nsignal=SIGTERM open_requests=12 grace_seconds=0 drained=false\n\"\"\"\n\ndef decide(probe_log):\n    if probe_log is None or not str(probe_log).strip():\n        return \"CONTINUE\"\n    # DEFECT: aprueba readiness falsa o red pública\n    false_ready = \"db_ok=false\" in probe_log and \"status=200\" in probe_log\n    return \"CONTINUE\" if false_ready or \"network=public\" in probe_log else \"DRAIN_AND_ISOLATE\"\n\nresults = [decide(item) for item in (GOOD_LOG, BAD_LOG, None)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "tres",
+          "debe",
+          "PASS",
+          "devolver",
+          "grace",
+          "salida",
+          "decisiones"
+        ]
+      },
+      {
+        "exercise_id": "S43-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: PASS cuando el stack está roto.n2. Exige REQUIRED ⊆",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.n2. Aplica regla de cuatro serv",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → WAIT_FOR_DEPENDENCY.n2. Exige api/worker/db/ca",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT premia contract incompatible.n2. Exige expand + old_",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.n2. Aplica expand + flags verde",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → RUN_RESTORE_DRILL.n2. Exige strategy expand, o",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT premia unlock o compiler en runtime.n2. Exige starts",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige predicado invertido.n2. Aplica regla de pin + stage",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. lock_hash None → REGENERATE_LOCK.n2. ok = pin sha256 + buil",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. DEFECT: `meets_contract` es True en estados de quarantine.n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el bad_ok invertido del starter.n2. Aplica CVE==0 +",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S43-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S43-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. None/vacío → TRIAGE_SCAN_FINDING.n2. Parsea CRITICAL, memor",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "496919e52a987865"
+  }
+}

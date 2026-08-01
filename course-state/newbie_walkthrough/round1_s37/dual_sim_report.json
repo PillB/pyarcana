@@ -1,0 +1,21 @@
+{
+  "attempt_id": "round1_s37",
+  "finished_at": "2026-08-01T15:21:29.009347+00:00",
+  "sections_run": 1,
+  "all_sufficiency_ok": true,
+  "first_sufficiency_fail": null,
+  "a_pass_count": 0,
+  "b_pass_count": 0,
+  "results": [
+    {
+      "section_index": 37,
+      "id": "dbt-bigquery",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 40.0,
+      "b_sc": 40.0,
+      "a_pass": false,
+      "b_pass": false
+    }
+  ]
+}

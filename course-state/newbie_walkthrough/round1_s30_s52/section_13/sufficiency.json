@@ -1,0 +1,56 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Mantenerse separados en la ficha de caso"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Error de matching; no es veredicto legal de fraude"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Encolar needs_review / abstenerse según política"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Privacy sheet, acceso, tests, demo y runbook"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.88,
+    "correct_preview": "Re-chequear paths críticos S01–S13 y documentarlos en el runbook de entrega"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "needs_review"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Reducir pares candidatos antes de reglas finas"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "precision 0.833 y recall 0.714"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "El segundo token (paterno) si hay al menos dos; si no, el único token"
+  }
+]

@@ -1,0 +1,509 @@
+{
+  "agent": "a",
+  "section_index": 26,
+  "recorded_at": "2026-08-01T15:09:13.950405+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Approve antes de draft_email",
+        "confidence": 0.7,
+        "blocked_on": [],
+        "scores": [
+          3.15,
+          3.3,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          2.0,
+          4.0,
+          8.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Bloquear draft_email hasta all_clear",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Igual al score de matching",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          3.0,
+          3.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "En DLQ con owner y razón (p. ej. timeout_exhausted)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          3.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "ingest → validate → analyze → ai_assist → report → approve → draft_email",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          4.0,
+          5.0,
+          9.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "Versionar un nuevo run_id con metadata inmutable al start",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          5.0,
+          4.0,
+          5.15
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "Quitar el draft y marcar el report como superseded (sin borrar evidencia)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          5.15,
+          8.15,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S26-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "partial_edges = [\n    (\"ingest\", \"validate\"),\n    (\"validate\", \"analyze\"),\n    (\"analyze\", \"report\"),\n]\n# DEFECT: salta validate y hardcodea sin recorrer edges\nprint([\"ingest\", \"analyze\", \"report\"])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "recorre",
+          "solo",
+          "imprime",
+          "arista",
+          "primera",
+          "primer",
+          "inicializa"
+        ]
+      },
+      {
+        "exercise_id": "S26-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: imprime solo len\nnodes=['a','b','c']\nedges=list(zip(nodes, nodes[1:]))\nprint(len(edges))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revisa",
+          "inventes",
+          "deja",
+          "bien",
+          "calcula",
+          "hacia",
+          "pero",
+          "atrás"
+        ]
+      },
+      {
+        "exercise_id": "S26-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: siempre success\ntasks={'a': 'success', 'b': 'failed'}\nprint('success')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "valor",
+          "según",
+          "lee",
+          "algún",
+          "mutes",
+          "evalúa",
+          "resultado"
+        ]
+      },
+      {
+        "exercise_id": "S26-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: imprime dict entero sin snapshot\nm={'run_id':'cpn2c-1','api_rpm':30,'tz':'America/Lima'}\nprint(m)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "ejercicio",
+          "solo",
+          "starter",
+          "fuera",
+          "crea",
+          "deja",
+          "completo"
+        ]
+      },
+      {
+        "exercise_id": "S26-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: umbral 100\n# Este codigo tiene un defecto intencional que el learner debe corregir.\napi_rpm=90\nprint('too_high' if api_rpm>100 else 'ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "valor",
+          "revisa",
+          "alteres",
+          "imprime",
+          "contra",
+          "fixture",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "schedule = {\"cron\": \"0 6 * * 1-5\", \"tz\": \"UTC\"}  # DEFECT: tz UTC\n# schedule[\"tz\"] = \"America/Lima\"\nready = schedule[\"tz\"] == \"America/Lima\" and schedule[\"cron\"].startswith(\"0 6\")\nprint(\"ready\" if ready else \"blocked\")\nprint(schedule[\"cron\"], schedule[\"tz\"])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "etiqueta",
+          "imprime",
+          "está",
+          "deja",
+          "prefijo",
+          "luego",
+          "calcula"
+        ]
+      },
+      {
+        "exercise_id": "S26-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: lineal base*attempt\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nattempt, base = 3, 100\nprint(base * attempt)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "real",
+          "abre",
+          "milisegundos",
+          "imprime",
+          "inventes",
+          "sleep",
+          "entero"
+        ]
+      },
+      {
+        "exercise_id": "S26-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: DLQ vacía aunque attempts agotados\ndlq=[]\nattempts, max_attempts = 3, 3\nprint(dlq)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reason",
+          "revisa",
+          "imprime",
+          "owner",
+          "lista",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: reprocess all\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nckpt={'a'}; items=['a','b']\nprint(items)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "lee",
+          "imprime",
+          "todos",
+          "mirar",
+          "hardcodees",
+          "lista",
+          "sin",
+          "pendientes"
+        ]
+      },
+      {
+        "exercise_id": "S26-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "store={}\n\ndef put(k,v):\n    # DEFECT: siempre sobrescribe\n    store[k]=v\n\nput('r','v1'); put('r','v2')\nprint(store.get('r'))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "puts",
+          "abre",
+          "asigna",
+          "llamadas",
+          "orden",
+          "cambies",
+          "ejecuta",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no pop ni superseded\nstate={'report': 'ok', 'draft': 'ok'}\nprint(state)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revisa",
+          "imprime",
+          "intacto",
+          "haz",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "entity = {\"id\": \"report-1\", \"locked\": True}\n# DEFECT: enter aunque locked\nprint((\"enter\", entity[\"id\"]) if entity[\"locked\"] else (\"busy\", entity[\"id\"]))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ignores",
+          "invertida",
+          "salida",
+          "cuando",
+          "imprime",
+          "está",
+          "tupla"
+        ]
+      },
+      {
+        "exercise_id": "S26-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: cuenta done\nanalysis=[{'status': 'pending'}, {'status': 'done'}]\nprint(sum(1 for x in analysis if x['status']=='done'))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "dicts",
+          "abre",
+          "imprime",
+          "alteres",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: all >0\nq={'analysis':1,'report':0,'recipient':0}\nprint(all(v>0 for v in q.values()))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "booleano",
+          "usa",
+          "revisa",
+          "imprime",
+          "mirar",
+          "hardcodees",
+          "sin"
+        ]
+      },
+      {
+        "exercise_id": "S26-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: imprime checklist fijo sin mirar status\nqueues={'analysis':'pending','report':'done','recipient':'pending'}\nprint(['metrics','narrative','recipient'])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "colas",
+          "labels",
+          "lee",
+          "cuyo",
+          "claves",
+          "tres",
+          "define",
+          "fija"
+        ]
+      },
+      {
+        "exercise_id": "S26-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: imprime solo actor\naudit=[]\naudit.append({'action':'approve','actor':'rev'})\nprint(audit[0]['actor'])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "appendeado",
+          "abre",
+          "dict",
+          "mutes",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: ok sin reason\n# Este codigo tiene un defecto intencional que el learner debe corregir.\naction, reason = 'reject', None\nprint('ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cualquier",
+          "otro",
+          "siempre",
+          "ejercicio",
+          "revisa",
+          "imprime",
+          "caso",
+          "inventes"
+        ]
+      },
+      {
+        "exercise_id": "S26-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no incrementa ni audita\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nver=1\naudit=[]\nprint((ver, len(audit), None))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ana",
+          "sintético",
+          "imprime",
+          "lee",
+          "guarda",
+          "dict",
+          "sin",
+          "acción"
+        ]
+      },
+      {
+        "exercise_id": "S26-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: alert si rate > 0.95 y nombre genérico\nrate=0.9\nprint('alert' if rate > 0.95 else 'ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "condición",
+          "corrige",
+          "invertida",
+          "abre",
+          "imprime",
+          "cambies",
+          "fixture",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: ok aunque n>0\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nn=1\nprint('ok' if n>0 else 'P0_unapproved_send')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cuando",
+          "trates",
+          "revisa",
+          "imprime",
+          "sandbox",
+          "excepción",
+          "lab",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: solo page sin severity ni secuencia\nparts=['disable_schedule','drain','page']\nseverity='P0'\nprint('page')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "lee",
+          "imprime",
+          "disable",
+          "tres",
+          "partes",
+          "haz",
+          "reordenes"
+        ]
+      },
+      {
+        "exercise_id": "S26-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: path corto y solo any success\nsteps=['ingest','validate','draft']\nstatus={s:'success' for s in steps}\naudit=[{'action':'approve'}]\nprint(any(status[s]=='success' for s in steps))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "booleano",
+          "abre",
+          "imprime",
+          "lista",
+          "nodos",
+          "starter",
+          "canónicos"
+        ]
+      },
+      {
+        "exercise_id": "S26-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: solo mira fraud_labels e invierte\npkg={'fraud_labels':0,'approved':True}\nprint('fail' if pkg['fraud_labels']==0 else 'ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "revisa",
+          "exige",
+          "eleves",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S26-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "def defense_package(n2_status, value_min, cf2_note):\n    # DEFECT: omite value_minutes_saved_est\n    return {\n        \"n2_regression\": n2_status,\n        \"cf2\": cf2_note,\n    }\n\nprint(defense_package(\n    \"CP-N2-A/B/C critical+privacy\",\n    45,\n    \"interfaces Familiarity-reporting-automation\",\n))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "lee",
+          "claves",
+          "argumentos",
+          "completo",
+          "tres",
+          "incluye",
+          "mapeando"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "38467a8a88e300bf"
+  }
+}

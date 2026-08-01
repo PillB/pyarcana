@@ -1,0 +1,341 @@
+{
+  "agent": "a",
+  "section_index": 35,
+  "recorded_at": "2026-08-01T15:24:19.542317+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Solo importancia global (permutación) sin decisión humana",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          7.0,
+          5.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Sensibilidad del modelo al barajar una feature (drop de métrica)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          5.0,
+          4.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "Publicar solo el score puntual sin banda ni flag",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          6.15,
+          5.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "Nada: la card solo lista accuracy global",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.15,
+          5.0,
+          4.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "low_n en AQP: no afirmar inequidad ni paridad sin más evidencia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.3,
+          4.0,
+          8.3,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "Fuerza pred=1 cuando el vector z es OOD para no perder recall",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          6.15,
+          5.0,
+          8.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "Justificar el riesgo con evidencia (gaps/n) y aplicar review, mitigate o drop",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          8.0,
+          4.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 2,
+        "chosen_text": "Publicar el score puntual sin banda ni capa humana",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          7.0,
+          5.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S35-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-035 · permutation importance ≠ fraud\n# DEFECT: ranking con min (dirección invertida) y means_fraud como prueba\n# Contrato: corrige el DEFECT; verifica la salida esperada del ejercicio\ndef top_feature(drops):\n    return min(drops, key=drops.get)\n\nrecord = {\n    \"case_id\": \"CASO-LIM-035-1A\",\n    \"drops\": {\"shared_phone\": 0.1, \"amount_7d\": 0.03},\n    \"metric\": \"precision_at_k\",\n    \"means_fraud\": False,\n}\ntop = top_feature(record[\"drops\"])\nmeets_contract = (\n    top == \"shared_phone\"\n    and record[\"metric\"] == \"precision_at_k\"\n    and record[\"means_fraud\"] is True\n)\nstatus = \"PASS\" if meets_contract else \"REJECT_CAUSAL_CLAIM\"\nprint(\"S35-T1-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exige",
+          "abre",
+          "doble",
+          "usa",
+          "imprime",
+          "starter",
+          "assert",
+          "predicado"
+        ]
+      },
+      {
+        "exercise_id": "S35-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Revisa el starter: PASS si `means_fraud is True` (bug de contenido).n2. Si faltan keys → `MISSING:…`.n3. Con datos: t",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el starter: missing devuelve CONTINUE y el pred está invertido.n2. Missing → `REQUEST_METRIC_DROP`.n3. Completo y",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Abre el starter: `local_contrib` devuelve ceros y el predicado exige `causal is True`.n2. Calcula `{k: v * w for k, (",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS con `causal is True`.n2. Campo ausente → `MISSING:…`.n3. PASS solo si `causal is False` y set(layers)",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Si falta evidence → ficha None → `REQUEST_LAYER_FIELDS`.n2. Monta las 4 claves; model lleva contrib y causal.n3. Si c",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-035 · slice metrics min_n\n# DEFECT: flag invertido (PASS cuando low_n)\n# Contrato: corrige el DEFECT; verifica la salida esperada del ejercicio\ndef slice_flag(n, min_n=30):\n    return \"ok_n\" if n < min_n else \"low_n\"\n\nrecord = {\n    \"case_id\": \"CASO-LIM-035-2A\",\n    \"slice_n\": 100,\n    \"precision\": 0.6,\n    \"min_n\": 30,\n}\nflag = slice_flag(record[\"slice_n\"], record[\"min_n\"])\nmeets_contract = flag == \"ok_n\" and 0 <= record[\"precision\"] <= 1\nstatus = \"PASS\" if meets_contract else \"REJECT_LOW_N_CLAIM\"\nprint(\"S35-T2-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S35-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS si slice_n < min_n (invertido).n2. Campo ausente → `MISSING`.n3. PASS si n ≥ min_n y precision en [0,",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Sin n → None → REQUEST_SLICE_N.n2. flag = low_n si n < min_n else ok_n; retiene claim.n3. low_n + claim parity → REJE",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter: high_risk usa `\"low\"` y action es auto_label.n2. Filtra `v == \"high\"`.n3. Cambia action a review (u otra de ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS si action == auto_label.n2. Campo ausente → `MISSING`.n3. PASS si risk high y action en {review, miti",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Sin features → REQUEST_PROXY_AUDIT.n2. high_risk = keys con tag high; means_fraud=False.n3. auto_label o means_fraud ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter: lo=hi=p, level=point.n2. lo, hi = round(p±q, 2); level del record si q>0.n3. Exige hi>lo y valores 0.5/0.7.n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS si q==0.n2. Campo ausente → `MISSING`.n3. PASS si q>0, level ≠ point y p en [0,1].n4. Imprime las tre",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter: missing→CONTINUE y pred invertido.n2. Missing → REQUEST_INTERVAL.n3. Completo con q>0 y level ≠ point → CONT",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-035 · OOD abstain not auto_fraud\n# DEFECT: is_ood correcto pero action=auto_fraud (forzar label)\n# Contrato: corrige el DEFECT; verifica la salida esperada del ejercicio\ndef is_ood(zs, thr):\n    return max(abs(z) for z in zs) > thr\n\nrecord = {\n    \"case_id\": \"CASO-LIM-035-3B\",\n    \"zs\": [1.0, 2.0, 3.5],\n    \"threshold\": 3.0,\n    \"action\": \"auto_fraud\",\n}\nood = is_ood(record[\"zs\"], record[\"threshold\"])\nmeets_contract = ood and record[\"action\"] == \"auto_fraud\"\nstatus = \"PASS\" if meets_contract else \"REJECT_AUTO_LABEL\"\nprint(\"S35-T3-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exige",
+          "imprime",
+          "starter",
+          "predicado",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S35-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS si action == auto_fraud.n2. Campo ausente → `MISSING`.n3. PASS si max|z| > thr y action == abstain.n4",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Sin zs → REQUEST_OOD_POLICY.n2. ood = max|z| > thr; reason='ood' si aplica.n3. ood y action ≠ abstain → REJECT; ood y",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter: card_ok True solo si use==fraud_label.n2. need = {use, out_of_scope, owner, contestability}.n3. Exige queue_",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS si use==fraud_label.n2. Campo ausente → `MISSING`.n3. PASS si queue_rank, fraud_label en out_of_scope",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-035 · transfer: build model card then gate scope\n# DEFECT: build omite out_of_scope; decide siempre CONTINUE\n# Contrato: corrige el DEFECT; verifica la salida esperada del ejercicio\ndef build_card(raw):\n    if \"prohibited\" not in raw:\n        return None\n    # DEFECT: no copia prohibited a out_of_scope\n    return {\"use\": raw.get(\"use\"), \"owner\": raw.get(\"owner\"), \"contestability\": raw.get(\"contestability\")}\n\ndef decide(raw):\n    card = build_card(raw)\n    if card is None:\n        return \"CONTINUE\"\n    return \"CONTINUE\"\n\nvalid = {\n    \"case_id\": \"CASO-LIM-035-4A\",\n    \"use\": \"queue_rank\",\n    \"prohibited\": [\"fraud_label\"],\n    \"owner\": \"risk_ops\",\n    \"contestability\": True,\n}\ninvalid = {**valid, \"use\": \"fraud_label\", \"contestability\": False, \"prohibited\": []}\nuncertain = {k: v for k, v in valid.items() if k != \"prohibited\"}\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "decisiones",
+          "sin",
+          "tres",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S35-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-035 · override must record actor\n# DEFECT: audit_event True cuando by está vacío\n# Contrato: corrige el DEFECT; verifica la salida esperada del ejercicio\ndef audit_event(event):\n    return \"case\" in event and not event.get(\"by\")\n\nevent = {\n    \"case\": \"CASO-LIM-035-4B\",\n    \"human\": \"override_skip\",\n    \"by\": \"analyst_7\",\n}\nrecord = {\"case_id\": \"CASO-LIM-035-4B\", **event}\nmeets_contract = audit_event(event)\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_OVERRIDE\"\nprint(\"S35-T4-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "keys",
+          "exige",
+          "debe",
+          "assert",
+          "imprime",
+          "starter",
+          "pasar"
+        ]
+      },
+      {
+        "exercise_id": "S35-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter da PASS si not by.n2. Campo ausente → `MISSING`.n3. PASS si by, case y human son truthy.n4. Imprime las tres ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S35-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter: missing→CONTINUE y pred invertido.n2. Missing → REQUEST_AUDIT_FIELDS.n3. Completo con by/case/human truthy →",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "9d052e8c19102c14"
+  }
+}

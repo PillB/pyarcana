@@ -1,0 +1,289 @@
+{
+  "agent": "a",
+  "section_index": 42,
+  "recorded_at": "2026-08-01T15:18:50.945207+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "fixtures válidos/inválidos con rechazo de campos extra (modelo de extra=forbid)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          8.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "emitir DENY_CROSS_TENANT y conservar evidencia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          4.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          12.0,
+          5.15,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "evolución aditiva segura si la unión de tags sigue exhaustiva",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          5.0,
+          7.3,
+          4.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "allowlist de hosts: rechazar si el host no está en el catálogo",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.0,
+          5.0,
+          5.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S42-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract = required.issubset(payloa",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con `status` presente devuelve PASS si h",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `status` → `REVIEW_BUSINESS_INVARIANT`",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True ante rename o tags distintos (bug)",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero calcula missing de campos required del registro.n2.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin handled_tags → MIGRATE_CONSUMERS.n2. Con datos: predica",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-CUS-042 · can_read con resource binding\n# Defecto didáctico: allow si actor ≠ owner (cross-tenant abierto).\n# Corrige solo la decisión de dominio; conserva datos y la salida esperada.\ndef can_read(actor: str, owner: str, scopes: set) -> bool:\n    # Defecto: privilegio cruzado\n    return actor != owner\n\nactor = \"user-a\"\nowner = \"user-a\"\nscopes = {\"case:read\"}\nmeets_contract = can_read(actor, owner, scopes)\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "scope",
+          "devuelve",
+          "starter",
+          "contrato",
+          "bug",
+          "true",
+          "permite"
+        ]
+      },
+      {
+        "exercise_id": "S42-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta `roles` → MISSING:roles.n2. Si autenticado + actor",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin roles → VERIFY_RESOURCE_OWNER.n2. Con datos: binding + ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte el predicado y no exige `svc-`.n2. Impl",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero missing de campos required.n2. Luego allow de tres ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-CUS-042 · decide DENY_SCOPE / REQUEST_NARROW_GRANT\n# Defecto didáctico: missing→CONTINUE; allow invertido.\n# Corrige solo la decisión de dominio; conserva datos y la salida esperada.\ndef allow(granted: set, needed: str, service_id: str, route_declared: bool) -> bool:\n    return needed not in granted or not route_declared\n\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"requested_scope\", \"granted_scopes\", \"service_id\", \"route_declared\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    ok = allow(\n        record[\"granted_scopes\"],\n        record[\"requested_scope\"],\n        record[\"service_id\"],\n        record[\"route_declared\"],\n    )\n    return \"CONTINUE\" if ok else \"DENY_SCOPE\"\n\nvalid = {\"case_id\": \"CASO-CUS-042-2B\", \"requested_scope\": \"report:prepare\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"svc-reporter\", \"route_declared\": True}\ninvalid = {\"case_id\": \"CASO-CUS-042-2B\", \"requested_scope\": \"prod:write\", \"granted_scopes\": {\"report:prepare\"}, \"service_id\": \"shared-admin\", \"route_declared\": False}\nuncertain = {**valid}\nuncertain.pop(\"route_declared\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "s42",
+          "debe",
+          "puertas",
+          "pass",
+          "PASS",
+          "tres",
+          "contrato"
+        ]
+      },
+      {
+        "exercise_id": "S42-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte e ignora hosts (bug).n2. Implementa las",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Primero missing de `root`.n2. Luego trusted de tres puertas",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin root → SECURITY_REVIEW.n2. Con datos: tres puertas → CO",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True si secret_in_repo o not pinned (bu",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta critical_cves → MISSING.n2. Si promote_ok de cinco",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin critical_cves → ASSESS_DEPENDENCY_RISK.n2. Con datos: p",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte inclusion y techo (bug).n2. Exige colle",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta max_retention_days → MISSING.n2. Si inventory_ok →",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin max_retention_days → PRIVACY_OWNER_REVIEW.n2. Con datos",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter aprueba si hay ∩ con PII o derivado vivo (bug).n",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Si falta key_separate → MISSING.n2. Si purge_ok → PASS; si ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S42-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S42-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin key_separate → VERIFY_DELETION_SCOPE.n2. Con datos: cic",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "301a2d6a67bab4d3"
+  }
+}

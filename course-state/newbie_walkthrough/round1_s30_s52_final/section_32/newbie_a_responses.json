@@ -1,0 +1,384 @@
+{
+  "agent": "a",
+  "section_index": 32,
+  "recorded_at": "2026-08-01T15:17:15.168696+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "El catálogo",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Fallar de forma explícita",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Solo afecta texto",
+        "confidence": 0.54,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "Es red flag de leakage",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          1.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "sobre train+test juntos para más datos",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 1,
+        "chosen_text": "se rechaza (REJECT_UNKNOWN_FEATURE) o se pide REQUEST_CATALOG",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          6.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 2,
+        "chosen_text": "preservar la señal de ausencia y evitar silent fill",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.15,
+          6.15,
+          2.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 0,
+        "chosen_text": "|mean_serve − mean_train| > tol sobre la misma feature",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 1,
+        "chosen_text": "borrar la version del state para forzar re-fit en serve",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.0,
+          5.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 9,
+        "chosen_index": 1,
+        "chosen_text": "REQUEST_STATE_JSON (pedir el artefacto; no inventar defaults)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          6.0,
+          3.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S32-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Abre el starter: `unknown` usa `k in known` (DEFECT).n2. Cambia a `k not in known`.n3. Deja `catalog_ok = len(unknown",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — assess unknown feature (Red Andina sintético, sin PII real)\n# DEFECT: PASS cuando hay unknown keys\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"schema\", \"row\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    schema, row = record[\"schema\"], record[\"row\"]\n    known = set(schema[\"numeric\"] + schema[\"categorical\"] + schema[\"text\"])\n    unknown = [k for k in row if k not in known]\n    # DEFECT: invierte el criterio\n    return \"PASS\" if unknown else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"caso-ra-1a\", \"schema\": {\"numeric\": [\"amount_7d\"], \"categorical\": [\"canal\"], \"text\": []}, \"row\": {\"amount_7d\": 1.0, \"canal\": \"app\"}}\ninvalid = {\"case_id\": \"caso-ra-1a\", \"schema\": {\"numeric\": [\"amount_7d\"], \"categorical\": [], \"text\": []}, \"row\": {\"unknown_feat\": 1}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nprint(*(assess(r) for r in (valid, invalid, incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revisa",
+          "tres",
+          "imprime",
+          "línea",
+          "starter",
+          "faltan",
+          "devuelve",
+          "rutas"
+        ]
+      },
+      {
+        "exercise_id": "S32-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: missing→CONTINUE y predicado invertido.n2. Si faltan keys → `REQUEST_CATALOG`.n3. Con schema: CONTINUE",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — silent fill ban + scale (Red Andina sintético, sin PII real)\n# DEFECT: z-score ignora filled y usa constantes [2, 4]\nvals = [1, None, 3]\nfill, mu, sd = 2.0, 0.0, 2.0\nind = [v is None for v in vals]\nfilled = [fill if v is None else float(v) for v in vals]\nz = [(x - mu) / sd for x in [2, 4]]  # DEFECT\nsilent_fill = False\nmeets = ind == [False, True, False] and filled == [1.0, 2.0, 3.0] and z == [0.5, 1.0, 1.5] and silent_fill is False\nstatus = \"PASS\" if meets else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "valores",
+          "imprime",
+          "abre",
+          "starter",
+          "comprueba",
+          "cambia",
+          "contra",
+          "esperados"
+        ]
+      },
+      {
+        "exercise_id": "S32-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Starter: PASS solo por median (DEFECT).n2. Calcula `expected_ind` desde values.n3. Si indicator ≠ expected → REJECT_S",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE y siempre CONTINUE.n2. Sin keys → `REQUEST_MEDIAN`.n3. Compara indicator con values; CONTINU",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — shared/graph features + no label (Red Andina sintético, sin PII real)\n# DEFECT: path no lee paths; uses_label tratado como requerido True\na_addr, b_addr = \"Av1\", \"Av1\"\nneighbors = {\"E1\": [\"E2\", \"E3\"]}\npaths = {\"E1-E2\": 1}\nuses_label = False\nshared = int(a_addr == b_addr)\ndegree = len(neighbors.get(\"E1\", []))\npath = 99  # DEFECT: ignora paths y dst\nmeets = shared == 1 and degree == 2 and path == 99 and uses_label is True  # DEFECT\nstatus = \"PASS\" if meets else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "exige",
+          "correctos"
+        ]
+      },
+      {
+        "exercise_id": "S32-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: PASS si uses_label True.n2. Missing keys primero.n3. Calcula shared/degree/path; PASS solo si uses_label Fals",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE; predicado invertido.n2. Sin neighbors → REQUEST_GRAPH_FEAT.n3. Con grafo: CONTINUE solo si ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — time windows y frequency (Red Andina sintético, sin PII real)\n# DEFECT: usa <= t (incluye el instante de decisión)\nevents, t, w = [1, 2, 3, 5], 5, 3\ncount = sum(1 for ts in events if t - w <= ts <= t)  # DEFECT\nincludes_t = any(ts == t for ts in events if t - w <= ts <= t)\nmeets = (count == 2) and (includes_t is False)\nstatus = \"PASS\" if meets else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "cambia",
+          "ambos"
+        ]
+      },
+      {
+        "exercise_id": "S32-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: PASS cuando includes_t es True.n2. Missing w → MISSING:w.n3. Recompute count e includes half-open; PASS solo ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE; predicado invertido.n2. Sin w → REQUEST_WINDOW.n3. Con w: CONTINUE solo si half-open limpio",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: fit deja mode=None; transform hardcodea.n2. En fit, aprende la moda de xs.n3. En transform, exige fit y usa s",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: PASS si try_before_fit True.n2. Missing train_xs primero.n3. Si try_before_fit → REJECT; si no, fit y comprue",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE; predicado invertido.n2. Sin train_xs → REQUEST_FIT_STATE.n3. Con train: REJECT si try_befor",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — fit/transform persistence (Red Andina sintético, sin PII real)\n# DEFECT: no aplica median; version ignorada\nimport json\nstate = {\"median\": 2, \"version\": \"fs-v1\"}\nloaded = json.loads(json.dumps(state))\nserve = [None, 4]  # DEFECT: no aplica median\nversioned = bool(loaded.get(\"version\"))\nmeets = serve == [2, 4] and str(loaded[\"version\"]).startswith(\"fs-v\") and versioned\nstatus = \"PASS\" if meets else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "rellena"
+        ]
+      },
+      {
+        "exercise_id": "S32-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: PASS sin version válida y sin apply.n2. Missing version → MISSING:version.n3. Round-trip + startswith('fs-v')",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE; no aplica median.n2. Sin version → REQUEST_STATE_JSON.n3. Con version: JSON + fill; CONTINU",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — entity/group/time split (Red Andina sintético, sin PII real)\n# DEFECT: tamaños hardcodeados; no calcula overlap\nrows = [\n    {\"ts\": \"2026-01-10\", \"entity\": \"e1\"},\n    {\"ts\": \"2026-02-10\", \"entity\": \"e2\"},\n]\ncut = \"2026-02-01\"\nn_train, n_test, overlap = 1, 1, 0  # DEFECT: no derivado\nmeets = n_train >= 1 and n_test >= 1 and overlap == 0\nstatus = \"PASS\" if meets else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "intersección",
+          "imprime",
+          "filtra",
+          "len",
+          "fijos"
+        ]
+      },
+      {
+        "exercise_id": "S32-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — assess split isolation (Red Andina sintético, sin PII real)\n# DEFECT: no calcula overlap; PASS con intersección de entidades\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"rows\", \"cut\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    rows, cut = record[\"rows\"], record[\"cut\"]\n    train = [r for r in rows if r[\"ts\"] < cut]\n    test = [r for r in rows if r[\"ts\"] >= cut]\n    # DEFECT: ignora intersección real\n    return \"PASS\" if train and test else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\n    \"case_id\": \"caso-ra-4a\",\n    \"cut\": \"2026-02-01\",\n    \"rows\": [\n        {\"ts\": \"2026-01-10\", \"entity\": \"e1\"},\n        {\"ts\": \"2026-02-10\", \"entity\": \"e2\"},\n    ],\n}\ninvalid = {\n    \"case_id\": \"caso-ra-4a\",\n    \"cut\": \"2026-02-01\",\n    \"rows\": [\n        {\"ts\": \"2026-01-10\", \"entity\": \"e1\"},\n        {\"ts\": \"2026-02-10\", \"entity\": \"e1\"},\n    ],\n}\nincomplete = {k: v for k, v in valid.items() if k != \"rows\"}\nprint(*(assess(r) for r in (valid, invalid, incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "medir",
+          "tres",
+          "rutas"
+        ]
+      },
+      {
+        "exercise_id": "S32-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE; no mide intersección.n2. Sin rows → REQUEST_SPLIT_KEYS.n3. Con rows: CONTINUE solo si overl",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S32-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# E1 — leakage/skew/version gate (Red Andina sintético, sin PII real)\n# DEFECT: gate invertido (PASS si hay leak o skew)\nnames = [\"amount_7d\", \"canal_mode\"]\ntrain_mean, serve_mean, tol = 0.0, 0.1, 0.5\nfeature_set = \"fs-v2\"\nleaky = [n for n in names if \"label\" in n or \"decision\" in n]\nskew = abs(serve_mean - train_mean) > tol\nmeets = bool(leaky) or skew  # DEFECT\nstatus = \"PASS\" if meets else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S32-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# E2 — assess leakage y skew (Red Andina sintético, sin PII real)\n# DEFECT: PASS cuando hay leaky o skew\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"names\", \"train_mean\", \"serve_mean\", \"tol\", \"feature_set\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    names = record[\"names\"]\n    leaky = [n for n in names if \"label\" in n or \"decision\" in n]\n    skew = abs(record[\"serve_mean\"] - record[\"train_mean\"]) > record[\"tol\"]\n    # DEFECT: invierte el gate de promote\n    return \"PASS\" if leaky or skew else \"REJECT_LEAKAGE\"\n\nvalid = {\n    \"case_id\": \"caso-ra-4b\",\n    \"names\": [\"amount_7d\", \"canal_mode\"],\n    \"train_mean\": 0.0,\n    \"serve_mean\": 0.1,\n    \"tol\": 0.5,\n    \"feature_set\": \"fs-v2\",\n}\ninvalid = {\n    \"case_id\": \"caso-ra-4b\",\n    \"names\": [\"amount_7d\", \"label_decision\"],\n    \"train_mean\": 0.0,\n    \"serve_mean\": 0.8,\n    \"tol\": 0.5,\n    \"feature_set\": \"fs-v2\",\n}\nincomplete = {k: v for k, v in valid.items() if k != \"feature_set\"}\nprint(*(assess(r) for r in (valid, invalid, incomplete)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "tres",
+          "solo",
+          "rutas"
+        ]
+      },
+      {
+        "exercise_id": "S32-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. DEFECT: missing→CONTINUE; always CONTINUE.n2. Sin feature_set → REQUEST_FEATURE_SET_ID.n3. Con id: CONTINUE solo si s",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "1934e1eb33bba972"
+  }
+}

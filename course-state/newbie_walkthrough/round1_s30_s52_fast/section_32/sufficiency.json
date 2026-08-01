@@ -1,0 +1,62 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "El instante t y el futuro"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fallar de forma explícita"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Es leakage de identidad"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Es red flag de leakage"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "solo sobre train y reutilizarse en serve"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "se rechaza (REJECT_UNKNOWN_FEATURE) o se pide REQUEST_CATALOG"
+  },
+  {
+    "i": 6,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "preservar la señal de ausencia y evitar silent fill"
+  },
+  {
+    "i": 7,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "|mean_serve − mean_train| > tol sobre la misma feature"
+  },
+  {
+    "i": 8,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "subir el version bump (p. ej. fs-v1 → fs-v2) y citar el nuevo id"
+  },
+  {
+    "i": 9,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "REQUEST_STATE_JSON (pedir el artefacto; no inventar defaults)"
+  }
+]

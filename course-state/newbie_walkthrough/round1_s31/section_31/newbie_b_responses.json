@@ -1,0 +1,532 @@
+{
+  "agent": "b",
+  "section_index": 31,
+  "recorded_at": "2026-08-01T15:20:35.375066+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Posición estructural que requiere contexto, no culpa",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          5.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Auditar source/record_id del hecho relacional",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          2.0,
+          1.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          1.0,
+          4.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          2.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "hipótesis de relación con evidencia auditable para revisión humana",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.15,
+          6.15,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "Para conservar varios hechos/fuente entre el mismo par sin colapsar auditoría",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          10.0,
+          5.0,
+          5.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 1,
+        "chosen_text": "Acotar costo y ruido de caminos largos poco accionables",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          7.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 3,
+        "chosen_text": "dirigida con etype `transfer` y peso en PEN (u otra unidad documentada)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          2.0,
+          9.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 3,
+        "chosen_text": "Únicamente aristas transfer, nunca contactos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 9,
+        "chosen_index": 0,
+        "chosen_text": "Rompes agregaciones y comparaciones posteriores del workbench",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S31-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · graph nodes+edges schema\n# TODO: define edges con owns + shared_phone; imprime n_nodes, n_edges, n_directed\nnodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = []  # completar: owns E1→A1 (directed), shared_phone E1–E2 (no directed)\nprint(\"n_nodes\", len(nodes))\n# print(\"n_edges\", ...)\n# print(\"n_directed\", ...)\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "false",
+          "vacío",
+          "agrega",
+          "listo",
+          "arista",
+          "peso",
+          "revisa",
+          "starter"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · out-weight by node\n# TODO: implementa out_strength(edges) → dict src→suma; reporta top\nedges = [('A', 'B', 2.0), ('A', 'C', 1.0), ('B', 'C', 5.0)]\n\ndef out_strength(edges):\n    out = {}\n    # completar: acumular peso saliente por src\n    return out\n\nout = out_strength(edges)\n# print top, value, n\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "elige",
+          "uses"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Completa `counts(edges)`: suma directed True y False por separado.n2. Construye `etypes = sorted({e['etype'] for e in",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S31-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · multi-edge pairs\n# TODO: cuenta multi-aristas por par y reporta el top\nfrom collections import Counter\nrows = [('E1', 'E2'), ('E1', 'E2'), ('E2', 'E3')]\nc = None  # completar: Counter de filas (src, dst)\n# pair, n = ...; print pair, n, pairs\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "obtén",
+          "arma",
+          "frecuente",
+          "ids",
+          "dos",
+          "hardcodees",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · time filter edges\n# TODO: filtra por ventana temporal y reporta provenance\nedges = [\n    {'ts': '2026-01-15', 'record_id': 'a'},\n    {'ts': '2026-02-10', 'record_id': 'b'},\n    {'ts': '2026-03-01', 'record_id': 'c'},\n]\n# f = ...; print n, prov, first\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "comprueba",
+          "filtro",
+          "todas",
+          "primer",
+          "tienen",
+          "hardcodees",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · provenance validation\n# TODO: implementa ok(e) y reporta all_ok, n_bad, n\nedges = [\n    {'source': 'crm', 'record_id': '1'},\n    {'source': '', 'record_id': '2'},\n    {'source': 'tx', 'record_id': '3'},\n]\ndef ok(e):\n    return False  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "fallan",
+          "completa",
+          "get",
+          "cuenta",
+          "hardcodees",
+          "bool",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · owns edges from accounts\n# TODO: proyecta aristas owns ordenadas\naccounts = [{'id': 'a2', 'owner': 'e2'}, {'id': 'a1', 'owner': 'e1'}]\nowns = []  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ordénalos",
+          "construye",
+          "tuples",
+          "lista",
+          "final",
+          "cada",
+          "cuenta",
+          "hardcodees"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · shared contact values\n# TODO: detecta valores compartidos (≥2 entidades)\nfrom collections import defaultdict\ncontacts = [('e1', '900'), ('e2', '900'), ('e3', '901'), ('e1', '901')]\nm = defaultdict(set)\n# completar y print shared, n_shared, note\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "filtra",
+          "conducta",
+          "inventes",
+          "labels",
+          "acumula",
+          "contacto",
+          "valor",
+          "not_parentesco"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · union node set\n# TODO: une los tres conjuntos de ids\nentities = ['e1', 'e2']\naccounts = ['a1']\ncontacts = ['900', '901']\nnodes = set()  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "operador",
+          "está",
+          "aquí",
+          "conviertas",
+          "sin",
+          "aristas",
+          "contactos",
+          "hardcodees"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · canonical id collapse\n# TODO: reescribe aristas con ids canónicos (post-ER S30)\ncanon = {'r1': 'E1', 'r2': 'E1', 'r3': 'E2'}\nedges = [('r1', 'r3'), ('r2', 'r3')]\nce = []  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "dejes",
+          "ordena",
+          "colapsa",
+          "grafo",
+          "set",
+          "tuples",
+          "collapsed",
+          "final"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · aggregate amount keep records\n# TODO: agrega montos SIN borrar record_id\nfrom collections import defaultdict\nrows = [\n    {'src': 'A', 'dst': 'B', 'amount': 3, 'record_id': '1'},\n    {'src': 'A', 'dst': 'B', 'amount': 4, 'record_id': '2'},\n]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\n# completar bucle e imprimir sum, records, detail_kept\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "par",
+          "true",
+          "clave",
+          "lista",
+          "fila",
+          "suma",
+          "cada",
+          "reemplaces"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Acumula `n` y `records` por `(src, dst)`.n2. Calcula `total = sum(a['n'] for a in aggs.values())`.n3. Imprime `ok`, `",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S31-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · undirected degree\n# TODO: calcula grados no dirigidos\nfrom collections import defaultdict\nedges = [('a', 'b'), ('b', 'c'), ('a', 'c')]\ndeg = defaultdict(int)\n# completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "conducta",
+          "máximo",
+          "keys",
+          "grado",
+          "cada",
+          "arista",
+          "conviertas",
+          "dict"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · connected components\n# TODO: lista componentes conexas\nfrom collections import defaultdict\nedges = [('a', 'b'), ('c', 'd'), ('d', 'e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v)\n    adj[v].add(u)\n# completar DFS/BFS\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "ordena",
+          "n_comp",
+          "cada",
+          "nodo",
+          "desde",
+          "primer",
+          "visitado",
+          "starter"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · BFS path hops\n# TODO: BFS reproducible A → D\nfrom collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A', 'B'), ('B', 'C'), ('C', 'D')]:\n    adj[u].add(v)\n    adj[v].add(u)\npath = None  # completar BFS\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "guarda",
+          "len",
+          "llegar",
+          "revisitas",
+          "calcula",
+          "found",
+          "desde",
+          "evita"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · degree centrality estándar deg/(n-1)\n# TODO: acumula deg; n = len(deg); norm = deg/(n-1); reporta top (sin culpa)\nfrom collections import defaultdict\nedges = [('H', 'A'), ('H', 'B'), ('H', 'C')]\ndeg = defaultdict(int)\n# completar: acumular deg, n, norm, top, prints\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "decimales",
+          "score",
+          "elige",
+          "redondea",
+          "ambos",
+          "extremos",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Acumula deg en ambos extremos.n2. `hub = max(deg, key=deg.get)`.n3. `kind = 'infra' if hub.startswith('INF-') else 'p",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S31-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · high-degree + edge types\n# TODO: calcula degree y etypes desde aristas (no uses incident pre-horneado)\nfrom collections import defaultdict\nedges = [\n    ('H', 'A', 'transfer'),\n    ('H', 'B', 'transfer'),\n    ('H', 'C', 'shared_phone'),\n]\ndeg = defaultdict(int)\netypes = defaultdict(set)\n# completar acumulación, high, only_transfer\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "interpret_with_types",
+          "sorted",
+          "nodos",
+          "true",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · ego k-hop\n# TODO: implementa ego(seed, k)\nfrom collections import defaultdict\nedges = [('A', 'B'), ('B', 'C'), ('C', 'D')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v)\n    adj[v].add(u)\n\ndef ego(seed, k):\n    return {seed}  # completar expansión por capas\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "devuelvas",
+          "false",
+          "debe",
+          "cada",
+          "completa",
+          "está",
+          "ser",
+          "solo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · graph invariants\n# TODO: evalúa invariantes de calidad del grafo\nedges = [\n    {'src': 'a', 'dst': 'b', 'w': 1, 'rid': '1'},\n    {'src': 'b', 'dst': 'b', 'w': 2, 'rid': '2'},\n]\n# print no_self, w_ok, prov\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "booleanos",
+          "arregles",
+          "fixture",
+          "tres",
+          "calcula",
+          "incluye",
+          "presente",
+          "sobre"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · build idempotence (conserva dirección)\n# TODO: build determinista con par ordenado (src, dst); no inviertas extremos\nraw = [('a', 'b'), ('b', 'c')]\n\ndef build(edges):\n    return []  # completar: sorted(set(...)) sin reordenar cada arista\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "implementa",
+          "mismo",
+          "dirigidos",
+          "imprime",
+          "builds",
+          "simetrices",
+          "compara",
+          "pares"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · email redact\n# TODO: redacta el local del email\nemail = 'ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = None  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "string",
+          "false",
+          "full_pii",
+          "final",
+          "usar",
+          "tienes",
+          "arma",
+          "redacted"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · path edge evidence\n# TODO: adjunta records por hop del path\npath = ['E1', 'E2', 'E3']\nev = {('E1', 'E2'): ['r1'], ('E2', 'E3'): ['r2', 'r3']}\nrecords = []  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "busca",
+          "par",
+          "consecutivos",
+          "inventes",
+          "pares",
+          "recorre",
+          "n_hops",
+          "true"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S31-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-031 · scale policy summarize\n# TODO: política render vs. summarize\nmax_n = 500\n\ndef decide(n):\n    return \"render\"  # completar\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "dejes",
+          "umbral",
+          "siempre",
+          "completa",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "c9a11be9c95f2743"
+  }
+}

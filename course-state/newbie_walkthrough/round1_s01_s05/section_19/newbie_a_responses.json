@@ -1,0 +1,482 @@
+{
+  "agent": "a",
+  "section_index": 19,
+  "recorded_at": "2026-08-01T15:10:39.722744+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Dual axis sin escala",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Repetir los mismos números clave del chart",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          3.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Un alt text correcto",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Nada",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          1.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          6.0,
+          7.0,
+          6.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S19-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · chart choice bar\n# Bug a corregir: chart=line para comparar\npregunta = \"comparar regiones\"\nchart = \"line\"\nprint(chart)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "verifica",
+          "absoluta",
+          "abre",
+          "pocas",
+          "categorías",
+          "cambia",
+          "variable",
+          "mentalmente"
+        ]
+      },
+      {
+        "exercise_id": "S19-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · brief dict\n# Bug a corregir: omite audiencia/chart\nprint({\"pregunta\": \"totales por región\"})",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revisa",
+          "completo",
+          "otro",
+          "sola",
+          "línea",
+          "hardcodees",
+          "moderno",
+          "completa"
+        ]
+      },
+      {
+        "exercise_id": "S19-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · elige_chart\n# Bug a corregir: siempre bar\ndef elige_chart(pregunta):\n return \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "defecto",
+          "busca",
+          "deja",
+          "subcadena",
+          "función",
+          "line",
+          "lee"
+        ]
+      },
+      {
+        "exercise_id": "S19-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · truncated axis factor\n# Bug a corregir: denominador honesto incorrecto\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / (50 - 45)\nprint(\"factor\", round(truco / hon, 2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "revisa",
+          "desde",
+          "divide",
+          "mantén",
+          "honesta",
+          "altura",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S19-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · ylim honesty gate\n# Bug a corregir: ignora encoding y bottom\ndef gate_baseline(ylim_bottom, encoding):\n return \"ok_con_nota\"\nprint(gate_baseline(40, \"bar_absolute\"))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "siempre",
+          "abre",
+          "revisa",
+          "trates",
+          "absolutas",
+          "devuelve",
+          "starter",
+          "absolutos"
+        ]
+      },
+      {
+        "exercise_id": "S19-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · dual_axis risk\n# Bug a corregir: dual_axis → ok\nencoding = \"dual_axis\"\nprint(\"ok\" if encoding == \"dual_axis\" else \"riesgo_alto\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "string",
+          "otro",
+          "ternario",
+          "lógica",
+          "veredicto",
+          "cuando",
+          "lee"
+        ]
+      },
+      {
+        "exercise_id": "S19-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · bar ylim0\n# Bug a corregir: ylim empieza en 1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(1, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "mantén",
+          "cambia",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S19-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · ylabel + ylim contract\n# Bug a corregir: sin ylabel; ylim no forzado a 0\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Lima\", \"Bogota\"], [28.0, 22.5])\nprint({\"ylabel\": ax.get_ylabel(), \"ylim0\": float(ax.get_ylim()[0])})\nplt.close(fig)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "arma",
+          "figura",
+          "imprime",
+          "defecto",
+          "revisa",
+          "cierra",
+          "razonable",
+          "vacío"
+        ]
+      },
+      {
+        "exercise_id": "S19-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · meta_bar\n# Bug a corregir: ylim0 no forzado a 0; ylim0 no casteado a float\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n fig, ax = plt.subplots()\n ax.bar(labels, values)\n out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0]}\n plt.close(fig)\n return out\nprint(meta_bar([\"Lima\", \"Bogota\"], [28.0, 22.5]))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "arma",
+          "ylim",
+          "defecto",
+          "hay",
+          "deja",
+          "castea",
+          "usa",
+          "dibuja"
+        ]
+      },
+      {
+        "exercise_id": "S19-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · export real + meta\n# Bug a corregir: no savefig; panels=1 inventado\nimport io\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].bar([\"Lima\"], [40])\naxes[1].bar([\"Bogota\"], [28])\nexport = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 1, \"png_ok\": False}\nprint(export)\nplt.close(fig)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "hay",
+          "cierra",
+          "crea",
+          "llama",
+          "cuenta",
+          "len",
+          "bugs"
+        ]
+      },
+      {
+        "exercise_id": "S19-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · versioned filename\n# Bug a corregir: sin version en nombre\nversion = 3\nprint(\"fig_cpn2b.png\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revisa",
+          "insertes",
+          "usa",
+          "versión",
+          "fig_cpn2b_v",
+          "mayúsculas",
+          "distintas",
+          "ese"
+        ]
+      },
+      {
+        "exercise_id": "S19-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · panel titles\n# Bug a corregir: un solo title en fig\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\nfig.suptitle(\"Dashboard\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "comprehension",
+          "hay",
+          "med",
+          "defecto",
+          "set_title",
+          "vol",
+          "mantén",
+          "vacío"
+        ]
+      },
+      {
+        "exercise_id": "S19-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · lookup median\n# Bug a corregir: filtra Bogota en lugar de Madrid\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Bogota\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Bogota\")[\"median\"])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "verifica",
+          "abre",
+          "cambia",
+          "mentalmente",
+          "comparación",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S19-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · accessible tooltip\n# Bug a corregir: sin n=\nprint(f\"Madrid: {28} PEN\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "string",
+          "revisa",
+          "imprime",
+          "mismo",
+          "espacios",
+          "starter",
+          "omite"
+        ]
+      },
+      {
+        "exercise_id": "S19-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · tooltip\n# Bug a corregir: omite n\ndef tooltip(row):\n return f\"{row['region']}: {row['median']} PEN\"\nprint(tooltip({\"region\": \"Bogota\", \"median\": 22.5, \"n\": 32}))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "capturas",
+          "string",
+          "defecto",
+          "deja",
+          "keys",
+          "completas",
+          "keyerror",
+          "lee"
+        ]
+      },
+      {
+        "exercise_id": "S19-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · chart-table parity (Madrid)\n# Bug a corregir: tabla 27.5 vs. chart 28.0\nchart = {\"Lima\": 28.0, \"Bogota\": 22.5}\ntable = [{\"region\": \"Lima\", \"ticket_mediano_pen\": 27.5}]\nprint(chart[\"Lima\"] == table[0][\"ticket_mediano_pen\"])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "texto",
+          "abre",
+          "extra",
+          "imprimas",
+          "ambos",
+          "imprime",
+          "starter",
+          "alinea"
+        ]
+      },
+      {
+        "exercise_id": "S19-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · filter json + sampling\n# Bug a corregir: sin universe_n; ensure_ascii=True\nimport json\nstate = {\"filtro_region\": \"Lima\", \"sample_n\": 5000}\nprint(json.dumps(state, ensure_ascii=True))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "falta",
+          "JSON",
+          "string",
+          "revisa",
+          "serializa",
+          "resultante",
+          "bugs",
+          "completa"
+        ]
+      },
+      {
+        "exercise_id": "S19-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · table alt text\n# Bug a corregir: join sin unidades\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Bogota\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']}\" for r in table))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "añade",
+          "deja",
+          "defecto",
+          "completo",
+          "une",
+          "lee",
+          "unidad"
+        ]
+      },
+      {
+        "exercise_id": "S19-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · pie caption\n# Bug a corregir: omite fuente\nprint(\"unidad=PEN\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprime",
+          "abre",
+          "sintetico",
+          "token",
+          "sola",
+          "línea",
+          "este",
+          "lab"
+        ]
+      },
+      {
+        "exercise_id": "S19-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · caption keys\n# Bug a corregir: falta limitacion\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "clave",
+          "revisa",
+          "deja",
+          "faltan",
+          "superset",
+          "starter",
+          "claves",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S19-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · pie formatter\n# Bug a corregir: solo keys\ndef pie(cap):\n return \" | \".join(str(k) for k in cap)\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "string",
+          "defecto",
+          "deja",
+          "sobre",
+          "lee",
+          "cambia",
+          "prueba",
+          "hardcodees"
+        ]
+      },
+      {
+        "exercise_id": "S19-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · overclaim\n# Bug a corregir: aprueba claim sin muestra\nclaim = \"Madrid es la mejor del Perú\"\nprint(\"OK\")",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "deja",
+          "RECHAZADO",
+          "pasar",
+          "rechazado",
+          "mano",
+          "hacerlo",
+          "regla"
+        ]
+      },
+      {
+        "exercise_id": "S19-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · alt n= + hatch no-color\n# Bug a corregir: alt sin n; hatch=None (solo color)\nalt = \"Lima 28 PEN\"\nhatch = None\nprint(\"n=\" in alt)\nprint(hatch is not None)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "check",
+          "revisa",
+          "incluye",
+          "bugs",
+          "asigna",
+          "completa",
+          "imprime",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S19-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-019 · classify claim\n# Bug a corregir: siempre PERMITIDO\ndef classify_claim(text):\n return \"PERMITIDO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "defecto",
+          "deja",
+          "forzar",
+          "condiciona",
+          "edites",
+          "lee",
+          "pass",
+          "devuelve"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "e7075226acd116b7"
+  }
+}

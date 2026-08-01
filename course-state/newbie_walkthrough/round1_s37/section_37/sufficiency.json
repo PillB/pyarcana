@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.6,
+    "correct_preview": "Estabilizar benches descartando cold start"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Pares candidatos O(n²) (con tradeoff de recall)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Falla si se rompe el límite acordado sobre el fixture"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 0.83,
+    "correct_preview": "Teatro; prioriza claridad y cambios algorítmicos medidos"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "No es comparable entre cambios de dataset"
+  }
+]

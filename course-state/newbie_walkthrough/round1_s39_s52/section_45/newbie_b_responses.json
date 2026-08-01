@@ -1,0 +1,379 @@
+{
+  "agent": "b",
+  "section_index": 45,
+  "recorded_at": "2026-08-01T15:25:47.721495+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "ADR de persistencia con fuente de verdad (object + relacional; cache no autoritativo)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          9.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "terminar en DLQ (p. ej. SEND_TO_DLQ / DEDUP_OR_DLQ) y conservar evidencia",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          7.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          4.0,
+          3.0,
+          10.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          2.0,
+          6.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "ir a DLQ terminal con evidencia y sin segundo side-effect silencioso",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          9.0,
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 2,
+        "chosen_text": "acciones mínimas (p. ej. object:get + queue:ack), path privado y egress allowlisted con prueba negativa de admin/host desconocido",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          5.15,
+          15.15,
+          6.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 3,
+        "chosen_text": "FREEZE_SCALE_OUT (y revisión del responsable de costo si falta evidencia de recovery/export)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          7.0,
+          5.0,
+          9.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S45-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` da PASS con cache autorit",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: con datos completos aprueba cache autori",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `cache_ttl_s` → `WRITE_STORE_ADR` (no ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `meets_contract` usa `>` en RPO/RTO (DEFEC",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero: required keys; missing → `MISSING:…`.n2. Co",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide DECLARE_DATA_LOSS_RISK\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"operation\", \"consistency\", \"backup_age_h\", \"rpo_h\", \"restore_minutes\", \"rto_minutes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"] else \"DECLARE_DATA_LOSS_RISK\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\ninvalid = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"eventual\",\"backup_age_h\":24,\"rpo_h\":6,\"restore_minutes\":90,\"rto_minutes\":30}}\nuncertain = {**valid}\nuncertain.pop(\"rto_minutes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "completo",
+          "pass",
+          "tres",
+          "s45",
+          "reutiliza",
+          "run_restore_drill",
+          "slo"
+        ]
+      },
+      {
+        "exercise_id": "S45-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si `not acked_after_effect` o key vacía (DEFE",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · assess NACK_AND_RETRY\n# DEFECT: PASS sin ack post-efecto o sin key\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"acked_after_effect\"] or not record[\"idempotency_key\"] else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-most-once\",\"effect_durable\":False,\"acked_after_effect\":False,\"idempotency_key\":\"\",\"backoff\":False}}\nincomplete = {**valid}\nincomplete.pop(\"backoff\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "completo",
+          "tres",
+          "s45",
+          "schema",
+          "primero",
+          "predicado",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S45-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide NACK_AND_RETRY\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"delivery\", \"effect_durable\", \"acked_after_effect\", \"idempotency_key\", \"backoff\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if not record[\"acked_after_effect\"] or not record[\"idempotency_key\"] else \"NACK_AND_RETRY\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-most-once\",\"effect_durable\":False,\"acked_after_effect\":False,\"idempotency_key\":\"\",\"backoff\":False}}\nuncertain = {**valid}\nuncertain.pop(\"backoff\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sano",
+          "devolver",
+          "orden",
+          "completo",
+          "pass",
+          "s45",
+          "toques",
+          "roto"
+        ]
+      },
+      {
+        "exercise_id": "S45-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS si len(processed)==len(messages) o no termina",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · assess DEDUP_OR_DLQ\n# DEFECT: PASS sin dedup real o sin DLQ terminal\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"] else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\"},\"ordered_partition\":False,\"terminal_in_dlq\":False}}\nincomplete = {**valid}\nincomplete.pop(\"terminal_in_dlq\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "completo",
+          "tres",
+          "s45",
+          "schema",
+          "primero",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S45-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide DEDUP_OR_DLQ\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"message_ids\", \"processed_ids\", \"ordered_partition\", \"terminal_in_dlq\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"] else \"DEDUP_OR_DLQ\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\"},\"ordered_partition\":False,\"terminal_in_dlq\":False}}\nuncertain = {**valid}\nuncertain.pop(\"terminal_in_dlq\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "completo",
+          "INSPECT_MESSAGE_ORDER",
+          "pass",
+          "s45",
+          "inspect_message_order",
+          "fixtures",
+          "predicado"
+        ]
+      },
+      {
+        "exercise_id": "S45-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter aprueba sobrecapacidad (DEFECT).n2. Invierte a work",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero → MISSING.n2. Completo: predicado de E1 → PA",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide APPLY_BACKPRESSURE\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"backlog\", \"workers\", \"target_per_worker\", \"quota_workers\", \"private_network\", \"backpressure\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"] else \"APPLY_BACKPRESSURE\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":500,\"workers\":2,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":False,\"backpressure\":False}}\nuncertain = {**valid}\nuncertain.pop(\"backpressure\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sano",
+          "devolver",
+          "request_capacity",
+          "completo",
+          "orden",
+          "pass",
+          "REQUEST_CAPACITY",
+          "s45"
+        ]
+      },
+      {
+        "exercise_id": "S45-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS en denegación (DEFECT).n2. Invierte a members",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.n2. Completo: predicado de E1 → PASS o DENY.",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide DENY_IAM_OR_EGRESS\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"allowed_actions\", \"requested_action\", \"private_path\", \"egress_host\", \"egress_allow\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"] else \"DENY_IAM_OR_EGRESS\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\ninvalid = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\"},\"requested_action\":\"iam:admin\",\"private_path\":False,\"egress_host\":\"unknown.example\",\"egress_allow\":{\"api.internal\"}}}\nuncertain = {**valid}\nuncertain.pop(\"egress_allow\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sano",
+          "devolver",
+          "orden",
+          "completo",
+          "DENY",
+          "deny",
+          "pass",
+          "s45"
+        ]
+      },
+      {
+        "exercise_id": "S45-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con secretos o destroys (DEFECT).n2. Invierte",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.n2. Completo: predicado de E1 → PASS o REJEC",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide REJECT_IAC_PLAN\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"declared_resources\", \"planned_resources\", \"environment\", \"secret_values_in_plan\", \"destructive_changes\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0 else \"REJECT_IAC_PLAN\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"bucket\"},\"environment\":\"shared\",\"secret_values_in_plan\":True,\"destructive_changes\":1}}\nuncertain = {**valid}\nuncertain.pop(\"destructive_changes\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "orden",
+          "devolver",
+          "completo",
+          "pass",
+          "s45",
+          "limpio",
+          "REJECT",
+          "fixtures"
+        ]
+      },
+      {
+        "exercise_id": "S45-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Starter: PASS con sobrepresupuesto (DEFECT).n2. Invierte de",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S45-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Schema primero.n2. Completo: predicado de E1 → PASS o FREEZ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S45-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-IQU-045 · decide FREEZE_SCALE_OUT\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; imprime la salida exacta del enunciado\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"forecast_pen\", \"budget_pen\", \"quota_used\", \"quota_limit\", \"restore_tested\", \"portable_export\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"] else \"FREEZE_SCALE_OUT\"\n\nvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\ninvalid = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":1500,\"budget_pen\":1000,\"quota_used\":120,\"quota_limit\":100,\"restore_tested\":False,\"portable_export\":False}}\nuncertain = {**valid}\nuncertain.pop(\"portable_export\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sano",
+          "devolver",
+          "COST_OWNER_REVIEW",
+          "completo",
+          "orden",
+          "pass",
+          "s45",
+          "roto"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "43694c95ecee7e2c"
+  }
+}

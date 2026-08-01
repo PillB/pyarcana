@@ -1,0 +1,459 @@
+{
+  "agent": "b",
+  "section_index": 17,
+  "recorded_at": "2026-08-01T15:19:50.052279+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "Crear MultiIndex",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          1.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "Filas del left sin match en right",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          5.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          4.0,
+          6.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "El periodo de la primera observación válida (p. ej. mes de primera compra)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.0,
+          4.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          5.0,
+          2.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S17-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · left merge length\n# Bug a corregir: inner merge acorta filas (pierde clientes sin tx)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corta",
+          "starter",
+          "contando",
+          "aunque",
+          "abre",
+          "fila",
+          "seguir",
+          "tenga"
+        ]
+      },
+      {
+        "exercise_id": "S17-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · unique keys\n# Bug a corregir: se imprime True sin medir is_unique\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(True)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "revisa",
+          "mano",
+          "real",
+          "series",
+          "dedupliques",
+          "sobre",
+          "mutes"
+        ]
+      },
+      {
+        "exercise_id": "S17-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · fanout inner pre/post\n# Bug a corregir: drop_duplicates antes del merge oculta el fan-out (solo 1 fila)\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nm = cli.merge(tx.drop_duplicates(\"cliente_id\"), on=\"cliente_id\", how=\"inner\")\nprint({\"rows_cli\": len(cli), \"rows_merge\": len(m)})",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "defect",
+          "imprime",
+          "ocultando",
+          "deja",
+          "haz",
+          "DEFECT",
+          "deduplicar",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S17-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · left_only orphans\n# Bug a corregir: se filtra 'both' en vez de 'left_only'\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"both\", \"cliente_id\"].tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "aparece",
+          "abre",
+          "lista",
+          "filtro",
+          "comprueba",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S17-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · validate one_to_one\n# Bug a corregir: merge sin validate silencia el fan-out\nimport pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\nprint(len(a.merge(b, on=\"id\")))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exitoso",
+          "starter",
+          "revisa",
+          "envuelve",
+          "imprimas",
+          "largo"
+        ]
+      },
+      {
+        "exercise_id": "S17-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · count left_only\n# Bug a corregir: se cuenta 'both' en vez de 'left_only'\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"both\").sum()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dashboard",
+          "sale",
+          "defect",
+          "número",
+          "imprime",
+          "alimenta",
+          "ese",
+          "condición"
+        ]
+      },
+      {
+        "exercise_id": "S17-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · melt length\n# Bug a corregir: se imprime len del wide sin melt\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nprint(len(df))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "abre",
+          "resultado",
+          "aplica",
+          "solo",
+          "recuerda"
+        ]
+      },
+      {
+        "exercise_id": "S17-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · pivot columns\n# Bug a corregir: sin reset_index las columnas no incluyen id\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nw = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\")\nprint(list(w.columns))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tolist",
+          "starter",
+          "encadena",
+          "revisa",
+          "imprime",
+          "columna",
+          "lista",
+          "tras"
+        ]
+      },
+      {
+        "exercise_id": "S17-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · concat lotes\n# Bug a corregir: solo se mide la primera tabla (n_filas incompleto)\nimport pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint({\"n_lotes\": 2, \"n_filas\": len(a)})",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "aún",
+          "defect",
+          "imprime",
+          "true",
+          "out",
+          "DEFECT",
+          "ignore_index",
+          "apilaste"
+        ]
+      },
+      {
+        "exercise_id": "S17-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · pivot rename columns\n# Bug a corregir: columnas sin prefijo monto_\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nw = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\")\nprint(list(w.columns))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "abre",
+          "ambas",
+          "asigna",
+          "crudas",
+          "comprueba"
+        ]
+      },
+      {
+        "exercise_id": "S17-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · expected columns\n# Bug a corregir: expected pide monto_feb que no existe\nimport pandas as pd\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_feb\"}\nprint(set(df.columns) == expected)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "revisa",
+          "imprime",
+          "corrige",
+          "importa",
+          "orden",
+          "export",
+          "memo"
+        ]
+      },
+      {
+        "exercise_id": "S17-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · rename\n# Bug a corregir: se exporta el nombre crudo 'a'\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.columns.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "defect",
+          "imprime",
+          "aplica",
+          "lee",
+          "export",
+          "DEFECT",
+          "debe",
+          "schema"
+        ]
+      },
+      {
+        "exercise_id": "S17-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · groupby sum\n# Bug a corregir: mean en vez de sum\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Madrid\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].mean().to_dict())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dos",
+          "starter",
+          "filas",
+          "imprime",
+          "abre",
+          "usa",
+          "debe",
+          "sumar"
+        ]
+      },
+      {
+        "exercise_id": "S17-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · transform mean\n# Bug a corregir: sum del groupby colapsa filas\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Madrid\"], \"monto\": [1.0, 3.0, 2.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "aún",
+          "starter",
+          "revisa",
+          "imprime",
+          "colapsaste",
+          "elementos",
+          "floats",
+          "usa"
+        ]
+      },
+      {
+        "exercise_id": "S17-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · named agg\n# Bug a corregir: sum simple no nombra total ni n\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Madrid\"], \"monto\": [1.0, 2.0]})\nout = df.groupby(\"region\")[\"monto\"].sum().reset_index()\nprint(out.columns.tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "defect",
+          "imprime",
+          "usa",
+          "columna",
+          "DEFECT",
+          "aggregation",
+          "lee",
+          "sea"
+        ]
+      },
+      {
+        "exercise_id": "S17-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · rolling mean\n# Bug a corregir: rolling(1) no genera NaN inicial\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0]).rolling(1).mean()\nprint([None if pd.isna(x) else float(x) for x in s])",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "completa",
+          "imprime",
+          "abre",
+          "cambia"
+        ]
+      },
+      {
+        "exercise_id": "S17-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · cohort month\n# Bug a corregir: transform('max') usa última fecha, no la primera\nimport pandas as pd\ndf = pd.DataFrame({\n \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n \"fecha\": pd.to_datetime([\"2024-01-05\", \"2024-03-01\", \"2024-02-10\"]),\n})\ndf[\"cohort\"] = df.groupby(\"cliente_id\")[\"fecha\"].transform(\"max\").dt.to_period(\"M\").astype(str)\nprint(df.drop_duplicates(\"cliente_id\").set_index(\"cliente_id\")[\"cohort\"].to_dict())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "filas",
+          "revisa",
+          "imprime",
+          "mar",
+          "cliente",
+          "dict",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S17-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · sort then rolling\n# Bug a corregir: rolling sobre índice desordenado\nimport pandas as pd\ns = pd.Series([3.0, 1.0, 2.0], index=pd.to_datetime([\"2024-01-03\", \"2024-01-01\", \"2024-01-02\"]))\nprint(float(s.rolling(2).mean().iloc[-1]))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "defect",
+          "imprime",
+          "sin",
+          "último",
+          "directo",
+          "día",
+          "DEFECT",
+          "lee"
+        ]
+      },
+      {
+        "exercise_id": "S17-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · reconciliation\n# Bug a corregir: tolerancia 1.0 es demasiado laxa\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1.0)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "booleano",
+          "imprime",
+          "abre",
+          "pasar",
+          "casi",
+          "sol",
+          "descuadre"
+        ]
+      },
+      {
+        "exercise_id": "S17-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · conversion rate\n# Bug a corregir: cociente invertido (activos/pagados)\nactivos = 40\npagados = 10\nprint(activos / pagados)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "invierte",
+          "starter",
+          "revisa"
+        ]
+      },
+      {
+        "exercise_id": "S17-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · residual tabla puente\n# Bug a corregir: signo invertido (lima - total) y sin keys de la tabla puente\ntotal = 100.0\nlima = 60.0\nprint({\"total\": total, \"lima\": lima, \"residual\": lima - total})",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "resto",
+          "defect",
+          "evidencia",
+          "imprime",
+          "esconder",
+          "DEFECT",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S17-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · cutoff filter\n# Bug a corregir: máscara fecha > cutoff (post-periodo)\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]), \"monto\": [1.0, 9.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] > cutoff, \"monto\"].tolist())",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "abre",
+          "aparecer",
+          "invierte",
+          "debe"
+        ]
+      },
+      {
+        "exercise_id": "S17-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-017 · post-cutoff sum\n# Bug a corregir: se imprime solo pre, no el delta de leakage\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-03-01\"]), \"monto\": [10.0, 5.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()\nprint(float(pre))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "calcula",
+          "bueno",
+          "starter",
+          "revisa",
+          "total"
+        ]
+      },
+      {
+        "exercise_id": "S17-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: `groupby(...).max()` sin merge ni filtro.n2. Left merge cli–tx; `rows_merge = len(m)`.n3. `total_pre` ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "bded0592e07ee98c"
+  }
+}

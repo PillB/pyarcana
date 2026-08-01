@@ -1,0 +1,346 @@
+{
+  "agent": "b",
+  "section_index": 41,
+  "recorded_at": "2026-08-01T15:21:54.948119+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "202 siempre, aunque el job sea síncrono y ya exista el recurso",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          7.15
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "devolver conflicto / error de idempotencia sin segundo side effect",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.15,
+          8.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "exponer solo campos del contrato (p. ej. name, priority, job_id, status) y coincidir con status/shape reales",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          6.0,
+          11.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "422 Unprocessable Entity con detalle de campos",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "devolver created en la primera y replay en la segunda sin segundo efecto",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          8.0,
+          5.3,
+          5.15,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "abrir la conexión SQL, aplicar reglas de negocio y devolver status codes desde el dominio",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          12.0,
+          6.0,
+          11.0,
+          8.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 3,
+        "chosen_text": "trabajo en background/worker con cola o store durable y respuesta `queued` si aplica",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          4.0,
+          5.0,
+          9.15
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 1,
+        "chosen_text": "429 con señal recuperable (p. ej. `retry_after_s`), sin PII en el body",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          7.0,
+          2.0,
+          5.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S41-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: en POST + path que termina en `/jobs` devu",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: el PASS usa `status==200` y `method==GET",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Si faltan campos, devuelve `REVIEW_RESOURCE_SEMANTICS` (no ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-ARE-041 · idempotency key+body store\n# DEFECT: siempre \"created\" e inserta de nuevo (duplica side effect)\n# Contrato: corrige idempotent_create; salida alineada a solutionCode\ndef idempotent_create(store: dict, key: str, body: dict) -> str:\n    # DEFECT: no consulta store ni detecta conflict\n    store[key + str(len(store))] = body\n    return \"created\"\n\nstore = {}\nassert idempotent_create(store, \"idem-are-1\", {\"name\": \"job\"}) == \"created\"\nassert idempotent_create(store, \"idem-are-1\", {\"name\": \"job\"}) == \"replay\"\nassert idempotent_create(store, \"idem-are-1\", {\"name\": \"other\"}) == \"conflict\"\nassert len(store) == 1\nprint(\"S41-T1-B\", \"PASS\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "debe",
+          "asserts",
+          "longitud",
+          "guarda",
+          "ignora",
+          "abre",
+          "devuelve"
+        ]
+      },
+      {
+        "exercise_id": "S41-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido (hoy PASS si effects>1 o has",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REPLAY_STORED_RESPONSE` (no CONTINUE).n2. CONTIN",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-ARE-041 · thin handler / DI\n# DEFECT: dominio conoce status HTTP y muta un store global\n# Contrato: corrige create_job + thin_handler; salida alineada a solutionCode\nGLOBAL = []\n\ndef create_job(body: dict) -> dict:\n    # DEFECT: store global + status HTTP en dominio\n    job = {\"id\": f\"job-{len(GLOBAL)+1}\", \"status_code\": 201, **body}\n    GLOBAL.append(job)\n    return job\n\ndef thin_handler(get_store, body: dict) -> dict:\n    # DEFECT: ignora get_store\n    return create_job(body)\n\nmem_a, mem_b = [], []\nthin_handler(lambda: mem_a, {\"name\": \"er-run\"})\nthin_handler(lambda: mem_b, {\"name\": \"other\"})\nassert len(mem_a) == 1 and len(mem_b) == 1\nassert \"status_code\" not in mem_a[0]\nprint(\"S41-T2-A\", \"PASS\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "hace",
+          "devolver",
+          "campo",
+          "elimina",
+          "asserts",
+          "longitud",
+          "ausencia",
+          "conserva"
+        ]
+      },
+      {
+        "exercise_id": "S41-T2-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T2-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado: PASS no es “líneas >20 y domain_impo",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REVIEW_DEPENDENCY_BOUNDARY`.n2. CONTINUE con el ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. Define required `{name, priority}`.n2. Si faltan campos, 42",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T2-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T2-B-E2 · Salida: debe devolver el PASS del contrato. 1. Corrige el predicado invertido (hoy PASS con 200 y leak).n2",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `REGENERATE_OPENAPI`.n2. CONTINUE con el predicad",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. Mapea io_wait→async; cpu_heavy/durable→background; resto→sy",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con cpu + await sin offload",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `CHOOSE_BACKGROUND_BOUNDARY`.n2. CONTINUE con pre",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. Envuelve la lógica en try/finally con `clear()`.n2. Si elap",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T3-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T3-B-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con db > client o cerrado F",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-ARE-041 · decide CANCEL_AND_CLOSE\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"client_timeout_ms\", \"service_budget_ms\", \"db_budget_ms\", \"error_code\", \"resource_closed\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"db_budget_ms\"] > record[\"client_timeout_ms\"] or not record[\"resource_closed\"] else \"CANCEL_AND_CLOSE\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":900,\"service_budget_ms\":700,\"db_budget_ms\":450,\"error_code\":\"UPSTREAM_TIMEOUT\",\"resource_closed\":True}}\ninvalid = {\"case_id\": \"CASO-ARE-041-3B\", **{\"client_timeout_ms\":500,\"service_budget_ms\":700,\"db_budget_ms\":900,\"error_code\":\"500\",\"resource_closed\":False}}\nuncertain = {**valid}\nuncertain.pop(\"resource_closed\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "debe",
+          "resto",
+          "predicado",
+          "assert",
+          "sano",
+          "pass",
+          "s41"
+        ]
+      },
+      {
+        "exercise_id": "S41-T4-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T4-A-E1 · Salida: debe devolver el PASS del contrato. 1. Mapea seed→nivel y compara igualdad.n2. `pyramid_ok` = cade",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con layers==1 y seed False)",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-ARE-041 · decide BLOCK_UNTESTED_CONTRACT\n# DEFECT: missing→CONTINUE; pred invertido\n# Contrato: corrige el DEFECT; salida alineada a solutionCode\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"rule_unit\", \"http_contract\", \"adapter_integration\", \"seeded_failure_detected\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if len(record[\"layers\"]) == 1 and not record[\"seeded_failure_detected\"] else \"BLOCK_UNTESTED_CONTRACT\"\n\nvalid = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\",\"contract\",\"integration\"},\"rule_unit\":True,\"http_contract\":True,\"adapter_integration\":True,\"seeded_failure_detected\":True}}\ninvalid = {\"case_id\": \"CASO-ARE-041-4A\", **{\"layers\":{\"unit\"},\"rule_unit\":True,\"http_contract\":False,\"adapter_integration\":False,\"seeded_failure_detected\":False}}\nuncertain = {**valid}\nuncertain.pop(\"seeded_failure_detected\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "devolver",
+          "debe",
+          "resto",
+          "predicado",
+          "assert",
+          "sano",
+          "pass",
+          "s41"
+        ]
+      },
+      {
+        "exercise_id": "S41-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. Si used > limit ⇒ 429 + retry_after_s.n2. Si no ⇒ 200 + rem",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Invierte el predicado (hoy PASS con over-limit o pii).n2. P",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S41-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S41-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing ⇒ `INSPECT_COMPATIBILITY`.n2. CONTINUE con predicad",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d6437be7ddc4f97b"
+  }
+}

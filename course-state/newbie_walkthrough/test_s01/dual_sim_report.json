@@ -1,0 +1,21 @@
+{
+  "attempt_id": "test_s01",
+  "finished_at": "2026-08-01T15:05:18.419832+00:00",
+  "sections_run": 1,
+  "all_sufficiency_ok": true,
+  "first_sufficiency_fail": null,
+  "a_pass_count": 1,
+  "b_pass_count": 1,
+  "results": [
+    {
+      "section_index": 1,
+      "id": "setup",
+      "sufficiency_ok": true,
+      "n_gaps": 0,
+      "a_sc": 75.0,
+      "b_sc": 75.0,
+      "a_pass": true,
+      "b_pass": true
+    }
+  ]
+}

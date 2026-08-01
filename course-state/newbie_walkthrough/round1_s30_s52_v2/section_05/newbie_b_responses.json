@@ -1,0 +1,528 @@
+{
+  "agent": "b",
+  "section_index": 5,
+  "recorded_at": "2026-08-01T15:14:16.209242+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          0.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          2.0,
+          4.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 2,
+        "chosen_text": "Solo el docstring queda en __doc__ y es el contrato legible por help()/herramientas",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.15,
+          7.15,
+          3.15
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.15,
+          4.0,
+          3.0,
+          4.15
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 0,
+        "chosen_text": "Reimplementa strip/lower/title en cada campo para no depender de helpers",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          8.0,
+          6.0,
+          7.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S05-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · return vs. print (helper de intake)\n# FALLO: imprime dentro y no retorna (caller ve None)\ndef n_palabras(raw):\n    print(len(raw.strip().split()))\nprint(n_palabras('  Ana   María  '))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tiene",
+          "devuelve",
+          "starter",
+          "debe",
+          "exacta",
+          "solo",
+          "línea",
+          "abre"
+        ]
+      },
+      {
+        "exercise_id": "S05-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · colapsar + title (política CP-N1-B)\n# FALLO: solo strip; no colapsa dobles espacios ni aplica title\ndef normalize_nombre(raw):\n    return raw.strip()\nprint(normalize_nombre('  Juan   Pérez '))\nprint(normalize_nombre('QUISPE'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "parte",
+          "salidas",
+          "starter",
+          "revisa",
+          "dos",
+          "contrato",
+          "inputs",
+          "compara"
+        ]
+      },
+      {
+        "exercise_id": "S05-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-005 · None implícito (etiqueta de campo de intake)\n# FALLO: imprime dentro y no retorna → print(etiqueta_campo(...)) es None\ndef etiqueta_campo(campo, valor):\n    print(f'{campo}: {valor}')\nprint(etiqueta_campo('nombre', 'Ana'))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "visible",
+          "único",
+          "starter",
+          "imprimir",
+          "verifica",
+          "vuelve",
+          "ser"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S05-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · defaults + keyword\n# FALLO: ignora titulo; hardcodea \"Cliente\"\ndef present(nombre, titulo='Cliente'):\n    return f'Cliente: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "segundo",
+          "starter",
+          "segunda",
+          "sin",
+          "confirma",
+          "primera",
+          "llamada",
+          "fija"
+        ]
+      },
+      {
+        "exercise_id": "S05-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · default mutable\n# FALLO: bucket=[] mutable compartido entre llamadas\ndef good_add(item, bucket=[]):\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "firma",
+          "identifica",
+          "dos",
+          "separadas",
+          "localmente",
+          "mostrar",
+          "distintas",
+          "cámbialo"
+        ]
+      },
+      {
+        "exercise_id": "S05-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · keyword-only digits_only\n# FALLO: siempre strip; ignora digits_only\ndef normalize_telefono(raw, *, digits_only=True):\n    return raw.strip()\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "salidas",
+          "llamadas",
+          "exactas",
+          "starter",
+          "dos",
+          "flag",
+          "hace",
+          "compara"
+        ]
+      },
+      {
+        "exercise_id": "S05-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · docstring vs. comentario (helper de normalizadores)\n# FALLO: docstring es # comentario; __doc__ queda None\ndef strip_collapse(s):\n    # Colapsa espacios extremos y dobles en un campo de texto.\n    return ' '.join(s.strip().split())\nprint(strip_collapse.__doc__)\nprint(strip_collapse('  a  b '))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "resultado",
+          "descripción",
+          "mueve",
+          "starter",
+          "línea",
+          "mantén",
+          "imprime",
+          "documenta"
+        ]
+      },
+      {
+        "exercise_id": "S05-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · pre/post email (política de gate)\n# FALLO: no lower; no valida @\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower/strip con @.\"\"\"\n    return raw.strip()\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "normaliza",
+          "pero",
+          "hace",
+          "raise",
+          "prueba"
+        ]
+      },
+      {
+        "exercise_id": "S05-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-005 · postcondición nombre (colapso + title)\n# BUG intencional: solo strip; deja dobles espacios (rompe post)\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios; title-case por palabra.\"\"\"\n    return raw.strip()\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == 'Ana María'\nassert r == r.strip() and '  ' not in r\nprint('post OK')",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "confirma",
+          "starter",
+          "implementa",
+          "hace",
+          "igualdad"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S05-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · type hints en helper de intake\n# FALLO: no imprime nota; retorna str en vez de int\ndef len_campo_raw(s: str) -> int:\n    return str(len(s))\nprint(len_campo_raw('abc'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "resultado",
+          "pese",
+          "demo",
+          "starter",
+          "exacta",
+          "humildad",
+          "corrige",
+          "pedida"
+        ]
+      },
+      {
+        "exercise_id": "S05-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-005 · parse_monto dominio\n# BUG intencional: acepta negativos; no distingue no-entero\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    n = int(raw)\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "cada",
+          "resultado",
+          "starter",
+          "crash",
+          "cuatro",
+          "recorre",
+          "parse",
+          "valores"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S05-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · raise + borde tolerante\n# FALLO: no raise; lote se traga filas malas sin SKIP\ndef normalize_email(raw: str) -> str:\n    return raw.strip().lower()\nprint('estrategia: ???')\nfor e in ['ok@ex.com', 'malo']:\n    print('OK', normalize_email(e))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "marca",
+          "ValueError",
+          "starter",
+          "etiqueta",
+          "valida",
+          "valueerror",
+          "loop",
+          "legible"
+        ]
+      },
+      {
+        "exercise_id": "S05-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · extract strip_collapse\n# FALLO: no extrae helper; title sin colapsar espacios\ndef strip_collapse(s):\n    return s\ndef normalize_nombre(raw):\n    return raw.strip().title()\nprint(normalize_nombre('  ana  maría '))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dejes",
+          "falla",
+          "solo",
+          "llamar",
+          "completa",
+          "verifica",
+          "dobles"
+        ]
+      },
+      {
+        "exercise_id": "S05-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · orquestador delgado\n# FALLO: reimplementa reglas; no llama helpers\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    s = s.strip().lower()\n    if '@' not in s:\n        raise ValueError('email sin @')\n    return s\ndef normalize_contact(nombre, email):\n    return {'nombre': nombre.strip(), 'email': email}\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "resultado",
+          "retorna",
+          "implementan",
+          "está",
+          "starter",
+          "normalizadas",
+          "imprime",
+          "política"
+        ]
+      },
+      {
+        "exercise_id": "S05-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · monstruo a descomponer\n# FALLO: tres políticas inline en un solo def (descompón)\ndef normalize_all(n, e, t):\n    # monstruo: reglas de nombre, email y tel mezcladas\n    nombre = ' '.join(n.strip().split()).title()\n    email = e.strip().lower()\n    if '@' not in email:\n        raise ValueError('email sin @')\n    tel = ''.join(c for c in t if c.isdigit())\n    return {'nombre': nombre, 'email': email, 'tel': tel}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "n_email",
+          "misma",
+          "starter",
+          "imprimir",
+          "n_nombre",
+          "n_tel",
+          "claros",
+          "nombres"
+        ]
+      },
+      {
+        "exercise_id": "S05-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · pureza + idempotencia\n# FALLO: deja guiones; f(f(x)) puede fallar si se re-strip mal\ndef normalize_tel(raw):\n    return raw.replace(' ', '')\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "starter",
+          "equivalente",
+          "caller",
+          "compara",
+          "calcula",
+          "imprime",
+          "quita",
+          "claro"
+        ]
+      },
+      {
+        "exercise_id": "S05-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · I/O al borde\n# FALLO: print dentro del normalizador \"puro\"\ndef normalize_email(raw):\n    s = raw.strip().lower()\n    print('email=', s)\n    return s\ndef print_report(raw):\n    normalize_email(raw)\nprint_report('  Z@W.COM ')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ValueError",
+          "starter",
+          "debe",
+          "añade",
+          "imprimir",
+          "valueerror",
+          "call",
+          "compara"
+        ]
+      },
+      {
+        "exercise_id": "S05-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · inyección de normalizador\n# FALLO: ignora norm inyectado; siempre digits\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return normalize_tel(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "retorna",
+          "salidas",
+          "starter",
+          "dos",
+          "pero",
+          "compara",
+          "demuestra",
+          "llama"
+        ]
+      },
+      {
+        "exercise_id": "S05-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · LEGB local vs. global\n# FALLO: no imprime dentro; asume que f muta global x\nx = 1\ndef f():\n    x = 2\nf()\nprint('in', x)\nprint('out', x)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "confirma",
+          "veces",
+          "exactas",
+          "tras",
+          "starter",
+          "dos",
+          "líneas"
+        ]
+      },
+      {
+        "exercise_id": "S05-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · closure factory de prefijo telefónico\n# FALLO: inner ignora prefix del enclosing; no antepone nada\ndef make_phone_prefix(prefix):\n    def norm(raw):\n        d = ''.join(c for c in raw if c.isdigit())\n        return d  # falta prefix\n    return norm\npe = make_phone_prefix('+51')\ncl = make_phone_prefix('+56')\nprint(pe('999'), cl('999'))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "ambos",
+          "anteponer",
+          "olvida",
+          "starter",
+          "solo",
+          "resultados",
+          "pero",
+          "crea"
+        ]
+      },
+      {
+        "exercise_id": "S05-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · factory multipolítica\n# FALLO: siempre lower; ignora mode digits\ndef make_normalizer(mode):\n    def norm(raw):\n        return raw.strip().lower()\n    return norm\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "resultados",
+          "starter",
+          "dos",
+          "hace",
+          "prueba"
+        ]
+      },
+      {
+        "exercise_id": "S05-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · asserts de ejemplo (contrato gate email)\n# FALLO: expected con mayúsculas; asserts fallan o se omiten\ndef normalize_email(s):\n    s = s.strip().lower()\n    if '@' not in s:\n        raise ValueError('email sin @')\n    return s\n# asserts omitidos / expected incorrecto\nprint(normalize_email('  A@B.COM '))",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "función",
+          "pasa",
+          "añade",
+          "solo",
+          "implementa",
+          "imprime",
+          "política",
+          "todo"
+        ]
+      },
+      {
+        "exercise_id": "S05-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# CASO-LIM-005 · refactor preserva conducta\n# BUG intencional: segunda definición usa lower (rompe política upper)\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).lower()\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "colapso",
+          "verdes",
+          "final",
+          "deja",
+          "propósito",
+          "extrae"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S05-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-005 · suite tabla de casos (colapso + title)\n# FALLO: no recorre cases; declara PASS a ciegas\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split()).title()\ncases = [('  a  b ', 'A B'), ('X', 'X')]\nprint('all PASS')",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cierra",
+          "todos",
+          "exp",
+          "starter",
+          "got",
+          "haz",
+          "pasaron",
+          "asserts"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "43910a1fee2140d9"
+  }
+}

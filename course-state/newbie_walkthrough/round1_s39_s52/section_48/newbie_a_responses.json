@@ -1,0 +1,333 @@
+{
+  "agent": "a",
+  "section_index": 48,
+  "recorded_at": "2026-08-01T15:26:02.784687+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "ranking reproducible con versión de embedding",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          4.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "emitir ABSTAIN y conservar evidencia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "retrieval y respuesta superan umbrales separados; toda afirmación material apunta a un fragmento permitido",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.15,
+          4.0,
+          11.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "como data hostil del corpus: no se ejecuta como instrucción",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "antes del ranking: un fragmento denegado no entra a candidatos",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          3.0,
+          4.0,
+          6.15
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 2,
+        "chosen_text": "elevar privilegios de ACL del chunk",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          1.0,
+          5.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 2,
+        "chosen_text": "medir Recall@k (u otra métrica) contra un gold set / holdout, no solo imprimir scores",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.3,
+          3.15,
+          11.3,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S48-T1-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T1-A-E1 · Salida: debe devolver el PASS del contrato. 1. Abre el starter: `rank_top` usa `min` y no comprueba versió",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T1-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T1-A-E2 · Salida: debe devolver el PASS del contrato. 1. Revisa el starter: `rank_top` usa `min` y assess no exige e",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T1-A-E3 · Salida: debe devolver el PASS del contrato. 1. Corrige missing: sin `expected_top` → `REVIEW_METRIC_VERSIO",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T1-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T1-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True ante regresión o holdout vacío (bu",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T1-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T1-B-E2 · Salida: debe devolver el PASS del contrato. 1. Primero calcula missing de campos required.n2. Si falta `re",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T1-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin `reindex_cost_pen` → EVALUATE_ERROR_SLICES.n2. Con sche",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T2-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T2-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter usa `len(set) < len(hashes)` como True (bug: col",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PUN-048 · assess DEDUP_AND_RECHUNK\n# DEFECT: PASS con hashes duplicados\n# Corrige el DEFECT; la salida impresa debe coincidir con la del lab\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"chunks\", \"unique_hashes\", \"source_version\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len({c[\"hash\"] for c in record[\"chunks\"]}) < len(record[\"chunks\"]) else \"DEDUP_AND_RECHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"policy\"},{\"id\":\"d1#2\",\"hash\":\"b\",\"section\":\"limits\"}],\"unique_hashes\":2,\"source_version\":\"d1-v3\"}}\ninvalid = {\"case_id\": \"CASO-PUN-048-2A\", **{\"chunks\":[{\"id\":\"d1#1\",\"hash\":\"a\",\"section\":\"\"},{\"id\":\"d1#2\",\"hash\":\"a\",\"section\":\"\"}],\"unique_hashes\":2,\"source_version\":\"latest\"}}\nincomplete = {**valid}\nincomplete.pop(\"source_version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "únicos",
+          "tripleta",
+          "solo",
+          "sections",
+          "s48",
+          "imprime",
+          "colisión",
+          "adverso"
+        ]
+      },
+      {
+        "exercise_id": "S48-T2-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T2-A-E3 · Salida: debe devolver el PASS del contrato. 1. Sin `source_version` → RESTORE_CHUNK_METADATA.n2. Con schem",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T2-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T2-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve True ante deny o deleted (bug invertido",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PUN-048 · assess FILTER_OR_DELETE_CHUNK\n# DEFECT: PASS sin intersección ACL o chunk deleted\n# Corrige el DEFECT; la salida impresa debe coincidir con la del lab\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"user_acl\", \"chunk_acl\", \"deleted\", \"provenance\", \"cache_invalidated\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not bool(record[\"user_acl\"] & record[\"chunk_acl\"]) or record[\"deleted\"] else \"FILTER_OR_DELETE_CHUNK\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\",\"ops\"},\"chunk_acl\":{\"ops\"},\"deleted\":False,\"provenance\":\"doc-7-v2\",\"cache_invalidated\":True}}\ninvalid = {\"case_id\": \"CASO-PUN-048-2B\", **{\"user_acl\":{\"public\"},\"chunk_acl\":{\"legal\"},\"deleted\":True,\"provenance\":\"\",\"cache_invalidated\":False}}\nincomplete = {**valid}\nincomplete.pop(\"cache_invalidated\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tripleta",
+          "s48",
+          "filter",
+          "imprime",
+          "luego",
+          "primero",
+          "adverso",
+          "allow"
+        ]
+      },
+      {
+        "exercise_id": "S48-T2-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T2-B-E3 · Salida: debe devolver el PASS del contrato. 1. Sin `cache_invalidated` → VERIFY_ACL_PROVENANCE.n2. Con sch",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T3-A-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T3-A-E1 · Salida: debe devolver el PASS del contrato. 1. El starter devuelve max(vector) (bug: ignora lexical).n2. C",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T3-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T3-A-E2 · Salida: debe devolver el PASS del contrato. 1. Repara `hybrid_top` (no puro vector).n2. Missing de expecte",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T3-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T3-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing expected_top → REVIEW_RERANK_CANDIDATES.n2. Con sch",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T3-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T3-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte subset/ACL e ignora tokens (bug).n2. Ex",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PUN-048 · assess ABSTAIN_UNCITED\n# DEFECT: PASS con claims sin cita o ACL rota\n# Corrige el DEFECT; la salida impresa debe coincidir con la del lab\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"claims\", \"cited_claims\", \"citation_acl\", \"context_tokens\", \"max_context_tokens\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"claims\"] <= record[\"cited_claims\"] or not record[\"citation_acl\"] else \"ABSTAIN_UNCITED\"\n\nvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\",\"c2\"},\"citation_acl\":True,\"context_tokens\":800,\"max_context_tokens\":1000}}\ninvalid = {\"case_id\": \"CASO-PUN-048-3B\", **{\"claims\":{\"c1\",\"c2\"},\"cited_claims\":{\"c1\"},\"citation_acl\":False,\"context_tokens\":4000,\"max_context_tokens\":1000}}\nincomplete = {**valid}\nincomplete.pop(\"max_context_tokens\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "tripleta",
+          "solo",
+          "s48",
+          "imprime",
+          "huérfano",
+          "devolver",
+          "contrato",
+          "subset"
+        ]
+      },
+      {
+        "exercise_id": "S48-T3-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T3-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing max → REQUEST_AUTHORIZED_CONTEXT.n2. Con schema, pr",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-PUN-048 · grounded structured output\n# DEFECT: grounded_ok aprueba evidence no permitida o injection activa\n# Corrige el DEFECT; la salida impresa debe coincidir con la del lab\ndef grounded_ok(record: dict) -> bool:\n    out = record[\"output\"]\n    # DEFECT: invierte allowlist / injection y acepta lista vacía\n    return not set(out[\"evidence_ids\"]) <= record[\"allowed_evidence\"] or not record[\"injected_instruction_ignored\"]\n\nrecord = {\"case_id\": \"CASO-PUN-048-4A\", **{\"output\":{\"answer\":\"plazo 30 días\",\"evidence_ids\":[\"d7#2\"]},\"schema_keys\":{\"answer\",\"evidence_ids\"},\"allowed_evidence\":{\"d7#2\"},\"injected_instruction_ignored\":True}}\nmeets_contract = grounded_ok(record)\nstatus = \"PASS\" if meets_contract else \"REJECT_UNGROUNDED_OUTPUT\"\nprint(\"S48-T4-A\", status)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "exige",
+          "allowed",
+          "flag",
+          "bug",
+          "devolver",
+          "contrato",
+          "starter",
+          "ids"
+        ]
+      },
+      {
+        "exercise_id": "S48-T4-A-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T4-A-E2 · Salida: debe devolver el PASS del contrato. 1. Missing del flag → MISSING.n2. grounded_ok completo → PASS;",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T4-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T4-A-E3 · Salida: debe devolver el PASS del contrato. 1. Missing injected_instruction_ignored → VALIDATE_OUTPUT_SCHE",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T4-B-E1",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T4-B-E1 · Salida: debe devolver el PASS del contrato. 1. El starter invierte faith e ignora recall/costo (bug).n2. E",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T4-B-E2",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T4-B-E2 · Salida: debe devolver el PASS del contrato. 1. Missing de support → MISSING.n2. Cuatro AND → PASS o ABSTAI",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S48-T4-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# S48-T4-B-E3 · Salida: debe devolver el PASS del contrato. 1. Missing support → TUNE_RETRIEVAL_OR_BUDGET.n2. Con schema, ",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "ef8ee7b45175208a"
+  }
+}

@@ -1,0 +1,463 @@
+{
+  "agent": "b",
+  "section_index": 28,
+  "recorded_at": "2026-08-01T15:09:27.284830+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "Que la salida sea siempre un número mágico fijo sin mirar el input",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          9.0,
+          6.0,
+          4.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          6.0,
+          6.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Acoplar el test a detalles internos y ocultar bugs con dobles que siempre pasan",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          8.0,
+          6.0,
+          9.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          3.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "Evitar documentar encoding NFC/NFD porque “ya funciona en laptop”",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          6.0,
+          10.0,
+          8.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S28-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: falta volver a sembrar la seed antes de b\nimport random\nrandom.seed(0)\na = random.random()\nb = random.random()  # debería ir precedido de random.seed(0)\nprint(a == b)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "solo",
+          "imprime",
+          "vez",
+          "divergen",
+          "hardcodees",
+          "otra",
+          "llama"
+        ]
+      },
+      {
+        "exercise_id": "S28-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: hardcodea True sin validar el batch (hay un score fuera de rango)\nscores = [0, 0.5, 1.2]\nprint(True)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "datos",
+          "booleano",
+          "escribe",
+          "revisa",
+          "imprime",
+          "for",
+          "solo",
+          "mirar"
+        ]
+      },
+      {
+        "exercise_id": "S28-T1-A-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# 1. Lee el DEFECT: un literal y `return 1`.n2. Dentro del test: `random.seed(42)`; genera 10 strings; assert de idempoten",
+        "blocked_on": [],
+        "confidence": 0.3,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S28-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: j dirigido (divide por len(ta)) → no es simétrico\ndef j(a, b):\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta:\n        return 0.0\n    return len(ta & tb) / len(ta)\n\na, b = \"ana pe xx\", \"pe ana\"\nprint(j(a, b) == j(b, a))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "imprime",
+          "empty",
+          "hardcodees",
+          "starter",
+          "true"
+        ]
+      },
+      {
+        "exercise_id": "S28-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: igualdad case-sensitive; no es relación metamórfica\nx, y = \"Ana\", \"ana\"\nprint(x == y)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "revisa",
+          "alteres",
+          "imprime",
+          "lados",
+          "false",
+          "define",
+          "ambos",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S28-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: solo un par + polaridad invertida (no es all-simetría)\ndef eq(u, v):\n    return u.casefold() == v.casefold()\n\npairs = [(\"Ana\", \"ana\"), (\"x\", \"Y\"), (\"\", \"\")]\na, b = pairs[0]\nprint(eq(a, b) != eq(b, a))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "booleano",
+          "usa",
+          "imprime",
+          "deja",
+          "simétrico",
+          "bajo",
+          "sigue"
+        ]
+      },
+      {
+        "exercise_id": "S28-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: imprime ok aunque r no tiene id\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nr = {}\nprint(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "etiqueta",
+          "abre",
+          "condiciona",
+          "siempre",
+          "inventes",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S28-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: polaridad invertida al validar bounds\nscore = 1.2\nprint(\"ok\" if not (0 <= score <= 1) else \"score\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "etiqueta",
+          "error",
+          "valor",
+          "cuando",
+          "solo",
+          "imprime",
+          "revisa",
+          "invierte"
+        ]
+      },
+      {
+        "exercise_id": "S28-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: cuenta todas las filas en vez de las que fallan\nrows = [{\"id\": \"1\", \"score\": 0.2}, {\"id\": \"\", \"score\": 1.5}]\nprint(len(rows))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sum",
+          "solo",
+          "lee",
+          "implementa",
+          "imprime",
+          "for",
+          "entero"
+        ]
+      },
+      {
+        "exercise_id": "S28-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: ignora drift y siempre ok\ngolden, current = {\"n\": 1}, {\"n\": 2}\nprint(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "condiciona",
+          "imprime",
+          "mutes",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S28-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: ok aunque hay diff y no approved\ndiff, approved = True, False\nprint(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "siempre",
+          "solo",
+          "revisa",
+          "imprime",
+          "cambies",
+          "booleanos",
+          "fixture",
+          "acción"
+        ]
+      },
+      {
+        "exercise_id": "S28-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: hardcodea versión 0 y ok pese a drift\nmeta = {\n    \"golden_version\": 3,\n    \"approved\": False,\n    \"golden\": {\"pairs\": 1},\n}\ncurrent = {\"pairs\": 2}\nprint(0)\nprint(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "diff",
+          "imprime",
+          "deja",
+          "mano",
+          "acción"
+        ]
+      },
+      {
+        "exercise_id": "S28-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: busca e2 en vez de e1\ndb = {\"e1\": {\"name\": \"Ana\"}}\n\ndef get_name(store, entity_id):\n    return store.get(entity_id, {}).get(\"name\")\n\nprint(get_name(db, \"e2\"))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "devuelto",
+          "imprime",
+          "helper",
+          "deja",
+          "borde",
+          "llama"
+        ]
+      },
+      {
+        "exercise_id": "S28-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: str(datetime) no es fecha ISO corta\nfrom datetime import datetime, timezone\nd = datetime(2026, 7, 20, 15, 30, tzinfo=timezone.utc)\nprint(str(d))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "solo",
+          "imprime",
+          "revisa",
+          "reescribas",
+          "mano",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S28-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: polaridad 5xx invertida e ignora timeout\nstatus = 503\ntimeout_ms = 3000\nprint(\"ok\" if status >= 500 else \"retry\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "etiqueta",
+          "time",
+          "solo",
+          "imprime",
+          "sleep",
+          "uses"
+        ]
+      },
+      {
+        "exercise_id": "S28-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: lower solo un lado → 'ana' == 'ANA' es False\nprint(\"Ana\".lower() == \"ANA\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "booleano",
+          "abre",
+          "imprime",
+          "aplica",
+          "hardcodees",
+          "starter",
+          "true"
+        ]
+      },
+      {
+        "exercise_id": "S28-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no marca weak cuando f acepta cualquier par\nf = lambda a, b: True\nprint(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "etiqueta",
+          "siempre",
+          "solo",
+          "revisa",
+          "imprime",
+          "sujeto",
+          "deja",
+          "mirar"
+        ]
+      },
+      {
+        "exercise_id": "S28-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: inventa métricas de calls en vez de leer el efecto\nstore = []\n\ndef write_row(row):\n    store.append(row)\n    return {\"rows_written\": len(store), \"table\": \"e\"}\n\nresult = write_row({\"id\": \"1\", \"name\": \"Ana\"})\nprint(0)\nprint(\"calls\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "mockees",
+          "imprime",
+          "internos"
+        ]
+      },
+      {
+        "exercise_id": "S28-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no ejecuta SELECT y hardcodea 0\nimport sqlite3\nc = sqlite3.connect(\":memory:\")\nc.execute(\"create table t(x int)\")\nc.execute(\"insert into t values (1)\")\nprint(0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "imprime",
+          "cierres",
+          "contar",
+          "toma",
+          "entero",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S28-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: usa n*n (incluye diagonal)\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nn = 4\nprint(n * n)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sqlite",
+          "cambia",
+          "join",
+          "solo",
+          "imprime",
+          "revisa",
+          "inventes",
+          "eso"
+        ]
+      },
+      {
+        "exercise_id": "S28-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: reprocesa done e ignora normalización Unicode NFC\nimport unicodedata\n\ndone, items = {\"a\"}, [\"a\", \"b\", \"c\"]\nnfd = \"Mariu0301a\"  # a + combining acute (NFD)\nprint(items)\nprint(\"encoding_ok\", nfd == \"María\")  # False sin NFC\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "booleano",
+          "compara",
+          "imprime",
+          "pending",
+          "for",
+          "todos",
+          "crudo"
+        ]
+      },
+      {
+        "exercise_id": "S28-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no aplica sorted\n# Este codigo tiene un defecto intencional que el learner debe corregir.\nids = [\"b\", \"a\"]\nprint(ids)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cualquier",
+          "abre",
+          "solo",
+          "imprime",
+          "ordenada",
+          "expresión",
+          "imprima",
+          "lista"
+        ]
+      },
+      {
+        "exercise_id": "S28-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: polaridad invertida del gate\nflake_rate = 0.01\nprint(\"ok\" if flake_rate > 0 else \"fail_job\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "etiqueta",
+          "cuando",
+          "solo",
+          "revisa",
+          "imprime",
+          "test",
+          "cambies",
+          "flakes"
+        ]
+      },
+      {
+        "exercise_id": "S28-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# DEFECT: no resiembra ni ordena → dos corridas divergen / orden inestable\nimport random\n\ndef run(seed):\n    # falta random.seed(seed) y sorted\n    return [random.choice(\"abc\") for _ in range(5)]\n\nprint(run(7) == run(7))\nprint(run(7))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "módulo",
+          "imprime",
+          "fuera",
+          "dentro",
+          "muevas",
+          "sin",
+          "genera"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "5e8238f1c6583bf4"
+  }
+}

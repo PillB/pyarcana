@@ -1,0 +1,535 @@
+{
+  "agent": "b",
+  "section_index": 30,
+  "recorded_at": "2026-08-01T15:22:56.394925+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Si dos registros son la misma entidad",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          5.15
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "auto_match si el otro campo está lleno",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          3.0,
+          5.15
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "OR suele subir candidate recall; AND reduce candidatos y puede matar recall de gold matches",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          10.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "clerical review",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "Leakage (fuga) de identidad entre train y test",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 0,
+        "chosen_text": "prioridad de revisión / enlace de entidad candidato, no veredicto legal",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          7.0,
+          4.0,
+          2.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          6.0,
+          7.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 1,
+        "chosen_text": "La fracción de pares gold match que el sistema mantiene en el mismo cluster",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          8.15,
+          4.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S30-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · exact post-normalización\n# Error: compara crudo (espacios y mayúsculas)\na, b = \"  Ana  \", \"ana\"\nprint(1.0 if a == b else 0.0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "lado",
+          "cruda",
+          "coinciden",
+          "normaliza",
+          "split",
+          "casefold",
+          "cada"
+        ]
+      },
+      {
+        "exercise_id": "S30-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · Jaccard tokens\n# Error: divide por |ta| en vez de |unión|\nta, tb = set(\"a b\".split()), set(\"b c\".split())\nprint(len(ta & tb) / len(ta))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "menos",
+          "aquí",
+          "revisa",
+          "cambia",
+          "haga",
+          "redondees",
+          "denominador",
+          "solución"
+        ]
+      },
+      {
+        "exercise_id": "S30-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · date_sim con tolerancia\n# Error: solo considera igualdad exacta\nfrom datetime import date\n\ndef date_sim(d1, d2, tol_days=3):\n    delta = abs((d1 - d2).days)\n    if delta == 0:\n        return 1.0\n    return 0.0  # falta banda de tolerancia\n\nprint(date_sim(date(2026, 1, 1), date(2026, 1, 3)))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "retorna",
+          "tras",
+          "siempre",
+          "lee",
+          "deja",
+          "añade",
+          "llamada",
+          "dada"
+        ]
+      },
+      {
+        "exercise_id": "S30-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · missing si vacío\n# Error: etiquetas invertidas en la rama del vacío\na, b = \"\", \"x\"\nif not a or not b:\n    print(\"agree\")  # debería ser missing\nelse:\n    print(\"agree\" if a.casefold() == b.casefold() else \"disagree\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "sola",
+          "cámbiala",
+          "deja",
+          "etiqueta",
+          "starter",
+          "imprime",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S30-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · peso base/frecuencia\n# Error: multiplica base*f en vez de base/f\nfreq_table = {\"maría\": 50, \"ximena\": 2}\nbase = 1.0\n\ndef frequency_weight(value, freq_table, base=1.0):\n    f = freq_table.get(value.casefold(), 1)\n    return base * f  # debería ser base / f\n\nprint(round(frequency_weight(\"María\", freq_table, base), 3),\n      round(frequency_weight(\"Ximena\", freq_table, base), 3))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "línea",
+          "pesos",
+          "revisa",
+          "ambos",
+          "busca",
+          "redondeados",
+          "imprime",
+          "cámbialo"
+        ]
+      },
+      {
+        "exercise_id": "S30-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · missing informativo por fuente\n# Error: siempre asume MCAR\ncoverage = {\n    \"crm_legacy\": {\"phone\": 0.0, \"email\": 0.95},\n    \"web_form\": {\"phone\": 0.8, \"email\": 1.0},\n}\nsource = \"crm_legacy\"\n# debería mirar coverage[source][\"phone\"]\nprint(\"mcar_candidate\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "solo",
+          "lee",
+          "starter",
+          "etiqueta",
+          "consulta",
+          "informative_missing",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S30-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · block key con fold de acentos\n# Error: casefold sin plegar tildes → clave inestable\nlast, city = \"López\", \"Lima\"\n\ndef fold(s):\n    return s.casefold()  # falta pliegue á→a, é→e, …\n\nprint(f\"{fold(last)}|{fold(city)[:3]}\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "hace",
+          "replace",
+          "solo",
+          "añade",
+          "formato",
+          "alteres",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S30-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · candidate recall sobre conjuntos\n# Error: usa unión en vez de intersección\ngold = {frozenset((\"r1\", \"r2\")), frozenset((\"r3\", \"r4\"))}\ncandidates = {frozenset((\"r1\", \"r2\")), frozenset((\"r5\", \"r6\"))}\nprint(len(gold | candidates) / len(gold))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mano",
+          "revisa",
+          "sets",
+          "inventes",
+          "cambia",
+          "derívalo",
+          "cociente",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S30-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · pares candidatos multi-bloque\n# Error: suma tamaños en vez de C(n,2) por bloque\nsizes = [2, 4, 3]\nprint(sum(sizes))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reemplaza",
+          "solo",
+          "lee",
+          "verifica",
+          "entero",
+          "starter",
+          "imprime",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S30-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · costo multi-bloque\n# Error: suma tamaños en vez de pares\nsizes = [3, 5]\nprint(sum(sizes))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mano",
+          "abre",
+          "inventes",
+          "derívalo",
+          "for",
+          "starter",
+          "imprime",
+          "bug"
+        ]
+      },
+      {
+        "exercise_id": "S30-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · filtro person/org\n# Error: imprime igualdad en vez de desigualdad\nta, tb = \"person\", \"org\"\nprint(ta == tb)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "gastes",
+          "revisa",
+          "solo",
+          "cambia",
+          "starter",
+          "similitud",
+          "booleano",
+          "interpreta"
+        ]
+      },
+      {
+        "exercise_id": "S30-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · filter before score\n# Error: cuenta todos los pares sin filtrar tipo\npairs = [\n    ({\"type\": \"person\", \"s\": 1.0}, {\"type\": \"org\", \"s\": 1.0}),\n    ({\"type\": \"person\", \"s\": 0.2}, {\"type\": \"person\", \"s\": 0.2}),\n    ({\"type\": \"org\", \"s\": 0.9}, {\"type\": \"org\", \"s\": 0.8}),\n]\nkept = len(pairs)  # debería filtrar same-type\nprint(kept)\nprint(\"score_first\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "luego",
+          "lee",
+          "aún",
+          "filter_before_score",
+          "scores",
+          "starter",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S30-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · score ponderado\n# Error: no divide por sum(w) — con w=1.0+1.0 el bug es visible (1.5 vs. 0.75)\nprint(1 * 1.0 + 0.5 * 1.0)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "abre",
+          "solo",
+          "salida",
+          "falta",
+          "dividir",
+          "starter",
+          "cociente"
+        ]
+      },
+      {
+        "exercise_id": "S30-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · decide auto/review/non\n# Error: siempre auto_match\ns, t_high, t_low = 0.7, 0.9, 0.5\nprint(\"auto_match\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "rama",
+          "triple",
+          "revisa",
+          "debe",
+          "ternario",
+          "solo",
+          "implementa",
+          "anidado"
+        ]
+      },
+      {
+        "exercise_id": "S30-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · ítem clerical con explain\n# Error: omite email y no normaliza score\nsims = {\"name\": 0.95, \"email\": 1.0, \"phone\": 0.0}\nweights = {\"name\": 0.5, \"email\": 0.4, \"phone\": 0.1}\nscore = sum(sims[k] * weights[k] for k in weights)  # falta / sum(weights)\nprint({\"score\": score, \"decision\": \"auto_match\", \"explain\": {\"name\": sims[\"name\"]}})\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "decide",
+          "lee",
+          "incompleto",
+          "starter",
+          "imprime",
+          "forzada",
+          "completo"
+        ]
+      },
+      {
+        "exercise_id": "S30-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · union-find\n# Error: no une 2-3\np = {1: 1, 2: 2, 3: 3}\n\ndef find(x):\n    while p[x] != x:\n        x = p[x]\n    return x\n\ndef union(a, b):\n    p[find(b)] = find(a)\n\nunion(1, 2)\nprint(find(1) == find(3))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "menos",
+          "solo",
+          "falles",
+          "test",
+          "añade",
+          "reescribas",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S30-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · ítem de cola clerical\n# Error: actions incluye fraud\npair = (\"e3\", \"e4\")\nscore = 0.72\nexplain = {\"name\": 0.8, \"email\": 0.5}\nactions = [\"match\", \"non_match\", \"fraud\"]\nprint({\"pair\": pair, \"score\": score, \"explain\": explain, \"actions\": actions})\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "alteres",
+          "reemplaza",
+          "starter",
+          "revisa"
+        ]
+      },
+      {
+        "exercise_id": "S30-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · alcance de ER\n# Error: no filtra labels ajenos\nproposed = [\"match\", \"fraud\", \"non_match\", \"kinship\", \"uncertain\"]\nallowed = {\"match\", \"non_match\", \"uncertain\"}\nprint(proposed)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sin",
+          "filtrar",
+          "lista",
+          "lee",
+          "comprensión",
+          "preserve",
+          "filtrada",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S30-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · entity split\n# Error: invierte train/test\na, b = \"e1\", \"e2\"\ntrain_e = {\"e1\", \"e2\", \"e3\"}\nprint(\"test\" if {a, b} <= train_e else \"train\")\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "solo",
+          "invertido",
+          "mutes",
+          "starter",
+          "etiqueta",
+          "corrige",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S30-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · match rate\n# Error: invierte la razón\nmatches, n = 1, 5\nprint(n / matches)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "pida",
+          "revisa",
+          "salvo",
+          "cambia",
+          "test",
+          "redondees",
+          "cociente",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S30-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · entity_split con detección de cross_split\n# Error: trata el par mixto como test (leakage disfrazado)\npairs = [(\"e1\", \"e2\"), (\"e4\", \"e5\"), (\"e1\", \"e4\")]\ntrain_e = {\"e1\", \"e2\", \"e3\"}\n\ndef label(a, b):\n    # bug: cualquier par no-train cae en \"test\"\n    return \"train\" if {a, b} <= train_e else \"test\"\n\nprint([label(a, b) for a, b in pairs])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "rama",
+          "isdisjoint",
+          "lista",
+          "resto",
+          "lee",
+          "ents",
+          "añade",
+          "pares"
+        ]
+      },
+      {
+        "exercise_id": "S30-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · precision desde vectores\n# Error: no distingue tp de fp\ny_true = [1, 1, 0, 0]\ny_pred = [1, 1, 1, 0]\npred_pos = sum(y_pred)  # 3 — no es precisión\nprint(round(pred_pos / pred_pos, 2))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "calcula",
+          "sobre",
+          "bucles",
+          "generadores",
+          "cociente",
+          "starter",
+          "imprime"
+        ]
+      },
+      {
+        "exercise_id": "S30-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · recall\n# Error: numerador mal armado\ntp, fn = 2, 2\nprint((tp + fn) / (tp + fn))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "aquí",
+          "revisa",
+          "solo",
+          "queda",
+          "inventes",
+          "you",
+          "cociente",
+          "starter"
+        ]
+      },
+      {
+        "exercise_id": "S30-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# Caso 30 · error slices\n# Error: no agrega por slice\nrows = [\n    {\"slice\": \"missing_phone\", \"error\": True},\n    {\"slice\": \"missing_phone\", \"error\": True},\n    {\"slice\": \"common_last_name\", \"error\": True},\n    {\"slice\": \"common_last_name\", \"error\": False},\n    {\"slice\": \"city_mismatch\", \"error\": False},\n]\nprint([])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "dict",
+          "toma",
+          "lista",
+          "lee",
+          "max",
+          "filtra",
+          "counter",
+          "donde"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d9a7fd2b0e28dfdc"
+  }
+}

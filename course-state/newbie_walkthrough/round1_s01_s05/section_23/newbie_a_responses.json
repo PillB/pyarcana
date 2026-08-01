@@ -1,0 +1,527 @@
+{
+  "agent": "a",
+  "section_index": 23,
+  "recorded_at": "2026-08-01T15:08:53.781247+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Refleja la UI accesible y suele ser más estable ante cambios de layout",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.3,
+          8.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Detenerse y hacer handoff humano",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          2.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 3,
+        "chosen_text": "Solo fallas transitorias (timeout/red/429), no captcha ni 403 de negocio",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          1.0,
+          0.0,
+          7.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "trace + screenshot + error tipado (y step id)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          5.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "Para encapsular selectores y acciones de una pantalla y reducir acoplamiento",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          3.0,
+          3.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 6,
+        "chosen_index": 3,
+        "chosen_text": "Reintentar el download 50 veces sin comprobar el archivo",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          5.0,
+          6.15
+        ]
+      },
+      {
+        "question_index": 7,
+        "chosen_index": 3,
+        "chosen_text": "form (el siguiente step), evitando el doble envío del login",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          2.3,
+          5.0,
+          6.3
+        ]
+      },
+      {
+        "question_index": 8,
+        "chosen_index": 2,
+        "chosen_text": "Para reusar la sesión autenticada y no volver a iniciar sesión en cada caso (menos flakes y menos tiempo de suite)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          10.0,
+          6.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S23-T1-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · locator por role+name\n# Arregla: busca role=button en vez de link\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next((n['id'] for n in nodes if n['role']=='button' and n['name']=='Inicio'), None))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "abre",
+          "solo",
+          "imprime",
+          "bug",
+          "prints",
+          "extra",
+          "completo"
+        ]
+      },
+      {
+        "exercise_id": "S23-T1-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · prioridad role > testid > css\n# Arregla: ordena por nombre alfabético\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "usa",
+          "imprime",
+          "alteres",
+          "revisa",
+          "bug",
+          "resultante",
+          "lista",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S23-T1-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · sin role usable → need_testid\n# Arregla: asume primer nodo sin filtrar role\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(nodes[0]['name'])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "imprimir",
+          "botón",
+          "DOM",
+          "prepara",
+          "fake",
+          "imprime",
+          "vacío",
+          "deja"
+        ]
+      },
+      {
+        "exercise_id": "S23-T1-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · auto-wait imprime i cuando ready\n# Arregla: imprime siempre la última i del for\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        pass\nprint(i)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "quita",
+          "rango",
+          "revisa",
+          "fuera",
+          "está",
+          "final",
+          "cambies",
+          "hay"
+        ]
+      },
+      {
+        "exercise_id": "S23-T1-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · for-else timeout\n# Arregla: imprime ok aunque ready sigue False\nready = False\nfor i in range(3):\n    if ready:\n        print('ok')\n        break\nelse:\n    print('ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "abre",
+          "cuerpo",
+          "fuera",
+          "bug",
+          "deja",
+          "listo",
+          "cámbialo",
+          "alterar"
+        ]
+      },
+      {
+        "exercise_id": "S23-T1-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · assertion título + control usable\n# Arregla: siempre imprime pass (ignora buttons)\ndef assert_ready(page):\n    return 'pass' if page.get('title') == 'Portal demo' else 'fail'\n\ngood = {'title': 'Portal demo', 'buttons': 1}\nempty = {'title': 'Portal demo', 'buttons': 0}\nprint(assert_ready(good))\nprint(assert_ready(empty))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reutilizable",
+          "mantén",
+          "llamadas",
+          "suelto",
+          "función",
+          "main",
+          "cada",
+          "dos"
+        ]
+      },
+      {
+        "exercise_id": "S23-T2-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · fill form (usuario + periodo)\n# Arregla: solo rellena usuario; falta periodo del reporte\nform = {}\nform['usuario'] = 'ana'\n# form['periodo'] = '2026-01'\nprint(form)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "defecto",
+          "descomenta",
+          "mantén",
+          "marcado",
+          "final"
+        ]
+      },
+      {
+        "exercise_id": "S23-T2-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · hash de download\n# Arregla: usa md5 truncado en vez de sha256\nimport hashlib\nprint(hashlib.md5(b'data').hexdigest()[:8])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "cambia",
+          "mantén",
+          "solo",
+          "imprime",
+          "ese",
+          "alteres",
+          "prueba",
+          "string"
+        ]
+      },
+      {
+        "exercise_id": "S23-T2-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · reuso de sesión (storage_state)\n# Arregla: siempre devuelve login\ndef session_mode(state):\n    return 'login'\n\nprint(session_mode({'token': 't'}))\nprint(session_mode({}))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "sobre",
+          "decidir",
+          "reutilizable",
+          "mantén",
+          "usa",
+          "cuerpo",
+          "completa",
+          "prueba"
+        ]
+      },
+      {
+        "exercise_id": "S23-T2-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · Page Object login sandbox\nclass LoginPage:\n    def submit(self, ctx, password):\n        # Arregla: no setea auth en ctx\n        pass\n\nctx = {}\nLoginPage().submit(ctx, 'sandbox')\nprint(ctx.get('auth'))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "asigna",
+          "cuerpo",
+          "existente",
+          "método",
+          "dentro",
+          "comparación",
+          "final"
+        ]
+      },
+      {
+        "exercise_id": "S23-T2-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · guard de auth\n# Arregla: no captura PermissionError\nctx={'auth':False}\nif not ctx.get('auth'):\n    raise PermissionError('login required')\nprint('ok')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "envuelve",
+          "fuera",
+          "imprimiría",
+          "cambies",
+          "path",
+          "fixture",
+          "este"
+        ]
+      },
+      {
+        "exercise_id": "S23-T2-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · transición de estado\n# Arregla: siempre devuelve authenticated\ndef apply_login(state, login_ok):\n    return 'authenticated'\n\nprint(apply_login('anonymous', True))\nprint(apply_login('anonymous', False))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "reutilizable",
+          "mantén",
+          "prints",
+          "pura",
+          "función",
+          "dos",
+          "original"
+        ]
+      },
+      {
+        "exercise_id": "S23-T3-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · keys del paquete de falla\n# Arregla: imprime values no keys\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.values()))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "cambia",
+          "defecto",
+          "solo",
+          "deja",
+          "marcado",
+          "intacto",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S23-T3-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · filtrar ERR en logs\n# Arregla: no filtra\nlogs=['ok','ERR timeout','nav']\nprint(logs)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "regex",
+          "mantén",
+          "obligatoria",
+          "solo",
+          "reemplaza",
+          "array",
+          "entrada",
+          "resultado"
+        ]
+      },
+      {
+        "exercise_id": "S23-T3-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · adjuntar trace en falla\n# Arregla: no adjunta trace cuando ok=False\nok=False\npkg={'step':'s1'}\nprint(pkg)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "asigna",
+          "imprime",
+          "contrato",
+          "tras",
+          "exacto",
+          "luego",
+          "cambies",
+          "crear"
+        ]
+      },
+      {
+        "exercise_id": "S23-T3-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · retry solo timeout/429\ndef should_retry(k):\n    # Arregla: reintenta captcha también\n    return k in {'timeout', '429', 'captcha'}\n\nfor k in ['timeout','captcha','429']:\n    print(k, should_retry(k))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "set",
+          "sobre",
+          "corrige",
+          "quita",
+          "mantén",
+          "líneas",
+          "tres",
+          "loop"
+        ]
+      },
+      {
+        "exercise_id": "S23-T3-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · recovery stale vs. timeout\n# Arregla: stale devuelve continue\ndef recover(err):\n    if err == 'stale':\n        return 'continue'\n    if err == 'timeout':\n        return 'retry'\n    return 'continue'\n\nprint(recover('stale'))\nprint(recover('timeout'))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "agregues",
+          "mantén",
+          "imprime",
+          "extra",
+          "rama",
+          "ramas"
+        ]
+      },
+      {
+        "exercise_id": "S23-T3-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · reanudación por checkpoint\n# Arregla: reimprime siempre el primer step\nsteps = ['login', 'form', 'export']\nlast_ok_step = 'login'\nprint(steps[0])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "quita",
+          "imprime",
+          "localiza",
+          "lista",
+          "mutes"
+        ]
+      },
+      {
+        "exercise_id": "S23-T4-A-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · api first (jerarquía)\n# Arregla: evalúa rpa antes que api (orden invertido)\ncaps = {'api': True, 'export': True, 'rpa': True}\nif caps.get('rpa'):\n    print('rpa')\nelif caps.get('export'):\n    print('export')\nelif caps.get('api'):\n    print('api')\nelse:\n    print('human')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "siguientes",
+          "corrige",
+          "mantén",
+          "solo",
+          "evaluación",
+          "invierte",
+          "canal",
+          "primero"
+        ]
+      },
+      {
+        "exercise_id": "S23-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · cascada api>export>rpa\n# Arregla: elige rpa primero\nf={'api':False,'export':True,'rpa':True}\nc='rpa'\nprint(c)\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "human",
+          "sobre",
+          "mantén",
+          "hardcode",
+          "imprime",
+          "orden",
+          "flags",
+          "elif"
+        ]
+      },
+      {
+        "exercise_id": "S23-T4-A-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · documentar decisión de canal\n# Arregla: siempre rpa sin mirar export\ndef decide(caps):\n    return {'method': 'rpa', 'reason': 'no_api'}\n\nprint(decide({'api': False, 'export': False, 'rpa_allowed': True}))\nprint(decide({'api': False, 'export': True, 'rpa_allowed': True}))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "export_ok",
+          "mantén",
+          "prints",
+          "función",
+          "cubren",
+          "prueba",
+          "api_ok",
+          "dos"
+        ]
+      },
+      {
+        "exercise_id": "S23-T4-B-E1",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · captcha → handoff (ambos casos)\n# Arregla: ternaria invertida y solo un caso\ndef decide(captcha):\n    return 'continue' if captcha else 'human_handoff'\n\nprint(decide(True))\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mantén",
+          "bypass",
+          "añade",
+          "externos",
+          "false",
+          "primero",
+          "sin",
+          "servicios"
+        ]
+      },
+      {
+        "exercise_id": "S23-T4-B-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · ToS prohibido aborta\n# Arregla: handoff en vez de abort\nsig={'tos_forbidden':True,'captcha':True}\nprint('human_handoff' if sig.get('tos_forbidden') else 'abort')\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "solo",
+          "ternaria",
+          "cambies",
+          "dict"
+        ]
+      },
+      {
+        "exercise_id": "S23-T4-B-E3",
+        "answer": "run_starter_as_baseline",
+        "code": "# CASO-LIM-023 · payload de handoff\n# Arregla: imprime solo step\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(payload['step'])\n",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "mantén",
+          "espacio",
+          "mano",
+          "entre",
+          "dict",
+          "lista",
+          "filtres",
+          "starter"
+        ]
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d2992d49975e32dd"
+  }
+}
