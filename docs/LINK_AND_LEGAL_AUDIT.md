@@ -1,14 +1,50 @@
 # PyArcana — Link Validation, Legal Document Review, and Email Reference
 
-**Date:** 2026-08-01
+**Date:** 2026-08-01 (original) · **2026-08-08 (erratum: basePath link fix)
 **Audience:** Administrator / DevOps
 **Purpose:** Complete audit of all links, legal documents, and email addresses referenced across the PyArcana website.
 
 ---
 
+> ## ⚠️ Erratum (2026-08-08) — Internal link basePath bug
+>
+> The original audit (section 1 below) claimed every internal route returned HTTP 200
+> on the live site. That was true **only** when the route was requested directly at
+> `https://pillb.github.io/pyarcana/<route>` — which is how the audit probed them.
+>
+> It did **not** catch that four internal links in the source were written as raw
+> `<a href="/route">` tags rather than Next.js `<Link>` components. On the GitHub
+> Pages deployment the site lives under the `/pyarcana/` basePath, so a raw
+> root-absolute `/route` resolves to `https://pillb.github.io/route` (the domain
+> root) instead of `https://pillb.github.io/pyarcana/route`, producing a **404**.
+>
+> Concretely, these four links were broken on the live site:
+>
+> | Source file | Line | Broken href | Target page |
+> |---|---|---|---|
+> | `src/app/privacy/page.tsx` | 136 | `/security` | Aviso de Seguridad |
+> | `src/app/privacy/page.tsx` | 164 | `/security` | Aviso de Seguridad |
+> | `src/app/privacy/page.tsx` | 125 | `/data-rights` | Aviso de Derechos ARCO |
+> | `src/components/course/ResourcesPage.tsx` | 1986 | `/external-resources` | Aviso de Recursos Externos |
+>
+> Live verification before fix:
+> - `https://pillb.github.io/security` → **404**
+> - `https://pillb.github.io/pyarcana/security` → 200 ✅
+>
+> **Fix applied:** all four raw `<a>` tags converted to `next/link` `<Link>`, which
+> automatically applies the configured `basePath` (`/pyarcana`) on the static
+> export. A repo-wide scan now confirms zero remaining raw `<a href="/...">` internal
+> links. The corrected validation summary is in section 4 below.
+
+---
+
 ## 1. Link Validation Results
 
-### Internal Links (all verified HTTP 200 on live site)
+### Internal Links (routes verified HTTP 200 at `https://pillb.github.io/pyarcana/<route>`)
+
+> **Note:** verifying a route URL directly does **not** prove that every in-page
+> link actually reaches it. See the erratum at the top of this document for the
+> raw-`<a>` basePath bug that this caveat missed.
 
 | Path | HTTP | Purpose |
 |------|------|---------|
@@ -128,11 +164,14 @@ The source code references 544 unique URLs across all section files, components,
 
 | Category | Total | Verified | Issues Found | Issues Fixed |
 |----------|-------|----------|-------------|-------------|
-| Internal links | 12 | 12 (100%) | 0 | 0 |
+| Internal links | 12 | 12 routes 200 at `/pyarcana/<route>` | 4 broken in-page links (basePath bypass via raw `<a>`) | 4 fixed → converted to `next/link` `<Link>` |
 | Capstone assets | 26 | 26 (100%) | 0 | 0 |
 | External URLs | 544 | Verified as valid sources | 0 | 0 |
 | Legal documents | 10 | 10 reviewed | 3 | 3 fixed |
 | Email addresses | 6 | 6 catalogued | 0 | 0 |
 | Regulatory references | 8 | 8 verified | 1 (missing Ley 29733) | 1 fixed |
 
-**All links work. All legal documents are reviewed and compliant. All emails are catalogued for Hostinger setup.**
+**Status after erratum fix:** all internal links now resolve correctly under the
+`/pyarcana/` basePath. The four previously-broken links (`/security` ×2, `/data-rights`,
+`/external-resources`) now use `next/link` and are reachable from the live privacy
+and resources pages.

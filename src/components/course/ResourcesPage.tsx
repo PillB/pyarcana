@@ -1,6 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 import { useEffect, useMemo, useState, useRef, useCallback } from 'react'
 import {
   ExternalLink,
@@ -1983,9 +1984,9 @@ export function ResourcesPage({ sections }: ResourcesPageProps) {
         </p>
         <p className="mt-2 text-xs text-muted-foreground">
           Lee el{' '}
-          <a href="/external-resources" className="font-medium text-foreground underline-offset-2 hover:underline">
+          <Link href="/external-resources" className="font-medium text-foreground underline-offset-2 hover:underline">
             Aviso de Recursos Externos
-          </a>{' '}
+          </Link>{' '}
           completo para detalles sobre licencias, privacidad y verificación.
         </p>
       </section>

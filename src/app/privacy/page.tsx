@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { LegalPageShell } from '@/components/legal/LegalPageShell'
 import { LegalSection, LegalParagraph, LegalList, LegalCallout } from '@/components/legal/LegalAtoms'
 
@@ -122,7 +123,7 @@ export default function PrivacyPage() {
           Para ejercerlos, escribe a <a href="mailto:privacy@pyarcana.dev" className="font-medium underline-offset-2 hover:underline">privacy@pyarcana.dev</a>{' '}
           indicando el derecho que quieres ejercer. Responderemos en un máximo de 30 días
           hábiles. Lee el{' '}
-          <a href="/data-rights" className="font-medium underline-offset-2 hover:underline">Aviso de Derechos ARCO</a>{' '}
+          <Link href="/data-rights" className="font-medium underline-offset-2 hover:underline">Aviso de Derechos ARCO</Link>{' '}
           para el procedimiento detallado.
         </LegalParagraph>
       </LegalSection>
@@ -133,7 +134,7 @@ export default function PrivacyPage() {
           cifrado en reposo en Firestore, reglas de acceso que niegan por defecto, contraseñas
           almacenadas con hash bcrypt y revisión periódica de dependencias. Ningún sistema es
           100% seguro; si descubres una vulnerabilidad, lee el{' '}
-          <a href="/security" className="font-medium underline-offset-2 hover:underline">Aviso de Seguridad</a>{' '}
+          <Link href="/security" className="font-medium underline-offset-2 hover:underline">Aviso de Seguridad</Link>{' '}
           para saber cómo reportarla de forma responsable.
         </LegalParagraph>
       </LegalSection>
@@ -161,7 +162,7 @@ export default function PrivacyPage() {
           Para cualquier duda sobre privacidad, escribe a{' '}
           <a href="mailto:privacy@pyarcana.dev" className="font-medium underline-offset-2 hover:underline">privacy@pyarcana.dev</a>.
           Para temas de seguridad, lee el{' '}
-          <a href="/security" className="font-medium underline-offset-2 hover:underline">Aviso de Seguridad</a>.
+          <Link href="/security" className="font-medium underline-offset-2 hover:underline">Aviso de Seguridad</Link>.
         </LegalParagraph>
       </LegalSection>
     </LegalPageShell>
