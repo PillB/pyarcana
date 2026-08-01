@@ -94,6 +94,15 @@ export default function PrivacyPage() {
           EE. UU. – UE. Esto es, hay cláusulas contractuales que obligan a esos proveedores a
           proteger tus datos con el mismo estándar europeo.
         </LegalParagraph>
+        <LegalParagraph>
+          En Perú, el tratamiento de datos personales se rige por la Ley N° 29733 — Ley de
+          Protección de Datos Personales y su reglamento (Decreto Supremo 003-2013-JUS). PyArcana
+          cumple con esta norma: recopila solo datos necesarios, obtiene consentimiento, permite
+          el ejercicio de derechos ARCO (acceso, rectificación, cancelación y oposición) y
+          registra las transferencias internacionales de datos. La autoridad competente es la
+          Autoridad Nacional de Protección de Datos Personales (ANPDP), adscrita al Ministerio de
+          Justicia y Derechos Humanos del Perú.
+        </LegalParagraph>
       </LegalSection>
 
       <LegalSection title="7. Tus derechos (ARCO)">
