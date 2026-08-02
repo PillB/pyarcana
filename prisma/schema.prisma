@@ -367,3 +367,337 @@ model ReportExport {
   @@index([cohortId, status])
   @@index([requesterId, createdAt])
 }
+
+// ═══════════════════════════════════════════════════════════
+// FASE 1 — Fundamentos de auditoría, historial, entitlements,
+// credenciales normalizadas, outbox, analítica y privacidad.
+// Añadido: 2026-08-02 (commit base: 0c722b61)
+// Ver: docs/implementation/ADRS.md, TRUTH_AUDIT.md
+// ═══════════════════════════════════════════════════════════
+
+// ── Credenciales normalizadas (migra fuera de Notification) ──
+// ADR 5: HMAC con verificación exclusiva en servidor.
+// Una credencial es un registro propio, no un cuerpo de Notification.
+model Credential {
+  id                 String   @id @default(cuid())
+  credentialId       String   @unique // cred_<badgeId>_<8hex>
+  verificationId     String   @unique // verify_<16hex> — indexado para búsqueda exacta
+  userId             String   // titular
+  badgeId            String   // referencia al badge definido en BadgeDefinition
+  badgeName          String
+  specificationVersion String
+  credentialClass    String   @default("D") // A | B | C | D
+  capabilityStatement String
+  issuedAt           DateTime @default(now())
+  expiresAt          DateTime?
+  revocationStatus   String   @default("active") // active | revoked | superseded
+  holderReference    String   // pyarcana:user:<userId>
+  issuer             String   @default("PyArcana")
+  signature          String   // HMAC-SHA256 hex
+  signingKeyVersion  String   @default("1") // para rotación de clave
+
+  evidence           CredentialEvidence[]
+  revocations        CredentialRevocation[]
+
+  @@index([userId])
+  @@index([badgeId])
+  @@index([revocationStatus])
+}
+
+// Evidencia vinculada a una credencial (no texto libre)
+model CredentialEvidence {
+  id             String   @id @default(cuid())
+  credentialId   String   // FK a Credential.credentialId (lógico)
+  evidenceType   String   // exam_attempt | exercise_attempt | capstone_submission | rubric_score
+  evidenceRefId  String   // ID de la fila en la tabla correspondiente
+  evidenceSummary String  // descripción breve sin PII
+  createdAt      DateTime @default(now())
+
+  credential     Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  @@index([credentialId])
+  @@index([evidenceType, evidenceRefId])
+}
+
+// Revocación de credenciales (entidad propia, no campo mutable)
+model CredentialRevocation {
+  id             String   @id @default(cuid())
+  credentialId   String   // FK a Credential
+  revokedAt      DateTime @default(now())
+  revokedBy      String   // admin userId
+  reason         String
+  revokedByAdmin Boolean  @default(true)
+
+  credential     Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  @@index([credentialId])
+}
+
+// ── Historial de suscripciones ──
+// Una fila Subscription representa el estado actual.
+// SubscriptionEvent es el historial inmutable de cambios.
+// SubscriptionPeriod representa cada periodo facturado.
+model SubscriptionEvent {
+  id              String   @id @default(cuid())
+  userId          String
+  subscriptionId  String?  // referencia lógica a Subscription
+  eventType       String   // trial_started | trial_converted | payment_succeeded | payment_failed | canceled | reactivated | plan_changed | grace_period_started | grace_period_ended | refunded | expired
+  eventTimestamp  DateTime @default(now())
+  // Snapshot del estado en el momento del evento
+  planCode        String?  // free | pro | team
+  statusBefore    String?  // ACTIVE | TRIALING | PAST_DUE | CANCELED | EXPIRED
+  statusAfter     String?
+  provider        String?  // STRIPE | MERCADOPAGO | LEMON_SQUEEZY | MANUAL
+  providerEventId String?  // ID del evento del proveedor (para idempotencia)
+  metadataJSON    String   @default("{}") // contexto adicional sin PII
+  createdAt       DateTime @default(now())
+
+  @@index([userId, eventTimestamp])
+  @@index([eventType, eventTimestamp])
+  @@index([providerEventId])
+}
+
+// Periodo facturado (para reconstruir la racha)
+model SubscriptionPeriod {
+  id              String   @id @default(cuid())
+  userId          String
+  subscriptionId  String?
+  periodStart     DateTime
+  periodEnd       DateTime
+  amount          Float
+  currency        String   @default("PEN")
+  provider        String   @default("MANUAL")
+  providerPaymentId String?
+  status          String   @default("ACTIVE") // ACTIVE | ENDED | REFUNDED
+  createdAt       DateTime @default(now())
+
+  @@index([userId, periodStart])
+  @@index([subscriptionId])
+}
+
+// ── Entitlements (derechos efectivos) ──
+// No deducir del nombre del plan. Un entitlement es un registro explícito.
+model Entitlement {
+  id              String   @id @default(cuid())
+  userId          String
+  entitlementKey  String   // access_advanced_sections | exams | playground | credentials | mentorship | team_members_limit | analytics_advanced | history_window
+  entitlementValue String  // "true" | "50" | "30d" — tipado por entitlementKey
+  source          String   @default("subscription") // subscription | team_membership | admin_override | trial
+  sourceId        String?  // ID de la suscripción/membresía/override
+  startsAt        DateTime @default(now())
+  endsAt          DateTime? // null = sin expiración
+  priority        Int      @default(0) // override de admin tiene prioridad mayor
+  revokedAt       DateTime?
+  createdAt       DateTime @default(now())
+
+  @@index([userId, entitlementKey])
+  @@index([userId, endsAt])
+}
+
+// ── Eventos de pago (para idempotencia y auditoría) ──
+model PaymentEvent {
+  id              String   @id @default(cuid())
+  paymentId       String?  // referencia lógica a Payment
+  userId          String
+  eventType       String   // created | succeeded | failed | refunded | disputed
+  provider        String   // STRIPE | MERCADOPAGO | LEMON_SQUEEZY | MANUAL
+  providerEventId String?  @unique // ID del evento del proveedor (idempotencia)
+  rawPayload      String   // JSON crudo del webhook (saneado: sin números de tarjeta)
+  amount          Float?
+  currency        String?
+  eventTimestamp  DateTime @default(now())
+  processedAt     DateTime?
+  processingError String?
+  createdAt       DateTime @default(now())
+
+  @@index([paymentId])
+  @@index([userId, eventTimestamp])
+  @@index([provider, eventType])
+}
+
+// ── Webhook events (para idempotencia y reintentos) ──
+model WebhookEvent {
+  id              String   @id @default(cuid())
+  provider        String   // STRIPE | MERCADOPAGO | LEMON_SQUEEZY
+  eventType       String   // checkout_completed | payment_succeeded | payment_failed | refund_created
+  providerEventId String?  @unique // ID del evento del proveedor
+  signature       String?  // firma recibida (para auditoría)
+  rawBody         String   // cuerpo crudo recibido
+  status          String   @default("RECEIVED") // RECEIVED | PROCESSED | FAILED | DUPLICATE
+  processingError String?
+  processedAt     DateTime?
+  receivedAt      DateTime @default(now())
+
+  @@index([provider, eventType])
+  @@index([status, receivedAt])
+}
+
+// ── Self-check attempts (migrar de localStorage a servidor) ──
+model SelfCheckAttempt {
+  id              String   @id @default(cuid())
+  userId          String
+  sectionId       String
+  questionIndex   Int      // índice de la pregunta dentro del self-check
+  selectedIndex   Int      // respuesta seleccionada por el usuario
+  correctIndex    Int      // respuesta correcta (leída del bundle, no del cliente)
+  isCorrect       Boolean
+  contentVersion  String?  // versión del contenido usada
+  attemptedAt     DateTime @default(now())
+
+  @@index([userId, sectionId, attemptedAt])
+}
+
+// ── Versión de contenido (para auditoría de evaluaciones) ──
+model ContentVersion {
+  id              String   @id @default(cuid())
+  sectionId       String
+  version         String   // semver: 1.0.0
+  contentHash     String   // SHA-256 del contenido (theory + exercises + selfcheck)
+  publishedAt     DateTime @default(now())
+  publishedBy     String?  // admin userId
+  isActive        Boolean  @default(true)
+
+  @@index([sectionId, version])
+  @@index([isActive])
+}
+
+// ── Auditoría administrativa global (no de cohort) ──
+model AdminAuditEvent {
+  id              String   @id @default(cuid())
+  actorId         String   // admin userId
+  action          String   // role_changed | user_suspended | user_deleted | backup_triggered | config_changed | credential_revoked | entitlement_override
+  targetType      String?  // user | credential | entitlement | config
+  targetId        String?
+  beforeState     String?  // JSON snapshot
+  afterState      String?  // JSON snapshot
+  reason          String?
+  requestId       String?  // for tracing
+  ipAddress       String?  // sin PII adicional
+  createdAt       DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+  @@index([targetType, targetId])
+}
+
+// ── Historial de preferencias (para auditoría de cambios) ──
+model UserPreferenceEvent {
+  id              String   @id @default(cuid())
+  userId          String
+  preferenceKey   String   // email_enabled | in_app_enabled | digest_frequency | quiet_hours_start | quiet_hours_end | locale
+  oldValue        String?
+  newValue        String?
+  changedAt       DateTime @default(now())
+
+  @@index([userId, changedAt])
+}
+
+// ── Definición de badges (catálogo) ──
+model BadgeDefinition {
+  id              String   @id @default(cuid())
+  badgeId         String   @unique // slug: evidence_grounded_ai_systems_capstone
+  name            String
+  description     String
+  badgeClass      String   @default("B") // A | B | C | D
+  specificationVersion String
+  criteriaJSON    String   // criterios de elegibilidad
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  awards          BadgeAward[]
+
+  @@index([badgeClass, isActive])
+}
+
+// ── Insignias otorgadas (registro de emisión) ──
+model BadgeAward {
+  id              String   @id @default(cuid())
+  userId          String
+  badgeDefinitionId String
+  awardedAt       DateTime @default(now())
+  awardedBy       String?  // null = sistema; admin userId = manual
+  evidenceJSON    String   // referencias a intentos/exámenes
+  status          String   @default("active") // active | revoked
+  revokedAt       DateTime?
+  revokeReason    String?
+
+  badgeDefinition BadgeDefinition @relation(fields: [badgeDefinitionId], references: [id])
+
+  @@index([userId, status])
+  @@index([badgeDefinitionId])
+}
+
+// ── Eventos de analítica (catálogo de propiedades permitidas) ──
+// NO almacenar: contraseñas, tokens, email, nombre, respuestas, código,
+// feedback libre, URLs con query, IDs de pago, datos de otros usuarios.
+model AnalyticsEvent {
+  id              String   @id @default(cuid())
+  userId          String?  // null = anónimo
+  eventName       String   // page_view | section_started | exam_started | etc.
+  eventCategory   String   // navigation | learning | engagement
+  sectionId       String?  // contexto educativo (no PII)
+  propertiesJSON  String   @default("{}") // propiedades permitidas por catálogo
+  clientTimestamp DateTime?
+  serverTimestamp DateTime @default(now())
+  sessionId       String?  // ID de sesión (no JWT)
+
+  @@index([eventName, serverTimestamp])
+  @@index([userId, serverTimestamp])
+  @@index([eventCategory, serverTimestamp])
+}
+
+// ── Solicitudes de exportación de datos (GDPR/ARCO) ──
+model DataExportRequest {
+  id              String   @id @default(cuid())
+  userId          String
+  status          String   @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED | EXPIRED
+  format          String   @default("JSON") // JSON | CSV
+  artifactPath    String?
+  rowCount        Int      @default(0)
+  requestedAt     DateTime @default(now())
+  completedAt     DateTime?
+  expiresAt       DateTime? // el artefacto se elimina después de N días
+  failureReason   String?
+
+  @@index([userId, status])
+  @@index([status, requestedAt])
+}
+
+// ── Solicitudes de eliminación de cuenta (GDPR/ARCO) ──
+model AccountDeletionRequest {
+  id              String   @id @default(cuid())
+  userId          String
+  status          String   @default("PENDING") // PENDING | PROCESSING | COMPLETED | FAILED | CANCELED
+  reason          String?  // user_request | gdpr | legal
+  requestedAt     DateTime @default(now())
+  processedAt     DateTime?
+  processedBy     String?  // admin userId (null = auto)
+  anonymizedAt    DateTime?
+  failureReason   String?
+
+  @@index([userId, status])
+  @@index([status, requestedAt])
+}
+
+// ── Outbox events (para sincronización confiable con mirror) ──
+// Patrón transactional outbox: escribir a Prisma y a outbox en la misma
+// transacción. Un worker lee el outbox y sincroniza con Firestore.
+// Si Firestore falla, el evento se reintenta.
+model OutboxEvent {
+  id              String   @id @default(cuid())
+  aggregateType   String   // user | progress | exam_attempt | exercise_attempt | credential
+  aggregateId     String   // ID de la entidad
+  eventType       String   // created | updated | deleted
+  payloadJSON     String   // snapshot del dato (sin secretos)
+  status          String   @default("PENDING") // PENDING | PROCESSED | FAILED | DEAD_LETTER
+  attempts        Int      @default(0)
+  maxAttempts     Int      @default(5)
+  lastAttemptAt   DateTime?
+  lastError       String?
+  createdAt       DateTime @default(now())
+  processedAt     DateTime?
+
+  @@index([status, createdAt])
+  @@index([aggregateType, aggregateId])
+}

@@ -2527,3 +2527,208 @@ Stage Summary:
 - Cross-section consistency verified: `LATAM` matches S51's usage. `API` (invariable sigla) matches S51/S50/S49/S48/S47. `vs.` (with period) matches S49/S47/S45/S43/S41/S39 fixer convention. `autoetiquetar` (joined form) matches S47/S48/S49 `re-X` → `reX` and `auto-X` → `autoX` RAE hygiene precedent. `jobRelevance` now matches S47/S48/S49/S50/S51 in having NO `**bold**` markers (RAW-render leak closed). Stephen-Fry inline gloss pattern (`(esto es, …)`, `(la versión de referencia congelada)`, `(el capstone de integración del currículo completo)`, `(ejercicio cronometrado de recuperación)`) matches the parenthetical style documented in S10/S14/S15/S37/S40/S45/S47/S49 worklogs.
 
 Section 52 has been fully fixed and validated under strict anti-aberration rules. Ready for the next section.
+
+---
+Task ID: PHASE1-AUDIT-API
+Agent: API Route Auditor (general-purpose)
+Task: Audit ALL API routes in src/app/api/ for security, missing capabilities, and design flaws.
+
+Work Log:
+- Read prior worklog (2,529 lines, last entry FIXER-S52). Confirmed repo is Next.js 16 App Router + Prisma + NextAuth (Credentials provider only) + optional Firebase dual-write. Auth stack: bcrypt cost-12 password hashing, JWT sessions (7d), DUMMY_PASSWORD_HASH for timing-attack mitigation on unknown users.
+- Enumerated every route.ts under src/app/api/ recursively via Glob+Bash find. Found 29 route files across 11 resource areas (admin, auth, cohorts, credentials, exam, exercise, feedback, firebase, invitations, notifications, progress, subscription, supervisor). The /api/auth/[...nextauth]/route.ts file re-exports NextAuth's handler as GET+POST so it covers signin/signout/session/callbacks implicitly.
+- Read every route.ts file in full. Cross-referenced supporting libs: src/lib/auth.ts (NextAuth config), src/lib/permissions.ts (cohort-scoped RBAC + requireAuth/requireAdmin/requireCohortRole), src/lib/registration-security.ts (BoundedRateLimiter + readBoundedJson), src/lib/exam-scoring.ts (server-side grading), src/lib/runtime-mode.ts (IS_STATIC_SITE), src/lib/notifications.ts (notification body patterns), and prisma/schema.prisma (User/Notification/Payment/Subscription/Cohort/CohortAuditEvent models).
+- Verified IS_STATIC_SITE usage: ONLY /api/credentials/issue and /api/credentials/verify check IS_STATIC_SITE and return 503. The other 27 routes do not. In static-site (GitHub Pages) mode these 27 routes are unreachable (no server runtime), but if the dynamic LMS is deployed without the env flag set, they would execute against the production DB without the static guard. Recommendation: every route that touches the DB should call IS_STATIC_SITE at the top.
+- Verified zod usage: only 7 routes import zod (auth/register, exam/start, exam/submit via shared examSubmitSchema, exercise/attempt, feedback, feedback/[id], progress, subscription/checkout). The remaining 22 routes either skip validation entirely (admin/*, cohorts/*, invitations/*, notifications/*, supervisor/*, firebase/status, subscription/plans, subscription/status) or do manual inline checks (cohorts POST name-length check). admin/supervisor/[id] reads body.action and body.reason without validation — admin-only, low impact, but inconsistent.
+- Verified getServerSession usage: 15 routes call getServerSession directly; 9 use getAuthContext (which wraps getServerSession) from @/lib/permissions; 5 do neither (api root, auth/[...nextauth], auth/register uses rate-limit + bcrypt, credentials/verify is intentionally public, firebase/status is ops-only).
+- Confirmed security-issue findings (matching the user's checklist):
+  * Accepts `correct` from client: /api/exercise/attempt — zod schema declares `correct: z.boolean()` and writes it straight to DB. HIGH risk: any authenticated user can mark any exercise as correct without solving it. The exerciseAttempt.correct field then feeds admin analytics and (potentially) badge eligibility.
+  * Accepts `completed` from client: /api/progress POST — zod schema declares `completed: z.boolean()` and upserts it directly. HIGH risk: users can mark any section/subStep as completed without doing the work. The /api/credentials/issue route recomputes eligibility from ExamAttempt.score (not Progress.completed), so credential integrity is preserved — but admin analytics, cohort dashboards, and badge-nearly-eligible notifications all trust Progress.completed.
+  * Accepts `passed`/`score` from client: NONE. /api/exam/submit correctly accepts only {attemptId, answers, timeSpentSec} and computes score/passed/correct server-side via gradeExamAnswers(). SAFE.
+  * Accepts `teamId`/`cohortId` from client without membership check: NONE. All cohort routes take cohortId from URL params and call requireCohortRole() which queries CohortMembership and throws if not a member with an allowed scopedRole. /api/invitations/[id] checks invitation.intendedUserId === userId. SAFE.
+  * Accepts `role` from client: NONE. /api/auth/register uses .strict() zod schema (rejects unknown keys) and hardcodes role: 'STUDENT' on create. /api/supervisor/request derives entitlement from subscription.plan.code (server-side). /api/admin/supervisor/[id] mutates SupervisorProfile.status only (not User.role). SAFE — but note there is NO route to grant or revoke User.role (STUDENT↔ADMIN); this is currently a manual DB operation.
+  * Creates Payment outside a transaction: /api/subscription/checkout — for paid plans, the route calls db.subscription.update/create followed by a separate db.payment.create (lines 102–146). If the Payment write fails, the Subscription is left in TRIALING state with no Payment record; if the Subscription write fails, no Payment is created (acceptable). The reverse — Subscription succeeds, Payment fails — leaves an orphan trial subscription with no payment audit trail. Should be wrapped in db.$transaction([...]). MED-HIGH risk.
+  * Stores credential in Notification body: /api/credentials/issue — stores the full signed credential JSON (credentialId, verificationId, badgeId, capabilityStatement, holderReference, signature) in db.notification.body. /api/credentials/verify then queries notifications by `body: { contains: verificationId }` and parses the body as JSON to recover the credential. This is a misuse of the Notification table as a credential store: (a) Notification.body is documented in schema.prisma L300 as "safe payload (no PII from other users)" — credentials are not notifications; (b) the `contains` substring query is a partial-index scan that won't scale and was already a substring-IDOR vector that required client-side exact-match defense-in-depth (L84–100 of verify/route.ts); (c) there is no Credential model in the schema. Recommendation: add a dedicated Credential model with an indexed verificationId column and migrate.
+  * Additional finding — entitlement cap bypass: /api/cohorts POST accepts `maxMembers` from client body (line 17) and writes it directly (line 44: `maxMembers: maxMembers || (profile?.entitlement === 'TEAM' ? 100 : 25)`). A STUDENT-tier supervisor can pass `maxMembers: 1000` and bypass the 25-member cap. The fallback default only kicks in when maxMembers is falsy. MED risk.
+  * Additional finding — subscription trial abuse: /api/subscription/checkout creates a TRIALING subscription with trialEnd = +7d for any paid plan, with no payment verification (TEST_MODE flag returned to client). An authenticated user can upgrade to Pro/Team indefinitely by re-POSTing every 7 days. The route does not check for an existing trial. MED risk.
+  * Additional finding — /api/firebase/status is unauthenticated and exposes the Firebase project ID and sync readiness. LOW risk (no secrets), but should be admin-only or behind IS_STATIC_SITE.
+  * Additional finding — /api/notifications/[id] PATCH reads body.isRead and body.isDismissed without zod; trusts the field types. LOW risk (ownership verified, values coerced to truthy).
+  * Additional finding — admin/supervisor/[id] POST has no zod validation on body.action or body.reason. LOW risk (admin-only, action constrained by if/else chain).
+
+Stage Summary:
+- 29 routes audited. Full route table, missing-capability list, and per-route security issues delivered in the task report (see tool response).
+- 3 HIGH-risk routes: /api/exercise/attempt (client `correct`), /api/progress (client `completed`), /api/subscription/checkout (Payment outside transaction + trial abuse + entitlement bypass is in /api/cohorts).
+- 1 HIGH-risk design flaw: /api/credentials/issue stores signed credentials in Notification.body (and /api/credentials/verify reads them back via `contains`).
+- 11 of 12 required capabilities are MISSING as API routes (only User registration is present and properly role-protected).
+- No code changes were made — this is an audit-only task. Next actions for remediation are listed in the report.
+
+---
+Task ID: PHASE1-AUDIT-FIREBASE
+Agent: Firebase Integration Auditor (general-purpose)
+Task: Audit Firebase integration (client SDK + Admin SDK + firestore.rules + env vars); determine whether Firebase is auth / storage / mirror / all three; check for "Prisma is authoritative" violations.
+
+Work Log:
+- Read prior worklog (2,562 lines). Located most recent entry PHASE1-AUDIT-API (API route audit). Confirmed repo stack: Next.js 16 App Router + Prisma (SQLite) + NextAuth (Credentials provider, bcrypt cost-12, JWT 7d) + optional Firebase dual-write (firebase ^12.16.0 + firebase-admin ^14.2.0).
+- Enumerated Firebase-related files via Glob+Grep: 4 source files in src/lib/firebase/ (client.ts, admin.ts, sync.ts, types.ts); 3 root config files (firebase.json, firestore.rules, firestore.indexes.json, .firebaserc); 1 component (src/components/course/AuthModal.tsx); 1 ops endpoint (src/app/api/firebase/status/route.ts); 6 API routes importing sync helpers (auth/register, progress, exam/start, exam/submit, exercise/attempt, feedback, feedback/[id]). Privacy page and layout.tsx reference Firebase in copy/CSP only — no logic.
+- Read every Firebase source file in full. Read every Firebase-importing route file in full. Read firestore.rules (159 lines), firestore.indexes.json (3 indexes), firebase.json, .firebaserc, .env.example, docs/FIREBASE.md, docs/FIREBASE_SETUP.md (grepped), docs/ELI5_DYNAMIC_LMS_SETUP.md (grepped).
+- Cross-checked git history for firestore.rules: commit 3752ecb4 "security(redteam): harden credential, storage, XSS, and supply-chain surfaces" (2026-08-01) is the commit that fixed the isSupervisorOf tautology. Verified the fix is still present in the working tree (rules lines 36–61).
+- Verified env var names by grepping `process\.env\.(FIREBASE_|NEXT_PUBLIC_FIREBASE_)` across src/. Cross-referenced against .env.example and the two setup docs.
+- Verified "Prisma is authoritative" by grepping for read calls on the Firestore Admin handle (`getFirestoreDb().collection().get()`, `.where()`, `.doc().get()`). Found ZERO read calls outside sync.ts. The only non-sync caller is /api/firebase/status/route.ts, which calls `getFirestoreDb()` only to check truthiness for a readiness flag — never reads a document.
+- Verified IS_STATIC_SITE gating: client.ts and admin.ts are NOT explicitly gated, but admin.ts/sync.ts run only on the server (which only exists in dynamic mode), and AuthModal handles the static case explicitly (line 599: `if (IS_STATIC_SITE && !firebaseConfigured) return null`).
+
+Stage Summary:
+
+=== FILE-BY-FILE AUDIT ===
+
+**src/lib/firebase/client.ts (162 lines)** — CLIENT SDK.
+- Side: client. Reads NEXT_PUBLIC_FIREBASE_* env vars (API_KEY, AUTH_DOMAIN, PROJECT_ID, APP_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, MEASUREMENT_ID).
+- Purpose: initializes Firebase Auth + Firestore (with persistentLocalCache + indexedDB persistence for offline). Returns `null` instead of throwing when env is absent, so the app degrades gracefully on a fresh checkout.
+- Used by: AuthModal.tsx (sign-in/register/reset/verify flows + onAuthStateChanged session listener).
+- IS_STATIC_SITE gated: NO (intentional — client SDK is the ONLY auth option on the static edition). The AuthModal component handles the gate.
+- Reads Firestore for authz? NO. The `getFirebaseDb()` export exists but no current component calls it. The types.ts file declares Doc shapes that imply future client reads, but no read path is wired today.
+
+**src/lib/firebase/admin.ts (106 lines)** — SERVER SDK (Admin).
+- Side: server. Reads FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY (or single FIREBASE_SERVICE_ACCOUNT_JSON blob). Also reads FIREBASE_SYNC_ENABLED flag.
+- Purpose: initializes firebase-admin with a service-account credential. `isFirebaseSyncEnabled()` auto-enables when creds exist unless `FIREBASE_SYNC_ENABLED=false`.
+- Private-key `\n` handling: CORRECT. Both code paths (JSON blob at L37 and three-env-var path at L50) do `privateKey.replace(/\\n/g, '\n')`. This is the standard fix for Vercel/Heroku dotenv escaping.
+- Used by: sync.ts (via `getFirestoreDb()` and `isFirebaseSyncEnabled()`); /api/firebase/status/route.ts (readiness check).
+- Reads Firestore for authz? NO. The `getFirestoreDb()` export is called only by sync.ts writers and by the status route's truthiness check.
+
+**src/lib/firebase/sync.ts (143 lines)** — DUAL-WRITE HELPERS (server-only).
+- Side: server. Imports `getFirestoreDb, isFirebaseSyncEnabled` from ./admin.
+- Purpose: `upsertDoc(collection, id, data)` writes a doc with `{merge: true}` and adds `_syncedAt` + `_source: 'pyarcana-api'` metadata. Exports 5 typed helpers: syncUser, syncProgress, syncExamAttempt, syncExerciseAttempt, syncFeedbackReport.
+- Failures: caught and logged; NEVER throw. Prisma write has already succeeded before sync is called, so Prisma remains source of truth. Comment on L3: "Prisma remains source of truth for the app."
+- Writes passwordHash? NO. syncUser explicitly omits passwordHash (comment L61: "Public profile only — never write passwordHash to Firestore").
+- Reads Firestore for authz? NO. Pure write path.
+- BUG found: syncProgress / syncExamAttempt / syncExerciseAttempt do NOT write a `cohortId` field on the doc. But firestore.rules `isSupervisorOf()` requires `resource.data.cohortId is string` (rules L58). Therefore supervisor-scoped client reads on these collections will ALWAYS fail-closed. This makes the supervisor-read paths in firestore.rules effectively dead code for progress/examAttempts/exerciseAttempts. (For badges, the rule also requires cohortId — same bug.) This is a logic gap, not a security hole (rules fail-closed), but it means the "supervisor reads learner progress via client SDK" feature is non-functional.
+
+**src/lib/firebase/types.ts (200 lines)** — TYPE DEFINITIONS (no runtime logic).
+- Declares UserDoc, ProgressDoc, ExamAttemptDoc, ExerciseAttemptDoc, BadgeDoc, CohortDoc, CohortMemberDoc, FeedbackReportDoc + their Input variants + FIRESTORE_COLLECTIONS constant.
+- Comments imply client components will read/write Firestore directly (L4: "so client components can read/write typed documents without importing the Admin SDK"). No current component imports these types. They are scaffolding for a future client-Firestore-read feature that has not been wired.
+
+**firebase.json** — minimal: points firestore.rules + firestore.indexes.json at the `(default)` database in `nam5`.
+
+**firestore.rules (159 lines)** — owner-only + cohort-scoped supervisor + admin override.
+- Default deny: yes (L155–157: `match /{document=**} { allow read, write: if false; }`).
+- Owner access: enforced via `isOwner(resource.data.userId)` on users/progress/examAttempts/exerciseAttempts/badges. Self-managed fields on `users` exclude `role` (role escalation blocked).
+- isSupervisorOf tautology fix: PRESENT. The old code called `exists()` twice on the same path (caller's own cohortMembers doc — a no-op that let ANY signed-in cohort member read ANY learner's data). The current code (L57–60) reads `resource.data.cohortId` from the target doc, then checks the caller's cohortMembers doc at path `cohortMembers/${cohortId}__${uid}` has `role=='supervisor'`. Real cohort-scoped authorization.
+- Admin SDK bypass: YES (by design). The Admin SDK authenticates with a service-account credential and is NOT subject to firestore.rules at all. This is documented in docs/FIREBASE.md L79 ("Server dual-write uses Admin SDK (bypasses security rules)"). The rules only constrain the CLIENT SDK (browser) traffic. Server writes via sync.ts are unrestricted.
+- Caveat: because sync.ts omits `cohortId` on progress/examAttempts/exerciseAttempts docs (see sync.ts audit above), the supervisor read paths fail-closed. If a future change adds `cohortId` to those writes, supervisor reads would start working — until then they are dead code.
+
+**firestore.indexes.json** — 3 composite indexes (feedbackReports status+createdAt, feedbackReports type+createdAt, examAttempts userId+sectionId+startedAt). No field overrides. Sufficient for current query patterns.
+
+**.firebaserc** — declares two projects: `coderhouse-react-8063a` (alias `default`) and `pyarcana` (alias `pyarcana-new`). docs/FIREBASE.md says the active project for MCP/dual-write is `coderhouse-react-8063a`. docs/FIREBASE_SETUP.md and docs/ELI5_DYNAMIC_LMS_SETUP.md tell operators to create a NEW project named `pyarcana-prod`. The two docs disagree about which project is canonical — operators following FIREBASE_SETUP.md will end up with a different project than the one the rules were deployed to.
+
+**src/components/course/AuthModal.tsx (670 lines)** — CLIENT. Uses Firebase Auth (signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, onAuthStateChanged, signOut). ALSO imports `useSession` from next-auth and reads `session?.user` as a parallel identity source. The UserMenu component (L573–669) merges both: `const signedIn = !!session?.user || !!fbUser` (L609) — a user is "signed in" if EITHER system thinks so. This is the surface where the "two password systems for one identity" contradiction becomes user-visible.
+
+**src/app/api/firebase/status/route.ts (27 lines)** — SERVER. GET-only, unauthenticated. Returns `{syncEnabled, firestoreReady, projectId, collections}`. Exposes FIREBASE_PROJECT_ID (not a secret — it's also in NEXT_PUBLIC_FIREBASE_PROJECT_ID on the client). No secrets leaked. LOW risk; could be admin-gated for hygiene.
+
+**6 API routes that dual-write** — auth/register, progress (POST+PATCH), exam/start, exam/submit, exercise/attempt, feedback (POST), feedback/[id] (PATCH). Every one of them follows the same pattern: (1) verify session via getServerSession, (2) Prisma write, (3) `void syncX(row)` fire-and-forget. NONE of them read from Firestore. NONE of them gate on IS_STATIC_SITE (they are server routes — unreachable in static mode by absence of server runtime).
+
+=== ENV VAR NAME COMPARISON TABLE ===
+
+| Var name                              | Read by code? | In .env.example? | In docs/FIREBASE_SETUP.md? | In docs/FIREBASE.md? | Status |
+|---------------------------------------|---------------|-------------------|----------------------------|----------------------|--------|
+| NEXT_PUBLIC_FIREBASE_API_KEY          | YES (client.ts:60) | YES | YES | no | OK |
+| NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN      | YES (client.ts:61) | YES | YES | no | OK |
+| NEXT_PUBLIC_FIREBASE_PROJECT_ID       | YES (client.ts:62) | YES | YES | no | OK |
+| NEXT_PUBLIC_FIREBASE_APP_ID           | YES (client.ts:63) | YES | YES | no | OK |
+| NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET   | YES (client.ts:69) | YES | YES | no | OK |
+| NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID | YES (client.ts:70) | YES | YES | no | OK |
+| NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID   | YES (client.ts:72) | YES | YES | no | OK |
+| FIREBASE_PROJECT_ID                   | YES (admin.ts:46) | YES | YES (but as `FIREBASE_ADMIN_PROJECT_ID`?) | YES | MISMATCH in FIREBASE_SETUP.md (uses `FIREBASE_ADMIN_*` prefix) |
+| FIREBASE_CLIENT_EMAIL                 | YES (admin.ts:47) | YES | NO — docs use `FIREBASE_ADMIN_CLIENT_EMAIL` | YES | MISMATCH: docs say `FIREBASE_ADMIN_CLIENT_EMAIL`, code reads `FIREBASE_CLIENT_EMAIL`. Following docs → sync silently no-ops. |
+| FIREBASE_PRIVATE_KEY                  | YES (admin.ts:48) | YES | NO — docs use `FIREBASE_ADMIN_PRIVATE_KEY` | YES | MISMATCH: docs say `FIREBASE_ADMIN_PRIVATE_KEY`, code reads `FIREBASE_PRIVATE_KEY`. |
+| FIREBASE_SYNC_ENABLED                 | YES (admin.ts:56–57) | NO | no | YES (L46) | MISSING from .env.example. Required to explicitly disable sync (`=false`); otherwise auto-enables when creds present. |
+| FIREBASE_SERVICE_ACCOUNT_JSON         | YES (admin.ts:25) | NO | no | no | MISSING from .env.example. Alternative to the 3 separate vars; useful for Vercel/Heroku single-blob deploys. |
+
+Cross-project validation gap: the code does NOT verify that `FIREBASE_PROJECT_ID` (server) equals `NEXT_PUBLIC_FIREBASE_PROJECT_ID` (client). If they differ, the Admin SDK writes docs to one Firestore project and the Client SDK reads from another — silently breaking owner-scoped rules (the client's `request.auth.uid` would not match any `userId` in the server-mirrored docs). The two MUST point to the same Firebase project; the code assumes this but does not enforce it.
+
+=== THE "WHAT IS FIREBASE?" DECISION NEEDED ===
+
+Firebase is currently used as TWO of the four candidate roles, simultaneously:
+
+1. **Firebase Authentication — INDEPENDENT identity system (yes, two password systems for one identity).**
+   - AuthModal.tsx uses Firebase Auth's Email/Password provider directly: createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification. None of these call /api/auth/register or /api/auth/[...nextauth]. None of them touch Prisma.
+   - The /api/auth/register route creates a Prisma User (with bcrypt-hashed password) and mirrors the public profile to Firestore — but does NOT create a Firebase Auth user. So the two registration paths are disjoint.
+   - UserMenu merges the two: `signedIn = !!session?.user || !!fbUser`. A learner can be signed into Firebase Auth but not NextAuth, or vice versa, and the UI shows them as "signed in" — but only the NextAuth session carries a server-side role, server-side authorization, and a Prisma User row. The Firebase Auth identity is cosmetic on the dynamic edition.
+   - This is contradiction #10 in its purest form: one human identity, two password systems, no reconciliation logic.
+
+2. **Firestore — PURE MIRROR (write-only from server; never read for a decision).**
+   - Every server write to Firestore happens via `void syncX(row)` AFTER a successful Prisma write. Failures are swallowed. Prisma is authoritative.
+   - ZERO server routes read from Firestore for an authorization or business decision. Verified by grep: no `getFirestoreDb().collection().get()`, no `.where()`, no `.doc().get()` outside sync.ts.
+   - The client SDK exports `getFirebaseDb()` and types.ts declares Doc shapes that imply future client reads, but NO current component reads Firestore directly — they all go through /api/* which reads Prisma.
+   - So Firestore is a mirror today. The scaffolding (types.ts, client.ts getFirebaseDb export) is in place for it to become a second source of truth tomorrow, which would violate "Prisma is authoritative."
+
+3. **NOT used as primary storage.** Prisma+SQLite is the primary DB. Firestore is dual-write only.
+
+4. **NOT used as analytics.** No measurementId / gtag wiring in code (env var is read but no analytics SDK is initialized).
+
+=== "PRISMA IS AUTHORITATIVE" VIOLATIONS ===
+
+- Server side: NONE. Every Firestore write is fire-and-forget after Prisma succeeds. No server route reads Firestore for a decision. CLEAN.
+- Client side: NONE TODAY, but the scaffolding is in place. `getFirebaseDb()` is exported and types.ts declares Progress/ExamAttempt/Badge Doc shapes for client reads. If a future feature uses these (e.g., "load progress from Firestore when offline"), it would create a parallel source of truth that bypasses the /api/progress GET route (which reads Prisma). The firestore.rules supervisor-read path is already broken (cohortId missing on writes), which is the canary that no one is currently testing client reads.
+- Auth side: VIOLATION (architectural). Firebase Auth and NextAuth are two independent identity systems for one user identity. The UserMenu merges them with `||`, but they have no shared state: a Firebase Auth user has no Prisma row, no role, no cohort membership, no exam attempts. A NextAuth user has no Firebase Auth uid (so firestore.rules `request.auth.uid == userId` will fail for them — they cannot read their own mirrored profile via the client SDK). This is the deepest form of the contradiction.
+
+=== DECISION REQUIRED FROM HUMAN ===
+
+Pick exactly ONE of these three architectures and delete the others:
+
+(A) **Firebase is the auth + storage system; Prisma is removed.** Move all data to Firestore, all auth to Firebase Auth, delete NextAuth + Prisma. Highest cost; makes the static edition the primary deployment model.
+
+(B) **Firebase is a mirror only; Firebase Auth is removed.** Keep dual-write to Firestore (for ops/observability/client offline reads), but delete the AuthModal Firebase Auth flows and route all sign-in through NextAuth + /api/auth/register. Closest to "Prisma is authoritative" — recommended.
+
+(C) **Firebase is the auth system; NextAuth is removed.** Use Firebase Auth for sign-in, mint a custom token or verify the Firebase ID token server-side to create the NextAuth session (or replace NextAuth with a Firebase session cookie). Delete the Credentials provider and the /api/auth/register password path. Most disruptive to the existing API surface.
+
+The current code is an undecided blend of (A) and (B): Firebase Auth runs in parallel with NextAuth (option A's auth), but Firestore is a write-only mirror (option B's storage). This is contradiction #10.
+
+=== NEXT ACTIONS ===
+
+1. DECIDE: pick (A), (B), or (C) above. Without this decision, every downstream refactor is guesswork.
+2. Fix the env var mismatch in docs/FIREBASE_SETUP.md and docs/ELI5_DYNAMIC_LMS_SETUP.md: `FIREBASE_ADMIN_CLIENT_EMAIL` → `FIREBASE_CLIENT_EMAIL`, `FIREBASE_ADMIN_PRIVATE_KEY` → `FIREBASE_PRIVATE_KEY`. (Code is correct; docs are wrong.)
+3. Add `FIREBASE_SYNC_ENABLED` and `FIREBASE_SERVICE_ACCOUNT_JSON` to .env.example with comments.
+4. Add a startup assertion (in admin.ts or a config-check lib) that `FIREBASE_PROJECT_ID === NEXT_PUBLIC_FIREBASE_PROJECT_ID` when both are set, with a loud warning if they diverge.
+5. Either add `cohortId` to the syncProgress/syncExamAttempt/syncExerciseAttempt/syncBadge payloads (so the firestore.rules supervisor-read path actually works), OR delete the supervisor-read rules and document that supervisor reads must go through the server API.
+6. Gate /api/firebase/status behind admin auth (or IS_STATIC_SITE) for hygiene.
+7. If decision (B) is taken: delete the Firebase Auth flows from AuthModal and the `firebase/auth` imports; route everything through NextAuth. Remove `getFirebaseAuth`/`onAuthStateChanged` from UserMenu. Keep `getFirebaseDb` only if a client-offline-read feature is actually planned.
+8. If decision (A) or (C) is taken: delete the Credentials provider from src/lib/auth.ts and the /api/auth/register route; replace with Firebase Auth + ID-token verification server-side.
+
+No code changes were made — this is an audit-only task. Worklog appended (this entry).
+
+---
+Task ID: PHASE1-AUDIT-TESTS
+Agent: Audit/Sub-agent (general-purpose)
+Task: Audit existing test infrastructure of PyArcana codebase
+
+Work Log:
+- Note: task brief referenced `/home/z/my-project/worklog.md`, but that path does not exist. The shared Solarize worklog lives at `/home/z/my-project/pyarcana_repo/worklog.md` (read 200-line head for context).
+- Read package.json (38 scripts). Identified 7 test-only scripts: test:v3{,-counts,-structure,-invariant}, test:layout{:playwright}, test:course-complete, test:all-gates, test:e2e-max{,:catalog,:shard,:smoke}, test:ux-gates, test:s01-pedagogy, test:adversarial{:node,:py}, test:unit.
+- Inventoried all test files recursively under tests/ and scripts/ matching `*.test.*`, `*.spec.*`, `test_*`. Total = 70 files:
+  - tests/adversarial/: 53 files (9 TS/MJS via node:test, 44 Python unittest)
+  - tests/e2e_max/: 3 specs (badge_eligibility, badge_supervisor, dashboard_resources)
+  - tests/fixtures/: 9 JSON fixtures (theater phrase banks + sc maps)
+  - scripts/: 4 specs + 1 .test.mjs (v3_regression_counts, regression, v3_regression, code_rendering, static_public)
+  - scripts/e2e_max/: 13 specs (01_chrome_pages … 13_mouse_keyboard_lesson_flow) + helpers/
+- Read every adversarial file header + key tests; mapped framework (node:test vs python unittest vs Playwright), server/DB requirements, security/subscription/credential coverage.
+- Read prisma/schema.prisma (370 lines): full data model includes User, FeedbackReport, Progress, QuestionBank, ExamAttempt, ExerciseAttempt, SubscriptionPlan, Subscription, Payment, SupervisorProfile, Cohort, CohortMembership, CohortInvitation, Notification, NotificationPreference, CohortAuditEvent, ReportExport.
+- Read playwright.config.ts (scripts/) and scripts/e2e_max/playwright.max.config.ts — both expect `BASE_URL=http://localhost:3000` (no webServer config; dev server must be started externally).
+- Read scripts/e2e_max/helpers/auth.ts — NextAuth credentials login via API; requires E2E_STUDENT_EMAIL/PASSWORD and E2E_ADMIN_EMAIL/PASSWORD env vars.
+- Verified NO test DB infrastructure exists:
+  - No jest/vitest config files
+  - No test-setup.ts / globalSetup
+  - No `:memory:` or `test.db` references in test code (only inside curriculum content s29-mlops.ts as a sqlite3 example)
+  - CI tests.yml uses `DATABASE_URL: file:./db/ci.db` only for `bun run build`, not for running tests
+  - No adversarial test imports PrismaClient
+- Verified `tsx` (in package.json devDependencies) is NOT installed in node_modules in this audit environment; running `node --import tsx --test tests/adversarial/*.test.ts` fails immediately with `ERR_MODULE_NOT_FOUND: Cannot find package 'tsx'`. Would need `bun install` to actually execute.
+- Mapped each of the 25 security invariants from the task brief (task said 24 but enumerated 25) to existing test coverage. Result: 2 TESTED, 2 PARTIAL, 4 SKIPPED (test.skip placeholders in badge_supervisor.spec.ts), 17 NOT TESTED.
+
+Stage Summary:
+- Delivered full audit report below with (1) test file table, (2) 25-invariant TESTED/NOT TESTED matrix, (3) test infrastructure assessment, (4) gap-closure recommendations.
+- Key findings:
+  (a) Adversarial suite is strong for pure-unit/source-grep invariants (52 files, runs without server/DB) — easy to extend for new invariants of the same kind.
+  (b) E2E Playwright suite is mature for UI/curriculum regression but has NO security-boundary tests beyond admin/student role denial (in 06_student_admin_flows.spec.ts and 11_admin_analytics.spec.ts).
+  (c) badge_supervisor.spec.ts contains 13 `test.skip(...)` placeholders for supervisor/admin/invitation boundaries — these document the intent but are NOT executed. They are the lowest-effort wins: un-skip + implement.
+  (d) Zero coverage of: webhook idempotency/concurrency, payment transactional integrity, Firebase-down resilience, reconciliation, migration preservation, production fail-fast, env-doc consistency, streak TZ boundaries, multi-tenant teamId spoofing, JWT revocation, suspended-user access loss.
+  (e) The eligibility_engine.py (1344 lines) is a Python reference implementation that tests badge threshold/idempotency/legacy-evidence invariants in-process — but the TS production engine in src/lib/eligibility/ is only exercised via badge_eligibility.spec.ts (which imports it directly, no API/DB).
+  (f) Adding the missing 17 invariants requires NEW infrastructure: an in-memory or per-test SQLite Prisma setup, user/cohort/invitation/payment fixtures, Firebase/payment mocks, and likely a new tests/api/ directory for integration tests. Currently impossible to add a "User A can't access User B's data" test without standing up a dev server + seeded DB.
+- Reusable artifacts left for downstream agents: this audit report (below) + the invariant matrix as a backlog for the security-test-writing agent.
+- Source-quality honesty: I could not actually run any tests in this environment (tsx and @playwright/test are not installed in node_modules). Coverage assessment is based on static reading of test files, package.json scripts, CI workflow, and Prisma schema. To verify runtime behavior, run `bun install` then `npm run test:adversarial`.

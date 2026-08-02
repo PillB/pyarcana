@@ -1,0 +1,100 @@
+# ─────────────────────────────────────────────────────────────────────
+# PyArcana — systemd service file (TEMPLATE)
+# ─────────────────────────────────────────────────────────────────────
+# QUÉ LOGRA: Ejecuta el LMS dinámico como servicio del sistema, como
+#   usuario `pyarcana` (NO root), con reinicio automático.
+#
+# QUÉ NECESITAS:
+#   - Usuario `pyarcana` creado: sudo useradd -r -m -d /var/lib/pyarcana -s /bin/bash pyarcana
+#   - Bun instalado: curl -fsSL https://bun.sh/install | bash
+#   - Build standalone en /opt/pyarcana/.next/standalone/
+#   - DB en /var/lib/pyarcana/db/custom.db
+#   - Caddy instalado y configurado
+#
+# USUARIO QUE EJECUTA LA INSTALACIÓN: root (para crear el servicio)
+# USUARIO QUE EJECUTA LA APP: pyarcana
+#
+# DIRECTORIO: /opt/pyarcana (o donde se desplegó el build)
+#
+# RIESGO: CAMBIO REVERSIBLE — se puede detener y eliminar el servicio.
+#
+# INSTALACIÓN:
+#   sudo cp deploy/pyarcana.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable pyarcana
+#   sudo systemctl start pyarcana
+#
+# VERIFICACIÓN:
+#   sudo systemctl status pyarcana
+#   sudo journalctl -u pyarcana -f
+#   curl -s http://localhost:3000/api | head
+#
+# ERROR FRECUENTE: "Failed to execute /opt/pyarcana/.next/standalone/server.js"
+#   Solución: verificar que el build incluye server.js (bun run build)
+#
+# ROLLBACK:
+#   sudo systemctl stop pyarcana
+#   sudo systemctl disable pyarcana
+#   sudo rm /etc/systemd/system/pyarcana.service
+#   sudo systemctl daemon-reload
+#
+# FUENTE: https://www.freedesktop.org/software/systemd/man/systemd.service.html
+# FECHA DE CONSULTA: 2026-08-02
+# ─────────────────────────────────────────────────────────────────────
+
+[Unit]
+Description=PyArcana LMS (Next.js standalone)
+Documentation=https://github.com/PillB/pyarcana
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# Ejecutar como usuario pyarcana (NO root)
+User=pyarcana
+Group=pyarcana
+
+# Directorio del build standalone
+WorkingDirectory=/opt/pyarcana
+
+# Variables de entorno (cargar desde archivo)
+EnvironmentFile=/var/lib/pyarcana/.env
+
+# Ejecutar el servidor standalone de Next.js
+ExecStart=/home/pyarcana/.bun/bin/bun /opt/pyarcana/.next/standalone/server.js
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+StartLimitBurst=3
+StartLimitIntervalSec=60
+
+# Seguridad: limitar capacidades
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/pyarcana
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pyarcana
+
+# Timeout
+TimeoutStartSec=30
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

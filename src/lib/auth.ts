@@ -64,7 +64,31 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string
-        session.user.role = token.role as string
+        // Re-read the role from the database on each session resolution.
+        // The JWT stores the role from login time, but if an admin revokes
+        // or changes the role server-side, the JWT would otherwise carry
+        // the stale role for up to 7 days (maxAge). This callback runs on
+        // every server-side getSession/useSession call, so the cost is one
+        // lightweight DB query per authenticated request.
+        //
+        // If the user no longer exists (deleted), role falls back to
+        // 'STUDENT' and the user will be denied admin access on next call.
+        try {
+          const dbUser = await db.user.findUnique({
+            where: { id: token.id as string },
+            select: { role: true },
+          })
+          session.user.role = dbUser?.role || 'STUDENT'
+          // Also update the token so client-side session.matches match
+          // the latest server-side role.
+          token.role = session.user.role
+        } catch {
+          // If the DB is unreachable, fall back to the token's role.
+          // This is a graceful degradation: the user keeps their session
+          // but with potentially stale permissions. A production monitor
+          // should alert on this.
+          session.user.role = token.role as string
+        }
       }
       return session
     },
