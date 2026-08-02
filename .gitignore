@@ -86,3 +86,8 @@ trainee_research_attempt/
 # These are private reference notebooks for capstone exemplars.
 exemplars_private/
 exemplars_private/
+
+# Test databases
+prisma/db/
+db/
+backups/
