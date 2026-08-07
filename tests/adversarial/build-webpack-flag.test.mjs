@@ -25,4 +25,13 @@ describe('dynamic build webpack flag (DEF-SA-005)', () => {
     const src = readFileSync(join(ROOT, 'scripts/build_static_export.mjs'), 'utf8')
     assert.match(src, /build.*--webpack|--webpack/)
   })
+
+  it('dev script forces --webpack so CI browser regression keeps a live server', () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
+    assert.match(
+      pkg.scripts.dev,
+      /next dev --webpack/,
+      'next dev under Next 16 must pass --webpack when a custom webpack config exists'
+    )
+  })
 })
