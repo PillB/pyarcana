@@ -10,16 +10,15 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     // Wait for page to hydrate — the heading may take time on CI
     await page.waitForLoadState('domcontentloaded')
     // Dismiss the interactive tour if it appears (first-visit overlay)
-    try {
-      const tourSkip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
-      await tourSkip.waitFor({ state: 'visible', timeout: 3000 })
+    const tourSkip = page.getByRole('button', { name: /Saltar|Skip|Omitir|Cerrar/i }).first()
+    if (await tourSkip.isVisible({ timeout: 3000 }).catch(() => false)) {
       await tourSkip.click()
-      await page.waitForTimeout(1000)
-    } catch {
-      // Tour may not appear if already dismissed
+      await expect(tourSkip).toBeHidden({ timeout: 5000 }).catch(() => undefined)
     }
     // Wait for the main heading with generous timeout for CI
-    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({ timeout: 15000 })
+    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({
+      timeout: 15000,
+    })
   })
 
   test('brands the Art Nouveau landing and keeps static boundaries truthful', async ({ page }) => {
@@ -28,36 +27,42 @@ test.describe('PyArcana public GitHub Pages edition', () => {
   })
 
   test('English toggle changes meaningful chrome', async ({ page }) => {
-    // Just verify the page is functional and the heading is visible
     await expect(page.locator('body')).not.toContainText('Application error')
-    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({ timeout: 15000 })
-    
-    // Try to find and click the language toggle
-    try {
-      const langToggle = page.locator('[data-testid="language-toggle"]').first()
-      if (await langToggle.isVisible({ timeout: 3000 }).catch(() => false)) {
-        await langToggle.click()
-        await page.waitForTimeout(1000)
-      }
-    } catch {
-      // Language toggle may not be visible — that's OK
+    await expect(page.getByRole('heading', { name: 'PyArcana', level: 1 })).toBeVisible({
+      timeout: 15000,
+    })
+
+    // Desktop and mobile each mount LanguageToggle; only the visible chrome is interactive.
+    const langToggle = page.locator('[data-testid="language-toggle"]').locator('visible=true').first()
+    await expect(langToggle).toBeVisible({ timeout: 10000 })
+    const before = (await page.locator('body').innerText()).slice(0, 2000)
+    await langToggle.getByRole('button').first().click()
+    // Choose English from the menu when present; otherwise the toggle click alone is enough to open.
+    const englishOption = page.getByRole('button', { name: /English|Inglés|EN/i }).first()
+    if (await englishOption.isVisible({ timeout: 3000 }).catch(() => false)) {
+      await englishOption.click()
     }
-    
-    // Verify page still works after toggle attempt
+    await expect
+      .poll(async () => {
+        const after = (await page.locator('body').innerText()).slice(0, 2000)
+        return after !== before || /Public edition|English|EN|progress|sections completed/i.test(after)
+      }, { timeout: 10000 })
+      .toBeTruthy()
     await expect(page.locator('body')).not.toContainText('Application error')
   })
 
   test('opens curriculum sections with learning tabs', async ({ page }) => {
-    // Navigate to first section via sidebar
     const sidebar = page.locator('[data-testid="sidebar-sections"]')
-    if (await sidebar.isVisible({ timeout: 5000 }).catch(() => false)) {
-      const firstSection = sidebar.locator('button, a').first()
-      await firstSection.click()
-      // Wait for section view
-      await page.waitForTimeout(2000)
-    }
-    // Just verify the page didn't crash — section-root may or may not have data-testid
-    await expect(page.locator('body')).not.toContainText('Error')
+    await expect(sidebar).toBeVisible({ timeout: 15000 })
+    // Prefer the section row by name — avoid the nested "Marcar como favorito" control.
+    const firstSection = sidebar.getByRole('button', { name: /Entorno reproducible/i }).first()
+    await expect(firstSection).toBeVisible()
+    await firstSection.click()
+    const sectionRoot = page.locator('[data-testid="section-root"], [data-section-id]').first()
+    await expect(sectionRoot).toBeVisible({ timeout: 15000 })
+    // Learning tabs (theory / I Do / …) should appear for an open section.
+    await expect(page.getByRole('tab').first()).toBeVisible({ timeout: 15000 })
+    await expect(page.locator('body')).not.toContainText('Application error')
   })
 
   test('serves base-path assets without 404s', async ({ request }) => {
@@ -69,14 +74,16 @@ test.describe('PyArcana public GitHub Pages edition', () => {
   })
 
   test('renders code blocks without corruption', async ({ page }) => {
-    // Navigate to first section
     const sidebar = page.locator('[data-testid="sidebar-sections"]')
-    if (await sidebar.isVisible({ timeout: 5000 }).catch(() => false)) {
-      const firstSection = sidebar.locator('button, a').first()
-      await firstSection.click()
-      await page.waitForTimeout(2000)
-    }
-    // Verify no crash
+    await expect(sidebar).toBeVisible({ timeout: 15000 })
+    await sidebar.getByRole('button', { name: /Entorno reproducible/i }).first().click()
+    await expect(page.locator('[data-testid="section-root"], [data-section-id]').first()).toBeVisible({
+      timeout: 15000,
+    })
     await expect(page.locator('body')).not.toContainText('Application error')
+    // Code surfaces use pre/code; presence is required on S01 theory.
+    await expect
+      .poll(async () => page.locator('pre, code').count(), { timeout: 15000 })
+      .toBeGreaterThan(0)
   })
 })

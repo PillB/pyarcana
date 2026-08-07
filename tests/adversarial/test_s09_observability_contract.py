@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
-import sys
 import unittest
 
 
@@ -90,7 +90,7 @@ class TestS09ObservabilityContract(unittest.TestCase):
         assert match is not None
 
         run = subprocess.run(
-            ["python3", "-c", match.group("code")],
+            [sys.executable, "-c", match.group("code")],
             cwd=ROOT,
             check=True,
             capture_output=True,

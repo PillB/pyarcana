@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
-import sys
 import unittest
 
 
@@ -145,7 +145,7 @@ class TestS08IngestionContract(unittest.TestCase):
 
         executable_code = match.group("code").replace("\\\\n", "\\n")
         completed = subprocess.run(
-            ["python3", "-c", executable_code],
+            [sys.executable, "-c", executable_code],
             cwd=ROOT,
             check=True,
             capture_output=True,

@@ -13,7 +13,9 @@ export default defineConfig({
   ],
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
-    trace: 'on-first-retry',
+    // Zero-retry audit jobs must retain evidence on the first failure
+    // (on-first-retry never fires when retries: 0).
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },

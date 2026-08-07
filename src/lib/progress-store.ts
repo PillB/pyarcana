@@ -4,6 +4,11 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { useSession } from 'next-auth/react'
 import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import {
+  mergeServerProgress,
+  parsePersistedEnvelope,
+  sanitizePersisted,
+} from '@/lib/progress-sanitize'
 
 interface ProgressState {
   completedSections: string[]
@@ -27,58 +32,6 @@ interface ProgressState {
     progress: Record<string, string[]>
     bookmarks: string[]
   }) => void
-}
-
-// ── Persisted-state sanitization ───────────────────────────────────────────
-// localStorage is user-writable and can be corrupted (intentionally by an
-// attacker on a shared computer, or accidentally by a buggy extension). If we
-// blindly trust the persisted JSON, malformed shapes (e.g.
-// `completedSections: 42` or `bookmarks: null`) crash the app on next load
-// with "a client-side exception has occurred" and the user cannot recover
-// without DevTools knowledge.
-//
-// This sanitizer coerces any persisted value back to a safe default shape
-// before Zustand hydrates the store. Corruption is logged to console (for
-// debugging) but never crashes the UI.
-function isStringArray(v: unknown): v is string[] {
-  return Array.isArray(v) && v.every((x) => typeof x === 'string')
-}
-function isStringRecord(v: unknown): v is Record<string, string[]> {
-  return (
-    typeof v === 'object' && v !== null && !Array.isArray(v) &&
-    Object.entries(v).every(
-      ([k, val]) => typeof k === 'string' && isStringArray(val)
-    )
-  )
-}
-function isNumberRecord(v: unknown): v is Record<string, number> {
-  return (
-    typeof v === 'object' && v !== null && !Array.isArray(v) &&
-    Object.entries(v).every(
-      ([k, val]) => typeof k === 'string' && typeof val === 'number' && !Number.isNaN(val)
-    )
-  )
-}
-
-function sanitizePersisted(raw: unknown): Partial<ProgressState> {
-  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) {
-    console.warn('[progress-store] persisted state was not an object; resetting to defaults.')
-    return {}
-  }
-  const obj = raw as Record<string, unknown>
-  const out: Partial<ProgressState> = {}
-  if (isStringArray(obj.completedSections)) out.completedSections = obj.completedSections
-  else if ('completedSections' in obj) console.warn('[progress-store] completedSections invalid; ignoring.')
-  if (isStringRecord(obj.completedSubSteps)) out.completedSubSteps = obj.completedSubSteps
-  else if ('completedSubSteps' in obj) console.warn('[progress-store] completedSubSteps invalid; ignoring.')
-  if (isNumberRecord(obj.quizScores)) out.quizScores = obj.quizScores
-  else if ('quizScores' in obj) console.warn('[progress-store] quizScores invalid; ignoring.')
-  if (typeof obj.lastVisited === 'string' || obj.lastVisited === null) out.lastVisited = obj.lastVisited as string | null
-  if (isStringArray(obj.bookmarks)) out.bookmarks = obj.bookmarks
-  else if ('bookmarks' in obj) console.warn('[progress-store] bookmarks invalid; ignoring.')
-  if (typeof obj.startDate === 'string' || obj.startDate === null) out.startDate = obj.startDate as string | null
-  if (typeof obj.isHydratedFromServer === 'boolean') out.isHydratedFromServer = obj.isHydratedFromServer
-  return out
 }
 
 // Custom storage logic is inlined in the `storage` option below (direct
@@ -152,12 +105,20 @@ export const useProgressStore = create<ProgressState>()(
           isHydratedFromServer: false,
         }),
 
+      // Merge server data into local state — never replace wholesale so an
+      // empty server response cannot wipe completed local work (DEF-SA-001).
       hydrateFromServer: (data) =>
-        set({
-          completedSubSteps: data.progress || {},
-          bookmarks: data.bookmarks || [],
-          isHydratedFromServer: true,
-        }),
+        set((s) =>
+          mergeServerProgress(
+            {
+              completedSubSteps: s.completedSubSteps,
+              bookmarks: s.bookmarks,
+              completedSections: s.completedSections,
+              quizScores: s.quizScores,
+            },
+            data
+          )
+        ),
     }),
     {
       name: 'python-ds-progress',
@@ -172,16 +133,15 @@ export const useProgressStore = create<ProgressState>()(
           } catch {
             return null
           }
-          if (!raw) return null
-          try {
-            const parsed = JSON.parse(raw)
-            if (typeof parsed !== 'object' || parsed === null) return null
-            const clean = sanitizePersisted((parsed as any).state)
-            return { state: clean, version: (parsed as any).version ?? 0 }
-          } catch (e) {
-            console.warn('[progress-store] failed to parse persisted state; resetting.', e)
+          const parsed = parsePersistedEnvelope(raw)
+          if (!parsed.ok) {
+            console.warn('[progress-store] failed to parse persisted state; resetting.', parsed.reason)
             return null
           }
+          if (parsed.reason === 'empty') return null
+          // Re-sanitize via sanitizePersisted for explicit boundary validation.
+          const clean = sanitizePersisted(parsed.state)
+          return { state: clean, version: parsed.version }
         },
         setItem: (name, value) => {
           try {

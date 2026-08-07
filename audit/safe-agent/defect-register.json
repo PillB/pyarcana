@@ -1,0 +1,41 @@
+{
+  "defects": [
+    {
+      "defect_id": "DEF-SA-001",
+      "title": "Server progress hydrate replaced local completedSubSteps/bookmarks wholesale",
+      "severity": "high",
+      "category": "E.STATE / progress loss",
+      "repro": "Local learner has completedSubSteps for setup; hydrateFromServer({progress:{}, bookmarks:[]}) replaced maps with empty server data.",
+      "hypotheses": [
+        "hydrateFromServer intentionally treats server as source of truth (rejected: loses offline work)",
+        "hydrateFromServer was written assuming server always has superset of local (unsupported)",
+        "Missing merge union on multi-device/offline scenarios (accepted)"
+      ],
+      "root_cause": "set({ completedSubSteps: data.progress || {}, bookmarks: data.bookmarks || [] }) overwrote local progress without merge.",
+      "analogous_patterns": ["Any future cloud sync for quizScores/completedSections must use the same merge helpers"],
+      "red_test": "tests/adversarial/progress-preservation.test.ts — server hydrate merge suite",
+      "fix": "src/lib/progress-sanitize.ts mergeServerProgress + progress-store hydrateFromServer uses merge",
+      "status": "fixed",
+      "rounds": 1
+    },
+    {
+      "defect_id": "DEF-SA-002",
+      "title": "Playwright zero-retry suite used trace on-first-retry",
+      "severity": "medium",
+      "category": "I.TESTING",
+      "root_cause": "retries:0 means on-first-retry never captures traces",
+      "fix": "playwright.config.ts trace: retain-on-failure",
+      "status": "fixed",
+      "rounds": 1
+    },
+    {
+      "defect_id": "DEF-SA-003",
+      "title": "static_public E2E used conditional try/catch that could pass without verifying language toggle or section open",
+      "severity": "medium",
+      "category": "I.TESTING",
+      "fix": "scripts/static_public.spec.ts strengthened assertions + removed waitForTimeout sleeps",
+      "status": "fixed",
+      "rounds": 1
+    }
+  ]
+}

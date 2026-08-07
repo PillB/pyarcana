@@ -44,7 +44,10 @@
     "test:adversarial:node": "node --import tsx --test tests/adversarial/*.test.ts tests/adversarial/*.test.mjs",
     "test:adversarial:py": "python3 -m unittest discover -s tests/adversarial -p 'test_*.py' -v",
     "test:adversarial": "npm run test:adversarial:node && npm run test:adversarial:py",
-    "test:unit": "npm run test:adversarial && npm run test:v3-counts && npm run test:exam-pedagogy"
+    "test:unit": "npm run test:adversarial && npm run test:v3-counts && npm run test:exam-pedagogy",
+    "test:preservation": "node scripts/preservation_sentinel.mjs && node --import tsx --test tests/adversarial/progress-preservation.test.ts && python3 -m unittest tests.adversarial.test_curriculum_preservation -v",
+    "manifest:before": "node scripts/generate_preservation_manifest.mjs before",
+    "manifest:after": "node scripts/generate_preservation_manifest.mjs after"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

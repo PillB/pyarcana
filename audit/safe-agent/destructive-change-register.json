@@ -1,0 +1,4 @@
+{
+  "description": "Register of DestructiveChangeRequest records. Empty means no authorized deletions.",
+  "requests": []
+}

@@ -1,0 +1,28 @@
+{
+  "config": {
+    "retries": 0,
+    "trace": "retain-on-failure",
+    "screenshot": "only-on-failure",
+    "video": "retain-on-failure"
+  },
+  "static_pages_local": {
+    "base_url": "http://127.0.0.1:4173",
+    "base_path": "/pyarcana",
+    "specs": ["scripts/static_public.spec.ts", "scripts/safe_agent_journeys.spec.ts"],
+    "passed": 11,
+    "failed": 0,
+    "duration_s": 30.9
+  },
+  "coverage": [
+    "first visit",
+    "corrupt storage",
+    "returning learner progress",
+    "reload",
+    "mobile compact viewport",
+    "keyboard focus",
+    "language toggle",
+    "section open + tabs",
+    "base-path assets",
+    "code blocks present"
+  ]
+}
