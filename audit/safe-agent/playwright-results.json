@@ -10,19 +10,27 @@
     "base_path": "/pyarcana",
     "specs": ["scripts/static_public.spec.ts", "scripts/safe_agent_journeys.spec.ts"],
     "passed": 11,
-    "failed": 0,
-    "duration_s": 30.9
+    "failed": 0
   },
-  "coverage": [
-    "first visit",
-    "corrupt storage",
-    "returning learner progress",
-    "reload",
-    "mobile compact viewport",
-    "keyboard focus",
-    "language toggle",
-    "section open + tabs",
-    "base-path assets",
-    "code blocks present"
-  ]
+  "ci_static_platform_build": {
+    "run": 31219227933,
+    "result": "success"
+  },
+  "ci_browser_regression": {
+    "run": 31219227933,
+    "result": "success",
+    "duration": "7m52s"
+  },
+  "live_round_1": {
+    "base_url": "https://pillb.github.io",
+    "passed": 11,
+    "failed": 0,
+    "result": "pass"
+  },
+  "live_round_2": {
+    "base_url": "https://pillb.github.io",
+    "passed": 11,
+    "failed": 0,
+    "result": "pass"
+  }
 }
