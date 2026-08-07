@@ -5,7 +5,7 @@
   "admin_permission": true,
   "before": {
     "branch_protection": false,
-    "evidence": "GET /repos/PillB/pyarcana/branches/main/protection → 404 Branch not protected"
+    "evidence": "GET /repos/PillB/pyarcana/branches/main/protection \u2192 404 Branch not protected"
   },
   "planned": {
     "require_pull_request": true,
@@ -24,7 +24,21 @@
     "note": "Matrix job names (platform-builds) may need exact context names after first CI run; secret push protection depends on GitHub Advanced Security entitlement"
   },
   "after": {
-    "status": "pending_apply",
-    "verified": false
+    "status": "active",
+    "verified": true,
+    "verified_via": "GET /repos/PillB/pyarcana/branches/main/protection",
+    "required_status_checks": [
+      "Preservation / deletion sentinel",
+      "lint",
+      "typecheck",
+      "Adversarial unit suite"
+    ],
+    "require_pull_request_reviews": true,
+    "require_code_owner_reviews": true,
+    "required_approving_review_count": 1,
+    "allow_force_pushes": false,
+    "allow_deletions": false,
+    "enforce_admins": false,
+    "secret_push_protection": "not_verified_via_this_api"
   }
 }
