@@ -36,6 +36,23 @@
       "fix": "scripts/static_public.spec.ts strengthened assertions + removed waitForTimeout sleeps",
       "status": "fixed",
       "rounds": 1
+    },
+    {
+      "defect_id": "DEF-SA-005",
+      "title": "Dynamic next build failed on CI under Next.js 16 Turbopack default",
+      "severity": "high",
+      "category": "G.DEPLOYMENT",
+      "repro": "bun run build without --webpack on Next 16 with custom webpack config → WorkerError / Turbopack mismatch",
+      "hypotheses": [
+        "Next 16 enables Turbopack by default when webpack config present without explicit flag (accepted)",
+        "Prisma client missing (rejected — generate succeeded)",
+        "Missing env vars (rejected — NEXTAUTH_* present)"
+      ],
+      "root_cause": "package.json build used `next build` without --webpack; static path already forced --webpack",
+      "red_test": "tests/adversarial/build-webpack-flag.test.mjs",
+      "fix": "package.json scripts.build: next build --webpack",
+      "status": "fixed",
+      "rounds": 1
     }
   ]
 }
