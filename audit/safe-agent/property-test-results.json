@@ -1,0 +1,16 @@
+{
+  "curriculum": {
+    "suite": "tests/adversarial/test_curriculum_preservation.py",
+    "active_section_count_exactly_52": "pass",
+    "active_section_ids_unique": "pass",
+    "exercise_ids_present_24_per_section": "pass",
+    "exercise_ids_globally_unique": "pass",
+    "inactive_preserved_legacy_files_exist": "pass"
+  },
+  "progress": {
+    "suite": "tests/adversarial/progress-preservation.test.ts",
+    "count": 17,
+    "pass": 17,
+    "fail": 0
+  }
+}

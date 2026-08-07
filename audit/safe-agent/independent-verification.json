@@ -1,0 +1,16 @@
+{
+  "status": "pending_verifier",
+  "implementer_self_checks": [
+    "No tracked curriculum section content modified",
+    "No tracked file deletions",
+    "Progress merge covered by unit tests against shipped progress-sanitize module",
+    "Playwright journeys hit real static export, not mocks",
+    "CI sentinel does not use || true"
+  ],
+  "verifier_required_for": [
+    "AGENTS.md policy changes",
+    "CODEOWNERS",
+    "Any future DestructiveChangeRequest",
+    "READY release decision"
+  ]
+}

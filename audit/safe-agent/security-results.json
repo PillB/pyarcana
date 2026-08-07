@@ -1,0 +1,13 @@
+{
+  "client_secrets_scan_heuristic": "no new secrets in this diff",
+  "progress_validation": "sanitize + fail-closed corrupt JSON",
+  "server_hydrate": "merge without wipe (DEF-SA-001)",
+  "branch_protection_before": false,
+  "codeowners_added": true,
+  "secret_push_protection": "not_verified",
+  "findings_open_from_anti_vibecode": [
+    "dangerouslySetInnerHTML in CodeBlock/InlineAnnotated (pre-existing; curriculum HTML path — track, do not broad-rewrite)",
+    "CodePlayground @ts-ignore for loadPyodide (pre-existing)",
+    "skipped badge_supervisor e2e tests (pre-existing)"
+  ]
+}

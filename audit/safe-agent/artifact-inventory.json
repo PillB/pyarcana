@@ -1,0 +1,26 @@
+{
+  "safe_agent_artifacts": [
+    "audit/safe-agent/instruction-register.json",
+    "audit/safe-agent/preservation-manifest-before.json",
+    "audit/safe-agent/preservation-manifest-after.json",
+    "audit/safe-agent/protected-paths.json",
+    "audit/safe-agent/destructive-change-register.json",
+    "audit/safe-agent/deletion-allowlist.json",
+    "audit/safe-agent/diff-guard-results.jsonl",
+    "audit/safe-agent/legacy-content-register.json",
+    "audit/safe-agent/public-api-manifest.json",
+    "audit/safe-agent/persistent-state-contract.json",
+    "audit/safe-agent/migration-tests.json",
+    "audit/safe-agent/anti-vibecode-audit.json",
+    "audit/safe-agent/defect-register.json",
+    "audit/safe-agent/improvement-register.json",
+    "audit/safe-agent/property-test-results.json",
+    "audit/safe-agent/playwright-results.json",
+    "audit/safe-agent/accessibility-results.json",
+    "audit/safe-agent/security-results.json",
+    "audit/safe-agent/parity-local-live.json",
+    "audit/safe-agent/independent-verification.json",
+    "audit/safe-agent/release-decision.json",
+    "audit/safe-agent/git-protections.json"
+  ]
+}

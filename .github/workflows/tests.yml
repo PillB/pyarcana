@@ -11,6 +11,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  preservation-sentinel:
+    name: Preservation / deletion sentinel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run preservation sentinel
+        env:
+          PRESERVATION_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: node scripts/preservation_sentinel.mjs
+
+      - name: Upload sentinel result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preservation-sentinel
+          path: audit/safe-agent/preservation-sentinel-result.json
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -141,7 +166,7 @@ jobs:
           mkdir -p .ci-static
           cp -R out .ci-static/pyarcana
           python3 -m http.server 4173 --bind 127.0.0.1 --directory .ci-static &
-          BASE_URL=http://127.0.0.1:4173 npx playwright test scripts/static_public.spec.ts --reporter=list
+          BASE_URL=http://127.0.0.1:4173 PAGES_BASE=1 npx playwright test scripts/static_public.spec.ts scripts/safe_agent_journeys.spec.ts --reporter=list
 
   regression-content:
     name: Content Regression (no sections removed)

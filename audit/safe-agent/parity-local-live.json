@@ -1,0 +1,14 @@
+{
+  "status": "not_compared_post_change",
+  "local_candidate_branch": "safe-agent/protocol-baseline",
+  "local_baseline_sha": "51db8b286259fc09f8a8c5fabbfa3a57991956d1",
+  "live_url": "https://pillb.github.io/pyarcana/",
+  "note": "Live site still reflects origin/main until PR merge and Pages deploy. Parity check deferred to post-deploy gate.",
+  "required_checks_after_deploy": [
+    "live heading PyArcana visible",
+    "static-site-notice present",
+    "S01 open with tabs",
+    "progress storage key python-ds-progress compatible with fixtures",
+    "logo.svg and favicon.svg 200 under /pyarcana/"
+  ]
+}

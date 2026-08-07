@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 import re
 import subprocess
-import sys
 import unittest
 
 
@@ -77,7 +77,7 @@ class Section03IndependentContractTests(unittest.TestCase):
         for index, (code, expected) in enumerate(blocks, start=1):
             with self.subTest(block=index):
                 run = subprocess.run(
-                    ["python3", "-c", code],
+                    [sys.executable, "-c", code],
                     cwd=ROOT,
                     check=True,
                     capture_output=True,
@@ -106,7 +106,7 @@ class Section03IndependentContractTests(unittest.TestCase):
         self.assertIsNotNone(match)
         assert match is not None
         run = subprocess.run(
-            ["python3", "-c", match.group("code")],
+            [sys.executable, "-c", match.group("code")],
             cwd=ROOT,
             check=True,
             capture_output=True,

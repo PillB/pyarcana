@@ -1,0 +1,39 @@
+{
+  "protected_prefixes": [
+    "src/lib/course/sections/",
+    "src/lib/course/index.ts",
+    "src/lib/progress-store.ts",
+    "src/lib/progress-sanitize.ts",
+    "prisma/migrations/",
+    "public/",
+    "tests/",
+    "scripts/regression.spec.ts",
+    "scripts/static_public.spec.ts",
+    "scripts/v3_invariant_validator.py",
+    "scripts/v3_regression_counts.test.mjs",
+    "scripts/preservation_sentinel.mjs",
+    "scripts/generate_preservation_manifest.mjs",
+    "learning_roadmap_52_V3.md",
+    "AGENTS.md",
+    ".github/CODEOWNERS",
+    ".github/workflows/",
+    "audit/safe-agent/deletion-allowlist.json"
+  ],
+  "storage_keys": ["python-ds-progress", "pyarcana:tourCompleted"],
+  "progress_fields": [
+    "completedSections",
+    "completedSubSteps",
+    "quizScores",
+    "lastVisited",
+    "bookmarks",
+    "startDate",
+    "isHydratedFromServer"
+  ],
+  "inactive_preserved_section_files": [
+    "src/lib/course/sections/s07-pandas.ts",
+    "src/lib/course/sections/s08-visualization.ts",
+    "src/lib/course/sections/s09-sklearn.ts",
+    "src/lib/course/sections/s10-testing.ts",
+    "src/lib/course/sections/s11-advanced-topics.ts"
+  ]
+}
